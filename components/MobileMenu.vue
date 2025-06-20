@@ -20,7 +20,7 @@
           </div>
   
           <nav class="mobile-menu__nav">
-            <NuxtLink 
+            <!-- <NuxtLink 
               to="/" 
               class="mobile-menu__link"
               @click="isOpen = false"
@@ -40,7 +40,7 @@
               @click="isOpen = false"
             >
               {{ $t('nav.contact') }}
-            </NuxtLink>
+            </NuxtLink> -->
           </nav>
         </div>
       </div>
