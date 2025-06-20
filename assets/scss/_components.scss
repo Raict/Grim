@@ -1,0 +1,324 @@
+
+@use 'mixins' as *;
+@use 'variables' as *;
+@use 'sass:map';
+
+// Кнопки
+.btn {
+    @include button-base;
+    
+    &--primary {
+      background: var(--primary);
+      color: white;
+      
+      &:hover:not(:disabled) {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+      }
+    }
+    
+    &--secondary {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      
+      &:hover:not(:disabled) {
+        background: var(--bg-tertiary);
+      }
+    }
+    
+    &--ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      
+      &:hover:not(:disabled) {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+      }
+    }
+    
+    &--gradient {
+      @include gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      
+      &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: shadow(lg);
+      }
+    }
+    
+    &--sm {
+      padding: spacing(xs) spacing(sm);
+      font-size: font-size(sm);
+    }
+    
+    &--lg {
+      padding: spacing(md) spacing(xl);
+      font-size: font-size(lg);
+    }
+    
+    &--loading {
+      position: relative;
+      color: transparent;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin: -10px 0 0 -10px;
+        border: 2px solid transparent;
+        border-top: 2px solid currentColor;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+    }
+  }
+  
+  // Картки
+  .card {
+    @include card;
+    padding: spacing(xl);
+    
+    &--hover {
+      cursor: pointer;
+      
+      &:hover {
+        transform: translateY(-4px);
+      }
+    }
+    
+    &--glass {
+      @include glass-effect;
+    }
+  }
+  
+  // Модальні вікна
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    @include flex-center;
+    z-index: map.get($z-index, modal);
+    
+    &__content {
+      @include card;
+      max-width: 90vw;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+  }
+  
+  // Дропдауни
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    
+    &__content {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 200px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: border-radius(lg);
+      box-shadow: shadow(lg);
+      z-index: map.get($z-index, dropdown);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      @include transition();
+      
+      &--show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+    }
+    
+    &__item {
+      display: block;
+      width: 100%;
+      padding: spacing(sm) spacing(md);
+      color: var(--text-primary);
+      text-align: left;
+      border: none;
+      background: none;
+      cursor: pointer;
+      @include transition();
+      
+      &:hover {
+        background: var(--bg-secondary);
+      }
+      
+      &:first-child {
+        border-radius: border-radius(lg) border-radius(lg) 0 0;
+      }
+      
+      &:last-child {
+        border-radius: 0 0 border-radius(lg) border-radius(lg);
+      }
+    }
+  }
+  
+  // Тости
+  .toast {
+    position: fixed;
+    top: spacing(lg);
+    right: spacing(lg);
+    max-width: 400px;
+    padding: spacing(md) spacing(lg);
+    border-radius: border-radius(lg);
+    box-shadow: shadow(lg);
+    z-index: map.get($z-index, tooltip);
+    @include transition();
+    
+    &--success {
+      background: var(--success);
+      color: white;
+    }
+    
+    &--error {
+      background: var(--error);
+      color: white;
+    }
+    
+    &--warning {
+      background: var(--warning);
+      color: white;
+    }
+    
+    &--info {
+      background: var(--info);
+      color: white;
+    }
+  }
+  
+  // Завантажувач файлів
+  .file-uploader {
+    border: 2px dashed var(--border);
+    border-radius: border-radius(xl);
+    padding: spacing(4xl);
+    text-align: center;
+    @include transition();
+    cursor: pointer;
+    
+    &:hover {
+      border-color: var(--primary);
+      background: var(--bg-secondary);
+    }
+    
+    &--dragover {
+      border-color: var(--primary);
+      background: rgba(16, 185, 129, 0.1);
+    }
+    
+    &--disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      
+      &:hover {
+        border-color: var(--border);
+        background: transparent;
+      }
+    }
+    
+    &__icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto spacing(lg);
+      background: var(--bg-tertiary);
+      border-radius: 50%;
+      @include flex-center;
+      color: var(--text-tertiary);
+      
+      svg {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+  
+  // Чекбокси
+  .checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    
+    &__input {
+      position: absolute;
+      opacity: 0;
+      
+      &:checked + .checkbox__box {
+        background: var(--primary);
+        border-color: var(--primary);
+        
+        .checkbox__check {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    }
+    
+    &__box {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-radius: border-radius(sm);
+      margin-right: spacing(sm);
+      @include flex-center;
+      @include transition();
+      
+      &:hover {
+        border-color: var(--primary);
+      }
+    }
+    
+    &__check {
+      width: 12px;
+      height: 12px;
+      color: white;
+      opacity: 0;
+      transform: scale(0);
+      @include transition();
+    }
+    
+    &__label {
+      font-size: font-size(base);
+      color: var(--text-primary);
+    }
+  }
+  
+  // Прогрес бар
+  .progress {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-tertiary);
+    border-radius: border-radius(full);
+    overflow: hidden;
+    
+    &__bar {
+      height: 100%;
+      background: var(--primary);
+      border-radius: border-radius(full);
+      @include transition(width);
+    }
+  }
+  
+  // Іконки
+  .icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    
+    &--spin {
+      animation: spin 1s linear infinite;
+    }
+  }
+  

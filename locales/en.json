@@ -1,0 +1,91 @@
+
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "hero": {
+    "title": "Faviconitys",
+    "subtitle": "Convert any image to favicon instantly",
+    "description": "Simple and fast tool for creating favicons from your images. Supports various formats and sizes.",
+    "uploadButton": "Upload Image",
+    "dragDrop": "Drag and drop an image here or click to select",
+    "benefits": {
+      "free": "Free",
+      "fast": "Fast",
+      "easy": "Easy",
+      "withoutRegistration": "No Registration Required"
+    }
+  },
+  "size": {
+    "16x16": "Standard Favicon",
+    "32x32": "High Quality",
+    "48x48": "Windows",
+    "64x64": "Large Size",
+    "96x96": "Android",
+    "128x128": "Chrome Web Store",
+    "152x152": "iPad",
+    "180x180": "iPhone",
+    "192x192": "Android Chrome",
+    "512x512": "PWA",
+    "selectAll": "Select All",
+    "clear": "Clear Selection"
+  },
+  "converter": {
+    "title": "Favicon Converter",
+    "selectSize": "Select Size",
+    "download": "Download",
+    "processing": "Processing...",
+    "error": "Error processing image",
+    "success": "Favicon created successfully!",
+    "originalImage": "Original Image",
+    "downloadZip": "Download Zip Archive",
+    "generateFavicons": "Generate Favicons",
+    "clear": "Clear",
+    "cleared": "Converter cleared successfully"
+  },
+  "installation": {
+    "title": "Installation Guide",
+    "steps": {
+      "download": {
+        "title": "Download and Place Files",
+        "description": "First, download the ZIP file with all necessary files. Unpack and place the files in your website's root directory.",
+        "fileList": "Files in archive:"
+      },
+      "htmlTags": {
+        "title": "Add HTML Tags",
+        "description": "Copy the following tags and paste them into the ",
+        "descriptionTwo": " section of your HTML document.",
+        "codeTitle": "HTML Tags"
+      },
+      "verify": {
+        "title": "Verify the Result",
+        "description": "After installation, check if the favicon displays correctly in the browser tab and if PWA functionality works (if used).",
+        "tipsTitle": "Useful Tips:",
+        "tips": {
+          "clearCache": "Clear browser cache if the favicon doesn't update",
+          "checkConsole": "Check browser console for errors",
+          "verifyPaths": "Ensure all files are accessible at correct paths"
+        }
+      }
+    },
+    "copy": {
+      "copy": "Copy",
+      "copied": "Copied!",
+      "error": "Failed to copy to clipboard"
+    },
+    "fileDescriptions": {
+      "ico": "Multi-size",
+      "webmanifest": "JSON"
+    }
+  },
+  "footer": {
+    "copyright": "© 2024 Faviconitys. All rights reserved.",
+    "madeWith": "Made with ❤️ in Ukraine"
+  }
+}

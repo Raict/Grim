@@ -1,0 +1,83 @@
+@use 'mixins' as *;
+@use 'variables' as *;
+
+// Світла тема
+.light-mode {
+    --primary: #{color(primary, light)};
+    --primary-dark: #{color(primary-dark, light)};
+    --primary-light: #{color(primary-light, light)};
+    --secondary: #{color(secondary, light)};
+    --secondary-dark: #{color(secondary-dark, light)};
+    --secondary-light: #{color(secondary-light, light)};
+    
+    --bg-primary: #{color(bg-primary, light)};
+    --bg-secondary: #{color(bg-secondary, light)};
+    --bg-tertiary: #{color(bg-tertiary, light)};
+    
+    --text-primary: #{color(text-primary, light)};
+    --text-secondary: #{color(text-secondary, light)};
+    --text-tertiary: #{color(text-tertiary, light)};
+    
+    --border: #{color(border, light)};
+    --border-light: #{color(border-light, light)};
+    
+    --success: #{color(success, light)};
+    --error: #{color(error, light)};
+    --warning: #{color(warning, light)};
+    --info: #{color(info, light)};
+  }
+  
+  // Темна тема
+  .dark-mode {
+    --primary: #{color(primary, dark)};
+    --primary-dark: #{color(primary-dark, dark)};
+    --primary-light: #{color(primary-light, dark)};
+    --secondary: #{color(secondary, dark)};
+    --secondary-dark: #{color(secondary-dark, dark)};
+    --secondary-light: #{color(secondary-light, dark)};
+    
+    --bg-primary: #{color(bg-primary, dark)};
+    --bg-secondary: #{color(bg-secondary, dark)};
+    --bg-tertiary: #{color(bg-tertiary, dark)};
+    
+    --text-primary: #{color(text-primary, dark)};
+    --text-secondary: #{color(text-secondary, dark)};
+    --text-tertiary: #{color(text-tertiary, dark)};
+    
+    --border: #{color(border, dark)};
+    --border-light: #{color(border-light, dark)};
+    
+    --success: #{color(success, dark)};
+    --error: #{color(error, dark)};
+    --warning: #{color(warning, dark)};
+    --info: #{color(info, dark)};
+  }
+  
+  // Автоматичне перемикання тем
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --primary: #{color(primary, dark)};
+      --primary-dark: #{color(primary-dark, dark)};
+      --primary-light: #{color(primary-light, dark)};
+      --secondary: #{color(secondary, dark)};
+      --secondary-dark: #{color(secondary-dark, dark)};
+      --secondary-light: #{color(secondary-light, dark)};
+      
+      --bg-primary: #{color(bg-primary, dark)};
+      --bg-secondary: #{color(bg-secondary, dark)};
+      --bg-tertiary: #{color(bg-tertiary, dark)};
+      
+      --text-primary: #{color(text-primary, dark)};
+      --text-secondary: #{color(text-secondary, dark)};
+      --text-tertiary: #{color(text-tertiary, dark)};
+      
+      --border: #{color(border, dark)};
+      --border-light: #{color(border-light, dark)};
+      
+      --success: #{color(success, dark)};
+      --error: #{color(error, dark)};
+      --warning: #{color(warning, dark)};
+      --info: #{color(info, dark)};
+    }
+  }
+  

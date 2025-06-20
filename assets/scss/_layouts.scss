@@ -1,0 +1,178 @@
+@use 'mixins' as *;
+@use 'variables' as *;
+@use 'sass:map';
+
+
+
+// Контейнер
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 spacing(lg);
+    
+    @include respond-to(sm) {
+      padding: 0 spacing(xl);
+    }
+  }
+  
+  // Сітка
+  .grid {
+    display: grid;
+    gap: spacing(lg);
+    
+    &--cols-1 { grid-template-columns: 1fr; }
+    &--cols-2 { grid-template-columns: repeat(2, 1fr); }
+    &--cols-3 { grid-template-columns: repeat(3, 1fr); }
+    &--cols-4 { grid-template-columns: repeat(4, 1fr); }
+    
+    @include respond-to(md) {
+      &--md-cols-2 { grid-template-columns: repeat(2, 1fr); }
+      &--md-cols-3 { grid-template-columns: repeat(3, 1fr); }
+      &--md-cols-4 { grid-template-columns: repeat(4, 1fr); }
+    }
+    
+    @include respond-to(lg) {
+      &--lg-cols-3 { grid-template-columns: repeat(3, 1fr); }
+      &--lg-cols-4 { grid-template-columns: repeat(4, 1fr); }
+    }
+  }
+  
+  // Флекс
+  .flex {
+    display: flex;
+    
+    &--center {
+      @include flex-center;
+    }
+    
+    &--between {
+      justify-content: space-between;
+    }
+    
+    &--around {
+      justify-content: space-around;
+    }
+    
+    &--col {
+      flex-direction: column;
+    }
+    
+    &--wrap {
+      flex-wrap: wrap;
+    }
+    
+    &--gap {
+      gap: spacing(md);
+    }
+  }
+  
+  // Хедер
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: map.get($z-index, sticky);
+    @include glass-effect;
+    
+    &__nav {
+      @include flex-center;
+      justify-content: space-between;
+      padding: spacing(lg) 0;
+    }
+    
+    &__logo {
+      display: flex;
+      align-items: center;
+      gap: spacing(sm);
+      font-size: font-size(xl);
+      font-weight: font-weight(bold);
+      color: var(--text-primary);
+      @include transition();
+      
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+    
+    &__menu {
+      display: none;
+      gap: spacing(xl);
+      
+      @include respond-to(md) {
+        display: flex;
+      }
+    }
+    
+    &__link {
+      color: var(--text-secondary);
+      font-weight: font-weight(medium);
+      @include transition();
+      
+      &:hover {
+        color: var(--primary);
+      }
+      
+      &--active {
+        color: var(--primary);
+      }
+    }
+    
+    &__controls {
+      display: flex;
+      align-items: center;
+      gap: spacing(sm);
+    }
+  }
+  
+  // Футер
+  .footer {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border);
+    padding: spacing(2xl) 0;
+    text-align: center;
+    
+    &__text {
+      color: var(--text-secondary);
+      margin-bottom: spacing(sm);
+    }
+    
+    &__love {
+      color: var(--text-tertiary);
+      font-size: font-size(sm);
+    }
+  }
+  
+  // Секції
+  .section {
+    padding: spacing(4xl) 0;
+    
+    &--hero {
+      padding: spacing(5xl) 0;
+      text-align: center;
+      @include gradient(135deg, rgba(16, 185, 129, 0.1), rgba(20, 184, 166, 0.1));
+    }
+    
+    &__title {
+      margin-bottom: spacing(lg);
+      @include gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    &__subtitle {
+      font-size: font-size(2xl);
+      color: var(--text-secondary);
+      margin-bottom: spacing(md);
+    }
+    
+    &__description {
+      font-size: font-size(lg);
+      color: var(--text-tertiary);
+      margin-bottom: spacing(2xl);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+  
