@@ -9,7 +9,6 @@ export default defineNuxtConfig({
 
 
   app: {
-    baseURL: '/Grim/',
     head: {
       title: "faviconitys",
       meta: [
