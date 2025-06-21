@@ -7,11 +7,9 @@
             <h1 class="section__title">
               {{ $t('pages.textGenerator.title') }}
             </h1>
-            
             <p class="section__subtitle">
               {{ $t('pages.textGenerator.subtitle') }}
             </p>
-            
           </div>
         </div>
       </section>
@@ -21,14 +19,12 @@
         <div class="container">
           <div class="generator-card">
             <div class="generator-layout">
-              <!-- Left side: Text settings + Preview -->
+              <!-- Left: Text settings + Preview -->
               <div class="text-settings">
                 <h3 class="settings-title">
                   <Icon name="lucide:type" />
                   {{ $t('pages.textGenerator.settings.text.title') }}
                 </h3>
-                
-                <!-- Text and Font in one row -->
                 <div class="text-font-row">
                   <div class="form-group form-group--text">
                     <label class="form-label">{{ $t('pages.textGenerator.settings.text.label') }}</label>
@@ -40,7 +36,6 @@
                       maxlength="3"
                     />
                   </div>
-  
                   <div class="form-group form-group--font">
                     <label class="form-label">{{ $t('pages.textGenerator.settings.text.font') }}</label>
                     <select v-model="textSettings.fontFamily" class="form-select form-select--font">
@@ -50,7 +45,6 @@
                     </select>
                   </div>
                 </div>
-  
                 <div class="form-group">
                   <label class="form-label">{{ $t('pages.textGenerator.settings.text.size') }}</label>
                   <div class="range-group">
@@ -64,76 +58,132 @@
                     <span class="range-value">{{ textSettings.fontSize }}px</span>
                   </div>
                 </div>
-
   
-                <!-- Square Preview -->
-                <div class="preview-container">
-                  <canvas
-                    ref="previewCanvas"
-                    :width="150"
-                    :height="150"
-                    class="preview-canvas"
-                  ></canvas>
+                <!-- Preview Favicons (row, right-to-left) -->
+                <div class="favicons-preview-row">
+                  <div
+                    v-for="size in [96,64, 48, 32, 16]"
+                    :key="size"
+                    class="favicon-preview-item"
+                  >
+                    <canvas
+                      :ref="el => setFaviconPreviewRef(size, el as HTMLCanvasElement | null)"
+                      :width="size"
+                      :height="size"
+                      :style="{ width: size + 'px', height: size + 'px' }"
+                      class="favicon-preview-canvas"
+                    ></canvas>
+                    <div class="favicon-size-label">{{ size }}x{{ size }}</div>
+                  </div>
                 </div>
               </div>
   
-              <!-- Right side: Colors and style -->
+              <!-- Right: Colors and style -->
               <div class="color-settings">
                 <h3 class="settings-title">
                   <Icon name="lucide:palette" />
                   {{ $t('pages.textGenerator.settings.colors.title') }}
                 </h3>
   
-                <!-- Quick colors -->
-                <div class="form-group">
-                  <label class="form-label">{{ $t('pages.textGenerator.settings.colors.quickColors') }}</label>
-                  <div class="color-palette">
-                    <button
-                      v-for="color in quickColors"
-                      :key="color"
-                      class="color-swatch"
-                      :style="{ backgroundColor: color }"
-                      @click="textSettings.backgroundColor = color"
-                      :class="{ 'color-swatch--active': textSettings.backgroundColor === color }"
-                      :title="color"
-                    ></button>
-                  </div>
-                </div>
-  
-                <div class="form-row">
-                  <div class="form-group">
-                    <label class="form-label">{{ $t('pages.textGenerator.settings.colors.textColor') }}</label>
-                    <div class="color-input-group">
-                      <input
-                        v-model="textSettings.textColor"
-                        type="color"
-                        class="form-color"
-                      />
-                      <input
-                        v-model="textSettings.textColor"
-                        type="text"
-                        class="form-input form-input--color"
-                      />
-                    </div>
-                  </div>
-  
-                  <div class="form-group">
-                    <label class="form-label">{{ $t('pages.textGenerator.settings.colors.backgroundColor') }}</label>
-                    <div class="color-input-group">
-                      <input
-                        v-model="textSettings.backgroundColor"
-                        type="color"
-                        class="form-color"
-                      />
-                      <input
-                        v-model="textSettings.backgroundColor"
-                        type="text"
-                        class="form-input form-input--color"
-                      />
-                    </div>
-                  </div>
-                </div>
-  
+                <div class="palettes-row">
+  <!-- Font Color -->
+  <div class="color-block">
+    <div class="palette-bg">
+        <label class="palette-label">Font Color</label>
+        <div class="color-palette-pro">
+      <template v-for="(row, i) in colorPaletteColumns" :key="'text-row-' + i">
+        <div class="color-row">
+          <button
+            v-for="color in row"
+            :key="'text-' + color"
+            class="color-swatch"
+            :style="{ backgroundColor: color }"
+            @click="textSettings.textColor = color"
+            :class="{ 'color-swatch--active': textSettings.textColor === color }"
+            :title="color"
+          ></button>
+        </div>
+      </template>
+      <div class="color-row grayscale-column">
+        <button
+          v-for="color in grayscalePalette"
+          :key="'text-gray-' + color"
+          class="color-swatch"
+          :style="{ backgroundColor: color }"
+          @click="textSettings.textColor = color"
+          :class="{ 'color-swatch--active': textSettings.textColor === color }"
+          :title="color"
+        ></button>
+      </div>
+    </div>
+    </div>
+    <div class="color-input-row">
+      <input
+        v-model="textSettings.textColor"
+        type="color"
+        class="color-picker"
+        :style="{ background: textSettings.textColor }"
+      />
+      <input
+        v-model="textSettings.textColor"
+        type="text"
+        class="color-input"
+        maxlength="7"
+        placeholder="#FFFFFF"
+      />
+    </div>
+  </div>
+
+  <!-- Background Color Block -->
+  <div class="color-block">
+    <div class="palette-bg">
+    <label class="palette-label">Background Color</label>
+    <div class="color-palette-pro">
+      <template v-for="(row, i) in colorPaletteColumns" :key="'bg-row-' + i">
+        <div class="color-row">
+          <button
+            v-for="color in row"
+            :key="'bg-' + color"
+            class="color-swatch"
+            :style="{ backgroundColor: color }"
+            @click="textSettings.backgroundColor = color"
+            :class="{ 'color-swatch--active': textSettings.backgroundColor === color }"
+            :title="color"
+          ></button>
+        </div>
+      </template>
+      <div class="color-row grayscale-column">
+        <button
+          v-for="color in grayscalePalette"
+          :key="'bg-gray-' + color"
+          class="color-swatch"
+          :style="{ backgroundColor: color }"
+          @click="textSettings.backgroundColor = color"
+          :class="{ 'color-swatch--active': textSettings.backgroundColor === color }"
+          :title="color"
+        ></button>
+      </div>
+    </div>
+    </div>
+    <div class="color-input-row">
+      <input
+        v-model="textSettings.backgroundColor"
+        type="color"
+        class="color-picker"
+        :style="{ background: textSettings.backgroundColor }"
+      />
+      <input
+        v-model="textSettings.backgroundColor"
+        type="text"
+        class="color-input"
+        maxlength="7"
+        placeholder="#209CEE"
+      />
+    </div>
+  </div>
+</div>
+
+                <!-- Rest remains unchanged -->
                 <div class="form-group">
                   <label class="form-label">{{ $t('pages.textGenerator.settings.colors.backgroundType') }}</label>
                   <div class="radio-group">
@@ -184,39 +234,49 @@
                 </div>
               </div>
             </div>
-  
           </div>
-           <!-- Size selection -->
-           <div class="sizes-section">
-              <SizeSelector v-model="selectedSizes" />
-            </div>
   
-            <!-- Generate button -->
-            <div class="generation-section">
-              <button
-                class="btn btn--gradient btn--lg btn--full"
-                :disabled="!textSettings.text || isGenerating"
-                @click="generateFavicons"
-              >
-                <Icon 
-                  v-if="!isGenerating"
-                  name="lucide:download" 
-                />
-                <div 
-                  v-if="isGenerating"
-                  class="spinner"
-                ></div>
-                {{ isGenerating ? $t('pages.textGenerator.generating') : $t('pages.textGenerator.generate') }}
-              </button>
-            </div>
+          <!-- Size selection -->
+          <div class="sizes-section">
+            <SizeSelector v-model="selectedSizes" />
+          </div>
   
-            <!-- Installation guide -->
-            <InstallationGuide 
-              v-if="generatedImages.length > 0"
-              :generated-sizes="selectedSizes"
-            />
+          <!-- Generate button -->
+          <div class="generation-section">
+            <button
+              class="btn btn--gradient btn--lg btn--full"
+              :disabled="!textSettings.text || isGenerating"
+              @click="generateFavicons"
+            >
+              <Icon 
+                v-if="!isGenerating"
+                name="lucide:download" 
+              />
+              <div 
+                v-if="isGenerating"
+                class="spinner"
+              ></div>
+              {{ isGenerating ? $t('pages.textGenerator.generating') : $t('pages.textGenerator.generate') }}
+            </button>
+          </div>
+  
+          <!-- Installation guide -->
+          <InstallationGuide 
+            v-if="generatedImages.length > 0"
+            :generated-sizes="selectedSizes"
+          />
         </div>
       </section>
+     <section class="adsense-section">
+      <div class="container">
+        <div class="adsense-placeholder">
+          <div class="adsense-content">
+            <Icon name="lucide:megaphone" />
+            <span>{{ $t('pages.home.adsense') }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
     </div>
   </template>
   
@@ -245,21 +305,62 @@
     { value: 'Optima', label: 'Optima' },
     { value: 'Futura', label: 'Futura' }
   ]
+
   
-  const quickColors = [
-    '#ef4444', '#dc2626', '#b91c1c',
-    '#f97316', '#ea580c', '#c2410c',
-    '#f59e0b', '#d97706', '#b45309',
-    '#84cc16', '#65a30d', '#4d7c0f',
-    '#22c55e', '#16a34a', '#15803d',
-    '#06b6d4', '#0891b2', '#0e7490',
-    '#3b82f6', '#2563eb', '#1d4ed8',
-    '#8b5cf6', '#7c3aed', '#6d28d9',
-    '#ec4899', '#db2777', '#be185d',
-    '#6b7280', '#4b5563', '#374151',
-    '#000000', '#1f2937', '#ffffff'
+  const colorPalette = [
+    // Red (10 shades)
+    ['#fef2f2', '#fee2e2', '#fecaca', '#fca5a5', '#f87171', '#ef4444', '#dc2626', '#b91c1c', '#991b1b', '#7f1d1d'],
+    // Orange (10 shades)
+    ['#fff7ed', '#ffedd5', '#fed7aa', '#fdba74', '#fb923c', '#f97316', '#ea580c', '#c2410c', '#9a3412', '#7c2d12'],
+    // Yellow (10 shades)
+    ['#fefce8', '#fef9c3', '#fef08a', '#fde047', '#facc15', '#eab308', '#ca8a04', '#a16207', '#854d0e', '#713f12'],
+    // Green (10 shades)
+    ['#f0fdf4', '#dcfce7', '#bbf7d0', '#86efac', '#4ade80', '#22c55e', '#16a34a', '#15803d', '#166534', '#14532d'],
+    // Emerald (10 shades)
+    ['#ecfdf5', '#d1fae5', '#a7f3d0', '#6ee7b7', '#34d399', '#10b981', '#059669', '#047857', '#065f46', '#064e3b'],
+    // Teal (10 shades)
+    ['#f0fdfa', '#ccfbf1', '#99f6e4', '#5eead4', '#2dd4bf', '#14b8a6', '#0d9488', '#0f766e', '#115e59', '#134e4a'],
+    // Cyan (10 shades)
+    ['#ecfeff', '#cffafe', '#a5f3fc', '#67e8f9', '#22d3ee', '#06b6d4', '#0891b2', '#0e7490', '#155e75', '#164e63'],
+    // Blue (10 shades)
+    ['#eff6ff', '#dbeafe', '#bfdbfe', '#93c5fd', '#60a5fa', '#3b82f6', '#2563eb', '#1d4ed8', '#1e40af', '#1e3a8a'],
+    // Indigo (10 shades)
+    ['#eef2ff', '#e0e7ff', '#c7d2fe', '#a5b4fc', '#818cf8', '#6366f1', '#4f46e5', '#4338ca', '#3730a3', '#312e81'],
+    // Violet (10 shades)
+    ['#f5f3ff', '#ede9fe', '#ddd6fe', '#c4b5fd', '#a78bfa', '#8b5cf6', '#7c3aed', '#6d28d9', '#5b21b6', '#4c1d95'],
+    // Purple (10 shades)
+    ['#faf5ff', '#f3e8ff', '#e9d5ff', '#d8b4fe', '#c084fc', '#a855f7', '#9333ea', '#7e22ce', '#6e11b0', '#581c87'],
+    // Fuchsia (10 shades)
+    ['#fdf4ff', '#fae8ff', '#f5d0fe', '#f0abfc', '#e879f9', '#d946ef', '#c026d3', '#a21caf', '#86198f', '#701a75'],
+    // Pink (10 shades)
+    ['#fdf2f8', '#fce7f3', '#fbcfe8', '#f9a8d4', '#f472b6', '#ec4899', '#db2777', '#be185d', '#9d174d', '#831843'],
+    // Rose (10 shades)
+    ['#fff1f2', '#ffe4e6', '#fecdd3', '#fda4af', '#fb7185', '#f43f5e', '#e11d48', '#be123c', '#9f1239', '#881337']
   ]
-  
+
+  const grayscalePalette = [
+  '#ffffff',
+  '#e5e5e5',
+  '#cccccc',
+  '#b2b2b2',
+  '#999999',
+  '#7f7f7f',
+  '#666666',
+  '#4c4c4c',
+  '#333333',
+  '#292929',
+  '#1f1f1f',
+  '#141414',
+  '#0a0a0a',
+  '#000000'
+]
+
+
+
+  const colorPaletteColumns = Array.from({ length: colorPalette[0].length }, (_, colIdx) =>
+  colorPalette.map(row => row[colIdx])
+)
+
   const textSettings = reactive({
     text: 'A',
     fontFamily: 'Arial',
@@ -274,6 +375,11 @@
   const isGenerating = ref(false)
   const generatedImages = ref<any[]>([])
   const previewCanvas = ref<HTMLCanvasElement | null>(null)
+  const faviconPreviewRefs = reactive<Record<number, HTMLCanvasElement | null>>({})
+
+  function setFaviconPreviewRef(size: number, el: HTMLCanvasElement | null) {
+    faviconPreviewRefs[size] = el
+  }
   
   const drawTextOnCanvas = (canvas: HTMLCanvasElement, size: number) => {
     const ctx = canvas.getContext('2d')
@@ -313,6 +419,19 @@
     if (previewCanvas.value) {
       drawTextOnCanvas(previewCanvas.value, 150)
     }
+  }
+
+  const updateFavicon = (canvas: HTMLCanvasElement | null) => {
+    if (!canvas) return
+    const dataUrl = canvas.toDataURL('image/png')
+    let favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement | null
+    if (!favicon) {
+      favicon = document.createElement('link') as HTMLLinkElement
+      favicon.rel = 'icon'
+      document.head.appendChild(favicon)
+    }
+    favicon.setAttribute('type', 'image/png')
+    favicon.setAttribute('href', dataUrl)
   }
   
   const generateFavicons = async () => {
@@ -405,8 +524,25 @@
   }
   
   watch(textSettings, updatePreview, { deep: true })
+  watch(
+    textSettings,
+    async () => {
+      await nextTick();
+      [16, 32, 48, 64, 96].forEach(size => {
+        const canvas = faviconPreviewRefs[size]
+        if (canvas) drawTextOnCanvas(canvas, size)
+      })
+      updateFavicon(faviconPreviewRefs[32] || null)
+    },
+    { deep: true }
+  )
   
   onMounted(() => {
+    [16, 32, 48, 64, 96].forEach(size => {
+      const canvas = faviconPreviewRefs[size]
+      if (canvas) drawTextOnCanvas(canvas, size)
+    })
+    updateFavicon(faviconPreviewRefs[32] || null)
     updatePreview()
   })
   
@@ -426,10 +562,10 @@
     background: var(--bg-primary);
     padding: 2rem 0 spacing(xl);
     .section__title {
-        margin-bottom: 0.5rem;
+      margin-bottom: 0.5rem;
     }
     .section__subtitle {
-        margin-bottom: 0;
+      margin-bottom: 0;
     }
   }
   .generator-card {
@@ -438,19 +574,17 @@
     border-radius: border-radius(xl);
     margin: 0 auto;
     padding: spacing(xl);
-
   }
-  
+
   .generator-layout {
     display: grid;
     grid-template-columns: 1fr;
-    gap: spacing(3xl);
-    
-    @include respond-to(lg) {
+    gap: spacing(xl);
+    @include respond-to(xl) {
       grid-template-columns: 1fr 1fr;
     }
   }
-  
+
   .settings-title {
     display: flex;
     align-items: center;
@@ -459,48 +593,29 @@
     font-weight: font-weight(semibold);
     color: var(--text-primary);
     margin-bottom: spacing(md);
-    
     svg {
       width: 20px;
       height: 20px;
       color: var(--primary);
     }
   }
-  
-  // Text and font in one row
-.text-font-row {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: spacing(sm);
-  margin-bottom: spacing(lg);
-}
-  
+
+  .text-font-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: spacing(sm);
+    margin-bottom: spacing(lg);
+  }
+
   .form-group {
     margin-bottom: spacing(lg);
-    
     &:last-child {
       margin-bottom: 0;
     }
-    
-    &--text {
-      margin-bottom: 0;
-    }
-    
-    &--font {
-      margin-bottom: 0;
-    }
+    &--text { margin-bottom: 0; }
+    &--font { margin-bottom: 0; }
   }
-  
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: spacing(lg);
-    
-    @include respond-to(sm) {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-  
+
   .form-label {
     display: block;
     font-size: font-size(sm);
@@ -508,7 +623,7 @@
     color: var(--text-primary);
     margin-bottom: spacing(xs);
   }
-  
+
   .form-input {
     width: 100%;
     padding: spacing(sm) spacing(md);
@@ -518,29 +633,25 @@
     color: var(--text-primary);
     font-size: font-size(base);
     @include transition();
-    
     &:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
     }
-    
-    // Smaller text input for 1-2 letters
     &--text {
-        min-height: 46px;
+      min-height: 46px;
       text-align: center;
       font-size: font-size(xl);
       font-weight: font-weight(bold);
       padding: spacing(xs);
     }
-    
     &--color {
       flex: 1;
       font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
       font-size: font-size(sm);
     }
   }
-  
+
   .form-select {
     width: 100%;
     padding: spacing(sm) spacing(md);
@@ -551,33 +662,28 @@
     font-size: font-size(base);
     cursor: pointer;
     @include transition();
-    
-    // Fix dropdown arrow spacing
     padding-right: spacing(2xl);
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
     background-position: right spacing(md) center;
     background-repeat: no-repeat;
     background-size: 16px 16px;
     appearance: none;
-    
     &:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
     }
-    
     &--font {
       font-size: font-size(sm);
       min-height: 46px;
     }
   }
-  
+
   .range-group {
     display: flex;
     align-items: center;
     gap: spacing(md);
   }
-  
   .form-range {
     height: 12px;
     padding: 0;
@@ -585,15 +691,12 @@
     border-radius: border-radius(full);
     outline: none;
     appearance: none;
-    
-    // Fix range input not reaching the end
     &::-webkit-slider-track {
       width: 90%;
       height: 6px;
       background: var(--bg-tertiary);
       border-radius: border-radius(full);
     }
-    
     &::-webkit-slider-thumb {
       appearance: none;
       width: 20px;
@@ -602,12 +705,8 @@
       border-radius: 50%;
       cursor: pointer;
       @include transition();
-      
-      &:hover {
-        transform: scale(1.1);
-      }
+      &:hover { transform: scale(1.1); }
     }
-    
     &::-moz-range-track {
       width: 90%;
       height: 6px;
@@ -615,7 +714,6 @@
       border-radius: border-radius(full);
       border: none;
     }
-    
     &::-moz-range-thumb {
       width: 20px;
       height: 20px;
@@ -624,13 +722,9 @@
       border: none;
       cursor: pointer;
       @include transition();
-      
-      &:hover {
-        transform: scale(1.1);
-      }
+      &:hover { transform: scale(1.1); }
     }
   }
-  
   .range-value {
     font-size: font-size(sm);
     color: var(--text-secondary);
@@ -641,94 +735,145 @@
     padding: spacing(xs) spacing(sm);
     border-radius: border-radius(md);
   }
-  
-  .form-hint {
-    font-size: font-size(xs);
-    color: var(--text-tertiary);
-    margin-top: spacing(xs);
-    font-style: italic;
-  }
-  
-  // Square preview container
-  .preview-container {
+
+  .favicons-preview-row {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .favicon-preview-item {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    width: 180px;
-    height: 180px;
-    background: var(--bg-primary);
-    border: 1px solid var(--border);
-    border-radius: border-radius(lg);
-    margin: spacing(lg) auto 0;
-    padding: spacing(sm);
-  }
-  
-  .preview-canvas {
-    border-radius: border-radius(sm);
-    @include transition();
-    
-    &:hover {
-      transform: scale(1.05);
+    .favicon-size-label {
+      margin-top: 6px;
+      font-size: 13px;
+      color: #888;
     }
   }
-  
-  .color-palette {
+  .favicon-preview-canvas {
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  }
+
+  .palettes-row {
     display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    gap: spacing(xs);
-    padding: spacing(md);
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-    border-radius: border-radius(lg);
-    border: 1px solid #e2e8f0;
-    
-    .dark-mode & {
-      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-      border-color: #334155;
-    }
-  }
-  
-  .color-swatch {
-    width: 32px;
-    height: 32px;
-    border-radius: border-radius(md);
-    border: 2px solid transparent;
-    cursor: pointer;
-    @include transition();
-    position: relative;
-    
-    &:hover {
-      transform: scale(1.15);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      z-index: 2;
-    }
-    
-    &--active {
-      border-color: var(--text-primary);
-      transform: scale(1.15);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      z-index: 3;
+    grid-template-columns: 1fr 1fr;
+    gap: spacing(lg);
+    margin-top: 32px;
+    margin-bottom: 16px;
+
       
-      &::after {
-        content: '✓';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: white;
-        font-size: 14px;
-        font-weight: bold;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  @include respond-to(md) {
+    gap: spacing(xl);
+  }
+
+  }
+  .color-block {
+    margin: 0 auto;
+    .palette-label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+    .color-input-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .palette-bg {
+  background: var(--border);
+  border-radius: 16px;
+  padding: spacing(sm);
+  display: inline-block;
+  margin: 0 auto;
+  margin-bottom: spacing(md);
+
+}
+    .color-picker {
+      width: 50px;
+      height: 38px;
+      border: 1px solid var(--border);
+      border-radius: border-radius(md);
+      cursor: pointer;
+      @include transition();
+      padding: 0;
+      background: none;
+      
+      &:hover {
+        border-color: var(--primary);
+        transform: scale(1.05);
+      }
+      
+      &::-webkit-color-swatch-wrapper {
+        padding: 0;
+      }
+      
+      &::-webkit-color-swatch {
+        border: none;
+        border-radius: border-radius(lg);
+      }
+      
+      &::-moz-color-swatch {
+        border: none;
+        border-radius: border-radius(lg);
       }
     }
+    .color-input {
+      flex: 1;
+      min-width: 84px;
+      font-size: 16px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 6px;
+      background: var(--bg-primary);
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      color: var(--text-primary);
+    }
   }
-  
+  .color-palette-pro {
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    .color-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .grayscale-column {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+  }
+  .color-swatch {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: 0.12s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    &:hover {
+      border-color: var(--primary);
+    }
+    &--active {
+      border-color: var(--primary);
+      outline: 2px solid var(--bg-primary);
+      z-index: 2;
+    }
+  }
+
   .color-input-group {
     display: flex;
     gap: spacing(sm);
     align-items: center;
   }
   
-  // Fix color input to show full color
   .form-color {
     width: 50px;
     height: 44px;
@@ -744,7 +889,6 @@
       transform: scale(1.05);
     }
     
-    // Remove default styling
     &::-webkit-color-swatch-wrapper {
       padding: 0;
     }
@@ -857,12 +1001,7 @@
     to { transform: rotate(360deg); }
   }
   
-  // Responsive improvements
   @include respond-to(sm) {
-    .color-palette {
-      grid-template-columns: repeat(12, 1fr);
-    }
-    
     .color-swatch {
       width: 28px;
       height: 28px;
@@ -875,5 +1014,31 @@
     }
   }
 
+  .adsense-section {
+    padding: spacing(3xl) 0;
+    background: var(--bg-secondary);
+    margin-bottom: spacing(3xl);
+  }
+
+  .adsense-placeholder {
+    max-width: 728px;
+    height: 90px;
+    margin: 0 auto;
+    border: 2px dashed var(--border);
+    border-radius: border-radius(lg);
+    @include flex-center;
+    color: var(--text-tertiary);
+    font-size: font-size(sm);
+    
+    .adsense-content {
+      display: flex;
+      align-items: center;
+      gap: spacing(sm);
+      
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
   </style>
-  

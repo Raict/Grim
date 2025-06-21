@@ -720,6 +720,7 @@ onUnmounted(() => {
 .adsense-section {
   padding: spacing(3xl) 0;
   background: var(--bg-secondary);
+  margin-bottom: spacing(3xl);
 }
 
 .adsense-placeholder {
