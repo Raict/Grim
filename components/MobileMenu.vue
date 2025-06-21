@@ -1,132 +1,400 @@
 <template>
-    <div class="mobile-menu">
-      <button
-        class="btn btn--ghost btn--sm mobile-menu__trigger"
-        @click="isOpen = true"
-      >
-        <Icon name="lucide:menu" />
-      </button>
-  
-      <div class="mobile-menu__overlay" :class="{ 'mobile-menu__overlay--show': isOpen }" @click="isOpen = false">
-        <div class="mobile-menu__content" @click.stop>
-          <div class="mobile-menu__header">
-            <span class="mobile-menu__title">Меню</span>
-            <button
-              class="btn btn--ghost btn--sm"
-              @click="isOpen = false"
-            >
-              <Icon name="lucide:x" />
-            </button>
+  <div class="mobile-menu">
+    <button
+      class="mobile-menu__trigger"
+      @click="isOpen = true"
+      :aria-label="$t('nav.openMenu')"
+    >
+      <Icon name="lucide:menu" />
+    </button>
+
+    <div 
+      class="mobile-menu__overlay" 
+      :class="{ 'mobile-menu__overlay--show': isOpen }" 
+      @click="isOpen = false"
+    >
+      <div class="mobile-menu__content" @click.stop>
+        <div class="mobile-menu__header">
+          <div class="mobile-menu__logo">
+            <div class="mobile-menu__logo-icon">
+              <Icon name="lucide:image" />
+            </div>
+            <span class="mobile-menu__logo-text">Faviconitys</span>
           </div>
-  
-          <nav class="mobile-menu__nav">
-            <!-- <NuxtLink 
-              to="/" 
-              class="mobile-menu__link"
-              @click="isOpen = false"
-            >
-              {{ $t('nav.home') }}
-            </NuxtLink>
-            <NuxtLink 
-              to="/about" 
-              class="mobile-menu__link"
-              @click="isOpen = false"
-            >
-              {{ $t('nav.about') }}
-            </NuxtLink>
-            <NuxtLink 
-              to="/contact" 
-              class="mobile-menu__link"
-              @click="isOpen = false"
-            >
-              {{ $t('nav.contact') }}
-            </NuxtLink> -->
-          </nav>
+          <button
+            class="mobile-menu__close"
+            @click="isOpen = false"
+            :aria-label="$t('nav.closeMenu')"
+          >
+            <Icon name="lucide:x" />
+          </button>
+        </div>
+
+        <div class="mobile-menu__body">
+          <!-- Навігаційні посилання -->
+          <div class="mobile-menu__section">
+            <h3 class="mobile-menu__section-title">{{ $t('nav.navigation') }}</h3>
+            <nav class="mobile-menu__nav">
+              <NuxtLink 
+                to="/" 
+                class="mobile-menu__nav-link"
+                :class="{ 'mobile-menu__nav-link--active': $route.path === '/' }"
+                @click="isOpen = false"
+              >
+                <Icon name="lucide:home" />
+                <span>{{ $t('nav.home') }}</span>
+              </NuxtLink>
+              
+              <NuxtLink 
+                to="/favicons" 
+                class="mobile-menu__nav-link"
+                :class="{ 'mobile-menu__nav-link--active': $route.path === '/favicons' }"
+                @click="isOpen = false"
+              >
+                <Icon name="lucide:image" />
+                <span>{{ $t('nav.converter') }}</span>
+              </NuxtLink>
+              
+              <NuxtLink 
+                to="/favicons-text" 
+                class="mobile-menu__nav-link"
+                :class="{ 'mobile-menu__nav-link--active': $route.path === '/favicons-text' }"
+                @click="isOpen = false"
+              >
+                <Icon name="lucide:type" />
+                <span>{{ $t('nav.textGenerator') }}</span>
+              </NuxtLink>
+              
+              <!-- <NuxtLink 
+                to="/favicon-ai" 
+                class="mobile-menu__nav-link"
+                :class="{ 'mobile-menu__nav-link--active': $route.path === '/favicon-ai' }"
+                @click="isOpen = false"
+              >
+                <Icon name="lucide:sparkles" />
+                <span>{{ $t('nav.aiGenerator') }}</span>
+              </NuxtLink> -->
+            </nav>
+          </div>
+          
+          <!-- Налаштування -->
+          <div class="mobile-menu__section">
+            <h3 class="mobile-menu__section-title">{{ $t('nav.settings') }}</h3>
+            <div class="mobile-menu__controls">
+              <div class="mobile-menu__control">
+                <span class="mobile-menu__control-label">{{ $t('nav.language') }}</span>
+                <LanguageSwitcher />
+              </div>
+              <div class="mobile-menu__control">
+                <span class="mobile-menu__control-label">{{ $t('nav.theme') }}</span>
+                <ThemeSwitcher />
+              </div>
+            </div>
+          </div>
+          
+          <!-- Про додаток -->
+          <div class="mobile-menu__section">
+            <h3 class="mobile-menu__section-title">{{ $t('nav.about') }}</h3>
+            <p class="mobile-menu__description">
+              {{ $t('nav.appDescription') }}
+            </p>
+          </div>
+        </div>
+
+        <div class="mobile-menu__footer">
+          <p class="mobile-menu__footer-text">
+            {{ $t('footer.madeWith') }}
+          </p>
         </div>
       </div>
     </div>
-  </template>
-  
-  <script setup lang="ts">
-  
-  const isOpen = ref(false)
-  </script>
-  
-  <style lang="scss" scoped>
-  @use 'sass:map';
+  </div>
+</template>
 
-  .mobile-menu {
-    &__trigger {
-      width: 40px;
-      height: 40px;
-      padding: 0;
-      @include flex-center;
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+
+const isOpen = ref(false)
+
+// Блокуємо скрол коли меню відкрите
+watch(isOpen, (newValue) => {
+  if (newValue) {
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflow = ''
+  }
+})
+</script>
+
+<style lang="scss" scoped>
+.mobile-menu {
+  &__trigger {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: border-radius(lg);
+    color: var(--text-secondary);
+    cursor: pointer;
+    @include flex-center;
+    @include transition();
+    
+    &:hover {
+      background: var(--bg-secondary);
+      border-color: var(--primary);
+      color: var(--text-primary);
+      transform: translateY(-1px);
     }
     
-    &__overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: map.get($z-index, modal);
-      opacity: 0;
-      visibility: hidden;
-      @include transition();
-      
-      &--show {
-        opacity: 1;
-        visibility: visible;
-      }
+    &:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
+  }
+  
+  &__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: map-get($z-index, modal);
+    opacity: 0;
+    visibility: hidden;
+    @include transition();
     
-    &__content {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 280px;
-      height: 100%;
-      background: var(--bg-primary);
-      padding: spacing(xl);
-      transform: translateX(100%);
-      @include transition();
-      
-      .mobile-menu__overlay--show & {
-        transform: translateX(0);
-      }
+    &--show {
+      opacity: 1;
+      visibility: visible;
     }
+  }
+  
+  &__content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 320px;
+    max-width: 90vw;
+    height: 100vh;
+    background: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    @include transition();
     
-    &__header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: spacing(2xl);
+    .mobile-menu__overlay--show & {
+      transform: translateX(0);
     }
+  }
+  
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: spacing(xl);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-secondary);
+  }
+  
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: spacing(sm);
+    font-size: font-size(lg);
+    font-weight: font-weight(bold);
+    color: var(--text-primary);
+  }
+  
+  &__logo-icon {
+    width: 28px;
+    height: 28px;
+    @include gradient(135deg, var(--primary), var(--secondary));
+    border-radius: border-radius(md);
+    @include flex-center;
+    color: white;
+  }
+  
+  &__logo-text {
+    @include gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     
-    &__title {
-      font-size: font-size(lg);
-      font-weight: font-weight(semibold);
+    @supports not (-webkit-background-clip: text) {
+      color: var(--primary);
+    }
+  }
+  
+  &__close {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    @include flex-center;
+    @include transition();
+    border-radius: border-radius(md);
+    
+    &:hover {
+      background: var(--bg-tertiary);
       color: var(--text-primary);
     }
+  }
+  
+  &__body {
+    flex: 1;
+    padding: spacing(xl);
+    overflow-y: auto;
+  }
+  
+  &__section {
+    margin-bottom: spacing(2xl);
     
-    &__nav {
-      display: flex;
-      flex-direction: column;
-      gap: spacing(lg);
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  &__section-title {
+    font-size: font-size(base);
+    font-weight: font-weight(semibold);
+    color: var(--text-primary);
+    margin-bottom: spacing(lg);
+  }
+  
+  // Навігаційні посилання
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    gap: spacing(xs);
+  }
+  
+  &__nav-link {
+    display: flex;
+    align-items: center;
+    gap: spacing(md);
+    padding: spacing(md) spacing(lg);
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: border-radius(lg);
+    font-weight: font-weight(medium);
+    @include transition();
+    
+    svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
     }
     
-    &__link {
-      display: block;
-      padding: spacing(sm) 0;
-      color: var(--text-secondary);
-      font-weight: font-weight(medium);
-      @include transition();
+    &:hover {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      transform: translateX(spacing(xs));
+    }
+    
+    &--active {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--primary);
       
-      &:hover {
+      .dark-mode & {
+        background: rgba(20, 184, 166, 0.1);
+      }
+      
+      svg {
         color: var(--primary);
       }
     }
   }
-  </style>
   
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    gap: spacing(lg);
+  }
+  
+  &__control {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: spacing(md);
+  }
+  
+  &__control-label {
+    font-size: font-size(sm);
+    font-weight: font-weight(medium);
+    color: var(--text-secondary);
+  }
+  
+  &__description {
+    font-size: font-size(sm);
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+  
+  &__footer {
+    padding: spacing(xl);
+    border-top: 1px solid var(--border);
+    text-align: center;
+    background: var(--bg-secondary);
+  }
+  
+  &__footer-text {
+    font-size: font-size(xs);
+    color: var(--text-tertiary);
+    margin: 0;
+  }
+}
+
+// Анімації
+.mobile-menu__content {
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-menu__nav-link {
+  animation: slideInRight 0.4s ease-out;
+  
+  @for $i from 1 through 4 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Стилі для різних станів теми
+.light-mode .mobile-menu {
+  &__trigger:hover {
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
+  }
+  
+  &__nav-link:hover {
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1);
+  }
+}
+
+.dark-mode .mobile-menu {
+  &__trigger:hover {
+    box-shadow: 0 2px 8px rgba(20, 184, 166, 0.15);
+  }
+  
+  &__nav-link:hover {
+    box-shadow: 0 2px 8px rgba(20, 184, 166, 0.1);
+  }
+}
+</style>

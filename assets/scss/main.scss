@@ -9,7 +9,6 @@
 @use 'sass:map';
 
 
-// Основні змінні для тем
 :root {
   --primary-mint: #10b981;
   --primary-mint-dark: #059669;
@@ -39,7 +38,6 @@
   --accent: var(--primary-mint);
 }
 
-// Глобальні стилі
 * {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -50,7 +48,6 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-// Анімації
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -79,7 +76,6 @@ body {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-// Кастомні компоненти
 .glass-effect {
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.1);

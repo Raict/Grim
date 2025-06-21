@@ -1,6 +1,5 @@
 @use 'mixins' as *;
 @use 'variables' as *;
-// Анімації
 @keyframes fadeInUp {
     from {
       opacity: 0;
@@ -87,7 +86,6 @@
     }
   }
   
-  // Класи анімацій
   .fade-in-up {
     animation: fadeInUp 0.6s ease-out;
   }
@@ -120,13 +118,11 @@
     animation: bounce 1s infinite;
   }
   
-  // Затримки анімацій
   .delay-100 { animation-delay: 0.1s; }
   .delay-200 { animation-delay: 0.2s; }
   .delay-300 { animation-delay: 0.3s; }
   .delay-500 { animation-delay: 0.5s; }
   
-  // Тривалість анімацій
   .duration-150 { animation-duration: 0.15s; }
   .duration-300 { animation-duration: 0.3s; }
   .duration-500 { animation-duration: 0.5s; }

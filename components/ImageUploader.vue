@@ -39,7 +39,6 @@
   </template>
   
   <script setup lang="ts">
-  import { ref } from 'vue';
   
   interface Props {
     isProcessing?: boolean
@@ -81,15 +80,13 @@
   }
   
   const validateAndEmitFile = (file: File) => {
-    // Перевірка типу файлу
     if (!file.type.startsWith('image/')) {
-      console.error('Будь ласка, оберіть файл зображення')
+      console.error('Please select an image file')
       return
     }
   
-    // Перевірка розміру файлу (10MB)
     if (file.size > 10 * 1024 * 1024) {
-      console.error('Розмір файлу не повинен перевищувати 10MB')
+      console.error('Selected file is too large. Maximum size is 10MB.')
       return
     }
   

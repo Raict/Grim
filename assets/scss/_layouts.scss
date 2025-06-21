@@ -2,9 +2,6 @@
 @use 'variables' as *;
 @use 'sass:map';
 
-
-
-// Контейнер
 .container {
     width: 100%;
     max-width: 1200px;
@@ -16,7 +13,6 @@
     }
   }
   
-  // Сітка
   .grid {
     display: grid;
     gap: spacing(lg);
@@ -38,7 +34,6 @@
     }
   }
   
-  // Флекс
   .flex {
     display: flex;
     
@@ -67,7 +62,6 @@
     }
   }
   
-  // Хедер
   .header {
     position: sticky;
     top: 0;
@@ -124,7 +118,6 @@
     }
   }
   
-  // Футер
   .footer {
     background: var(--bg-secondary);
     border-top: 1px solid var(--border);
@@ -142,9 +135,8 @@
     }
   }
   
-  // Секції
   .section {
-    padding: spacing(4xl) 0;
+    padding: spacing(2xl) 0;
     
     &--hero {
       padding: spacing(5xl) 0;

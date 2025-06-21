@@ -1,7 +1,6 @@
 @use 'mixins' as *;
 @use 'variables' as *;
 
-// Світла тема
 .light-mode {
     --primary: #{color(primary, light)};
     --primary-dark: #{color(primary-dark, light)};
@@ -27,7 +26,6 @@
     --info: #{color(info, light)};
   }
   
-  // Темна тема
   .dark-mode {
     --primary: #{color(primary, dark)};
     --primary-dark: #{color(primary-dark, dark)};
@@ -53,7 +51,6 @@
     --info: #{color(info, dark)};
   }
   
-  // Автоматичне перемикання тем
   @media (prefers-color-scheme: dark) {
     :root {
       --primary: #{color(primary, dark)};

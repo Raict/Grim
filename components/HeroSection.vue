@@ -28,7 +28,7 @@
                 <Icon name="lucide:check" class="hero-feature__icon" />
                 <span>{{ $t('hero.benefits.free') }}</span>
               </div>
-              <div class="hero-feature">
+              <div id="scroll-to-this" class="hero-feature">
                 <Icon name="lucide:check" class="hero-feature'__icon'" />
                 <span>{{ $t('hero.benefits.withoutRegistration') }}</span>
               </div>

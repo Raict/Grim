@@ -56,7 +56,6 @@
   
   <script setup lang="ts">
   import { useI18n } from 'vue-i18n';
-  import { computed, ref, onMounted, onUnmounted } from 'vue';
   
   const { locale, locales } = useI18n()
   const switchLocalePath = useSwitchLocalePath()
@@ -175,7 +174,6 @@
       text-align: left;
       white-space: nowrap;
       
-      // Ховаємо назву на дуже маленьких екранах
       @media (max-width: 380px) {
         display: none;
       }

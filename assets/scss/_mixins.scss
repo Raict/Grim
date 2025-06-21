@@ -2,7 +2,6 @@
 @use 'variables' as *;
 @use 'sass:map';
 
-// Функція для отримання кольору
 @function color($name, $theme: 'light') {
     @if $theme == 'light' {
       @return map.get($light-colors, $name);
@@ -11,56 +10,46 @@
     }
   }
   
-  // Функція для отримання відступу
   @function spacing($size) {
     @return map.get($spacing, $size);
   }
   
-  // Функція для отримання розміру шрифту
   @function font-size($size) {
     @return map.get($font-sizes, $size);
   }
   
-  // Функція для отримання ваги шрифту
   @function font-weight($weight) {
     @return map.get($font-weights, $weight);
   }
   
-  // Функція для отримання радіусу
   @function border-radius($size) {
     @return map.get($border-radius, $size);
   }
   
-  // Функція для отримання тіні
   @function shadow($size) {
     @return map.get($shadows, $size);
   }
   
-  // Міксин для медіа-запитів
   @mixin respond-to($breakpoint) {
     @media (min-width: map.get($breakpoints, $breakpoint)) {
       @content;
     }
   }
   
-  // Міксин для флексбокс центрування
   @mixin flex-center {
     display: flex;
     align-items: center;
     justify-content: center;
   }
   
-  // Міксин для градієнтів
   @mixin gradient($direction, $colors...) {
     background: linear-gradient($direction, $colors);
   }
   
-  // Міксин для переходів
   @mixin transition($properties: all, $duration: 0.3s, $timing: ease) {
     transition: $properties $duration $timing;
   }
   
-  // Міксин для кнопок
   @mixin button-base {
     display: inline-flex;
     align-items: center;
@@ -79,7 +68,6 @@
     }
   }
   
-  // Міксин для карток
   @mixin card {
     background: var(--bg-secondary);
     border: 1px solid var(--border);
@@ -92,7 +80,6 @@
     }
   }
   
-  // Міксин для скляного ефекту
   @mixin glass-effect {
     backdrop-filter: blur(10px);
     background: rgba(255, 255, 255, 0.1);

@@ -67,7 +67,6 @@
             </div>
           </div>
   
-          <!-- Інструкція з встановлення -->
           <InstallationGuide 
             v-if="processedImages.length > 0"
             :generated-sizes="selectedSizes"

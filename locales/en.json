@@ -1,9 +1,18 @@
-
 {
   "nav": {
     "home": "Home",
     "about": "About",
-    "contact": "Contact"
+    "contact": "Contact",
+    "converter": "Converter",
+    "textGenerator": "Text Generator",
+    "aiGenerator": "AI Generator",
+    "navigation": "Navigation",
+    "settings": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "appDescription": "Simple and fast tool for creating favicons from your images. Supports various formats and sizes."
   },
   "theme": {
     "light": "Light",
@@ -20,6 +29,152 @@
       "fast": "Fast",
       "easy": "Easy",
       "withoutRegistration": "No Registration Required"
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Faviconitys",
+      "subtitle": "Create favicons easily",
+      "description": "Powerful tool for creating professional favicons. Convert images, generate from text, or create with AI.",
+      "stats": {
+        "created": "Created favicons",
+        "free": "Free",
+        "rating": "User rating"
+      },
+      "features": {
+        "title": "Choose creation method",
+        "description": "Three powerful tools for creating the perfect favicon for your website",
+        "converter": {
+          "title": "Image Converter",
+          "description": "Upload your image and get favicons in all necessary sizes",
+          "features": {
+            "formats": "10+ size formats",
+            "zip": "ZIP archive with manifest",
+            "guide": "Installation guide"
+          }
+        },
+        "text": {
+          "title": "Text Generator",
+          "description": "Create favicon from text or symbols with customizable styling",
+          "features": {
+            "fonts": "Custom fonts",
+            "colors": "Color settings",
+            "effects": "Gradients and effects"
+          }
+        },
+        "ai": {
+          "title": "AI Generator",
+          "description": "Describe your idea and get unique favicon created by artificial intelligence",
+          "features": {
+            "description": "Generation from description",
+            "styles": "Various styles",
+            "unique": "Unique designs"
+          }
+        }
+      },
+      "benefits": {
+        "title": "Why choose Faviconitys?",
+        "fast": {
+          "title": "Fast",
+          "description": "Create favicons in seconds without complex settings"
+        },
+        "secure": {
+          "title": "Secure",
+          "description": "All files are processed locally, your data remains private"
+        },
+        "free": {
+          "title": "Free",
+          "description": "Completely free service without hidden fees and limitations"
+        },
+        "responsive": {
+          "title": "Responsive",
+          "description": "Works on all devices - computer, tablet, phone"
+        }
+      },
+      "adsense": "Google AdSense Placeholder"
+    },
+    "textGenerator": {
+      "title": "Text Favicon Generator",
+      "subtitle": "Create unique favicons from text or symbols",
+      "description": "Enter text, choose font and colors to create professional favicon for your website",
+      "settings": {
+        "text": {
+          "title": "Text Settings",
+          "label": "Text or symbol",
+          "placeholder": "A",
+          "hint": "Maximum 3 characters for best result",
+          "font": "Font",
+          "size": "Font size"
+        },
+        "colors": {
+          "title": "Colors and Style",
+          "textColor": "Text color",
+          "backgroundColor": "Background color",
+          "backgroundType": "Background style",
+          "solid": "Solid",
+          "gradient": "Gradient",
+          "transparent": "Transparent",
+          "gradientColor": "Second gradient color",
+          "quickColors": "Quick colors"
+        },
+        "preview": {
+          "title": "Preview"
+        }
+      },
+      "generate": "Generate Favicons",
+      "generating": "Generating..."
+    },
+    "aiGenerator": {
+      "title": "AI Favicon Generator",
+      "subtitle": "Create unique favicons with artificial intelligence",
+      "description": "Describe your idea, choose style, and our AI will create professional favicon for you",
+      "prompt": {
+        "title": "Describe your idea",
+        "label": "Favicon description",
+        "placeholder": "For example: Minimalist coffee icon in blue tones, modern design, flat style",
+        "hint": "The more detailed the description, the better the result",
+        "examples": "Prompt examples:"
+      },
+      "settings": {
+        "title": "Style and Settings",
+        "style": "Style",
+        "colorScheme": "Color scheme",
+        "complexity": "Complexity",
+        "variants": "Number of variants"
+      },
+      "styles": {
+        "modern": "Modern",
+        "minimalist": "Minimalist",
+        "flat": "Flat",
+        "3d": "3D",
+        "vintage": "Vintage",
+        "cartoon": "Cartoon",
+        "professional": "Professional",
+        "artistic": "Artistic"
+      },
+      "colorSchemes": {
+        "auto": "Automatic",
+        "blue": "Blue tones",
+        "green": "Green tones",
+        "red": "Red tones",
+        "purple": "Purple tones",
+        "orange": "Orange tones",
+        "monochrome": "Monochrome",
+        "rainbow": "Rainbow"
+      },
+      "complexity": {
+        "simple": "Simple",
+        "medium": "Medium",
+        "complex": "Complex"
+      },
+      "generate": "Generate with AI",
+      "generating": "Generating...",
+      "generationNote": "Generation may take 30-60 seconds",
+      "results": "Generated variants",
+      "variant": "Variant",
+      "selectVariant": "Select this variant",
+      "downloadFavicons": "Download Favicons",
+      "processing": "Processing..."
     }
   },
   "size": {
@@ -41,11 +196,12 @@
     "selectSize": "Select Size",
     "download": "Download",
     "processing": "Processing...",
+    "creating": "Creating archive...",
     "error": "Error processing image",
     "success": "Favicon created successfully!",
     "originalImage": "Original Image",
     "downloadZip": "Download Zip Archive",
-    "generateFavicons": "Generate Favicons",
+    "generateFavicons": "Generated Favicons",
     "clear": "Clear",
     "cleared": "Converter cleared successfully"
   },

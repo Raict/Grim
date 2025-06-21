@@ -1,14 +1,12 @@
 @use 'mixins' as *;
 @use 'variables' as *;
 
-// Скидання стилів
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
   
-  // Основні стилі
   html {
     font-size: 16px;
     scroll-behavior: smooth;
@@ -22,7 +20,6 @@
     @include transition(background-color, color);
   }
   
-  // Типографія
   h1, h2, h3, h4, h5, h6 {
     font-weight: font-weight(bold);
     line-height: 1.2;
@@ -55,7 +52,6 @@
     height: auto;
   }
   
-  // Форми
   input, textarea, select {
     width: 100%;
     padding: spacing(sm) spacing(md);
@@ -77,7 +73,6 @@
     }
   }
   
-  // Скролбар
   ::-webkit-scrollbar {
     width: 8px;
   }

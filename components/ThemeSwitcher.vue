@@ -92,7 +92,6 @@
     }
   }
   
-  // Анімація для зміни іконки
   .theme-switcher__icon {
     position: relative;
     overflow: hidden;
@@ -117,7 +116,6 @@
     }
   }
   
-  // Стилі для різних станів теми
   .light-mode .theme-switcher {
     &:hover {
       box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);

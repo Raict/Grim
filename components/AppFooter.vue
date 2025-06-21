@@ -35,7 +35,6 @@
       font-size: font-size(sm);
       margin: 0;
       
-      // Додаємо трохи анімації для серця
       &::before {
         content: '';
         display: inline-block;
@@ -44,7 +43,6 @@
     }
   }
   
-  // Responsive стилі
   @include respond-to(md) {
     .footer {
       padding: spacing(3xl) 0;

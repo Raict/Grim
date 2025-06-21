@@ -54,7 +54,6 @@
   </template>
   
   <script setup lang="ts">
-  import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
   
   const { t } = useI18n()
@@ -225,7 +224,6 @@
     }
   }
   
-  // Анімації для появи елементів
   .size-option {
     animation: fadeInUp 0.4s ease-out;
     
@@ -236,12 +234,11 @@
     }
   }
   
-  // Стилі для фокусу (доступність)
+
   .size-option__input:focus + .size-option__checkbox {
     box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
   }
   
-  // Стилі для активного стану
   .size-option:active {
     transform: translateY(0);
     
@@ -250,7 +247,6 @@
     }
   }
   
-  // Додаткові стилі для кращого UX
   .size-option__content {
     @include transition();
   }

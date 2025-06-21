@@ -8,17 +8,14 @@
       
       <AppFooter />
       
-      <!-- Google AdSense (закоментовано) -->
+      <!-- Google AdSense  -->
       <!-- <GoogleAdsense /> -->
     </div>
   </template>
   
   <script setup lang="ts">
-  
-  // Композабл для теми
   const colorMode = useColorMode()
   
-  // Встановлюємо клас для body
   onMounted(() => {
     document.body.className = `${colorMode.value}-mode`
   })
@@ -43,11 +40,8 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    
-    // Забезпечуємо мінімальну висоту для контенту
-    min-height: calc(100vh - 140px); // Приблизна висота хедера + футера
-    
-    // Додаємо відступ зверху для sticky хедера
+    min-height: calc(100vh - 140px);
+
     padding-top: 0;
     
     @include respond-to(md) {
@@ -55,7 +49,6 @@
     }
   }
   
-  // Глобальні стилі для всього лейауту
   :deep(.container) {
     width: 100%;
     max-width: 1200px;
@@ -71,7 +64,6 @@
     }
   }
   
-  // Стилі для плавних переходів між сторінками
   .page-enter-active,
   .page-leave-active {
     @include transition(opacity, transform);
@@ -88,9 +80,7 @@
     transform: translateY(-20px);
   }
   
-  // Стилі для скролбара на рівні лейауту
   .app-layout {
-    // Кастомний скролбар для webkit браузерів
     ::-webkit-scrollbar {
       width: 8px;
     }
@@ -110,12 +100,10 @@
       }
     }
   
-    // Для Firefox
     scrollbar-width: thin;
     scrollbar-color: var(--border) var(--bg-secondary);
   }
   
-  // Стилі для фокусу на рівні лейауту (доступність)
   .app-layout {
     :deep(*:focus) {
       outline: 2px solid var(--primary);
@@ -133,26 +121,21 @@
     }
   }
   
-  // Responsive утиліти для лейауту
   @include respond-to(sm) {
     .main-content {
-      // Додаткові стилі для планшетів
     }
   }
   
   @include respond-to(md) {
     .main-content {
-      // Додаткові стилі для десктопів
     }
   }
   
   @include respond-to(lg) {
     .main-content {
-      // Додаткові стилі для великих екранів
     }
   }
   
-  // Стилі для loading станів
   .app-layout {
     :deep(.loading-overlay) {
       position: fixed;
@@ -175,7 +158,6 @@
     }
   }
   
-  // Стилі для помилок
   .app-layout {
     :deep(.error-boundary) {
       padding: spacing(2xl);

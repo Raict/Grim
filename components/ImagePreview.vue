@@ -42,7 +42,6 @@
   </template>
   
   <script setup lang="ts">
-  import { computed, onUnmounted } from 'vue';
   
   interface Props {
     file: File
