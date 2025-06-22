@@ -258,5 +258,11 @@
     "author": "Rai",
     "socialDescription": "Simple and fast tool for creating favicons from your images.",
     "siteName": "Faviconitys"
+  },
+  "cookie": {
+    "title": "Використання cookies",
+    "text": "Цей сайт використовує файли cookie для надання своїх послуг, персоналізації реклами та аналізу трафіку. Натискаючи «Прийняти», ви погоджуєтесь на використання файлів cookie.",
+    "accept": "Прийняти",
+    "decline": "Відхилити"
   }
 }

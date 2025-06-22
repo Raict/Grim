@@ -259,5 +259,11 @@
     "author": "Rai",
     "socialDescription": "Простий та швидкий інструмент для створення фавіконок з ваших зображень.",
     "siteName": "Faviconitys"
+  },
+  "cookie": {
+    "title": "Cookie Consent",
+    "text": "This site uses cookies to deliver its services, personalize ads and analyze traffic. By clicking \"Accept\", you agree to our use of cookies.",
+    "accept": "Accept",
+    "decline": "Decline"
   }
 }

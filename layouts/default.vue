@@ -7,7 +7,7 @@
       </main>
       
       <AppFooter />
-      
+      <CookieConsent />
       <!-- Google AdSense  -->
       <!-- <GoogleAdsense /> -->
     </div>
