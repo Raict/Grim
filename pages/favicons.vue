@@ -16,13 +16,17 @@
   </template>
   
   <script setup lang="ts">
-  
+      const { t } = useI18n();
+
   useHead({
-    title: 'Faviconitys - Конвертер зображень у фавіконки',
-    meta: [
-      { name: 'description', content: 'Простий та швидкий інструмент для створення фавіконок з ваших зображень. Підтримує різні формати та розміри.' }
-    ]
-  })
+      title: t('converter.fullTitle'),
+      meta: [
+        {
+          name: 'description',
+          content: t('nav.appDescription'),
+        },
+      ],
+    });
   </script>
   <style lang="scss" scoped>
 .adsense-section {

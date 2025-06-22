@@ -13,123 +13,143 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
+
+const url =
+  locale.value === 'uk'
+    ? 'https://faviconitys.com/uk'
+    : 'https://faviconitys.com/en'
+
+const siteName = t('seo.siteName')
+const description = t('seo.description')
+const keywords = t('seo.keywords')
+const socialDescription = t('seo.socialDescription')
+const author = t('seo.author')
+
+const ogLocale = locale.value === 'uk' ? 'uk_UA' : 'en_US'
+const ogImage = 'https://faviconitys.com/og-image.png'
+const twitterImage = 'https://faviconitys.com/twitter-image.png'
 
 useHead({
-  title: 'Faviconitys - Convert Images to Favicons',
+  title: t('seo.fullTitle'),
   titleTemplate: '%s | Faviconitys',
   meta: [
-    { name: 'description', content: 'Simple and fast tool for creating favicons from your images. Supports various formats and sizes.' },
-    { name: 'keywords', content: 'favicon, converter, image, icon, web development, favicon generator, ico, png' },
-    { name: 'author', content: 'Faviconitys Team' },
+    // Primary
+    { name: 'description', content: description },
+    { name: 'keywords', content: keywords },
+    { name: 'author', content: author },
     { name: 'robots', content: 'index, follow' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-    
+    { name: 'referrer', content: 'strict-origin-when-cross-origin' },
+
     // Open Graph
-    { property: 'og:title', content: 'Faviconitys - Convert Images to Favicons' },
-    { property: 'og:description', content: 'Simple and fast tool for creating favicons from your images.' },
+    { property: 'og:title', content: t('seo.fullTitle') },
+    { property: 'og:description', content: socialDescription },
     { property: 'og:type', content: 'website' },
-    { property: 'og:url', content: 'https://Faviconitys.com' },
-    { property: 'og:image', content: '/og-image.png' },
-    { property: 'og:site_name', content: 'Faviconitys' },
-    { property: 'og:locale', content: 'uk_UA' },
-    
+    { property: 'og:url', content: url },
+    { property: 'og:image', content: ogImage },
+    { property: 'og:image:width', content: '1200' },
+    { property: 'og:image:height', content: '630' },
+    { property: 'og:site_name', content: siteName },
+    { property: 'og:locale', content: ogLocale },
+
     // Twitter Card
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: 'Faviconitys - Convert Images to Favicons' },
-    { name: 'twitter:description', content: 'Simple and fast tool for creating favicons from your images.' },
-    { name: 'twitter:image', content: '/twitter-image.png' },
-    
+    { name: 'twitter:title', content: t('seo.fullTitle') },
+    { name: 'twitter:description', content: socialDescription },
+    { name: 'twitter:image', content: twitterImage },
+
     // PWA
     { name: 'theme-color', content: '#10b981' },
     { name: 'apple-mobile-web-app-capable', content: 'yes' },
     { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
-    { name: 'apple-mobile-web-app-title', content: 'Faviconitys' },
-    
+    { name: 'apple-mobile-web-app-title', content: siteName },
+
     // Security
-    { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' },
-    { name: 'referrer', content: 'strict-origin-when-cross-origin' }
+    { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' }
   ],
   link: [
     // Favicons
     { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
     { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
+    { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/favicon-192x192.png' },
     { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
     { rel: 'manifest', href: '/site.webmanifest' },
-    
+
     // Fonts
     { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
     { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-    { 
-      rel: 'stylesheet', 
-      href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap' 
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap'
     },
-    
-    // DNS Prefetch для оптимізації
+
+    // DNS Prefetch
     { rel: 'dns-prefetch', href: '//fonts.googleapis.com' },
     { rel: 'dns-prefetch', href: '//fonts.gstatic.com' },
-    
-    // Canonical URL
-    { rel: 'canonical', href: 'https://Faviconitys.com' }
+
+    // Canonical & alternate hreflang
+    { rel: 'canonical', href: url },
+    { rel: 'alternate', hreflang: 'uk', href: 'https://faviconitys.com/uk' },
+    { rel: 'alternate', hreflang: 'en', href: 'https://faviconitys.com/en' },
+    { rel: 'alternate', hreflang: 'x-default', href: 'https://faviconitys.com' }
   ],
   htmlAttrs: {
-    lang: 'uk'
+    lang: locale.value
   },
   bodyAttrs: {
     class: 'antialiased'
-  }
-})
-
-// Ініціалізація додатку
-onMounted(() => {
-  // Додаємо клас для JavaScript
-  document.documentElement.classList.add('js')
-  
-  // Видаляємо клас no-js якщо він є
-  document.documentElement.classList.remove('no-js')
-  
-  // Ініціалізуємо Service Worker для PWA (якщо потрібно)
-  if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
-    navigator.serviceWorker.register('/sw.js').catch(console.error)
-  }
-  
-  // Додаємо обробник для зміни розміру вікна
-  const handleResize = () => {
-    // Оновлюємо CSS змінну для висоти viewport
-    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`)
-  }
-  
-  handleResize()
-  window.addEventListener('resize', handleResize)
-  
-  // Cleanup
-  return () => {
-    window.removeEventListener('resize', handleResize)
-  }
+  },
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: siteName,
+        url: url,
+        inLanguage: locale.value === 'uk' ? 'uk-UA' : 'en-US',
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: 'https://faviconitys.com/search?q={search_term_string}',
+          'query-input': 'required name=search_term_string'
+        }
+      })
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: siteName,
+        url: 'https://faviconitys.com',
+        logo: 'https://faviconitys.com/logo.png',
+        sameAs: [
+          'https://twitter.com/faviconitys',
+          'https://facebook.com/faviconitys'
+        ]
+      })
+    }
+  ]
 })
 </script>
 
+
 <style lang="scss">
-// Глобальні стилі для всього додатку
 .app {
   min-height: 100vh;
-  min-height: calc(var(--vh, 1vh) * 100); // Фікс для мобільних браузерів
+  min-height: calc(var(--vh, 1vh) * 100);
   
-  // Забезпечуємо правильне відображення на всіх пристроях
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
-// Глобальні стилі для HTML
 html {
-  // Плавний скрол
   scroll-behavior: smooth;
-  
-  // Базовий розмір шрифту
   font-size: 16px;
-  
-  // Висота для мобільних пристроїв
   height: 100%;
   height: calc(var(--vh, 1vh) * 100);
   
@@ -138,7 +158,6 @@ html {
   }
 }
 
-// Глобальні стилі для body
 body {
   margin: 0;
   padding: 0;
@@ -147,21 +166,17 @@ body {
   color: var(--text-primary);
   background-color: var(--bg-primary);
   @include transition(background-color, color);
-  
-  // Запобігаємо горизонтальному скролу
+
   overflow-x: hidden;
   
-  // Покращуємо рендеринг тексту
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   
-  // Висота для мобільних пристроїв
   min-height: 100vh;
   min-height: calc(var(--vh, 1vh) * 100);
 }
 
-// Стилі для no-js fallback
 .no-js {
   .js-only {
     display: none !important;
@@ -174,7 +189,6 @@ body {
   }
 }
 
-// Глобальні стилі для доступності
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -186,7 +200,6 @@ body {
   }
 }
 
-// Стилі для високого контрасту
 @media (prefers-contrast: high) {
   :root {
     --border: #000000;
@@ -201,7 +214,6 @@ body {
   }
 }
 
-// Стилі для друку
 @media print {
   .app {
     background: white !important;
@@ -221,7 +233,6 @@ body {
   }
 }
 
-// Глобальні утилітні класи
 .sr-only {
   position: absolute;
   width: 1px;
@@ -251,7 +262,6 @@ body {
   }
 }
 
-// Стилі для loading станів
 .loading {
   pointer-events: none;
   opacity: 0.6;
@@ -271,7 +281,6 @@ body {
   }
 }
 
-// Стилі для помилок
 .error {
   color: var(--error);
   border-color: var(--error);
@@ -282,20 +291,17 @@ body {
   border-color: var(--success);
 }
 
-// Responsive images
 img {
   max-width: 100%;
   height: auto;
 }
 
-// Стилі для фокусу
 :focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
   border-radius: border-radius(sm);
 }
 
-// Стилі для selection
 ::selection {
   background: var(--primary);
   color: white;

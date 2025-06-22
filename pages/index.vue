@@ -233,23 +233,21 @@
 </template>
 
 <script setup lang="ts">
-
-// SEO для головної сторінки
+const { t } = useI18n();
 useHead({
-  title: 'Faviconitys - Створюй фавіконки легко та швидко',
-  meta: [
-    { 
-      name: 'description', 
-      content: 'Безкоштовний інструмент для створення фавіконок. Конвертуй зображення, генеруй з тексту або створюй за допомогою ШІ. Швидко, просто, професійно.' 
-    },
-    { 
-      name: 'keywords', 
-      content: 'favicon, фавіконка, генератор, конвертер, ШІ, текст, зображення, безкоштовно' 
-    }
-  ]
-})
+      title: t('pages.home.fullTitle'),
+      meta: [
+        {
+          name: 'description',
+          content: t('pages.home.description'),
+        },
+        {
+          name: 'keywords',
+          content: t('pages.home.keywords'),
+        },
+      ],
+    });
 
-// Анімація фавіконок
 const faviconVariants = [
   { icon: 'lucide:heart', color: '#ef4444' },
   { icon: 'lucide:star', color: '#f59e0b' },
@@ -267,7 +265,6 @@ const currentFavicon = computed(() => faviconVariants[currentFaviconIndex.value]
 let faviconInterval: NodeJS.Timeout
 
 onMounted(() => {
-  // Змінюємо фавіконку кожні 2 секунди
   faviconInterval = setInterval(() => {
     currentFaviconIndex.value = (currentFaviconIndex.value + 1) % faviconVariants.length
   }, 2000)

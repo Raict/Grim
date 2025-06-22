@@ -12,7 +12,7 @@
     "theme": "Theme",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "appDescription": "Simple and fast tool for creating favicons from your images. Supports various formats and sizes."
+"appDescription": "Simple and fast tool for creating favicons from your images. Supports various formats and sizes."
   },
   "theme": {
     "light": "Light",
@@ -32,10 +32,12 @@
     }
   },
   "pages": {
-    "home": {
+"home": {
       "title": "Faviconitys",
       "subtitle": "Create favicons easily",
       "description": "Powerful tool for creating professional favicons. Convert images, generate from text, or create with AI.",
+      "fullTitle": "Faviconitys - Create favicons easily and quickly",
+      "keywords": "favicon, icon, generator, converter, AI, text, image, free favicon, фавіконка, генератор, конвертер, ШІ, текст, зображення, безкоштовно",
       "stats": {
         "created": "Created favicons",
         "free": "Free",
@@ -105,7 +107,9 @@
           "hint": "Maximum 3 characters for best result",
           "font": "Font",
           "size": "Font size",
-          "border":"Border radius"        },
+          "border":"Border radius",
+          "weight": "Font weight",
+           "opacity": "Opacity"      },
         "colors": {
           "title": "Colors and Style",
           "textColor": "Text color",
@@ -125,9 +129,11 @@
       "generating": "Generating..."
     },
     "aiGenerator": {
-      "title": "AI Favicon Generator",
+"title": "AI Favicon Generator",
       "subtitle": "Create unique favicons with artificial intelligence",
       "description": "Describe your idea, choose style, and our AI will create professional favicon for you",
+      "fullTitle": "AI Favicon Generator - Faviconitys",
+      "metaDescription": "Create unique favicons using artificial intelligence. Describe your idea and get a professional design.",
       "prompt": {
         "title": "Describe your idea",
         "label": "Favicon description",
@@ -191,8 +197,9 @@
     "selectAll": "Select All",
     "clear": "Clear Selection"
   },
-  "converter": {
+"converter": {
     "title": "Favicon Converter",
+    "fullTitle": "Faviconitys - Image to Favicon Converter",
     "selectSize": "Select Size",
     "download": "Download",
     "processing": "Processing...",
@@ -243,5 +250,13 @@
   "footer": {
     "copyright": "© 2024 Faviconitys. All rights reserved.",
     "madeWith": "Made with ❤️ in Ukraine"
+  },
+  "seo": {
+    "fullTitle": "Faviconitys - Convert Images to Favicons",
+    "description": "Simple and fast tool for creating favicons from your images. Supports various formats and sizes.",
+    "keywords": "фавіконка, конвертер, зображення, іконка, веб-розробка, генератор фавіконок, ico, png favicon, converter, image, icon, web development, favicon generator, ico, png",
+    "author": "Rai",
+    "socialDescription": "Simple and fast tool for creating favicons from your images.",
+    "siteName": "Faviconitys"
   }
 }

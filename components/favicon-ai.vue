@@ -24,7 +24,6 @@
       <div class="container">
         <div class="card generator-card">
           <div class="generator-content">
-            <!-- Опис для ШІ -->
             <div class="generator-section">
               <h3 class="generator-section__title">
                 <Icon name="lucide:sparkles" />
@@ -56,8 +55,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- Налаштування стилю -->
             <div class="generator-section">
               <h3 class="generator-section__title">
                 <Icon name="lucide:brush" />
@@ -116,7 +113,6 @@
               </div>
             </div>
 
-            <!-- Кнопка генерації -->
             <div class="generator-actions">
               <button
                 class="btn btn--gradient btn--lg"
@@ -140,7 +136,6 @@
               </p>
             </div>
 
-            <!-- Результати генерації -->
             <div v-if="generatedVariants.length > 0" class="results-section">
               <h3 class="generator-section__title">
                 <Icon name="lucide:image" />
@@ -171,7 +166,6 @@
               </div>
             </div>
 
-            <!-- Розміри для генерації -->
             <div v-if="selectedVariant !== null">
               <SizeSelector v-model="selectedSizes" />
 
@@ -195,7 +189,6 @@
             </div>
           </div>
 
-          <!-- Інструкція з встановлення -->
           <InstallationGuide 
             v-if="finalImages.length > 0"
             :generated-sizes="selectedSizes"
@@ -209,21 +202,20 @@
 <script setup lang="ts">
 import { useToast } from '~/utils/toastUtils'
 import JSZip from 'jszip'
-
+const { t } = useI18n();
 // SEO
-const useHeadHook = useHead({
-  title: 'ШІ генератор фавіконок - Faviconitys',
-  meta: [
-    { 
-      name: 'description', 
-      content: 'Створюйте унікальні фавіконки за допомогою штучного інтелекту. Опишіть ідею та отримайте професійний дизайн.' 
-    }
-  ]
-})
+useHead({
+      title: t('pages.aiGenerator.fullTitle'),
+      meta: [
+        {
+          name: 'description',
+          content: t('pages.aiGenerator.metaDescription'),
+        },
+      ],
+    });
 
 const toast = useToast()
 
-// Налаштування ШІ
 const aiSettings = reactive({
   prompt: '',
   style: 'modern',
@@ -232,7 +224,7 @@ const aiSettings = reactive({
   variants: '3'
 })
 
-// Стан компонента
+
 const isGenerating = ref(false)
 const isProcessing = ref(false)
 const generatedVariants = ref<any[]>([])
@@ -240,7 +232,6 @@ const selectedVariant = ref<number | null>(null)
 const selectedSizes = ref([16, 32, 48, 180, 192, 512])
 const finalImages = ref<any[]>([])
 
-// Приклади промптів
 const promptExamples = [
   'Мінімалістична іконка кави в синіх тонах',
   'Сучасний логотип технологічної компанії',
@@ -250,29 +241,23 @@ const promptExamples = [
   'Символ нескінченності в фіолетових тонах'
 ]
 
-// Симуляція генерації ШІ (в реальному проекті тут буде API виклик)
 const generateAIFavicons = async () => {
   if (!aiSettings.prompt.trim()) return
 
   isGenerating.value = true
   
   try {
-    // Симулюємо затримку генерації
     await new Promise(resolve => setTimeout(resolve, 3000))
-    
-    // Симулюємо згенеровані варіанти
     const variants = []
     const variantCount = parseInt(aiSettings.variants)
     
     for (let i = 0; i < variantCount; i++) {
-      // В реальному проекті тут будуть справжні згенеровані зображення
       const canvas = document.createElement('canvas')
       canvas.width = 64
       canvas.height = 64
       const ctx = canvas.getContext('2d')
       
       if (ctx) {
-        // Створюємо простий градієнт як заглушку
         const gradient = ctx.createLinearGradient(0, 0, 64, 64)
         const colors = ['#10b981', '#14b8a6', '#6366f1', '#8b5cf6', '#f59e0b']
         gradient.addColorStop(0, colors[i % colors.length])
@@ -280,8 +265,7 @@ const generateAIFavicons = async () => {
         
         ctx.fillStyle = gradient
         ctx.fillRect(0, 0, 64, 64)
-        
-        // Додаємо простий текст
+      
         ctx.fillStyle = 'white'
         ctx.font = '24px Arial'
         ctx.textAlign = 'center'
@@ -305,13 +289,12 @@ const generateAIFavicons = async () => {
   }
 }
 
-// Вибір варіанту
+
 const selectVariant = (index: number) => {
   selectedVariant.value = index
   toast.success(`Обрано варіант ${index + 1}`)
 }
 
-// Обробка фінальних фавіконок
 const processFinalFavicons = async () => {
   if (selectedVariant.value === null) return
 
@@ -322,7 +305,6 @@ const processFinalFavicons = async () => {
     const images: any[] = []
     const selectedVariantData = generatedVariants.value[selectedVariant.value]
 
-    // Створюємо зображення для кожного розміру
     for (const size of selectedSizes.value) {
       const canvas = document.createElement('canvas')
       canvas.width = size
@@ -330,27 +312,23 @@ const processFinalFavicons = async () => {
       const ctx = canvas.getContext('2d')
       
       if (ctx) {
-        // Завантажуємо оригінальне зображення
         const img = new Image()
         await new Promise((resolve) => {
           img.onload = resolve
           img.src = selectedVariantData.data
         })
         
-        // Масштабуємо зображення
         ctx.drawImage(img, 0, 0, size, size)
       }
       
       const dataUrl = canvas.toDataURL('image/png')
       const base64Data = dataUrl.split(',')[1]
       
-      // Визначаємо ім'я файлу
       let fileName = `favicon-${size}x${size}.png`
       if (size === 180) fileName = 'apple-touch-icon.png'
       if (size === 192) fileName = 'android-chrome-192x192.png'
       if (size === 512) fileName = 'android-chrome-512x512.png'
       
-      // Додаємо до ZIP
       zip.file(fileName, base64Data, { base64: true })
       
       images.push({
@@ -360,7 +338,6 @@ const processFinalFavicons = async () => {
       })
     }
 
-    // Додаємо favicon.ico
     const icoSize = selectedSizes.value.includes(32) ? 32 : selectedSizes.value.includes(16) ? 16 : selectedSizes.value[0]
     const icoCanvas = document.createElement('canvas')
     icoCanvas.width = icoSize
@@ -379,7 +356,6 @@ const processFinalFavicons = async () => {
     const icoData = icoCanvas.toDataURL('image/png').split(',')[1]
     zip.file('favicon.ico', icoData, { base64: true })
 
-    // Створюємо маніфест
     const manifest = {
       name: "My Website",
       short_name: "Website",
@@ -401,11 +377,9 @@ const processFinalFavicons = async () => {
 
     zip.file('site.webmanifest', JSON.stringify(manifest, null, 2))
 
-    // Генеруємо ZIP
     const zipBuffer = await zip.generateAsync({ type: 'blob' })
     const zipDataUrl = `data:application/zip;base64,${await blobToBase64(zipBuffer)}`
     
-    // Завантажуємо ZIP
     await downloadZipFile(zipDataUrl, 'ai-favicon-package.zip')
     
     finalImages.value = images
@@ -419,7 +393,6 @@ const processFinalFavicons = async () => {
   }
 }
 
-// Допоміжна функція для конвертації blob в base64
 const blobToBase64 = (blob: Blob): Promise<string> => {
   return new Promise((resolve) => {
     const reader = new FileReader()
