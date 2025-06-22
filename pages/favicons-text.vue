@@ -677,6 +677,7 @@ useHead({
 
   .form-select {
     width: 100%;
+    min-height: 46px;
     padding: spacing(sm) spacing(md);
     border: 1px solid var(--border);
     border-radius: border-radius(lg);
