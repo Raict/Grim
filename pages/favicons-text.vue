@@ -38,11 +38,21 @@
                   </div>
                   <div class="form-group form-group--font">
                     <label class="form-label">{{ $t('pages.textGenerator.settings.text.font') }}</label>
-                    <select v-model="textSettings.fontFamily" class="form-select form-select--font">
+                    <!-- <select v-model="textSettings.fontFamily" class="form-select form-select--font">
                       <option v-for="font in fontOptions" :key="font.value" :value="font.value">
                         {{ font.label }}
                       </option>
-                    </select>
+                    </select> -->
+                    <select v-model="textSettings.fontFamily" class="form-select form-select--font">
+  <option
+    v-for="font in fontOptions"
+    :key="font.value"
+    :value="font.value"
+    :style="{ fontFamily: font.value }"
+  >
+    {{ font.label }}
+  </option>
+</select>
                   </div>
                 </div>
                 <div class="form-group">
@@ -90,13 +100,13 @@
                     :key="size"
                     class="favicon-preview-item"
                   >
-                    <canvas
-                      :ref="el => setFaviconPreviewRef(size, el as HTMLCanvasElement | null)"
-                      :width="size"
-                      :height="size"
-                      :style="{ width: size + 'px', height: size + 'px' }"
-                      class="favicon-preview-canvas"
-                    ></canvas>
+                  <canvas
+  :ref="el => setFaviconPreviewRef(size, el as HTMLCanvasElement | null)"
+  :width="size"
+  :height="size"
+  :style="{ width: size + 'px', height: size + 'px' }"
+  class="favicon-preview-canvas"
+/>
                     <div class="favicon-size-label">{{ size }}x{{ size }}</div>
                   </div>
                 </div>
@@ -320,7 +330,12 @@
   
   <script setup lang="ts">
   import JSZip from 'jszip'
+
   
+interface FontObject {
+  value: string
+  url: string
+}
 
   const colorPaletteColumns = Array.from({ length: colorPalette[0].length }, (_, colIdx) =>
   colorPalette.map(row => row[colIdx])
@@ -343,11 +358,16 @@
   const isClient = typeof window !== 'undefined' && typeof document !== 'undefined'
   const selectedSizes = ref([16, 32, 48])
   const isGenerating = ref(false)
+  const fontIsLoading = ref(false)      
   const generatedImages = ref<any[]>([])
+  const toast = useToast()
   const previewCanvas = ref<HTMLCanvasElement | null>(null)
   const faviconPreviewRefs = reactive<Record<number, HTMLCanvasElement | null>>({})
   const fontFamily = ref(textSettings.fontFamily)
-    const availableFontWeights = ref<number[]>([400, 700])
+  const availableFontWeights = ref<number[]>([400, 700])
+  const activeFontFamily = ref(textSettings.fontFamily)
+  const fontLoaded = ref(false);
+
   
 
 
@@ -410,7 +430,7 @@
   }
 
   const fontSize = Math.floor(size * (textSettings.fontSize / 48));
-  ctx.font = `${textSettings.fontWeight} ${fontSize}px ${textSettings.fontFamily}`;
+    ctx.font = `${textSettings.fontWeight} ${fontSize}px ${activeFontFamily.value}`;
   ctx.fillStyle = textSettings.textColor;
   ctx.textAlign = 'center';
   const metrics = ctx.measureText(textSettings.text);
@@ -419,13 +439,101 @@
   ctx.fillText(textSettings.text, size / 2, centerY);
 
   ctx.restore();
-};
+  };
 
+
+  const redrawAllFavicons = () => {
+    if (fontIsLoading.value) return;
+  [16, 32, 48, 64, 96].forEach(size => {
+    const canvas = faviconPreviewRefs[size]
+    if (canvas) drawTextOnCanvas(canvas, size)
+  })
+  updateFavicon(faviconPreviewRefs[32] || null)
+}
+
+
+
+const loadFont = (fontObj: FontObject): void => {
+  if (!document.querySelector(`link[data-font="${fontObj.value}"]`)) {
+    const link = document.createElement('link')
+    link.rel = 'stylesheet'
+    link.href = fontObj.url
+    link.setAttribute('data-font', fontObj.value)
+    document.head.appendChild(link)
+  }
+}
+
+const waitForFontLoad = async (
+  fontFamily: string, 
+  fontWeight: number = 400
+): Promise<boolean> => {
+  const testSpan = document.createElement('span');
+  testSpan.textContent = 'QW@';
+  testSpan.style.position = 'absolute';
+  testSpan.style.visibility = 'hidden';
+  testSpan.style.fontFamily = 'monospace';
+  testSpan.style.fontSize = '40px';
+  document.body.appendChild(testSpan);
+  const baseWidth = testSpan.offsetWidth;
+  testSpan.style.fontFamily = `'${fontFamily}', monospace`;
+  let maxWait = 1000, interval = 20, waited = 0;
+  while (waited < maxWait && testSpan.offsetWidth === baseWidth) {
+    await new Promise(r => setTimeout(r, interval));
+    waited += interval;
+  }
+  document.body.removeChild(testSpan);
+  return testSpan.offsetWidth !== baseWidth;
+}
+
+const  ensureFontLoaded = async (fontFamily: string, fontWeight = 400, fontSize = 32) =>{
+  try {
+    await document.fonts.load(`${fontWeight} ${fontSize}px '${fontFamily}'`);
+    await document.fonts.ready;
+  } catch (e) {
+    console.warn("Font load failed: ", fontFamily, e)
+  }
+}
+
+
+watch(
+  () => textSettings.fontFamily,
+  async (newFont, oldFont) => {
+    if (newFont === oldFont) return
+
+    const fontObj = fontOptions.find(f => f.value === newFont)
+
+    if (fontObj && !fontObj.url) {
+      activeFontFamily.value = newFont
+      fontIsLoading.value = false
+      redrawAllFavicons()
+      return
+    }
+
+    fontIsLoading.value = true
+    let loaded = false
+    try {
+      if (fontObj && fontObj.url) {
+        loadFont(fontObj)
+        await ensureFontLoaded(newFont, textSettings.fontWeight, textSettings.fontSize)
+        loaded = await waitForFontLoad(newFont, textSettings.fontWeight)
+      }
+    } catch { loaded = false }
+    if (loaded) {
+      activeFontFamily.value = newFont
+      fontIsLoading.value = false
+      redrawAllFavicons()
+    } else {
+      fontIsLoading.value = false
+      toast.add({ title: t('error.loadFont'), color: 'error' })
+      textSettings.fontFamily = oldFont
+    }
+  }
+)
 
   
   const updatePreview = async () => {
-    await nextTick()
-    if (previewCanvas.value) {
+    await nextTick() 
+    if (previewCanvas.value && !fontIsLoading.value) {
       drawTextOnCanvas(previewCanvas.value, 150)
     }
   }
@@ -444,7 +552,7 @@
   }
   
   const generateFavicons = async () => {
-    if (!textSettings.text) return
+    if (!textSettings.text && fontIsLoading.value) return
   
     isGenerating.value = true
     
@@ -511,11 +619,9 @@
       await downloadZipFile(zipDataUrl, 'text-favicon-package.zip')
       
       generatedImages.value = images
-    //   toast.success('Фавіконки з тексту успішно згенеровано!')
       
     } catch (error) {
       console.error('Error generating text favicons:', error)
-    //   toast.error('Помилка при генерації фавіконок')
     } finally {
       isGenerating.value = false
     }
@@ -539,7 +645,7 @@
       await nextTick();
       [16, 32, 48, 64, 96].forEach(size => {
         const canvas = faviconPreviewRefs[size]
-        if (canvas) drawTextOnCanvas(canvas, size)
+        if (canvas && !fontIsLoading.value) drawTextOnCanvas(canvas, size)
       })
       updateFavicon(faviconPreviewRefs[32] || null)
     },
@@ -554,11 +660,22 @@
   })
 
 
+  watch(() => textSettings.fontWeight, async (newWeight, oldWeight) => {
+  if (isClient) {
+    fontIsLoading.value = true;
+    await ensureFontLoaded(textSettings.fontFamily, newWeight, textSettings.fontSize);
+    fontIsLoading.value = false;
+    activeFontFamily.value = textSettings.fontFamily;
+    redrawAllFavicons();
+  }
+});
+
+
   
   onMounted(() => {
     [16, 32, 48, 64, 96].forEach(size => {
       const canvas = faviconPreviewRefs[size]
-      if (canvas) drawTextOnCanvas(canvas, size)
+      if (canvas && !fontIsLoading.value) drawTextOnCanvas(canvas, size)
     })
     updateFavicon(faviconPreviewRefs[32] || null)
     updatePreview()

@@ -1,4 +1,4 @@
-export const  getSupportedFontWeights = (fontFamily: string = "Arial"): number[] => {
+export const  getSupportedFontWeightsCanvas = (fontFamily: string = "Arial"): number[] => {
     const testWeights = [100,200,300,400,500,600,700,800,900]
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d')
@@ -19,4 +19,11 @@ export const  getSupportedFontWeights = (fontFamily: string = "Arial"): number[]
       }
     })
     return supported
-  }
+}
+  
+
+
+
+export const getSupportedFontWeights = (fontFamily: string): number[] => {
+  return FONT_WEIGHTS[fontFamily] || [400, 700];
+}
