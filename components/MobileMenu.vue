@@ -31,12 +31,11 @@
         </div>
 
         <div class="mobile-menu__body">
-          <!-- Навігаційні посилання -->
           <div class="mobile-menu__section">
             <h3 class="mobile-menu__section-title">{{ $t('nav.navigation') }}</h3>
             <nav class="mobile-menu__nav">
               <NuxtLink 
-                to="/" 
+                :to="localePath('/')" 
                 class="mobile-menu__nav-link"
                 :class="{ 'mobile-menu__nav-link--active': $route.path === '/' }"
                 @click="isOpen = false"
@@ -46,7 +45,7 @@
               </NuxtLink>
               
               <NuxtLink 
-                to="/favicons" 
+              :to="localePath('/favicons')" 
                 class="mobile-menu__nav-link"
                 :class="{ 'mobile-menu__nav-link--active': $route.path === '/favicons' }"
                 @click="isOpen = false"
@@ -56,7 +55,7 @@
               </NuxtLink>
               
               <NuxtLink 
-                to="/favicons-text" 
+                :to="localePath('/favicons-text')" 
                 class="mobile-menu__nav-link"
                 :class="{ 'mobile-menu__nav-link--active': $route.path === '/favicons-text' }"
                 @click="isOpen = false"
@@ -66,7 +65,7 @@
               </NuxtLink>
               
               <!-- <NuxtLink 
-                to="/favicon-ai" 
+                                :to="localePath('/favicon-ai')" 
                 class="mobile-menu__nav-link"
                 :class="{ 'mobile-menu__nav-link--active': $route.path === '/favicon-ai' }"
                 @click="isOpen = false"
@@ -112,11 +111,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+const localePath = useLocalePath()
 
 const isOpen = ref(false)
-
-// Блокуємо скрол коли меню відкрите
 watch(isOpen, (newValue) => {
   if (newValue) {
     document.body.style.overflow = 'hidden'

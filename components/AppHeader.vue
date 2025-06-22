@@ -9,9 +9,19 @@
           <span class="header__logo-text">Faviconitys</span>
         </NuxtLink>
 
+        
+
         <div class="header__menu">
           <NuxtLink 
-            to="/favicons" 
+                :to=" localePath('/')" 
+                class="header__link"
+                :class="{ 'header__link--active': $route.path === '/' }"
+              >
+                <Icon name="lucide:home" />
+                <span>{{ $t('nav.home') }}</span>
+              </NuxtLink>
+          <NuxtLink 
+            :to=" localePath('/favicons')" 
             class="header__link"
             :class="{ 'header__link--active': $route.path === '/favicons' }"
           >
@@ -20,7 +30,7 @@
           </NuxtLink>
           
           <NuxtLink 
-            to="/favicons-text" 
+            :to="localePath('/favicons-text')" 
             class="header__link"
             :class="{ 'header__link--active': $route.path === '/favicons-text' }"
           >
@@ -29,7 +39,7 @@
           </NuxtLink>
           
           <!-- <NuxtLink 
-            to="/favicon-ai" 
+                                            :to="localePath('/favicon-ai')" 
             class="header__link"
             :class="{ 'header__link--active': $route.path === '/favicon-ai' }"
           >
@@ -49,6 +59,7 @@
 </template>
 
 <script setup lang="ts">
+const localePath = useLocalePath()
 </script>
 
 <style lang="scss" scoped>
