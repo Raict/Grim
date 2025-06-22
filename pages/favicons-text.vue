@@ -57,6 +57,20 @@
                     />
                     <span class="range-value">{{ textSettings.fontSize }}px</span>
                   </div>
+
+                  <div class="form-group">
+                    <label class="form-label">{{ $t('pages.textGenerator.settings.text.border') }}</label>
+  <div class="range-group">
+    <input
+  v-model="textSettings.borderRadiusPercent"
+  type="range"
+  min="0"
+  max="100"
+  class="form-range"
+/>
+    <span class="range-value">{{ textSettings.borderRadiusPercent }}%</span>
+  </div>
+</div>
                 </div>
   
                 <!-- Preview Favicons (row, right-to-left) -->
@@ -368,7 +382,8 @@
     textColor: '#ffffff',
     backgroundColor: '#10b981',
     backgroundType: 'solid',
-    gradientColor: '#14b8a6'
+      gradientColor: '#14b8a6',
+      borderRadiusPercent: 50
   })
   
   const selectedSizes = ref([16, 32, 48])
@@ -382,37 +397,70 @@
   }
   
   const drawTextOnCanvas = (canvas: HTMLCanvasElement, size: number) => {
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-  
-    ctx.clearRect(0, 0, size, size)
-  
-    if (textSettings.backgroundType === 'transparent') {
-      // Transparent background
-    } else if (textSettings.backgroundType === 'gradient') {
-      const gradient = ctx.createLinearGradient(0, 0, size, size)
-      gradient.addColorStop(0, textSettings.backgroundColor)
-      gradient.addColorStop(1, textSettings.gradientColor)
-      ctx.fillStyle = gradient
-      ctx.fillRect(0, 0, size, size)
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  ctx.clearRect(0, 0, size, size);
+
+      const percent = Math.max(0, Math.min(textSettings.borderRadiusPercent, 100))
+      const radius = (percent / 100) * (size / 2)
+  ctx.save();
+
+  if (radius >= size / 2) {
+    ctx.beginPath();
+    ctx.arc(size / 2, size / 2, size / 2, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.clip();
+    // Фон
+    if (textSettings.backgroundType === 'gradient') {
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, textSettings.backgroundColor);
+      gradient.addColorStop(1, textSettings.gradientColor);
+      ctx.fillStyle = gradient;
     } else {
-      ctx.fillStyle = textSettings.backgroundColor
-      ctx.fillRect(0, 0, size, size)
+      ctx.fillStyle = textSettings.backgroundColor;
     }
-  
-    // Better text centering
-    const fontSize = Math.floor(size * (textSettings.fontSize / 48))
-    ctx.font = `${fontSize}px ${textSettings.fontFamily}`
-    ctx.fillStyle = textSettings.textColor
-    ctx.textAlign = 'center'
-    
-    // Improved vertical centering
-    const metrics = ctx.measureText(textSettings.text)
-    const actualHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
-    const centerY = size / 2 + (actualHeight / 2) - metrics.actualBoundingBoxDescent
-    
-    ctx.fillText(textSettings.text, size / 2, centerY)
+    ctx.fillRect(0, 0, size, size);
+  } else {
+    // Скруглений квадрат
+    ctx.beginPath();
+    ctx.moveTo(radius, 0);
+    ctx.lineTo(size - radius, 0);
+    ctx.quadraticCurveTo(size, 0, size, radius);
+    ctx.lineTo(size, size - radius);
+    ctx.quadraticCurveTo(size, size, size - radius, size);
+    ctx.lineTo(radius, size);
+    ctx.quadraticCurveTo(0, size, 0, size - radius);
+    ctx.lineTo(0, radius);
+    ctx.quadraticCurveTo(0, 0, radius, 0);
+    ctx.closePath();
+    ctx.clip();
+    // Фон
+    if (textSettings.backgroundType === 'gradient') {
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, textSettings.backgroundColor);
+      gradient.addColorStop(1, textSettings.gradientColor);
+      ctx.fillStyle = gradient;
+    } else {
+      ctx.fillStyle = textSettings.backgroundColor;
+    }
+    ctx.fillRect(0, 0, size, size);
   }
+
+  // Текст
+  const fontSize = Math.floor(size * (textSettings.fontSize / 48));
+  ctx.font = `${fontSize}px ${textSettings.fontFamily}`;
+  ctx.fillStyle = textSettings.textColor;
+  ctx.textAlign = 'center';
+  const metrics = ctx.measureText(textSettings.text);
+  const actualHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+  const centerY = size / 2 + (actualHeight / 2) - metrics.actualBoundingBoxDescent;
+  ctx.fillText(textSettings.text, size / 2, centerY);
+
+  ctx.restore();
+};
+
+
   
   const updatePreview = async () => {
     await nextTick()
@@ -738,7 +786,7 @@
 
   .favicons-preview-row {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-end;
     gap: 16px;
     margin-bottom: 32px;
@@ -754,8 +802,8 @@
     }
   }
   .favicon-preview-canvas {
-    border-radius: 6px;
-    background: #fff;
+    background: transparent;
+    overflow: hidden;
     box-shadow: 0 2px 10px rgba(0,0,0,0.04);
   }
 

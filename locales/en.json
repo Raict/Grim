@@ -104,8 +104,8 @@
           "placeholder": "A",
           "hint": "Maximum 3 characters for best result",
           "font": "Font",
-          "size": "Font size"
-        },
+          "size": "Font size",
+          "border":"Border radius"        },
         "colors": {
           "title": "Colors and Style",
           "textColor": "Text color",

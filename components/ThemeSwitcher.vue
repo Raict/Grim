@@ -45,6 +45,7 @@
     color: var(--text-secondary);
     font-size: font-size(sm);
     font-weight: font-weight(medium);
+    min-height: 46px;
     cursor: pointer;
     @include transition();
     
