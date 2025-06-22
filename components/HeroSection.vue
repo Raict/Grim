@@ -20,7 +20,7 @@
               @click="scrollToConverter"
             >
               <Icon name="lucide:upload" />
-              {{ $t('hero.uploadButton') }}
+              <span class="upload-text">{{ $t('hero.uploadButton') }}</span>
             </button>
             
             <div class="hero-features">
@@ -83,6 +83,9 @@
       height: 16px;
       color: var(--success);
     }
+  }
+  .upload-text{
+    margin-left: spacing(sm);
   }
   </style>
   

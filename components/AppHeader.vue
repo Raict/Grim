@@ -25,7 +25,7 @@
             class="header__link"
             :class="{ 'header__link--active': $route.path === '/favicons' }"
           >
-            <Icon name="lucide:image" />
+            <Icon name="lucide:image"  class="home"/>
             <span>{{ $t('nav.converter') }}</span>
           </NuxtLink>
           
@@ -123,10 +123,11 @@ const localePath = useLocalePath()
   &__menu {
     display: none;
   align-items: center;
-  gap: spacing(lg);
+  gap: spacing(sm);
 
   @include respond-to(xl) {
     display: flex;
+    gap: spacing(md);
   }
   }
   
@@ -243,7 +244,7 @@ const localePath = useLocalePath()
     }
     
     &__menu {
-      gap: spacing(xl);
+      gap: spacing(sm);
     }
     
     &__link {
@@ -268,6 +269,7 @@ const localePath = useLocalePath()
       flex: 1;
       justify-content: center;
       max-width: 600px;
+      gap: spacing(lg);
     }
   }
 }
@@ -354,4 +356,7 @@ const localePath = useLocalePath()
     transform: translateY(0);
   }
 }
+.home {
+      width: 18px;
+    }
 </style>

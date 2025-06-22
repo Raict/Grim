@@ -50,7 +50,7 @@
                 :class="{ 'mobile-menu__nav-link--active': $route.path === '/favicons' }"
                 @click="isOpen = false"
               >
-                <Icon name="lucide:image" />
+                <Icon name="lucide:image"  class="home"/>
                 <span>{{ $t('nav.converter') }}</span>
               </NuxtLink>
               
@@ -304,6 +304,11 @@ watch(isOpen, (newValue) => {
       svg {
         color: var(--primary);
       }
+
+
+    }
+    .home {
+      width: 18px;
     }
   }
   
@@ -374,7 +379,6 @@ watch(isOpen, (newValue) => {
   }
 }
 
-// Стилі для різних станів теми
 .light-mode .mobile-menu {
   &__trigger:hover {
     box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);

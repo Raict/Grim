@@ -77,7 +77,7 @@
         <div class="features-grid">
           <NuxtLink to="/favicons" class="feature-card feature-card--primary">
             <div class="feature-card__icon">
-              <Icon name="lucide:image"/>
+              <Icon name="lucide:image" :size="46"/>
             </div>
             <div class="feature-card__content">
               <h3 class="feature-card__title">{{ $t('pages.home.features.converter.title') }}</h3>
@@ -107,7 +107,7 @@
           <!-- Генератор з тексту -->
           <NuxtLink to="/favicons-text" class="feature-card feature-card--secondary">
             <div class="feature-card__icon">
-              <Icon name="lucide:type" />
+              <Icon name="lucide:type" :size="46"/>
             </div>
             <div class="feature-card__content">
               <h3 class="feature-card__title">{{ $t('pages.home.features.text.title') }}</h3>

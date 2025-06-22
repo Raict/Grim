@@ -328,7 +328,7 @@
 
   const textSettings = reactive({
     text: 'FS',
-    fontFamily: 'Arial',
+    fontFamily: 'Bookman',
       fontSize: 32,
       fontWeight: 400,
     textColor: '#ffffff',
