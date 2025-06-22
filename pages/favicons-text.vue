@@ -51,7 +51,7 @@
                     <input
                       v-model="textSettings.fontSize"
                       type="range"
-                      min="0"
+                      min="8"
                       max="48"
                       class="form-range"
                     />
@@ -230,6 +230,20 @@
                     </label>
                   </div>
                 </div>
+
+                <div v-if="textSettings.backgroundType === 'transparent'" class="form-group">
+  <label class="form-label">Opacity</label>
+  <div class="range-group">
+    <input
+      v-model="textSettings.backgroundAlpha"
+      type="range"
+      min="1"
+      max="100"
+      class="form-range"
+    />
+    <span class="range-value">{{ textSettings.backgroundAlpha }}%</span>
+  </div>
+</div>
   
                 <div v-if="textSettings.backgroundType === 'gradient'" class="form-group">
                   <label class="form-label">{{ $t('pages.textGenerator.settings.colors.gradientColor') }}</label>
@@ -378,12 +392,13 @@
   const textSettings = reactive({
     text: 'A',
     fontFamily: 'Arial',
-    fontSize: 24,
+    fontSize: 32,
     textColor: '#ffffff',
-    backgroundColor: '#10b981',
-    backgroundType: 'solid',
-      gradientColor: '#14b8a6',
-      borderRadiusPercent: 50
+    backgroundColor: '#6ee7b7',
+    backgroundType: 'gradient',
+      gradientColor: '#3814b8',
+      borderRadiusPercent: 50,
+      backgroundAlpha: 0,
   })
   
   const selectedSizes = ref([16, 32, 48])
@@ -402,27 +417,18 @@
 
   ctx.clearRect(0, 0, size, size);
 
-      const percent = Math.max(0, Math.min(textSettings.borderRadiusPercent, 100))
-      const radius = (percent / 100) * (size / 2)
+  const percent = Math.max(0, Math.min(textSettings.borderRadiusPercent, 100));
+  const radius = (percent / 100) * (size / 2);
+
   ctx.save();
 
+  // Форма: круг чи скруглений квадрат
   if (radius >= size / 2) {
     ctx.beginPath();
     ctx.arc(size / 2, size / 2, size / 2, 0, 2 * Math.PI);
     ctx.closePath();
     ctx.clip();
-    // Фон
-    if (textSettings.backgroundType === 'gradient') {
-      const gradient = ctx.createLinearGradient(0, 0, size, size);
-      gradient.addColorStop(0, textSettings.backgroundColor);
-      gradient.addColorStop(1, textSettings.gradientColor);
-      ctx.fillStyle = gradient;
-    } else {
-      ctx.fillStyle = textSettings.backgroundColor;
-    }
-    ctx.fillRect(0, 0, size, size);
   } else {
-    // Скруглений квадрат
     ctx.beginPath();
     ctx.moveTo(radius, 0);
     ctx.lineTo(size - radius, 0);
@@ -435,15 +441,24 @@
     ctx.quadraticCurveTo(0, 0, radius, 0);
     ctx.closePath();
     ctx.clip();
-    // Фон
-    if (textSettings.backgroundType === 'gradient') {
-      const gradient = ctx.createLinearGradient(0, 0, size, size);
-      gradient.addColorStop(0, textSettings.backgroundColor);
-      gradient.addColorStop(1, textSettings.gradientColor);
-      ctx.fillStyle = gradient;
-    } else {
-      ctx.fillStyle = textSettings.backgroundColor;
-    }
+  }
+
+  // Фон: прозорість, градієнт, суцільний
+  if (textSettings.backgroundType === 'transparent') {
+    // !!! Тут головна зміна:
+    ctx.globalAlpha = textSettings.backgroundAlpha / 100; // 0 — прозорий, 100 — видимий
+    ctx.fillStyle = textSettings.backgroundColor;
+    ctx.fillRect(0, 0, size, size);
+    ctx.globalAlpha = 1.0;
+  } else if (textSettings.backgroundType === 'gradient') {
+    const gradient = ctx.createLinearGradient(0, 0, size, size);
+    gradient.addColorStop(0, textSettings.backgroundColor);
+    gradient.addColorStop(1, textSettings.gradientColor);
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, size, size);
+  } else {
+    // solid
+    ctx.fillStyle = textSettings.backgroundColor;
     ctx.fillRect(0, 0, size, size);
   }
 
@@ -459,6 +474,7 @@
 
   ctx.restore();
 };
+
 
 
   
@@ -804,7 +820,6 @@
   .favicon-preview-canvas {
     background: transparent;
     overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
   }
 
   .palettes-row {
@@ -896,6 +911,7 @@
       display: flex;
       flex-direction: column;
       gap: 2px;
+      margin-left: spacing(sm);
     }
   }
   .color-swatch {
@@ -979,10 +995,10 @@
         background: var(--primary);
         border-color: var(--primary);
         
-        &::after {
-          opacity: 1;
-          transform: scale(1);
-        }
+        // &::after {
+        //   opacity: 1;
+        //   transform: scale(0.8);
+        // }
       }
     }
   }
