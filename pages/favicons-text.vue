@@ -327,7 +327,7 @@
 )
 
   const textSettings = reactive({
-    text: 'A',
+    text: 'FS',
     fontFamily: 'Arial',
       fontSize: 32,
       fontWeight: 400,
