@@ -12,7 +12,7 @@
     "theme": "Theme",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-"appDescription": "Simple and fast tool for creating favicons from your images. Supports various formats and sizes."
+    "appDescription": "Simple and fast tool for creating favicons from your images. Supports various formats and sizes."
   },
   "theme": {
     "light": "Light",
@@ -32,7 +32,7 @@
     }
   },
   "pages": {
-"home": {
+    "home": {
       "title": "Faviconitys",
       "subtitle": "Create favicons easily",
       "description": "Powerful tool for creating professional favicons. Convert images, generate from text.",
@@ -107,9 +107,10 @@
           "hint": "Maximum 3 characters for best result",
           "font": "Font",
           "size": "Font size",
-          "border":"Border radius",
+          "border": "Border radius",
           "weight": "Font weight",
-           "opacity": "Opacity"      },
+          "opacity": "Opacity"
+        },
         "colors": {
           "title": "Colors and Style",
           "textColor": "Text color",
@@ -129,7 +130,7 @@
       "generating": "Generating..."
     },
     "aiGenerator": {
-"title": "AI Favicon Generator",
+      "title": "AI Favicon Generator",
       "subtitle": "Create unique favicons with artificial intelligence",
       "description": "Describe your idea, choose style, and our AI will create professional favicon for you",
       "fullTitle": "AI Favicon Generator - Faviconitys",
@@ -181,7 +182,69 @@
       "selectVariant": "Select this variant",
       "downloadFavicons": "Download Favicons",
       "processing": "Processing..."
-    }
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "lastUpdated": "Last updated: December 2024",
+      "intro": "This Privacy Policy describes how Faviconitys collects, uses, and protects your information when you use our service.",
+      "sections": {
+        "dataCollection": {
+          "title": "Information We Collect",
+          "content": "We collect minimal information to provide our service. This includes uploaded images (processed locally), usage analytics through Google Analytics, and advertising data through Google AdSense."
+        },
+        "dataUsage": {
+          "title": "How We Use Your Information",
+          "content": "Your uploaded images are processed locally in your browser and are not stored on our servers. We use analytics to improve our service and advertising to support free access."
+        },
+        "cookies": {
+          "title": "Cookies and Tracking",
+          "content": "We use cookies for analytics and advertising purposes. You can control cookie preferences through your browser settings or our cookie consent banner."
+        },
+        "thirdParty": {
+          "title": "Third-Party Services",
+          "content": "We use Google Analytics for usage statistics and Google AdSense for advertising. These services may collect data according to their own privacy policies."
+        },
+        "dataProtection": {
+          "title": "Data Protection",
+          "content": "We implement appropriate security measures to protect your information. Images are processed locally and not transmitted to our servers."
+        },
+        "contact": {
+          "title": "Contact Us",
+          "content": "If you have questions about this Privacy Policy, please contact us through our website."
+        }
+      }
+    },
+    "terms": {
+      "title": "Terms of Use",
+      "lastUpdated": "Last updated: December 2024",
+      "intro": "By using Faviconitys, you agree to these terms and conditions.",
+      "sections": {
+        "serviceDescription": {
+          "title": "Service Description",
+          "content": "Faviconitys is a free online tool for creating favicons from images, text, or AI generation. The service is provided as-is without warranties."
+        },
+        "userResponsibilities": {
+          "title": "User Responsibilities",
+          "content": "You are responsible for ensuring you have rights to any images you upload. You must not use the service for illegal or harmful purposes."
+        },
+        "intellectualProperty": {
+          "title": "Intellectual Property",
+          "content": "You retain rights to your uploaded content. Generated favicons are yours to use. Our service and branding remain our property."
+        },
+        "limitations": {
+          "title": "Limitations of Liability",
+          "content": "We provide the service free of charge and cannot guarantee uninterrupted availability. We are not liable for any damages from service use."
+        },
+        "modifications": {
+          "title": "Modifications",
+          "content": "We may update these terms at any time. Continued use of the service constitutes acceptance of updated terms."
+        },
+        "termination": {
+          "title": "Termination",
+          "content": "We reserve the right to terminate or restrict access to our service at any time without notice."
+        }
+      }
+}
   },
   "size": {
     "16x16": "Standard Favicon",
@@ -197,7 +260,7 @@
     "selectAll": "Select All",
     "clear": "Clear Selection"
   },
-"converter": {
+  "converter": {
     "title": "Favicon Converter",
     "fullTitle": "Faviconitys - Image to Favicon Converter",
     "selectSize": "Select Size",
@@ -249,7 +312,19 @@
   },
   "footer": {
     "copyright": "© 2024 Faviconitys. All rights reserved.",
-    "madeWith": "Made with ❤️ in Ukraine"
+    "madeWith": "Made with ❤️ in Ukraine",
+    "links": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Use",
+      "contact": "Contact",
+      "about": "About"
+    },
+    "description": "Free online favicon generator and converter. Create professional favicons from images, text, or AI generation.",
+    "social": {
+      "title": "Follow Us",
+      "github": "GitHub",
+      "twitter": "Twitter"
+    }
   },
   "seo": {
     "fullTitle": "Faviconitys - Convert Images to Favicons",
@@ -260,9 +335,20 @@
     "siteName": "Faviconitys"
   },
   "cookie": {
-    "title": "Використання cookies",
-    "text": "Цей сайт використовує файли cookie для надання своїх послуг, персоналізації реклами та аналізу трафіку. Натискаючи «Прийняти», ви погоджуєтесь на використання файлів cookie.",
-    "accept": "Прийняти",
-    "decline": "Відхилити"
+    "title": "Cookie Consent",
+    "text": "We use cookies to improve your experience and show personalized ads. By continuing to use our site, you accept our use of cookies.",
+    "accept": "Accept All",
+    "decline": "Decline",
+    "customize": "Customize",
+    "necessary": "Necessary",
+    "analytics": "Analytics",
+    "advertising": "Advertising",
+    "preferences": "Preferences",
+    "details": {
+      "necessary": "Essential cookies required for basic website functionality.",
+      "analytics": "Help us understand how visitors interact with our website.",
+      "advertising": "Used to show relevant advertisements and measure their effectiveness.",
+      "preferences": "Remember your settings and preferences for future visits."
+    }
   }
 }

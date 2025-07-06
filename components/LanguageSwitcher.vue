@@ -126,6 +126,7 @@
   .language-switcher {
     position: relative;
     display: inline-block;
+    width: 100%;
     
     &__trigger {
       display: flex;
@@ -139,7 +140,7 @@
       font-size: font-size(sm);
       font-weight: font-weight(medium);
       cursor: pointer;
-      min-width: 100px;
+      width: 100%;
       min-height: 46px;
       @include transition();
       
