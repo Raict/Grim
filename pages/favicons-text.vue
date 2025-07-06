@@ -330,6 +330,8 @@
   
   <script setup lang="ts">
   import JSZip from 'jszip'
+  import { saveAs } from 'file-saver'
+
 
   
 interface FontObject {
@@ -552,91 +554,79 @@ watch(
   }
   
   const generateFavicons = async () => {
-    if (!textSettings.text && fontIsLoading.value) return
-  
-    isGenerating.value = true
-    
-    try {
-      const zip = new JSZip()
-      const images: any[] = []
-  
-      for (const size of selectedSizes.value) {
-        const canvas = document.createElement('canvas')
-        canvas.width = size
-        canvas.height = size
-        
-        drawTextOnCanvas(canvas, size)
-        
-        const dataUrl = canvas.toDataURL('image/png')
-        const base64Data = dataUrl.split(',')[1]
-        
-        let fileName = `favicon-${size}x${size}.png`
-        if (size === 180) fileName = 'apple-touch-icon.png'
-        if (size === 192) fileName = 'android-chrome-192x192.png'
-        if (size === 512) fileName = 'android-chrome-512x512.png'
-        
-        zip.file(fileName, base64Data, { base64: true })
-        
-        images.push({
-          size,
-          dataUrl,
-          fileName
-        })
-      }
-  
-      const icoSize = selectedSizes.value.includes(32) ? 32 : selectedSizes.value.includes(16) ? 16 : selectedSizes.value[0]
-      const icoCanvas = document.createElement('canvas')
-      icoCanvas.width = icoSize
-      icoCanvas.height = icoSize
-      drawTextOnCanvas(icoCanvas, icoSize)
-      const icoData = icoCanvas.toDataURL('image/png').split(',')[1]
-      zip.file('favicon.ico', icoData, { base64: true })
-  
-      const manifest = {
-        name: "My Website",
-        short_name: "Website",
-        icons: [] as Array<{ src: string; sizes: string; type: string }>,
-        theme_color: textSettings.backgroundColor,
-        background_color: "#ffffff",
-        display: "standalone"
-      }
-  
-      images.forEach(({ size, fileName }) => {
-        if (size >= 192) {
-          manifest.icons.push({
-            src: `/${fileName}`,
-            sizes: `${size}x${size}`,
-            type: "image/png"
-          })
-        }
+  if (!textSettings.text && fontIsLoading.value) return
+
+  isGenerating.value = true
+
+  try {
+    const zip = new JSZip()
+    const images: any[] = []
+
+    for (const size of selectedSizes.value) {
+      const canvas = document.createElement('canvas')
+      canvas.width = size
+      canvas.height = size
+
+      drawTextOnCanvas(canvas, size)
+
+      const dataUrl = canvas.toDataURL('image/png')
+      const base64Data = dataUrl.split(',')[1]
+
+      let fileName = `favicon-${size}x${size}.png`
+      if (size === 180) fileName = 'apple-touch-icon.png'
+      if (size === 192) fileName = 'android-chrome-192x192.png'
+      if (size === 512) fileName = 'android-chrome-512x512.png'
+
+      // Save as binary Blob, not base64
+      const response = await fetch(dataUrl)
+      const blob = await response.blob()
+      zip.file(fileName, blob)
+
+      images.push({
+        size,
+        dataUrl,
+        fileName
       })
-  
-      zip.file('site.webmanifest', JSON.stringify(manifest, null, 2))
-  
-      const zipBuffer = await zip.generateAsync({ type: 'blob' })
-      const zipDataUrl = `data:application/zip;base64,${await blobToBase64(zipBuffer)}`
-      
-      await downloadZipFile(zipDataUrl, 'text-favicon-package.zip')
-      
-      generatedImages.value = images
-      
-    } catch (error) {
-      console.error('Error generating text favicons:', error)
-    } finally {
-      isGenerating.value = false
     }
+
+    // Add favicon.ico as a PNG (for real ICO you’d need special logic)
+    const icoSize = selectedSizes.value.includes(32) ? 32 : selectedSizes.value.includes(16) ? 16 : selectedSizes.value[0]
+    const icoCanvas = document.createElement('canvas')
+    icoCanvas.width = icoSize
+    icoCanvas.height = icoSize
+    drawTextOnCanvas(icoCanvas, icoSize)
+    const icoDataUrl = icoCanvas.toDataURL('image/png')
+    const icoBlob = await (await fetch(icoDataUrl)).blob()
+    zip.file('favicon.ico', icoBlob)
+
+    // Add manifest file
+    const manifest = {
+      name: "My Website",
+      short_name: "Website",
+      icons: images.filter(x => x.size >= 192).map(({ size, fileName }) => ({
+        src: `/${fileName}`,
+        sizes: `${size}x${size}`,
+        type: "image/png"
+      })),
+      theme_color: textSettings.backgroundColor,
+      background_color: "#ffffff",
+      display: "standalone"
+    }
+    zip.file('site.webmanifest', JSON.stringify(manifest, null, 2))
+
+    // Generate ZIP as Blob and trigger download
+    const zipBuffer = await zip.generateAsync({ type: 'blob' })
+    saveAs(zipBuffer, 'text-favicon-package.zip')
+
+    generatedImages.value = images
+
+  } catch (error) {
+    console.error('Error generating text favicons:', error)
+  } finally {
+    isGenerating.value = false
   }
+}
   
-  const blobToBase64 = (blob: Blob): Promise<string> => {
-    return new Promise((resolve) => {
-      const reader = new FileReader()
-      reader.onload = () => {
-        const result = reader.result as string
-        resolve(result.split(',')[1])
-      }
-      reader.readAsDataURL(blob)
-    })
-  }
   
   watch(textSettings, updatePreview, { deep: true })
   watch(

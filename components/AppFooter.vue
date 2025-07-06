@@ -237,18 +237,6 @@
     &--active {
       color: var(--primary);
       font-weight: font-weight(medium);
-      
-      &::before {
-        content: '';
-        position: absolute;
-        left: -spacing(sm);
-        top: 50%;
-        transform: translateY(-50%);
-        width: 3px;
-        height: 16px;
-        background: var(--primary);
-        border-radius: border-radius(full);
-      }
     }
   }
   

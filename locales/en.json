@@ -275,6 +275,9 @@
     "clear": "Clear",
     "cleared": "Converter cleared successfully"
   },
+"notify": {
+  "zipGeneratedsuccess": "ZIP archive with favicons has been created successfully!"
+},
   "installation": {
     "title": "Installation Guide",
     "steps": {

@@ -77,8 +77,10 @@
   </template>
   
   <script setup lang="ts">
-  
-  const { $trpc } = useNuxtApp()
+  import JSZip from "jszip"
+  import pica from "pica" 
+  import { saveAs } from "file-saver";
+
   const toast = useToast()
   const i18n = useI18n()
   
@@ -124,54 +126,88 @@
     })
   }
   
-  const processImages = async () => {
-    if (!selectedFile.value) return
-  
-    isProcessing.value = true
-    progress.value = 0
-    const progressInterval = setInterval(() => {
-      if (progress.value < 90) {
-        progress.value += Math.random() * 15
-      }
-    }, 200)
-  
-    try {
-      const base64 = await fileToBase64(selectedFile.value)
-      progress.value = 20
-  
-      const result = await $trpc.favicon.convert.mutate({
-        imageData: base64,
-        sizes: selectedSizes.value
+  async function fileToImageBitmap(file: File) {
+  return await createImageBitmap(file)
+}
+
+async function resizeImage(imageBitmap: ImageBitmap, size: number): Promise<Blob> {
+  const canvas = document.createElement('canvas')
+  canvas.width = size
+  canvas.height = size
+  await pica().resize(imageBitmap, canvas)
+  return await new Promise(resolve => canvas.toBlob(blob => resolve(blob!), "image/png"))
+}
+
+async function processImages() {
+  if (!selectedFile.value) return
+
+  isProcessing.value = true
+  progress.value = 0
+
+  try {
+    const imageBitmap = await fileToImageBitmap(selectedFile.value)
+    progress.value = 10
+
+    const processed = await Promise.all(
+      selectedSizes.value.map(async (size) => {
+        const blob = await resizeImage(imageBitmap, size)
+        const dataUrl = await blobToDataUrl(blob)
+        let fileName = `favicon-${size}x${size}.png`
+        if (size === 180) fileName = "apple-touch-icon.png"
+        if (size === 192) fileName = "android-chrome-192x192.png"
+        if (size === 512) fileName = "android-chrome-512x512.png"
+        return { size, dataUrl, fileName, blob }
       })
-  
-      progress.value = 80
-  
-      processedImages.value = await Promise.all(
-        result.images.map(async (img: { size: number; dataUrl: string; fileName: string }) => {
-          const blob = await (await fetch(img.dataUrl)).blob()
-          return { ...img, blob }
-        })
-      )
-  
-      await downloadZipFile(result.zipData)
-      progress.value = 100
-  
-      showSuccessToast()
-    } catch (error) {
-      console.error('Error processing images:', error)
-      showErrorToast()
-    } finally {
-      clearInterval(progressInterval)
-      setTimeout(() => {
-        isProcessing.value = false
-        progress.value = 0
-      }, 1000)
+    )
+    progress.value = 70
+
+    const zip = new JSZip()
+    for (const img of processed) {
+      zip.file(img.fileName, img.blob)
     }
+
+    const manifest = {
+      name: "My Website",
+      short_name: "Website",
+      icons: processed.filter(x => x.size >= 192).map(x => ({
+        src: "/" + x.fileName,
+        sizes: `${x.size}x${x.size}`,
+        type: "image/png",
+      })),
+      theme_color: "#10b981",
+      background_color: "#ffffff",
+      display: "standalone",
+    }
+    zip.file("site.webmanifest", JSON.stringify(manifest, null, 2))
+
+    const zipBlob = await zip.generateAsync({ type: "blob" })
+    progress.value = 90
+
+    saveAs(zipBlob, "favicons.zip")
+    progress.value = 100
+
+    processedImages.value = processed
+    showSuccessToast()
+  } catch (e) {
+    showErrorToast()
+  } finally {
+    isProcessing.value = false
+    progress.value = 0
   }
+}
+
+// Helper: Blob to DataURL
+function blobToDataUrl(blob: Blob): Promise<string> {
+  return new Promise(resolve => {
+    const reader = new FileReader()
+    reader.onload = e => resolve(e.target!.result as string)
+    reader.readAsDataURL(blob)
+  })
+}
   
   const showSuccessToast = () => {
     toast.add({
-      title: 'ZIP архів з фавіконками успішно створено!',
+      title: i18n.t('notify.zipGeneratedsuccess'),
       type: 'foreground'
     })
   }

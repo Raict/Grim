@@ -93,9 +93,9 @@ const localePath = useLocalePath()
     &:hover {
       transform: scale(1.02);
       
-      .header__logo-icon {
-        transform: scale(1.1);
-      }
+      // .header__logo-icon {
+      //   transform: scale(1.1);
+      // }
     }
   }
   
@@ -331,11 +331,11 @@ const localePath = useLocalePath()
     @include transition();
   }
   
-  .header__logo:hover &::after {
-    opacity: 1;
-    transform: scale(1);
-    animation: pulse 1.5s infinite;
-  }
+  // .header__logo:hover &::after {
+  //   opacity: 1;
+  //   transform: scale(1);
+  //   animation: pulse 1.5s infinite;
+  // }
 }
 
 .header__link {
