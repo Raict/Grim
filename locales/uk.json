@@ -411,7 +411,8 @@
     "keywords": "фавіконка, конвертер, зображення, іконка, веб-розробка, генератор фавіконок, ico, png favicon, converter, image, icon, web development, favicon generator, ico, png",
     "author": "Rai",
     "socialDescription": "Простий та швидкий інструмент для створення фавіконок з ваших зображень.",
-    "siteName": "Faviconitys"
+    "siteName": "Faviconitys",
+    "ogImageAlt": "Faviconitys - Створюйте фавіконки з зображень"
   },
   "cookie": {
     "title": "Згода на використання файлів cookie",
