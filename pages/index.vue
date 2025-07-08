@@ -168,7 +168,7 @@
     </section>
 
     <!-- Google AdSense Section -->
-    <section class="adsense-section">
+    <!-- <section class="adsense-section">
       <div class="container">
         <div class="adsense-placeholder">
           <div class="adsense-content">
@@ -177,7 +177,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <!-- Benefits Section -->
     <!-- <section class="benefits-section">
