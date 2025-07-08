@@ -71,6 +71,15 @@
               <ul class="footer__links">
                 <li>
                   <NuxtLink 
+                    to="/faq" 
+                    class="footer__link"
+                    :class="{ 'footer__link--active': $route.path === '/faq' }"
+                  >
+                    {{ $t('nav.faq') }}
+                  </NuxtLink>
+                </li>
+                <li>
+                  <NuxtLink 
                     to="/privacy" 
                     class="footer__link"
                     :class="{ 'footer__link--active': $route.path === '/privacy' }"
@@ -132,6 +141,7 @@
 .footer {
   background: var(--bg-secondary);
   border-top: 1px solid var(--border);
+  margin-top: spacing(4xl);
   
   &__content {
     padding: spacing(3xl) 0 spacing(lg);
@@ -237,6 +247,18 @@
     &--active {
       color: var(--primary);
       font-weight: font-weight(medium);
+      
+    //   &::before {
+    //     content: '';
+    //     position: absolute;
+    //     left: -spacing(sm);
+    //     top: 50%;
+    //     transform: translateY(-50%);
+    //     width: 3px;
+    //     height: 16px;
+    //     background: var(--primary);
+    //     border-radius: border-radius(full);
+    //   }
     }
   }
   

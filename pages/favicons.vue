@@ -2,7 +2,7 @@
     <div>
       <HeroSection />
       <FaviconConverter />
-      <section class="adsense-section">
+      <!-- <section class="adsense-section">
       <div class="container">
         <div class="adsense-placeholder">
           <div class="adsense-content">
@@ -11,7 +11,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
     </div>
   </template>
   

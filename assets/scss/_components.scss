@@ -13,6 +13,7 @@
       &:hover:not(:disabled) {
         background: var(--primary-dark);
         transform: translateY(-1px);
+        color: white;
       }
     }
     

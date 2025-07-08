@@ -25,7 +25,7 @@
             class="header__link"
             :class="{ 'header__link--active': $route.path === '/favicons' }"
           >
-            <Icon name="lucide:image"  class="home"/>
+            <!-- <Icon name="lucide:image"  class="home"/> -->
             <span>{{ $t('nav.converter') }}</span>
           </NuxtLink>
           
@@ -34,8 +34,17 @@
             class="header__link"
             :class="{ 'header__link--active': $route.path === '/favicons-text' }"
           >
-            <Icon name="lucide:type" />
+            <!-- <Icon name="lucide:type" /> -->
             <span>{{ $t('nav.textGenerator') }}</span>
+          </NuxtLink>
+
+          <NuxtLink 
+            to="/faq" 
+            class="header__link"
+            :class="{ 'header__link--active': $route.path === '/faq' }"
+          >
+            <Icon name="lucide:help-circle" />
+            <span>{{ $t('nav.faq') }}</span>
           </NuxtLink>
           
           <!-- <NuxtLink 

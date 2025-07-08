@@ -63,7 +63,15 @@
                 <Icon name="lucide:type" />
                 <span>{{ $t('nav.textGenerator') }}</span>
               </NuxtLink>
-              
+              <NuxtLink 
+                to="/faq" 
+                class="mobile-menu__nav-link"
+                :class="{ 'mobile-menu__nav-link--active': $route.path === '/faq' }"
+                @click="isOpen = false"
+              >
+                <Icon name="lucide:help-circle" />
+                <span>{{ $t('nav.faq') }}</span>
+              </NuxtLink>
               <!-- <NuxtLink 
                                 :to="localePath('/favicon-ai')" 
                 class="mobile-menu__nav-link"
