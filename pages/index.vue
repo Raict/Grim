@@ -2,6 +2,10 @@
   <div>
     <!-- Hero Section -->
     <section class="hero-section">
+      <div class="hero-background">
+        <div class="hero-gradient"></div>
+        <div class="hero-glow"></div>
+      </div>
       <div class="container hero-container">
         <div class="hero-content">
           <div class="hero-text">
@@ -14,20 +18,6 @@
               {{ $t('pages.home.description') }}
             </p>
 
-            <!-- <div class="hero-stats">
-              <div class="hero-stat">
-                <div class="hero-stat__number">10K+</div>
-                <div class="hero-stat__label">{{ $t('pages.home.stats.created') }}</div>
-              </div>
-              <div class="hero-stat">
-                <div class="hero-stat__number">100%</div>
-                <div class="hero-stat__label">{{ $t('pages.home.stats.free') }}</div>
-              </div>
-              <div class="hero-stat">
-                <div class="hero-stat__number">5★</div>
-                <div class="hero-stat__label">{{ $t('pages.home.stats.rating') }}</div>
-              </div>
-            </div> -->
           </div>
 
           <div class="hero-visual">
@@ -75,7 +65,7 @@
         </div>
 
         <div class="features-grid">
-          <NuxtLink to="/favicons" class="feature-card feature-card--primary">
+          <NuxtLink to="/favicons" class="feature-card feature-card--primary" @mouseenter="playHoverSound">
             <div class="feature-card__icon">
               <Icon name="lucide:image" :size="46"/>
             </div>
@@ -105,7 +95,7 @@
           </NuxtLink>
 
           <!-- Генератор з тексту -->
-          <NuxtLink to="/favicons-text" class="feature-card feature-card--secondary">
+          <NuxtLink to="/favicons-text" class="feature-card feature-card--secondary" @mouseenter="playHoverSound">
             <div class="feature-card__icon">
               <Icon name="lucide:type" :size="46"/>
             </div>
@@ -264,6 +254,11 @@ const currentFavicon = computed(() => faviconVariants[currentFaviconIndex.value]
 
 let faviconInterval: NodeJS.Timeout
 
+const playHoverSound = () => {
+  // Placeholder for subtle hover sound effect
+  // Could be implemented with Web Audio API for better UX
+}
+
 onMounted(() => {
   faviconInterval = setInterval(() => {
     currentFaviconIndex.value = (currentFaviconIndex.value + 1) % faviconVariants.length
@@ -280,14 +275,10 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 
 .hero-section {
-  background: linear-gradient(135deg, 
-    rgba(16, 185, 129, 0.1) 0%, 
-    rgba(20, 184, 166, 0.1) 50%, 
-    rgba(99, 102, 241, 0.1) 100%
-  );
-  overflow: hidden;
   position: relative;
+  overflow: hidden;
   padding: spacing(xl) 0;
+
   &::before {
     content: '';
     position: absolute;
@@ -297,8 +288,8 @@ onUnmounted(() => {
     bottom: 0;
     background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2310b981' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
     pointer-events: none;
+    z-index: 0;
   }
-
 
   @include respond-to(md) {
     padding: spacing(3xl) 0;
@@ -309,13 +300,60 @@ onUnmounted(() => {
   }
 }
 
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.hero-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(16, 185, 129, 0.12) 0%,
+    rgba(20, 184, 166, 0.18) 25%,
+    rgba(99, 102, 241, 0.15) 50%,
+    rgba(168, 85, 247, 0.12) 75%,
+    rgba(236, 72, 153, 0.15) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+
+.hero-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1000px;
+  height: 800px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(16, 185, 129, 0.08) 0%,
+    rgba(99, 102, 241, 0.06) 30%,
+    rgba(168, 85, 247, 0.04) 60%,
+    transparent 80%
+  );
+  animation: glowPulse 6s ease-in-out infinite;
+  filter: blur(40px);
+}
+
+
 .hero-content {
   display: grid;
   grid-template-columns: 1fr;
   gap: spacing(sm);
   align-items: center;
   position: relative;
-  z-index: 1;
+  z-index: 2;
   max-width: 86%;
   margin: 0 auto;
   
@@ -382,7 +420,6 @@ onUnmounted(() => {
   margin-left: auto;
   margin-right: auto;
 
-
   @include respond-to(lg) {
     margin-left: 0;
     margin-right: 0;
@@ -391,6 +428,91 @@ onUnmounted(() => {
 
   @include respond-to(xl) {
     margin-bottom: spacing(2xl);
+  }
+}
+
+.hero-features {
+  display: flex;
+  justify-content: center;
+  gap: spacing(xl);
+  flex-wrap: wrap;
+  margin-bottom: spacing(xl);
+
+  @include respond-to(sm) {
+    gap: spacing(2xl);
+  }
+
+  @include respond-to(lg) {
+    justify-content: flex-start;
+  }
+}
+
+.hero-feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: spacing(sm);
+  font-size: font-size(sm);
+  color: var(--text-secondary);
+  font-weight: font-weight(medium);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: spacing(sm);
+  border-radius: border-radius(lg);
+
+  &:hover {
+    transform: translateY(-5px);
+    color: var(--text-primary);
+
+    .hero-feature__icon-wrapper {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.15),
+        0 0 0 4px rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-feature__icon {
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+    }
+  }
+
+  &__icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: border-radius(xl);
+    box-shadow:
+      0 10px 25px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(255, 255, 255, 0.1);
+    margin-bottom: spacing(xs);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: left 0.5s ease;
+    }
+
+    &:hover::before {
+      left: 100%;
+    }
+  }
+
+  &__icon {
+    width: 28px;
+    height: 28px;
+    color: white;
+    transition: all 0.3s ease;
   }
 }
 
@@ -815,11 +937,36 @@ onUnmounted(() => {
 
 .benefit-item {
   animation: fadeInUp 0.6s ease-out;
-  
+
   @for $i from 1 through 4 {
     &:nth-child(#{$i}) {
       animation-delay: #{$i * 0.1}s;
     }
   }
 }
+
+// Background Animation Keyframes
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  25% { background-position: 100% 0%; }
+  50% { background-position: 100% 100%; }
+  75% { background-position: 0% 100%; }
+}
+
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  33% {
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  66% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+}
+
 </style>

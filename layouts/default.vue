@@ -1,11 +1,13 @@
 <template>
     <div class="app-layout">
+      <a href="#main-content" class="skip-link">Перейти до основного вмісту</a>
+
       <AppHeader />
-      
-      <main class="main-content">
+
+      <main id="main-content" class="main-content" role="main">
         <slot />
       </main>
-      
+
       <AppFooter />
       <CookieConsent />
       <!-- Google AdSense  -->

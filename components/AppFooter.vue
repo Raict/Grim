@@ -9,108 +9,116 @@
             <div class="footer__logo">
               <div class="footer__logo-icon">
                 <Icon name="lucide:image" />
+                <div class="footer__logo-glow"></div>
               </div>
               <span class="footer__logo-text">Faviconitys</span>
             </div>
             <p class="footer__description">
               {{ $t('footer.description') }}
             </p>
-            <!-- <div class="footer__social">
-              <h4 class="footer__social-title">{{ $t('footer.social.title') }}</h4>
-              <div class="footer__social-links">
-                <a href="#" class="footer__social-link" :title="$t('footer.social.github')">
-                  <Icon name="lucide:github" />
-                </a>
-                <a href="#" class="footer__social-link" :title="$t('footer.social.twitter')">
-                  <Icon name="lucide:twitter" />
-                </a>
-              </div>
-            </div> -->
           </div>
 
           <!-- Links Group -->
           <div class="footer__links-group">
             <!-- Quick Links -->
             <div class="footer__section">
-              <h4 class="footer__section-title">{{ $t('nav.navigation') }}</h4>
+              <h4 class="footer__section-title">
+                <Icon name="lucide:navigation" class="footer__section-icon" />
+                {{ $t('nav.navigation') }}
+              </h4>
               <ul class="footer__links">
                 <li>
-                  <NuxtLink 
-                    to="/" 
+                  <NuxtLink
+                    to="/"
                     class="footer__link"
                     :class="{ 'footer__link--active': $route.path === '/' }"
                   >
+                    <Icon name="lucide:home" class="footer__link-icon" />
                     {{ $t('nav.home') }}
                   </NuxtLink>
                 </li>
                 <li>
-                  <NuxtLink 
-                    to="/favicons" 
+                  <NuxtLink
+                    to="/favicons"
                     class="footer__link"
                     :class="{ 'footer__link--active': $route.path === '/favicons' }"
                   >
+                    <Icon name="lucide:image" class="footer__link-icon" />
                     {{ $t('nav.converter') }}
                   </NuxtLink>
                 </li>
                 <li>
-                  <NuxtLink 
-                    to="/favicons-text" 
+                  <NuxtLink
+                    to="/favicons-text"
                     class="footer__link"
                     :class="{ 'footer__link--active': $route.path === '/favicons-text' }"
                   >
+                    <Icon name="lucide:type" class="footer__link-icon" />
                     {{ $t('nav.textGenerator') }}
                   </NuxtLink>
                 </li>
-                <!-- <li><NuxtLink to="/favicon-ai" class="footer__link">{{ $t('nav.aiGenerator') }}</NuxtLink></li> -->
               </ul>
             </div>
 
             <!-- Legal Links -->
             <div class="footer__section">
-              <h4 class="footer__section-title">{{ $t('nav.about') }}</h4>
+              <h4 class="footer__section-title">
+                <Icon name="lucide:info" class="footer__section-icon" />
+                {{ $t('nav.about') }}
+              </h4>
               <ul class="footer__links">
                 <li>
-                  <NuxtLink 
-                    to="/faq" 
+                  <NuxtLink
+                    to="/faq"
                     class="footer__link"
                     :class="{ 'footer__link--active': $route.path === '/faq' }"
                   >
+                    <Icon name="lucide:help-circle" class="footer__link-icon" />
                     {{ $t('nav.faq') }}
                   </NuxtLink>
                 </li>
                 <li>
-                  <NuxtLink 
-                    to="/privacy" 
+                  <NuxtLink
+                    to="/privacy"
                     class="footer__link"
                     :class="{ 'footer__link--active': $route.path === '/privacy' }"
                   >
+                    <Icon name="lucide:shield" class="footer__link-icon" />
                     {{ $t('footer.links.privacy') }}
                   </NuxtLink>
                 </li>
                 <li>
-                  <NuxtLink 
-                    to="/terms" 
+                  <NuxtLink
+                    to="/terms"
                     class="footer__link"
                     :class="{ 'footer__link--active': $route.path === '/terms' }"
                   >
+                    <Icon name="lucide:file-text" class="footer__link-icon" />
                     {{ $t('footer.links.terms') }}
                   </NuxtLink>
                 </li>
-                <!-- <li><a href="mailto:contact@faviconitys.com" class="footer__link">{{ $t('footer.links.contact') }}</a></li> -->
-                <!-- <li><NuxtLink to="/about" class="footer__link">{{ $t('footer.links.about') }}</NuxtLink></li> -->
               </ul>
             </div>
 
-            <!-- Tools -->
+            <!-- Settings -->
             <div class="footer__section">
-              <h4 class="footer__section-title">{{ $t('nav.settings') }}</h4>
+              <h4 class="footer__section-title">
+                <Icon name="lucide:settings" class="footer__section-icon" />
+                {{ $t('nav.settings') }}
+              </h4>
               <div class="footer__controls">
                 <div class="footer__control">
-                  <span class="footer__control-label">{{ $t('nav.language') }}</span>
+                  <div class="footer__control-header">
+                    <Icon name="lucide:globe" class="footer__control-icon" />
+                    <span class="footer__control-label">{{ $t('nav.language') }}</span>
+                  </div>
                   <LanguageSwitcher />
                 </div>
                 <div class="footer__control">
-                  <span class="footer__control-label">{{ $t('nav.theme') }}</span>
+                  <div class="footer__control-header">
+                    <Icon name="lucide:moon" class="footer__control-icon" />
+                    <span class="footer__control-label">{{ $t('nav.theme') }}</span>
+                  </div>
                   <ThemeSwitcher />
                 </div>
               </div>
@@ -121,12 +129,23 @@
         <!-- Footer Bottom -->
         <div class="footer__bottom">
           <div class="footer__bottom-content">
-            <p class="footer__copyright">
-              {{ $t('footer.copyright') }}
-            </p>
-            <p class="footer__made-with">
-              {{ $t('footer.madeWith') }}
-            </p>
+            <div class="footer__copyright-section">
+              <p class="footer__copyright">
+                {{ $t('footer.copyright') }}
+              </p>
+              <p class="footer__made-with">
+                {{ $t('footer.madeWith') }}
+              </p>
+            </div>
+            <div class="footer__back-to-top">
+              <button
+                class="footer__top-btn"
+                @click="scrollToTop"
+                :title="'Back to top'"
+              >
+                <Icon name="lucide:arrow-up" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -135,6 +154,12 @@
 </template>
 
 <script setup lang="ts">
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -142,87 +167,159 @@
   background: var(--bg-secondary);
   border-top: 1px solid var(--border);
   margin-top: spacing(4xl);
-  
+
   &__content {
-    padding: spacing(3xl) 0 spacing(lg);
+    padding: spacing(2xl) 0 spacing(lg);
   }
-  
+
   &__main {
     display: grid;
     grid-template-columns: 1fr;
-    gap: spacing(2xl);
-    margin-bottom: spacing(2xl);
-    
+    gap: spacing(xl);
+    margin-bottom: spacing(xl);
+
     @include respond-to(md) {
-      grid-template-columns: 1.5fr 2fr;
-      gap: spacing(4xl);
+      grid-template-columns: 1.2fr 2fr;
+      gap: spacing(2xl);
       align-items: start;
     }
+
+    @include respond-to(lg) {
+      grid-template-columns: 1fr 1.8fr;
+    }
   }
-  
+
   &__brand {
+    text-align: center;
+
+    @include respond-to(md) {
+      text-align: left;
+    }
   }
-  
+
   &__logo {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: spacing(sm);
     margin-bottom: spacing(md);
     font-size: font-size(lg);
     font-weight: font-weight(bold);
     color: var(--text-primary);
+
+    @include respond-to(md) {
+      justify-content: flex-start;
+    }
   }
-  
+
   &__logo-icon {
-    width: 28px;
-    height: 28px;
-    @include gradient(135deg, var(--primary), var(--secondary));
+    position: relative;
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
     border-radius: border-radius(md);
     @include flex-center;
     color: white;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    @include transition();
+
+    &:hover {
+      transform: translateY(-1px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
   }
-  
+
+  &__logo-glow {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: inherit;
+    z-index: -1;
+    filter: blur(8px);
+    opacity: 0.6;
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+
   &__logo-text {
-    @include gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    
+    background-size: 200% 200%;
+    animation: gradientText 4s ease-in-out infinite;
+
     @supports not (-webkit-background-clip: text) {
       color: var(--primary);
     }
   }
-  
+
   &__description {
     color: var(--text-secondary);
-    line-height: 1.5;
+    line-height: 1.6;
     margin: 0;
-    font-size: font-size(sm);
-    max-width: 280px;
+    font-size: font-size(base);
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+
+    @include respond-to(md) {
+      margin-left: 0;
+      margin-right: 0;
+    }
   }
-  
+
   &__links-group {
     display: grid;
     grid-template-columns: 1fr;
-    gap: spacing(xl);
-    
+    gap: spacing(lg);
+
     @include respond-to(sm) {
       grid-template-columns: repeat(3, 1fr);
-      gap: spacing(lg);
+      gap: spacing(md);
     }
   }
-  
+
   &__section {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: border-radius(lg);
+    padding: spacing(md);
+    backdrop-filter: blur(10px);
+    @include transition();
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
     &-title {
-      font-size: font-size(sm);
+      display: flex;
+      align-items: center;
+      gap: spacing(xs);
+      font-size: font-size(xs);
       font-weight: font-weight(semibold);
       color: var(--text-primary);
-      margin-bottom: spacing(md);
+      margin-bottom: spacing(sm);
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
+
+    &-icon {
+      width: 14px;
+      height: 14px;
+      color: var(--primary);
+    }
   }
-  
+
   &__links {
     list-style: none;
     margin: 0;
@@ -231,68 +328,96 @@
     flex-direction: column;
     gap: spacing(xs);
   }
-  
+
   &__link {
+    display: flex;
+    align-items: center;
+    gap: spacing(xs);
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: font-size(sm);
-    padding: spacing(xs) 0;
+    font-size: font-size(xs);
+    padding: spacing(xs) spacing(sm);
+    border-radius: border-radius(sm);
     @include transition();
     position: relative;
-    
+
     &:hover {
       color: var(--primary);
+      background: rgba(16, 185, 129, 0.05);
+      transform: translateX(spacing(xs));
     }
-    
+
     &--active {
       color: var(--primary);
       font-weight: font-weight(medium);
-      
-    //   &::before {
-    //     content: '';
-    //     position: absolute;
-    //     left: -spacing(sm);
-    //     top: 50%;
-    //     transform: translateY(-50%);
-    //     width: 3px;
-    //     height: 16px;
-    //     background: var(--primary);
-    //     border-radius: border-radius(full);
-    //   }
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    &-icon {
+      width: 12px;
+      height: 12px;
+      opacity: 0.7;
+      @include transition();
+    }
+
+    &:hover &-icon {
+      opacity: 1;
+      transform: scale(1.1);
     }
   }
-  
+
   &__controls {
     display: flex;
     flex-direction: column;
-    gap: spacing(md);
+    gap: spacing(sm);
   }
-  
+
   &__control {
-    display: flex;
-    flex-direction: column;
-    gap: spacing(xs);
-    
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: border-radius(md);
+    padding: spacing(sm);
+    @include transition();
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    &-header {
+      display: flex;
+      align-items: center;
+      gap: spacing(xs);
+      margin-bottom: spacing(xs);
+    }
+
+    &-icon {
+      width: 12px;
+      height: 12px;
+      color: var(--primary);
+    }
+
     &-label {
       font-size: font-size(xs);
       font-weight: font-weight(medium);
-      color: var(--text-tertiary);
+      color: var(--text-secondary);
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
   }
-  
+
   &__bottom {
-    padding-top: spacing(lg);
+    padding-top: spacing(md);
     border-top: 1px solid var(--border);
-    
+
     &-content {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: spacing(xs);
+      gap: spacing(sm);
       text-align: center;
-      
+
       @include respond-to(sm) {
         flex-direction: row;
         justify-content: space-between;
@@ -300,87 +425,100 @@
       }
     }
   }
-  
+
+  &__copyright-section {
+    display: flex;
+    flex-direction: column;
+    gap: spacing(xs);
+
+    @include respond-to(sm) {
+      flex-direction: row;
+      gap: spacing(sm);
+      align-items: center;
+    }
+  }
+
   &__copyright {
     color: var(--text-secondary);
-    font-size: font-size(xs);
+    font-size: font-size(sm);
     margin: 0;
+    font-weight: font-weight(medium);
   }
-  
+
   &__made-with {
     color: var(--text-tertiary);
     font-size: font-size(xs);
     margin: 0;
   }
-  
-  &__social {
-    margin-top: spacing(lg);
-    
-    &-title {
-      font-size: font-size(xs);
-      font-weight: font-weight(semibold);
-      color: var(--text-primary);
-      margin-bottom: spacing(sm);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+
+  &__back-to-top {
+    display: flex;
+    align-items: center;
+  }
+
+  &__top-btn {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border: none;
+    border-radius: border-radius(md);
+    color: white;
+    cursor: pointer;
+    @include flex-center;
+    @include transition();
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+
+    &:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
     }
-    
-    &-links {
-      display: flex;
-      gap: spacing(xs);
+
+    &:active {
+      transform: translateY(-1px) scale(0.98);
     }
-    
-    &-link {
-      width: 32px;
-      height: 32px;
-      background: var(--bg-tertiary);
-      border: 1px solid var(--border);
-      border-radius: border-radius(md);
-      @include flex-center;
-      color: var(--text-secondary);
-      text-decoration: none;
-      @include transition();
-      
-      &:hover {
-        background: var(--primary);
-        border-color: var(--primary);
-        color: white;
-        transform: translateY(-1px);
-      }
-      
-      svg {
-        width: 14px;
-        height: 14px;
-      }
+
+    svg {
+      width: 16px;
+      height: 16px;
     }
   }
 }
 
-// Анімації
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes gradientText {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
 .footer {
-  animation: fadeInUp 0.6s ease-out;
+  animation: fadeInUp 0.8s ease-out;
 }
 
 .footer__section {
-  animation: fadeInUp 0.4s ease-out;
-  
+  animation: fadeInUp 0.6s ease-out;
+
   @for $i from 1 through 3 {
     &:nth-child(#{$i}) {
-      animation-delay: #{$i * 0.1}s;
+      animation-delay: #{$i * 0.15}s;
     }
   }
 }
 
-// Responsive improvements
+
 @include respond-to(lg) {
   .footer {
     &__main {
-      grid-template-columns: 1fr 1.5fr;
+      grid-template-columns: 1fr 2fr;
     }
-    
+
     &__links-group {
       grid-template-columns: repeat(3, 1fr);
-      gap: spacing(2xl);
+      gap: spacing(lg);
     }
   }
 }

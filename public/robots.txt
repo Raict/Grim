@@ -1,2 +1,68 @@
-User-Agent: *
-Disallow:
+# robots.txt for Faviconitys - https://faviconitys.com
+
+User-agent: *
+Allow: /
+
+# Main pages
+Allow: /
+Allow: /en/
+Allow: /en/favicons
+Allow: /favicons
+Allow: /en/favicons-text
+Allow: /favicons-text
+Allow: /en/faq
+Allow: /faq
+Allow: /en/privacy
+Allow: /privacy
+Allow: /en/terms
+Allow: /terms
+
+# Static assets
+Allow: /favicon.ico
+Allow: /favicon-*.png
+Allow: /apple-touch-icon.png
+Allow: /site.webmanifest
+Allow: /_nuxt/
+Allow: /assets/
+
+# SEO files
+Allow: /sitemap.xml
+Allow: /sitemap-index.xml
+
+# Block admin areas (if any)
+Disallow: /admin/
+Disallow: /_nuxt/builds/
+Disallow: /.nuxt/
+
+# Block temporary files
+Disallow: /tmp/
+Disallow: /temp/
+
+# Block API endpoints that shouldn't be indexed
+Disallow: /api/
+
+# Crawl-delay for different bots
+User-agent: Googlebot
+Crawl-delay: 1
+
+User-agent: Bingbot
+Crawl-delay: 2
+
+User-agent: Slurp
+Crawl-delay: 2
+
+User-agent: DuckDuckBot
+Crawl-delay: 1
+
+User-agent: Baiduspider
+Crawl-delay: 3
+
+User-agent: YandexBot
+Crawl-delay: 2
+
+# Sitemap location
+Sitemap: https://faviconitys.com/sitemap.xml
+Sitemap: https://faviconitys.com/sitemap-index.xml
+
+# Host (primary domain)
+Host: https://faviconitys.com

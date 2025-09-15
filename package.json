@@ -16,6 +16,7 @@
     "@trpc/client": "^11.4.1",
     "@trpc/server": "^11.4.1",
     "canvas": "^3.1.0",
+    "cloudinary": "^2.7.0",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "lucide-vue-next": "^0.515.0",

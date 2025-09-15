@@ -9,6 +9,10 @@
       @dragleave.prevent="isDragOver = false"
       @drop.prevent="handleDrop"
       @click="triggerFileInput"
+      @keydown.enter.space.prevent="triggerFileInput"
+      role="button"
+      :tabindex="isProcessing ? -1 : 0"
+      :aria-label="$t('hero.dragDrop')"
     >
       <input
         ref="fileInput"

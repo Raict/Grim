@@ -1,10 +1,13 @@
 <template>
-    <section id="favicon-converter" class="section">
+    <section id="favicon-converter" class="section" role="main" aria-labelledby="converter-title">
       <div class="container">
         <div class="text-center mb-5">
-          <h2 class="text-4xl font-bold mb-3">
+          <h2 id="converter-title" class="text-4xl font-bold mb-3">
             {{ title }}
           </h2>
+          <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            {{ $t('converter.subtitle') }}
+          </p>
         </div>
   
         <div class="card converter-card">
@@ -18,10 +21,12 @@
           <div v-if="selectedFile" class="converter-content">
             <div class="converter-content__header">
               <button
-                class="btn btn--outline btn--sm converter-content__clear-btn "
+                class="btn btn--outline btn--sm converter-content__clear-btn"
                 @click="clearConverter"
+                :aria-label="$t('converter.clear') + ' - очистити всі завантажені файли'"
+                type="button"
               >
-                <Icon name="lucide:trash-2" class="converter-content__clear-icon" />
+                <Icon name="lucide:trash-2" class="converter-content__clear-icon" aria-hidden="true" />
                 {{ $t('converter.clear') }}
               </button>
             </div>
@@ -38,37 +43,21 @@
             />
   
             <div class="converter-actions">
-              <button
-                class="btn btn--gradient btn--lg converter-btn"
-                :class="{ 'converter-btn--loading': isProcessing }"
-                :disabled="selectedSizes.length === 0 || isProcessing"
+              <DownloadButton
+                :is-processing="isProcessing"
+                :show-success="showSuccess"
+                :progress="progress"
+                :disabled="selectedSizes.length === 0"
+                :default-text="$t('converter.downloadZip')"
+                :success-text="$t('converter.downloadComplete')"
+                :processing-text="processingText"
                 @click="processImages"
-              >
-                <div class="converter-btn__content">
-                  <Icon 
-                    v-if="!isProcessing"
-                    name="lucide:download" 
-                    class="converter-btn__icon"
-                  />
-                  <div 
-                    v-if="isProcessing"
-                    class="converter-btn__spinner"
-                  ></div>
-                  <span class="converter-btn__text">
-                    {{ isProcessing ? processingText : $t('converter.downloadZip') }}
-                  </span>
-                </div>
-                <div 
-                  v-if="isProcessing"
-                  class="converter-btn__progress"
-                  :style="{ width: `${progress}%` }"
-                ></div>
-              </button>
+              />
             </div>
           </div>
   
-          <InstallationGuide 
-            v-if="processedImages.length > 0"
+          <InstallationGuide
+            v-if="processedImages.length > 0 && !isProcessing && !showSuccess"
             :generated-sizes="selectedSizes"
           />
         </div>
@@ -79,7 +68,6 @@
   <script setup lang="ts">
   import JSZip from "jszip"
   import pica from "pica" 
-  import { saveAs } from "file-saver";
 
   const toast = useToast()
   const i18n = useI18n()
@@ -91,6 +79,7 @@
   const processedImages = ref<ProcessedImage[]>([])
   const isProcessing = ref(false)
   const progress = ref(0)
+  const showSuccess = ref(false)
   
   interface ProcessedImage {
     size: number
@@ -100,9 +89,11 @@
   }
   
   const processingText = computed(() => {
-    if (progress.value < 30) return i18n.t('converter.processing')
-    if (progress.value < 80) return i18n.t('converter.creating')
-    return i18n.t('converter.processing')
+    if (progress.value < 20) return i18n.t('converter.processing')
+    if (progress.value < 40) return 'Обробка зображення...'
+    if (progress.value < 70) return 'Створення фавіконок...'
+    if (progress.value < 90) return 'Створення архіву...'
+    return 'Майже готово...'
   })
   
   const handleFileSelected = (file: File) => {
@@ -116,6 +107,7 @@
     processedImages.value = []
     selectedSizes.value = [16, 32]
     progress.value = 0
+    showSuccess.value = false
   }
   
   const clearConverter = () => {
@@ -145,8 +137,14 @@ async function processImages() {
   progress.value = 0
 
   try {
+    // Show processing animation for at least 1 second for visual feedback
+    await new Promise(resolve => setTimeout(resolve, 500))
+
     const imageBitmap = await fileToImageBitmap(selectedFile.value)
-    progress.value = 10
+    progress.value = 20
+
+    await new Promise(resolve => setTimeout(resolve, 300))
+    progress.value = 40
 
     const processed = await Promise.all(
       selectedSizes.value.map(async (size) => {
@@ -159,6 +157,8 @@ async function processImages() {
         return { size, dataUrl, fileName, blob }
       })
     )
+
+    await new Promise(resolve => setTimeout(resolve, 400))
     progress.value = 70
 
     const zip = new JSZip()
@@ -180,19 +180,64 @@ async function processImages() {
     }
     zip.file("site.webmanifest", JSON.stringify(manifest, null, 2))
 
-    const zipBlob = await zip.generateAsync({ type: "blob" })
+    await new Promise(resolve => setTimeout(resolve, 300))
     progress.value = 90
 
-    saveAs(zipBlob, "favicons.zip")
+    const zipBlob = await zip.generateAsync({ type: "blob" })
+
+    await new Promise(resolve => setTimeout(resolve, 200))
     progress.value = 100
 
     processedImages.value = processed
+
+    // Trigger standard browser download with animation
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(zipBlob)
+    link.download = 'favicons.zip'
+    link.style.display = 'none'
+    document.body.appendChild(link)
+
+    // Small delay to ensure proper animation timing
+    await new Promise(resolve => setTimeout(resolve, 100))
+    link.click()
+
+    // Cleanup
+    setTimeout(() => {
+      document.body.removeChild(link)
+      URL.revokeObjectURL(link.href)
+    }, 1000)
+
     showSuccessToast()
-  } catch (e) {
-    showErrorToast()
+
+    // Show success state
+    showSuccess.value = true
+
+    // Reset success state after 3 seconds
+    setTimeout(() => {
+      showSuccess.value = false
+      progress.value = 0
+    }, 3000)
+  } catch (error) {
+    console.error('Error processing images:', error)
+
+    let errorMessage = i18n.t('converter.error')
+    if (error instanceof Error) {
+      if (error.message.includes('memory')) {
+        errorMessage = i18n.t('converter.errorMemory')
+      } else if (error.message.includes('format')) {
+        errorMessage = i18n.t('converter.errorFormat')
+      } else if (error.message.includes('size')) {
+        errorMessage = i18n.t('converter.errorSize')
+      }
+    }
+
+    toast.add({
+      title: errorMessage,
+      type: 'background'
+    })
   } finally {
     isProcessing.value = false
-    progress.value = 0
+    // Don't reset progress here - let the success state show
   }
 }
 
@@ -272,80 +317,5 @@ function blobToDataUrl(blob: Blob): Promise<string> {
   .converter-actions {
     margin-top: spacing(2xl);
     text-align: center;
-  }
-  
-  .converter-btn {
-    position: relative;
-    overflow: hidden;
-    min-width: 200px;
-  
-    &__content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: spacing(sm);
-      position: relative;
-      z-index: 2;
-    }
-  
-    &__icon {
-      width: 20px;
-      height: 20px;
-      @include transition();
-    }
-  
-    &__spinner {
-      width: 20px;
-      height: 20px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-top: 2px solid white;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-  
-    &__text {
-      font-weight: font-weight(medium);
-      @include transition();
-    }
-  
-    &__progress {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      height: 3px;
-      background: rgba(255, 255, 255, 0.3);
-      @include transition(width);
-      transition-duration: 0.3s;
-    }
-  
-    &--loading {
-      cursor: not-allowed;
-  
-      .converter-btn__content {
-        opacity: 0.9;
-      }
-    }
-  }
-  
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
-  .converter-btn {
-    @include transition();
-  
-    &:not(:disabled):hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
-    }
-  
-    &:not(:disabled):active {
-      transform: translateY(0);
-    }
   }
   </style>

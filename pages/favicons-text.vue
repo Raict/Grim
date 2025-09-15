@@ -27,23 +27,28 @@
               </h3>
               <div class="text-font-row">
                 <div class="form-group form-group--text">
-                  <label class="form-label">{{ $t('pages.textGenerator.settings.text.label') }}</label>
+                  <label class="form-label" for="text-input">{{ $t('pages.textGenerator.settings.text.label') }}</label>
                   <input
+                    id="text-input"
                     v-model="textSettings.text"
                     type="text"
                     class="form-input form-input--text"
                     :placeholder="$t('pages.textGenerator.settings.text.placeholder')"
                     maxlength="3"
+                    :aria-describedby="textSettings.text.length === 0 ? 'text-input-help' : undefined"
                   />
+                  <div v-if="textSettings.text.length === 0" id="text-input-help" class="sr-only">
+                    Введіть до 3 символів для генерації фавіконки
+                  </div>
                 </div>
                 <div class="form-group form-group--font">
-                  <label class="form-label">{{ $t('pages.textGenerator.settings.text.font') }}</label>
+                  <label class="form-label" for="font-select">{{ $t('pages.textGenerator.settings.text.font') }}</label>
                     <!-- <select v-model="textSettings.fontFamily" class="form-select form-select--font">
                       <option v-for="font in fontOptions" :key="font.value" :value="font.value">
                         {{ font.label }}
                       </option>
                     </select> -->
-                  <select v-model="textSettings.fontFamily" class="form-select form-select--font">
+                  <select id="font-select" v-model="textSettings.fontFamily" class="form-select form-select--font" aria-label="Виберіть шрифт для тексту">
                     <option
                       v-for="font in fontOptions"
                       :key="font.value"
@@ -56,43 +61,49 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="form-label">{{ $t('pages.textGenerator.settings.text.weight') }}</label>
-                <select v-model="textSettings.fontWeight" class="form-select">
+                <label class="form-label" for="font-weight-select">{{ $t('pages.textGenerator.settings.text.weight') }}</label>
+                <select id="font-weight-select" v-model="textSettings.fontWeight" class="form-select" aria-label="Виберіть жирність шрифту">
                   <option v-for="option in fontWeightOptions" :key="option.value" :value="option.value">
                     {{ option.label }}
                   </option>
                 </select>
               </div>
               <div class="form-group">
-                <label class="form-label">{{ $t('pages.textGenerator.settings.text.size') }}</label>
+                <label class="form-label" for="font-size-range">{{ $t('pages.textGenerator.settings.text.size') }}</label>
                 <div class="range-group">
                   <input
+                    id="font-size-range"
                     v-model="textSettings.fontSize"
                     type="range"
                     min="8"
                     max="48"
                     class="form-range"
+                    :aria-label="`Розмір шрифту: ${textSettings.fontSize} пікселів`"
+                    aria-describedby="font-size-value"
                   />
-                  <span class="range-value">{{ textSettings.fontSize }}px</span>
+                  <span id="font-size-value" class="range-value" aria-live="polite">{{ textSettings.fontSize }}px</span>
                 </div>
               </div>
 
               <div class="form-group">
-                <label class="form-label">{{ $t('pages.textGenerator.settings.text.border') }}</label>
+                <label class="form-label" for="border-radius-range">{{ $t('pages.textGenerator.settings.text.border') }}</label>
                 <div class="range-group">
                   <input
+                    id="border-radius-range"
                     v-model="textSettings.borderRadiusPercent"
                     type="range"
                     min="0"
                     max="100"
                     class="form-range"
+                    :aria-label="`Заокруглення кутів: ${textSettings.borderRadiusPercent} відсотків`"
+                    aria-describedby="border-radius-value"
                   />
-                  <span class="range-value">{{ textSettings.borderRadiusPercent }}%</span>
+                  <span id="border-radius-value" class="range-value" aria-live="polite">{{ textSettings.borderRadiusPercent }}%</span>
                 </div>
               </div>
 
               <!-- Preview Faviconlys (row, right-to-left) -->
-              <div class="Faviconlys-preview-row">
+              <div class="Faviconlys-preview-row" role="group" aria-label="Попередній перегляд фавіконок різних розмірів">
                 <div
                   v-for="size in [96, 64, 48, 32, 16]"
                   :key="size"
@@ -104,8 +115,10 @@
                     :height="size"
                     :style="{ width: size + 'px', height: size + 'px' }"
                     class="Faviconly-preview-canvas"
+                    :aria-label="`Попередній перегляд фавіконки розміром ${size} на ${size} пікселів`"
+                    role="img"
                   />
-                  <div class="Faviconly-size-label">{{ size }}x{{ size }}</div>
+                  <div class="Faviconly-size-label" aria-hidden="true">{{ size }}x{{ size }}</div>
                 </div>
               </div>
             </div>
@@ -289,27 +302,22 @@
 
         <!-- Generate button -->
         <div class="generation-section">
-          <button
-            class="btn btn--gradient btn--lg btn--full"
-            :disabled="!textSettings.text || isGenerating"
+          <DownloadButton
+            :is-processing="isGenerating"
+            :show-success="showSuccess"
+            :progress="progress"
+            :disabled="!textSettings.text"
+            :default-text="$t('pages.textGenerator.generate')"
+            :success-text="$t('pages.textGenerator.downloadComplete')"
+            :processing-text="processingText"
             @click="generateFaviconlys"
-          >
-            <Icon 
-              v-if="!isGenerating"
-              name="lucide:download" 
-            />
-            <div 
-              v-if="isGenerating"
-              class="spinner"
-            ></div>
-            {{ isGenerating ? $t('pages.textGenerator.generating') : $t('pages.textGenerator.generate') }}
-          </button>
+          />
         </div>
 
         <!-- Installation guide -->
-        <InstallationGuide 
-          v-if="generatedImages.length > 0"
-          :generated-sizes="selectedSizes" 
+        <InstallationGuide
+          v-if="generatedImages.length > 0 && !isGenerating && !showSuccess"
+          :generated-sizes="selectedSizes"
         />
       </div>
     </section>
@@ -329,7 +337,6 @@
   
   <script setup lang="ts">
   import JSZip from 'jszip'
-  import { saveAs } from 'file-saver'
 
 
   
@@ -359,15 +366,25 @@ interface FontObject {
   const isClient = typeof window !== 'undefined' && typeof document !== 'undefined'
   const selectedSizes = ref([16, 32, 48])
   const isGenerating = ref(false)
-  const fontIsLoading = ref(false)      
+  const fontIsLoading = ref(false)
   const generatedImages = ref<any[]>([])
+  const showSuccess = ref(false)
+  const progress = ref(0)
   const toast = useToast()
   const previewCanvas = ref<HTMLCanvasElement | null>(null)
   const FaviconlyPreviewRefs = reactive<Record<number, HTMLCanvasElement | null>>({})
   const fontFamily = ref(textSettings.fontFamily)
   const availableFontWeights = ref<number[]>([400, 700])
   const activeFontFamily = ref(textSettings.fontFamily)
-  const fontLoaded = ref(false);
+  const fontLoaded = ref(false)
+
+  const processingText = computed(() => {
+    if (progress.value < 20) return t('pages.textGenerator.generating')
+    if (progress.value < 40) return 'Рендер тексту...'
+    if (progress.value < 70) return 'Створення фавіконок...'
+    if (progress.value < 90) return 'Створення архіву...'
+    return 'Майже готово...'
+  })
 
   
 
@@ -556,8 +573,16 @@ watch(
   if (!textSettings.text && fontIsLoading.value) return
 
   isGenerating.value = true
+  progress.value = 0
 
   try {
+    // Show processing animation for better UX
+    await new Promise(resolve => setTimeout(resolve, 400))
+    progress.value = 20
+
+    await new Promise(resolve => setTimeout(resolve, 300))
+    progress.value = 40
+
     const zip = new JSZip()
     const images: any[] = []
 
@@ -613,14 +638,58 @@ watch(
     }
     zip.file('site.webmanifest', JSON.stringify(manifest, null, 2))
 
+    await new Promise(resolve => setTimeout(resolve, 300))
+    progress.value = 90
+
     // Generate ZIP as Blob and trigger download
     const zipBuffer = await zip.generateAsync({ type: 'blob' })
-    saveAs(zipBuffer, 'text-Faviconly-package.zip')
+
+    await new Promise(resolve => setTimeout(resolve, 200))
+    progress.value = 100
 
     generatedImages.value = images
 
+    // Trigger standard browser download with animation
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(zipBuffer)
+    link.download = 'text-favicons.zip'
+    link.style.display = 'none'
+    document.body.appendChild(link)
+
+    // Small delay to ensure proper animation timing
+    await new Promise(resolve => setTimeout(resolve, 100))
+    link.click()
+
+    // Cleanup
+    setTimeout(() => {
+      document.body.removeChild(link)
+      URL.revokeObjectURL(link.href)
+    }, 1000)
+
+    // Show success toast
+    toast.add({
+      title: t('notify.zipGeneratedsuccess'),
+      type: 'foreground'
+    })
+
+    // Show success state
+    showSuccess.value = true
+    console.log('✅ Text generator success state set to true, should show green button')
+
+    // Auto-reset to normal state after showing success for 3 seconds
+    setTimeout(() => {
+      showSuccess.value = false
+      progress.value = 0
+    }, 3000)
+
   } catch (error) {
     console.error('Error generating text Faviconlys:', error)
+
+    // Show error toast
+    toast.add({
+      title: t('converter.error'),
+      type: 'background'
+    })
   } finally {
     isGenerating.value = false
   }
@@ -631,6 +700,11 @@ watch(
   watch(
     textSettings,
     async () => {
+      // Reset success state when user changes settings
+      generatedImages.value = []
+      showSuccess.value = false
+      progress.value = 0
+
       await nextTick();
       [16, 32, 48, 64, 96].forEach(size => {
         const canvas = FaviconlyPreviewRefs[size]
@@ -678,9 +752,25 @@ watch(
 useHead({
     title: t('pages.textGenerator.title'),
     meta: [
-      { 
-        name: 'description', 
-        content: t('pages.textGenerator.description') 
+      {
+        name: 'description',
+        content: t('pages.textGenerator.description')
+      },
+      {
+        name: 'keywords',
+        content: 'text to favicon, favicon from text, letter favicon, symbol favicon, text favicon generator, custom font favicon'
+      },
+      {
+        property: 'og:title',
+        content: t('pages.textGenerator.title')
+      },
+      {
+        property: 'og:description',
+        content: t('pages.textGenerator.description')
+      },
+      {
+        property: 'og:type',
+        content: 'website'
       }
     ]
   })
@@ -1170,28 +1260,9 @@ useHead({
     padding-top: spacing(xl);
   }
   
-  .btn--full {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: spacing(sm);
-  }
-  
-  .spinner {
-    width: 20px;
-    height: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top: 2px solid white;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+  .generation-section {
+    text-align: center;
+    padding-top: spacing(xl);
   }
   
   @include respond-to(sm) {

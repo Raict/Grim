@@ -1,9 +1,9 @@
 <template>
-  <header class="header">
+  <header class="header" role="banner">
     <div class="container">
-      <nav class="header__nav">
-        <NuxtLink to="/" class="header__logo">
-          <div class="header__logo-icon">
+      <nav class="header__nav" role="navigation" aria-label="Головна навігація">
+        <NuxtLink to="/" class="header__logo" aria-label="Faviconitys - головна сторінка">
+          <div class="header__logo-icon" aria-hidden="true">
             <Icon name="lucide:image" />
           </div>
           <span class="header__logo-text">Faviconitys</span>
@@ -11,39 +11,48 @@
 
         
 
-        <div class="header__menu">
-          <NuxtLink 
-                :to=" localePath('/')" 
+        <div class="header__menu" role="menubar">
+          <NuxtLink
+                :to=" localePath('/')"
                 class="header__link"
                 :class="{ 'header__link--active': $route.path === '/' }"
+                role="menuitem"
+                :aria-label="$t('nav.home') + ' - перейти на головну сторінку'"
               >
-                <Icon name="lucide:home" />
+                <Icon name="lucide:home" aria-hidden="true" />
                 <span>{{ $t('nav.home') }}</span>
               </NuxtLink>
-          <NuxtLink 
-            :to=" localePath('/favicons')" 
+          <NuxtLink
+            :to=" localePath('/favicons')"
             class="header__link"
             :class="{ 'header__link--active': $route.path === '/favicons' }"
+            role="menuitem"
+            :aria-label="$t('nav.converter') + ' - конвертер зображень у фавіконки'"
           >
             <!-- <Icon name="lucide:image"  class="home"/> -->
             <span>{{ $t('nav.converter') }}</span>
           </NuxtLink>
-          
-          <NuxtLink 
-            :to="localePath('/favicons-text')" 
+
+          <NuxtLink
+            :to="localePath('/favicons-text')"
             class="header__link"
             :class="{ 'header__link--active': $route.path === '/favicons-text' }"
+            role="menuitem"
+            :aria-label="$t('nav.textGenerator') + ' - створення фавіконок з тексту'"
           >
             <!-- <Icon name="lucide:type" /> -->
             <span>{{ $t('nav.textGenerator') }}</span>
           </NuxtLink>
 
-          <NuxtLink 
-            to="/faq" 
+          <NuxtLink
+            :to="localePath('/faq')"
             class="header__link"
-            :class="{ 'header__link--active': $route.path === '/faq' }"
+            :class="{ 'header__link--active': $route.path.includes('/faq') }"
+            role="menuitem"
+            :aria-label="$t('nav.faq') + ' - часті питання та відповіді'"
+            @click="() => console.log('🔗 FAQ link clicked, navigating to:', localePath('/faq'))"
           >
-            <Icon name="lucide:help-circle" />
+            <Icon name="lucide:help-circle" aria-hidden="true" />
             <span>{{ $t('nav.faq') }}</span>
           </NuxtLink>
           

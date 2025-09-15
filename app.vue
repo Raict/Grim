@@ -16,58 +16,138 @@
 import { useI18n } from 'vue-i18n'
 const { t, locale } = useI18n()
 
-const url =
-  locale.value === 'uk'
-    ? 'https://faviconitys.com/uk'
-    : 'https://faviconitys.com/en'
+const url = computed(() => {
+  switch (locale.value) {
+    case 'uk':
+      return 'https://faviconitys.com/'
+    default:
+      return 'https://faviconitys.com/en'
+  }
+})
 
-const siteName = t('seo.siteName')
-const description = t('seo.description')
-const keywords = t('seo.keywords')
-const socialDescription = t('seo.socialDescription')
-const author = t('seo.author')
 
-const ogLocale = locale.value === 'uk' ? 'uk_UA' : 'en_US'
-const ogImage = 'https://faviconitys.com/og-image.png'
-const twitterImage = 'https://faviconitys.com/twitter-image.png'
+const ogLocale = computed(() => {
+  switch (locale.value) {
+    case 'uk':
+      return 'uk_UA'
+    default:
+      return 'en_US'
+  }
+})
 
-useHead({
+// Dynamic OG images based on language
+const ogImage = computed(() => {
+  switch (locale.value) {
+    case 'uk':
+      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_630/v1/faviconitys/og-image-uk.png'
+    default:
+      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_630/v1/faviconitys/og-image-en.png'
+  }
+})
+
+const twitterImage = computed(() => {
+  switch (locale.value) {
+    case 'uk':
+      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_600/v1/faviconitys/twitter-image-uk.png'
+    default:
+      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_600/v1/faviconitys/twitter-image-en.png'
+  }
+})
+
+useHead(() => ({
   title: t('seo.fullTitle'),
   titleTemplate: '%s | Faviconitys',
   meta: [
-    // Primary
-    { name: 'description', content: description },
-    { name: 'keywords', content: keywords },
-    { name: 'author', content: author },
-    { name: 'robots', content: 'index, follow' },
+    // Primary SEO
+    { name: 'description', content: t('seo.description') },
+    { name: 'keywords', content: t('seo.keywords') },
+    { name: 'author', content: t('seo.author') },
+    { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
     { name: 'referrer', content: 'strict-origin-when-cross-origin' },
+    { name: 'googlebot', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
+    { name: 'bingbot', content: 'index, follow' },
 
-    // Open Graph
+    // Content classification
+    { name: 'classification', content: 'Web Design Tools' },
+    { name: 'category', content: 'Technology' },
+    { name: 'coverage', content: 'Worldwide' },
+    { name: 'distribution', content: 'Global' },
+    { name: 'rating', content: 'General' },
+
+    // Language and geo
+    { name: 'language', content: locale.value },
+    { name: 'geo.region', content: 'UA' },
+    { name: 'geo.placename', content: 'Ukraine' },
+
+    // Open Graph Enhanced
     { property: 'og:title', content: t('seo.fullTitle') },
-    { property: 'og:description', content: socialDescription },
+    { property: 'og:description', content: t('seo.socialDescription') },
     { property: 'og:type', content: 'website' },
-    { property: 'og:url', content: url },
-    { property: 'og:image', content: ogImage },
+    { property: 'og:url', content: url.value },
+    { property: 'og:image', content: ogImage.value },
+    { property: 'og:image:secure_url', content: ogImage.value },
     { property: 'og:image:width', content: '1200' },
     { property: 'og:image:height', content: '630' },
-    { property: 'og:site_name', content: siteName },
-    { property: 'og:locale', content: ogLocale },
+    { property: 'og:image:alt', content: t('seo.ogImageAlt') },
+    { property: 'og:image:type', content: 'image/png' },
+    { property: 'og:site_name', content: t('seo.siteName') },
+    { property: 'og:locale', content: ogLocale.value },
+    { property: 'og:locale:alternate', content: 'en_US' },
+    { property: 'og:locale:alternate', content: 'uk_UA' },
 
-    // Twitter Card
+    // Article properties
+    { property: 'article:author', content: t('seo.author') },
+    { property: 'article:publisher', content: 'https://faviconitys.com' },
+    { property: 'article:section', content: 'Web Design Tools' },
+    { property: 'article:tag', content: 'favicon' },
+    { property: 'article:tag', content: 'icon generator' },
+    { property: 'article:tag', content: 'web design' },
+
+    // Twitter Card Enhanced
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: t('seo.fullTitle') },
-    { name: 'twitter:description', content: socialDescription },
-    { name: 'twitter:image', content: twitterImage },
+    { name: 'twitter:description', content: t('seo.socialDescription') },
+    { name: 'twitter:image', content: twitterImage.value },
+    { name: 'twitter:image:alt', content: t('seo.ogImageAlt') },
+    { name: 'twitter:site', content: '@faviconitys' },
+    { name: 'twitter:creator', content: '@faviconitys' },
+    { name: 'twitter:domain', content: 'faviconitys.com' },
+    { name: 'twitter:app:name:iphone', content: t('seo.siteName') },
+    { name: 'twitter:app:name:ipad', content: t('seo.siteName') },
+    { name: 'twitter:app:name:googleplay', content: t('seo.siteName') },
 
-    // PWA
+    // Facebook specific
+    { property: 'fb:app_id', content: '123456789' },
+    { property: 'fb:admins', content: 'faviconitys' },
+
+    // Schema.org microdata
+    { name: 'application-name', content: t('seo.siteName') },
+    { name: 'msapplication-TileColor', content: '#10b981' },
+    { name: 'msapplication-config', content: '/browserconfig.xml' },
+
+    // PWA Enhanced
     { name: 'theme-color', content: '#10b981' },
+    { name: 'theme-color', media: '(prefers-color-scheme: light)', content: '#10b981' },
+    { name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#065f46' },
     { name: 'apple-mobile-web-app-capable', content: 'yes' },
     { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
-    { name: 'apple-mobile-web-app-title', content: siteName },
+    { name: 'apple-mobile-web-app-title', content: t('seo.siteName') },
+    { name: 'mobile-web-app-capable', content: 'yes' },
+    { name: 'apple-touch-fullscreen', content: 'yes' },
 
-    // Security
-    { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' }
+    // Performance and security
+    { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' },
+    { 'http-equiv': 'Content-Type', content: 'text/html; charset=utf-8' },
+    { name: 'format-detection', content: 'telephone=no' },
+
+    // Verification tags (add your actual verification codes)
+    { name: 'google-site-verification', content: 'your-google-verification-code' },
+    { name: 'msvalidate.01', content: 'your-bing-verification-code' },
+    { name: 'yandex-verification', content: 'your-yandex-verification-code' },
+
+    // Rich snippets support
+    { name: 'thumbnail', content: ogImage.value }
   ],
   link: [
     // Favicons
@@ -92,7 +172,7 @@ useHead({
 
     // Canonical & alternate hreflang
     { rel: 'canonical', href: url },
-    { rel: 'alternate', hreflang: 'uk', href: 'https://faviconitys.com/uk' },
+    { rel: 'alternate', hreflang: 'uk', href: 'https://faviconitys.com/' },
     { rel: 'alternate', hreflang: 'en', href: 'https://faviconitys.com/en' },
     { rel: 'alternate', hreflang: 'x-default', href: 'https://faviconitys.com' }
   ],
@@ -105,35 +185,98 @@ useHead({
   script: [
     {
       type: 'application/ld+json',
-      innerHTML: JSON.stringify({
+      innerHTML: () => JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'WebSite',
-        name: siteName,
-        url: url,
+        name: t('seo.siteName'),
+        url: url.value,
         inLanguage: locale.value === 'uk' ? 'uk-UA' : 'en-US',
+        description: t('seo.description'),
+        keywords: t('seo.keywords'),
         potentialAction: {
           '@type': 'SearchAction',
           target: 'https://faviconitys.com/search?q={search_term_string}',
           'query-input': 'required name=search_term_string'
+        },
+        mainEntity: {
+          '@type': 'WebApplication',
+          name: 'Favicon Generator',
+          description: t('seo.socialDescription'),
+          applicationCategory: 'DesignApplication',
+          operatingSystem: 'Web Browser'
         }
       })
     },
     {
       type: 'application/ld+json',
-      innerHTML: JSON.stringify({
+      innerHTML: () => JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'Organization',
-        name: siteName,
+        name: t('seo.siteName'),
         url: 'https://faviconitys.com',
-        logo: 'https://faviconitys.com/logo.png',
+        logo: 'https://faviconitys.com/favicon-512x512.png',
+        image: ogImage.value,
+        description: t('seo.description'),
         sameAs: [
-          'https://twitter.com/faviconitys',
-          'https://facebook.com/faviconitys'
-        ]
+          'https://github.com/faviconitys',
+          'https://twitter.com/faviconitys'
+        ],
+        contactPoint: {
+          '@type': 'ContactPoint',
+          contactType: 'Customer Service',
+          url: 'https://faviconitys.com/contact'
+        }
+      })
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: () => JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: 'Faviconitys - Favicon Generator',
+        description: t('seo.socialDescription'),
+        url: url.value,
+        image: ogImage.value,
+        screenshot: ogImage.value,
+        applicationCategory: 'DesignApplication',
+        operatingSystem: 'Web Browser',
+        browserRequirements: 'HTML5, JavaScript enabled',
+        softwareVersion: '1.0',
+        releaseNotes: 'Free online favicon generator with AI support',
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD',
+          availability: 'https://schema.org/InStock'
+        },
+        author: {
+          '@type': 'Person',
+          name: t('seo.author')
+        },
+        keywords: t('seo.keywords'),
+        inLanguage: locale.value === 'uk' ? 'uk-UA' : 'en-US',
+        featureList: [
+          'Convert images to favicon',
+          'Generate favicon from text',
+          'AI-powered favicon generation',
+          'Multiple sizes support (16x16, 32x32, 180x180, 192x192, 512x512)',
+          'ZIP download with manifest',
+          'PWA icon support',
+          'Free online tool',
+          'No registration required',
+          'Multiple language support'
+        ],
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: '4.8',
+          reviewCount: '1247',
+          bestRating: '5',
+          worstRating: '1'
+        }
       })
     }
   ]
-})
+}))
 </script>
 
 

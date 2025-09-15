@@ -7,6 +7,12 @@ export default defineNuxtConfig({
     },
   },
 
+  site: {
+    url: 'https://faviconitys.com',
+    name: 'Faviconitys',
+    description: 'Free online favicon generator and converter. Create professional favicons from images, text, or AI generation.',
+    defaultLocale: 'uk',
+  },
 
   app: {
     head: {

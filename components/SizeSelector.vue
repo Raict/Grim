@@ -1,8 +1,8 @@
 <template>
-    <div class="size-selector">
-      <h3 class="size-selector__title">{{ t('converter.selectSize') }}</h3>
-      
-      <div class="size-grid">
+    <div class="size-selector" role="group" aria-labelledby="size-selector-title">
+      <h3 id="size-selector-title" class="size-selector__title">{{ t('converter.selectSize') }}</h3>
+
+      <div class="size-grid" role="group" aria-label="Виберіть розміри фавіконок">
         <label
           v-for="size in availableSizes"
           :key="size.value"
@@ -17,6 +17,8 @@
             :checked="modelValue.includes(size.value)"
             @change="toggleSize(size.value)"
             class="size-option__input"
+            :aria-label="`Розмір ${size.value}x${size.value} пікселів - ${size.label}`"
+            :aria-describedby="`size-${size.value}-desc`"
           />
           
           <div class="size-option__checkbox">
@@ -24,12 +26,13 @@
               v-if="modelValue.includes(size.value)"
               name="lucide:check"
               class="size-option__check"
+              aria-hidden="true"
             />
           </div>
           
           <div class="size-option__content">
             <div class="size-option__label">{{ size.label }}</div>
-            <div class="size-option__description">{{ size.description }}</div>
+            <div class="size-option__description" :id="`size-${size.value}-desc`">{{ size.description }}</div>
           </div>
         </label>
       </div>

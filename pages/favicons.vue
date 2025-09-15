@@ -25,6 +25,22 @@
           name: 'description',
           content: t('nav.appDescription'),
         },
+        {
+          name: 'keywords',
+          content: 'favicon converter, image to favicon, png to ico, favicon generator, browser icon, website icon, create favicon'
+        },
+        {
+          property: 'og:title',
+          content: t('converter.fullTitle')
+        },
+        {
+          property: 'og:description',
+          content: t('nav.appDescription')
+        },
+        {
+          property: 'og:type',
+          content: 'website'
+        }
       ],
     });
   </script>
