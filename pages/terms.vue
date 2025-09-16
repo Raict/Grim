@@ -3,7 +3,7 @@
       <!-- Hero Section -->
       <section class="section section--hero">
         <div class="container">
-          <div class="hero-content fade-in-up">
+          <div class="hero-content">
             <h1 class="section__title">
               {{ $t('pages.terms.title') }}
             </h1>

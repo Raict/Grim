@@ -20,6 +20,13 @@ export default defineNuxtConfig({
         },
       ],
     },
+    pageTransition: {
+      name: 'page',
+      mode: 'out-in',
+      onBeforeEnter: () => {
+        // Will be handled by middleware
+      }
+    }
   },
   compatibilityDate: "2025-06-15",
   devtools: { enabled: true },

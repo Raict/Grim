@@ -551,8 +551,20 @@ onUnmounted(() => {
 
 // Browser Mockup - збільшуємо розмір
 .hero-preview {
-  max-width: 500px; // було 400px
+  max-width: 400px;
   width: 100%;
+
+  @include respond-to(md) {
+    max-width: 500px;
+  }
+
+  @include respond-to(lg) {
+    max-width: 600px;
+  }
+
+  @include respond-to(xl) {
+    max-width: 650px;
+  }
 }
 
 .browser-mockup {
@@ -570,11 +582,16 @@ onUnmounted(() => {
 
 .browser-header {
   background: var(--bg-secondary);
-  padding: spacing(lg); // було spacing(md)
+  padding: spacing(md);
   display: flex;
   align-items: center;
   gap: spacing(md);
   border-bottom: 1px solid var(--border);
+
+  @include respond-to(lg) {
+    padding: spacing(lg);
+    gap: spacing(lg);
+  }
 }
 
 .browser-dots {
@@ -617,10 +634,31 @@ onUnmounted(() => {
   @include flex-center;
   color: white;
   font-size: 14px;
-  animation: faviconPulse 2s infinite;
   border: 2px solid var(--border);
   box-shadow: shadow(sm);
-  @include transition();
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+
+  @include respond-to(lg) {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+    left: -spacing(2xl);
+  }
+
+  &:not(:hover) {
+    animation: faviconPulse 2s infinite;
+  }
+
+  &:hover {
+    transform: translateY(-50%) scale(1.4);
+    box-shadow:
+      0 8px 25px rgba(0, 0, 0, 0.15),
+      0 0 0 4px rgba(16, 185, 129, 0.1);
+    border-color: var(--primary);
+    z-index: 10;
+    animation: none;
+  }
 }
 
 @keyframes faviconPulse {
@@ -629,13 +667,21 @@ onUnmounted(() => {
     box-shadow: shadow(sm);
   }
   50% {
-    transform: translateY(-50%) scale(1.1);
+    transform: translateY(-50%) scale(1.05);
     box-shadow: shadow(md);
   }
 }
 
 .browser-content {
-  padding: spacing(2xl);
+  padding: spacing(xl);
+
+  @include respond-to(lg) {
+    padding: spacing(2xl);
+  }
+
+  @include respond-to(xl) {
+    padding: spacing(3xl);
+  }
 }
 
 .demo-website {
@@ -644,19 +690,32 @@ onUnmounted(() => {
     background: var(--bg-tertiary);
     border-radius: border-radius(md);
     margin-bottom: spacing(lg);
+
+    @include respond-to(lg) {
+      height: 50px;
+      margin-bottom: spacing(xl);
+    }
   }
-  
+
   .demo-content {
     display: flex;
     flex-direction: column;
     gap: spacing(sm);
+
+    @include respond-to(lg) {
+      gap: spacing(md);
+    }
   }
-  
+
   .demo-line {
     height: 12px;
     background: var(--bg-tertiary);
     border-radius: border-radius(sm);
-    
+
+    @include respond-to(lg) {
+      height: 16px;
+    }
+
     &.short {
       width: 60%;
     }
@@ -921,9 +980,7 @@ onUnmounted(() => {
   }
 }
 
-.hero-section {
-  animation: fadeIn 1s ease-out;
-}
+/* Animation removed */
 
 .feature-card {
   animation: fadeInUp 0.6s ease-out;

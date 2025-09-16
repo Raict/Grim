@@ -141,7 +141,7 @@
       font-weight: font-weight(medium);
       cursor: pointer;
       width: 100%;
-      min-height: 46px;
+      height: 40px;
       @include transition();
       
       &:hover {

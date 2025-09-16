@@ -466,4 +466,92 @@ input:-webkit-autofill:active {
   outline: 2px solid var(--primary) !important;
   outline-offset: 2px !important;
 }
+
+/* CSS Variables */
+:root {
+  --header-height: 70px;
+}
+
+/* Prevent layout shifts and scroll jumping during transitions */
+body.page-transitioning {
+  overflow-x: hidden; /* Prevent horizontal scroll only */
+}
+
+/* Page Transition Effects - Using relative positioning to avoid layout shifts */
+.page-enter-active,
+.page-leave-active {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Temporarily disable problematic animations during page transitions */
+.page-transitioning .fade-in-up,
+.page-transitioning .hero-title,
+.page-transitioning .hero-description,
+.page-transitioning .hero-content,
+.page-transitioning .feature-card,
+.page-transitioning .animate__animated {
+  animation-play-state: paused !important;
+}
+
+/* Re-enable animations after transition with staggered delays */
+.fade-in-up {
+  animation-delay: 0.2s;
+}
+
+.hero-title {
+  animation-delay: 0.1s;
+}
+
+.hero-description {
+  animation-delay: 0.2s;
+}
+
+.hero-content {
+  animation-delay: 0.3s;
+}
+
+.feature-card {
+  animation-delay: 0.4s;
+}
+
+/* Default transitions - Right direction (forward navigation) */
+.page-enter-from {
+  transform: translateX(100%);
+}
+
+.page-leave-to {
+  transform: translateX(-100%);
+}
+
+/* Left direction (backward navigation) */
+.nav-left .page-enter-from {
+  transform: translateX(-100%);
+}
+
+.nav-left .page-leave-to {
+  transform: translateX(100%);
+}
+
+.page-enter-to,
+.page-leave-from {
+  transform: translateX(0);
+}
+
+/* Layout container optimized for smooth transitions */
+.layout-container {
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate; /* Create stacking context */
+}
+
+.page-wrapper {
+  width: 100%;
+  position: relative;
+  transform: translateZ(0); /* Force hardware acceleration */
+  min-height: calc(100vh - var(--header-height));
+}
 </style>

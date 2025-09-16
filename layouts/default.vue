@@ -1,10 +1,10 @@
 <template>
-    <div class="app-layout">
+    <div class="app-layout layout-container">
       <a href="#main-content" class="skip-link">Перейти до основного вмісту</a>
 
       <AppHeader />
 
-      <main id="main-content" class="main-content" role="main">
+      <main id="main-content" class="main-content page-wrapper" role="main">
         <slot />
       </main>
 
@@ -43,9 +43,11 @@
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - 140px);
+    position: relative;
+    z-index: 1;
 
     padding-top: 0;
-    
+
     @include respond-to(md) {
       min-height: calc(100vh - 160px);
     }

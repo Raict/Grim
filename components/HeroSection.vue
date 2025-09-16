@@ -6,7 +6,7 @@
       </div>
 
       <div class="container">
-        <div class="hero-content fade-in-up">
+        <div class="hero-content">
 
           <h1 class="hero-title">
             <span class="hero-title__main">{{ $t('hero.title') }}</span>

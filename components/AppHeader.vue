@@ -15,7 +15,7 @@
           <NuxtLink
                 :to=" localePath('/')"
                 class="header__link"
-                :class="{ 'header__link--active': $route.path === '/' }"
+                :class="{ 'header__link--active': isHomePage }"
                 role="menuitem"
                 :aria-label="$t('nav.home') + ' - перейти на головну сторінку'"
               >
@@ -90,6 +90,11 @@
 
 <script setup lang="ts">
 const localePath = useLocalePath()
+const route = useRoute()
+
+const isHomePage = computed(() => {
+  return route.name === 'index' || route.name === 'index___en' || route.path === '/' || route.path === '/en'
+})
 </script>
 
 <style lang="scss" scoped>
@@ -256,6 +261,7 @@ const localePath = useLocalePath()
     font-weight: font-weight(medium);
     white-space: nowrap;
     box-shadow: 0 2px 8px rgba(255, 94, 91, 0.25);
+    height: 40px;
     @include transition();
 
     svg {
