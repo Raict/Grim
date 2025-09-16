@@ -2,7 +2,6 @@
   "buildCommand": "npm run build",
   "outputDirectory": ".output/public",
   "framework": "nuxtjs",
-  "nodeVersion": "18.x",
   "env": {
     "NODE_ENV": "production"
   },
