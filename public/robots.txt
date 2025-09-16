@@ -6,16 +6,25 @@ Allow: /
 # Main pages
 Allow: /
 Allow: /en/
-Allow: /en/favicons
-Allow: /favicons
-Allow: /en/favicons-text
-Allow: /favicons-text
+Allow: /ru/
+Allow: /en/converter
+Allow: /converter
+Allow: /ru/converter
+Allow: /en/text-generator
+Allow: /text-generator
+Allow: /ru/text-generator
+Allow: /en/ai-generator
+Allow: /ai-generator
+Allow: /ru/ai-generator
 Allow: /en/faq
 Allow: /faq
+Allow: /ru/faq
 Allow: /en/privacy
 Allow: /privacy
+Allow: /ru/privacy
 Allow: /en/terms
 Allow: /terms
+Allow: /ru/terms
 
 # Static assets
 Allow: /favicon.ico

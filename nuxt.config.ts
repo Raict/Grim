@@ -40,6 +40,7 @@ export default defineNuxtConfig({
       locales: [
         { code: "uk", name: "Українська", file: "uk.json" },
         { code: "en", name: "English", file: "en.json" },
+        { code: "ru", name: "Русский", file: "ru.json" },
       ],
       lazy: true,
       langDir: '../locales/',
@@ -67,7 +68,13 @@ export default defineNuxtConfig({
       '/**': {
         headers: {
           'X-Content-Type-Options': 'nosniff',
-          'Referrer-Policy': 'strict-origin-when-cross-origin'
+          'X-Frame-Options': 'DENY',
+          'X-XSS-Protection': '1; mode=block',
+          'Referrer-Policy': 'strict-origin-when-cross-origin',
+          'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+          'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+          'Cross-Origin-Embedder-Policy': 'credentialless',
+          'Cross-Origin-Opener-Policy': 'same-origin'
         }
       }
     }

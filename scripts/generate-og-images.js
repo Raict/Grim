@@ -5,9 +5,9 @@ import path from 'path';
 
 // Configure Cloudinary
 cloudinary.config({
-  cloud_name: 'dnqperiuu',
-  api_key: '547162818762999',
-  api_secret: 'NcGZp8HA1wQuo5hsOGTtkZBCV7k'
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || 'dnqperiuu',
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 const translations = {

@@ -20,6 +20,8 @@ const url = computed(() => {
   switch (locale.value) {
     case 'uk':
       return 'https://faviconitys.com/'
+    case 'ru':
+      return 'https://faviconitys.com/ru'
     default:
       return 'https://faviconitys.com/en'
   }
@@ -30,6 +32,8 @@ const ogLocale = computed(() => {
   switch (locale.value) {
     case 'uk':
       return 'uk_UA'
+    case 'ru':
+      return 'ru_RU'
     default:
       return 'en_US'
   }
@@ -40,6 +44,8 @@ const ogImage = computed(() => {
   switch (locale.value) {
     case 'uk':
       return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_630/v1/faviconitys/og-image-uk.png'
+    case 'ru':
+      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_630/v1/faviconitys/og-image-ru.png'
     default:
       return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_630/v1/faviconitys/og-image-en.png'
   }
@@ -49,6 +55,8 @@ const twitterImage = computed(() => {
   switch (locale.value) {
     case 'uk':
       return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_600/v1/faviconitys/twitter-image-uk.png'
+    case 'ru':
+      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_600/v1/faviconitys/twitter-image-ru.png'
     default:
       return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_600/v1/faviconitys/twitter-image-en.png'
   }
@@ -80,6 +88,32 @@ useHead(() => ({
     { name: 'geo.region', content: 'UA' },
     { name: 'geo.placename', content: 'Ukraine' },
 
+    // Additional SEO meta tags
+    { name: 'apple-mobile-web-app-capable', content: 'yes' },
+    { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
+    { name: 'mobile-web-app-capable', content: 'yes' },
+    { name: 'HandheldFriendly', content: 'true' },
+    { name: 'MobileOptimized', content: '320' },
+
+    // Performance and caching
+    { 'http-equiv': 'cache-control', content: 'public, max-age=31536000' },
+    { 'http-equiv': 'expires', content: new Date(Date.now() + 31536000000).toUTCString() },
+
+    // Rich snippets and search features
+    { name: 'google-site-verification', content: 'your-google-verification-code' },
+    { name: 'msvalidate.01', content: 'your-bing-verification-code' },
+    { name: 'yandex-verification', content: 'your-yandex-verification-code' },
+
+    // Social media and sharing
+    { name: 'pinterest-rich-pins', content: 'true' },
+    { name: 'linkedin:owner', content: 'company-id' },
+
+    // Content categorization
+    { name: 'news_keywords', content: t('seo.keywords') },
+    { name: 'topic', content: 'favicon generator, web development tools' },
+    { name: 'subject', content: 'Free favicon generator and converter' },
+    { name: 'summary', content: t('seo.description') },
+
     // Open Graph Enhanced
     { property: 'og:title', content: t('seo.fullTitle') },
     { property: 'og:description', content: t('seo.socialDescription') },
@@ -95,6 +129,7 @@ useHead(() => ({
     { property: 'og:locale', content: ogLocale.value },
     { property: 'og:locale:alternate', content: 'en_US' },
     { property: 'og:locale:alternate', content: 'uk_UA' },
+    { property: 'og:locale:alternate', content: 'ru_RU' },
 
     // Article properties
     { property: 'article:author', content: t('seo.author') },
@@ -161,14 +196,24 @@ useHead(() => ({
       href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap'
     },
 
-    // DNS Prefetch
+    // DNS Prefetch and Preconnect for performance
     { rel: 'dns-prefetch', href: '//fonts.googleapis.com' },
     { rel: 'dns-prefetch', href: '//fonts.gstatic.com' },
+    { rel: 'dns-prefetch', href: '//res.cloudinary.com' },
+    { rel: 'dns-prefetch', href: '//www.google-analytics.com' },
+    { rel: 'dns-prefetch', href: '//googleads.g.doubleclick.net' },
+    { rel: 'preconnect', href: 'https://res.cloudinary.com' },
+    { rel: 'preconnect', href: 'https://www.google-analytics.com' },
+
+    // Resource hints for better performance
+    { rel: 'preload', href: '/favicon-32x32.png', as: 'image', type: 'image/png' },
+    { rel: 'prefetch', href: '/apple-touch-icon.png' },
 
     // Canonical & alternate hreflang
     { rel: 'canonical', href: url },
     { rel: 'alternate', hreflang: 'uk', href: 'https://faviconitys.com/' },
     { rel: 'alternate', hreflang: 'en', href: 'https://faviconitys.com/en' },
+    { rel: 'alternate', hreflang: 'ru', href: 'https://faviconitys.com/ru' },
     { rel: 'alternate', hreflang: 'x-default', href: 'https://faviconitys.com' }
   ],
   htmlAttrs: {
@@ -185,7 +230,7 @@ useHead(() => ({
         '@type': 'WebSite',
         name: t('seo.siteName'),
         url: url.value,
-        inLanguage: locale.value === 'uk' ? 'uk-UA' : 'en-US',
+        inLanguage: locale.value === 'uk' ? 'uk-UA' : locale.value === 'ru' ? 'ru-RU' : 'en-US',
         description: t('seo.description'),
         keywords: t('seo.keywords'),
         potentialAction: {
@@ -249,7 +294,7 @@ useHead(() => ({
           name: t('seo.author')
         },
         keywords: t('seo.keywords'),
-        inLanguage: locale.value === 'uk' ? 'uk-UA' : 'en-US',
+        inLanguage: locale.value === 'uk' ? 'uk-UA' : locale.value === 'ru' ? 'ru-RU' : 'en-US',
         featureList: [
           'Convert images to favicon',
           'Generate favicon from text',
@@ -268,6 +313,97 @@ useHead(() => ({
           bestRating: '5',
           worstRating: '1'
         }
+      })
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: () => JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'HowTo',
+        name: t('seo.fullTitle'),
+        description: t('seo.description'),
+        image: ogImage.value,
+        step: [
+          {
+            '@type': 'HowToStep',
+            name: 'Upload Image',
+            text: 'Upload your image or logo to our favicon generator',
+            image: ogImage.value
+          },
+          {
+            '@type': 'HowToStep',
+            name: 'Choose Sizes',
+            text: 'Select the favicon sizes you need (16x16, 32x32, 180x180, 192x192, 512x512)',
+            image: ogImage.value
+          },
+          {
+            '@type': 'HowToStep',
+            name: 'Download',
+            text: 'Download your complete favicon package with all sizes and HTML code',
+            image: ogImage.value
+          }
+        ],
+        totalTime: 'PT2M',
+        tool: [
+          {
+            '@type': 'HowToTool',
+            name: 'Web Browser'
+          }
+        ]
+      })
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: () => JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: 'How to generate favicon?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Upload your image to our free favicon generator, select sizes, and download the complete package with all necessary files and HTML code.'
+            }
+          },
+          {
+            '@type': 'Question',
+            name: 'What favicon sizes do I need?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Common favicon sizes include 16x16, 32x32 for browsers, 180x180 for Apple devices, and 192x192, 512x512 for Android and PWA apps.'
+            }
+          },
+          {
+            '@type': 'Question',
+            name: 'Is favicon generator free?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Yes, our favicon generator is completely free with no limitations, registration required, or hidden fees.'
+            }
+          }
+        ]
+      })
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: () => JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: 'https://faviconitys.com'
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Favicon Generator',
+            item: url.value
+          }
+        ]
       })
     }
   ]

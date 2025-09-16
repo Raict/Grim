@@ -66,8 +66,7 @@
   </template>
   
   <script setup lang="ts">
-  import JSZip from "jszip"
-  import pica from "pica" 
+  import JSZip from "jszip" 
 
   const toast = useToast()
   const i18n = useI18n()
@@ -121,9 +120,17 @@
   async function fileToImageBitmap(file: File): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image()
-    img.onload = () => resolve(img)
-    img.onerror = reject
-    img.src = URL.createObjectURL(file)
+    const objectUrl = URL.createObjectURL(file)
+
+    img.onload = () => {
+      URL.revokeObjectURL(objectUrl)
+      resolve(img)
+    }
+    img.onerror = () => {
+      URL.revokeObjectURL(objectUrl)
+      reject(new Error('Failed to load image'))
+    }
+    img.src = objectUrl
   })
 }
 
