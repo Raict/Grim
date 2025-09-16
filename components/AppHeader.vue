@@ -25,7 +25,7 @@
           <NuxtLink
             :to=" localePath('/favicons')"
             class="header__link"
-            :class="{ 'header__link--active': $route.path === '/favicons' }"
+            :class="{ 'header__link--active': $route.path === '/' || $route.path === '/favicons' || $route.path === '/uk/favicons' || $route.path === '/en/favicons' }"
             role="menuitem"
             :aria-label="$t('nav.converter') + ' - конвертер зображень у фавіконки'"
           >
@@ -36,7 +36,7 @@
           <NuxtLink
             :to="localePath('/favicons-text')"
             class="header__link"
-            :class="{ 'header__link--active': $route.path === '/favicons-text' }"
+            :class="{ 'header__link--active': $route.path === '/favicons-text' || $route.path === '/uk/favicons-text' || $route.path === '/en/favicons-text' }"
             role="menuitem"
             :aria-label="$t('nav.textGenerator') + ' - створення фавіконок з тексту'"
           >
@@ -67,6 +67,18 @@
         </div>
 
         <div class="header__controls">
+          <!-- Ko-fi Support Button -->
+          <a
+            href="https://ko-fi.com/serhieie"
+            target="_blank"
+            class="header__kofi-btn"
+            :title="$t('buyMeCoffee')"
+            :aria-label="$t('supportMe')"
+          >
+            <Icon name="lucide:coffee" aria-hidden="true" />
+            <span class="header__kofi-text">{{ $t('supportMe') }}</span>
+          </a>
+
           <LanguageSwitcher />
           <ThemeSwitcher />
           <MobileMenu class="header__mobile-menu" />
@@ -227,7 +239,50 @@ const localePath = useLocalePath()
   &__controls {
     display: flex;
     align-items: center;
-    gap: spacing(sm);
+    gap: spacing(xs);
+    flex-shrink: 0;
+  }
+
+  &__kofi-btn {
+    display: flex;
+    align-items: center;
+    gap: spacing(xs);
+    background: #FF5E5B;
+    color: white;
+    text-decoration: none;
+    padding: spacing(sm) spacing(md);
+    border-radius: border-radius(lg);
+    font-size: font-size(sm);
+    font-weight: font-weight(medium);
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(255, 94, 91, 0.25);
+    @include transition();
+
+    svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    &:hover {
+      background: #E8504C;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(255, 94, 91, 0.4);
+      color: white;
+      text-decoration: none;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  &__kofi-text {
+    white-space: nowrap;
+
+    @media (max-width: 520px) {
+      display: none;
+    }
   }
   
   &__mobile-menu {
@@ -243,9 +298,9 @@ const localePath = useLocalePath()
     &__nav {
       padding: spacing(lg) 0;
     }
-    
+
     &__controls {
-      gap: spacing(md);
+      gap: spacing(sm);
     }
   }
 }

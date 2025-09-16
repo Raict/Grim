@@ -5,15 +5,10 @@
       :title="title"
       :aria-label="title"
     >
-      <div class="theme-switcher__icon">
-        <Icon 
-          :name="iconName" 
-          class="theme-switcher__svg"
-        />
-      </div>
-      <span class="theme-switcher__text">
-        {{ themeText }}
-      </span>
+      <Icon
+        :name="iconName"
+        class="theme-switcher__icon"
+      />
     </button>
   </template>
   
@@ -37,69 +32,46 @@
   .theme-switcher {
     display: flex;
     align-items: center;
-    gap: spacing(xs);
-    padding: spacing(sm) spacing(md);
+    justify-content: center;
+    width: 55px;
+    height: 40px;
+    padding: 0;
     background: transparent;
     border: 1px solid var(--border);
     border-radius: border-radius(lg);
     color: var(--text-secondary);
-    font-size: font-size(sm);
-    font-weight: font-weight(medium);
-    min-height: 46px;
     cursor: pointer;
     @include transition();
-    
+
     &:hover {
       background: var(--bg-secondary);
       border-color: var(--primary);
-      color: var(--text-primary);
+      color: var(--primary);
       transform: translateY(-1px);
     }
-    
+
     &:active {
       transform: translateY(0);
     }
-    
+
     &:focus-visible {
       outline: 2px solid var(--primary);
       outline-offset: 2px;
     }
-    
+
     &__icon {
       width: 18px;
       height: 18px;
-      @include flex-center;
       @include transition();
-    }
-    
-    &__svg {
-      width: 100%;
-      height: 100%;
-      @include transition();
-      
+
       .theme-switcher:hover & {
-        color: var(--primary);
         transform: scale(1.1);
-      }
-    }
-    
-    &__text {
-      @include transition();
-      white-space: nowrap;
-      
-      @media (max-width: 480px) {
-        display: none;
       }
     }
   }
   
-  .theme-switcher__icon {
-    position: relative;
-    overflow: hidden;
-    
-    .theme-switcher__svg {
-      animation: iconChange 0.3s ease-in-out;
-    }
+  .theme-switcher .theme-switcher__icon {
+    animation: iconChange 0.3s ease-in-out;
   }
   
   @keyframes iconChange {

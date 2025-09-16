@@ -1,7 +1,7 @@
 
    <template>
     <div class="language-switcher" ref="dropdownRef">
-      <button 
+      <button
         class="language-switcher__trigger"
         @click="toggleDropdown"
         :aria-expanded="isOpen"
@@ -14,10 +14,10 @@
         <span class="language-switcher__name">
           {{ currentLocale.name }}
         </span>
-        <Icon 
-          name="lucide:chevron-down" 
-          class="language-switcher__chevron" 
-          :class="{ 'language-switcher__chevron--open': isOpen }" 
+        <Icon
+          name="lucide:chevron-down"
+          class="language-switcher__chevron"
+          :class="{ 'language-switcher__chevron--open': isOpen }"
         />
       </button>
   
@@ -43,9 +43,9 @@
             <span class="language-switcher__option-name">
               {{ locale.name }}
             </span>
-            <Icon 
+            <Icon
               v-if="locale.code === currentLocale.code"
-              name="lucide:check" 
+              name="lucide:check"
               class="language-switcher__check"
             />
           </button>
@@ -69,7 +69,7 @@
   const availableLocales = computed(() => {
     return locales.value.filter(l => l.code !== locale.value)
   })
-  
+
   const getFlagEmoji = (code: string): string => {
     const flags: Record<string, string> = {
       'uk': '🇺🇦',
@@ -77,7 +77,7 @@
     }
     return flags[code] || '🌐'
   }
-  
+
   const toggleDropdown = () => {
     isOpen.value = !isOpen.value
   }
@@ -126,11 +126,11 @@
   .language-switcher {
     position: relative;
     display: inline-block;
-    width: 100%;
-    
+
     &__trigger {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: spacing(xs);
       padding: spacing(sm) spacing(md);
       background: transparent;
@@ -170,15 +170,11 @@
       font-size: font-size(base);
       line-height: 1;
     }
-    
+
     &__name {
       flex: 1;
       text-align: left;
       white-space: nowrap;
-      
-      @media (max-width: 380px) {
-        display: none;
-      }
     }
     
     &__chevron {
@@ -196,6 +192,7 @@
       top: calc(100% + spacing(xs));
       left: 0;
       right: 0;
+      min-width: 150px;
       background: var(--bg-primary);
       border: 1px solid var(--border);
       border-radius: border-radius(lg);
@@ -263,12 +260,12 @@
       font-size: font-size(base);
       line-height: 1;
     }
-    
+
     &__option-name {
       flex: 1;
       text-align: left;
     }
-    
+
     &__check {
       width: 16px;
       height: 16px;
@@ -313,7 +310,7 @@
   @include respond-to(sm) {
     .language-switcher {
       &__trigger {
-        min-width: 120px;
+        min-width: 150px;
       }
     }
   }

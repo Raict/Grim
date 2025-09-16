@@ -11,6 +11,8 @@
     "settings": "Settings",
     "language": "Language",
     "theme": "Theme",
+    "supportMe": "Support dev",
+    "buyMeCoffee": "Buy me a coffee",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "appDescription": "Simple and fast tool for creating favicons from your images. Supports various formats and sizes."
@@ -21,8 +23,8 @@
   },
   "hero": {
     "badge": "⚡ Fast & Easy Favicon Generator",
-    "title": "FaviconGen",
-    "titleAccent": "",
+    "title": "",
+    "titleAccent": "FaviconGen",
     "subtitle": "Convert any image to favicon instantly",
     "description": "Free online favicon generator and converter. Create professional favicons from images or text.",
     "uploadButton": "Upload Image",
@@ -444,6 +446,8 @@
       "advertising": "Used to show relevant advertisements and measure their effectiveness.",
       "preferences": "Remember your settings and preferences for future visits."
     }
-  }
+  },
+  "supportMe": "Support dev",
+  "buyMeCoffee": "Buy me a coffee"
 }
   

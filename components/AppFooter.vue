@@ -100,29 +100,6 @@
               </ul>
             </div>
 
-            <!-- Settings -->
-            <div class="footer__section">
-              <h4 class="footer__section-title">
-                <Icon name="lucide:settings" class="footer__section-icon" />
-                {{ $t('nav.settings') }}
-              </h4>
-              <div class="footer__controls">
-                <div class="footer__control">
-                  <div class="footer__control-header">
-                    <Icon name="lucide:globe" class="footer__control-icon" />
-                    <span class="footer__control-label">{{ $t('nav.language') }}</span>
-                  </div>
-                  <LanguageSwitcher />
-                </div>
-                <div class="footer__control">
-                  <div class="footer__control-header">
-                    <Icon name="lucide:moon" class="footer__control-icon" />
-                    <span class="footer__control-label">{{ $t('nav.theme') }}</span>
-                  </div>
-                  <ThemeSwitcher />
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -137,7 +114,7 @@
                 {{ $t('footer.madeWith') }}
               </p>
             </div>
-            <div class="footer__back-to-top">
+            <div class="footer__actions">
               <button
                 class="footer__top-btn"
                 @click="scrollToTop"
@@ -282,8 +259,8 @@ const scrollToTop = () => {
     gap: spacing(lg);
 
     @include respond-to(sm) {
-      grid-template-columns: repeat(3, 1fr);
-      gap: spacing(md);
+      grid-template-columns: repeat(2, 1fr);
+      gap: spacing(xl);
     }
   }
 
@@ -367,45 +344,6 @@ const scrollToTop = () => {
     }
   }
 
-  &__controls {
-    display: flex;
-    flex-direction: column;
-    gap: spacing(sm);
-  }
-
-  &__control {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: border-radius(md);
-    padding: spacing(sm);
-    @include transition();
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: rgba(255, 255, 255, 0.1);
-    }
-
-    &-header {
-      display: flex;
-      align-items: center;
-      gap: spacing(xs);
-      margin-bottom: spacing(xs);
-    }
-
-    &-icon {
-      width: 12px;
-      height: 12px;
-      color: var(--primary);
-    }
-
-    &-label {
-      font-size: font-size(xs);
-      font-weight: font-weight(medium);
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-  }
 
   &__bottom {
     padding-top: spacing(md);
@@ -451,10 +389,12 @@ const scrollToTop = () => {
     margin: 0;
   }
 
-  &__back-to-top {
+  &__actions {
     display: flex;
     align-items: center;
+    gap: spacing(sm);
   }
+
 
   &__top-btn {
     width: 36px;
@@ -513,12 +453,12 @@ const scrollToTop = () => {
 @include respond-to(lg) {
   .footer {
     &__main {
-      grid-template-columns: 1fr 2fr;
+      grid-template-columns: 1fr 1.5fr;
     }
 
     &__links-group {
-      grid-template-columns: repeat(3, 1fr);
-      gap: spacing(lg);
+      grid-template-columns: repeat(2, 1fr);
+      gap: spacing(2xl);
     }
   }
 }

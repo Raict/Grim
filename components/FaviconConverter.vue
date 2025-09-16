@@ -2,7 +2,7 @@
     <section id="favicon-converter" class="section" role="main" aria-labelledby="converter-title">
       <div class="container">
         <div class="text-center mb-5">
-          <h2 id="converter-title" class="text-4xl font-bold mb-3">
+          <h2 id="converter-title" class="converter-title">
             {{ title }}
           </h2>
           <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
@@ -323,5 +323,27 @@ function blobToDataUrl(blob: Blob): Promise<string> {
   .converter-actions {
     margin-top: spacing(2xl);
     text-align: center;
+  }
+
+  .converter-title {
+    font-size: font-size(4xl);
+    font-weight: font-weight(bold);
+    margin-bottom: spacing(md);
+    background: linear-gradient(135deg, var(--primary), var(--secondary), var(--primary));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 300% 300%;
+    animation: gradientText 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.3));
+
+    @supports not (-webkit-background-clip: text) {
+      color: var(--primary);
+    }
+  }
+
+  @keyframes gradientText {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
   }
   </style>
