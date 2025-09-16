@@ -382,7 +382,13 @@ onUnmounted(() => {
 
 .hero-title {
   margin-bottom: spacing(lg);
-  
+  @include transition();
+  cursor: default;
+
+  &:hover {
+    transform: translateY(-3px);
+  }
+
   &__main {
     display: block;
     font-size: font-size(5xl);
@@ -392,19 +398,19 @@ onUnmounted(() => {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     line-height: 1.1;
-    
+
     @include respond-to(md) {
       font-size: font-size(6xl);
     }
   }
-  
+
   &__sub {
     display: block;
     font-size: font-size(2xl);
     font-weight: font-weight(medium);
     color: var(--text-secondary);
     margin-top: spacing(sm);
-    
+
     @include respond-to(md) {
       font-size: font-size(3xl);
     }
@@ -419,6 +425,13 @@ onUnmounted(() => {
   max-width: 500px;
   margin-left: auto;
   margin-right: auto;
+  @include transition();
+  cursor: default;
+
+  &:hover {
+    transform: translateY(-2px);
+    color: var(--text-primary);
+  }
 
   @include respond-to(lg) {
     margin-left: 0;
@@ -747,7 +760,16 @@ onUnmounted(() => {
   font-weight: font-weight(bold);
   color: var(--text-primary);
   margin-bottom: spacing(xs);
+  @include transition();
+  cursor: default;
 
+  &:hover {
+    transform: translateY(-2px);
+    @include gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 
   @include respond-to(lg) {
     margin-bottom: spacing(sm);
@@ -760,6 +782,13 @@ onUnmounted(() => {
   color: var(--text-secondary);
   max-width: 800px;
   margin: 0 auto;
+  @include transition();
+  cursor: default;
+
+  &:hover {
+    transform: translateY(-1px);
+    color: var(--text-primary);
+  }
 }
 
 .features-grid {

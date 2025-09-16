@@ -197,6 +197,13 @@
     line-height: 1.1;
     margin-bottom: spacing(lg);
     text-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    @include transition();
+    cursor: default;
+
+    &:hover {
+      transform: translateY(-3px);
+      text-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
 
     @include respond-to(sm) {
       font-size: font-size(5xl);
@@ -230,6 +237,13 @@
     font-weight: font-weight(medium);
     color: var(--text-secondary);
     margin-bottom: spacing(md);
+    @include transition();
+    cursor: default;
+
+    &:hover {
+      transform: translateY(-2px);
+      color: var(--text-primary);
+    }
 
     @include respond-to(sm) {
       font-size: font-size(2xl);
@@ -243,6 +257,13 @@
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    @include transition();
+    cursor: default;
+
+    &:hover {
+      transform: translateY(-2px);
+      color: var(--text-secondary);
+    }
   }
 
   .hero-actions {
