@@ -1,4 +1,4 @@
-# robots.txt for Faviconitys - https://faviconitys.com
+# robots.txt for FaviconGen - https://faviconitys.com
 
 User-agent: *
 Allow: /

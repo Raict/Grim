@@ -117,9 +117,7 @@ useHead(() => ({
     { name: 'twitter:app:name:ipad', content: t('seo.siteName') },
     { name: 'twitter:app:name:googleplay', content: t('seo.siteName') },
 
-    // Facebook specific
-    { property: 'fb:app_id', content: '123456789' },
-    { property: 'fb:admins', content: 'faviconitys' },
+    // Facebook specific tags будуть додані при налаштуванні Facebook App
 
     // Schema.org microdata
     { name: 'application-name', content: t('seo.siteName') },
@@ -141,10 +139,7 @@ useHead(() => ({
     { 'http-equiv': 'Content-Type', content: 'text/html; charset=utf-8' },
     { name: 'format-detection', content: 'telephone=no' },
 
-    // Verification tags (add your actual verification codes)
-    { name: 'google-site-verification', content: 'your-google-verification-code' },
-    { name: 'msvalidate.01', content: 'your-bing-verification-code' },
-    { name: 'yandex-verification', content: 'your-yandex-verification-code' },
+    // Verification tags будуть додані пізніше при реєстрації в пошукових системах
 
     // Rich snippets support
     { name: 'thumbnail', content: ogImage.value }
@@ -453,5 +448,22 @@ img {
 ::-moz-selection {
   background: var(--primary);
   color: white;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--bg-primary) inset !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
+}
+
+*:focus {
+  outline: none !important;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--primary) !important;
+  outline-offset: 2px !important;
 }
 </style>

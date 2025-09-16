@@ -72,7 +72,7 @@
       padding: spacing(8xl) 0 spacing(6xl);
     }
   }
-
+  
   .hero-background {
     position: absolute;
     top: 0;
@@ -100,7 +100,6 @@
     animation: gradientShift 15s ease infinite;
   }
 
-
   .hero-glow {
     position: absolute;
     top: 50%;
@@ -118,7 +117,6 @@
     animation: glowPulse 6s ease-in-out infinite;
     filter: blur(40px);
   }
-
 
   .hero-content {
     position: relative;

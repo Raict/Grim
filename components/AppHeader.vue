@@ -25,7 +25,7 @@
           <NuxtLink
             :to=" localePath('/favicons')"
             class="header__link"
-            :class="{ 'header__link--active': $route.path === '/' || $route.path === '/favicons' || $route.path === '/uk/favicons' || $route.path === '/en/favicons' }"
+            :class="{ 'header__link--active': $route.path === '/favicons' || $route.path === '/uk/favicons' || $route.path === '/en/favicons' }"
             role="menuitem"
             :aria-label="$t('nav.converter') + ' - конвертер зображень у фавіконки'"
           >
@@ -389,7 +389,7 @@ const localePath = useLocalePath()
 
 .header__logo-icon {
   position: relative;
-  
+
   &::after {
     content: '';
     position: absolute;
@@ -403,7 +403,7 @@ const localePath = useLocalePath()
     transform: scale(0);
     @include transition();
   }
-  
+
   // .header__logo:hover &::after {
   //   opacity: 1;
   //   transform: scale(1);

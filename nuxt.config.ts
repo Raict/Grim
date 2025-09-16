@@ -3,15 +3,10 @@ import { defineNuxtConfig } from "nuxt/config"
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-    apiBaseUrl: process.env.API_BASE_URL || "http://localhost:3000/api",
+      apiBaseUrl: process.env.API_BASE_URL || "http://localhost:3000/api",
+      siteName: 'FaviconGen',
+      siteUrl: 'https://favicon-gen.com'
     },
-  },
-
-  site: {
-    url: 'https://favicon-gen.com',
-    name: 'FaviconGen',
-    description: 'Professional favicon generator and converter. Create high-quality favicons from images and text instantly. Fast, free, and easy to use.',
-    defaultLocale: 'uk',
   },
 
   app: {
@@ -64,11 +59,8 @@ export default defineNuxtConfig({
     routeRules: {
       '/**': {
         headers: {
-          'X-Frame-Options': 'DENY',
           'X-Content-Type-Options': 'nosniff',
-          'Referrer-Policy': 'strict-origin-when-cross-origin',
-          'Permissions-Policy': 'geolocation=(), microphone=(), camera=()',
-          'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
+          'Referrer-Policy': 'strict-origin-when-cross-origin'
         }
       }
     }

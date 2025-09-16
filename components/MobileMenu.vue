@@ -132,6 +132,7 @@ watch(isOpen, (newValue) => {
 </script>
 
 <style lang="scss" scoped>
+@use 'sass:map';
 .mobile-menu {
   &__trigger {
     width: 40px;
@@ -165,14 +166,16 @@ watch(isOpen, (newValue) => {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    z-index: map-get($z-index, modal);
+    z-index: map.get($z-index, modal);
     opacity: 0;
     visibility: hidden;
+    pointer-events: none;
     @include transition();
-    
+
     &--show {
       opacity: 1;
       visibility: visible;
+      pointer-events: auto;
     }
   }
   

@@ -250,15 +250,15 @@
   const getFormattedAnswer = (key: string) => {
     const answer = t(`pages.faq.items.${key}.answer`)
     
-    // Форматування тексту з HTML тегами
     return answer
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/`(.*?)`/g, '<code>$1</code>')
       .replace(/\n/g, '<br>')
   }
   </script>
-  
+
   <style lang="scss" scoped>
+  @use 'sass:math';
   .section--hero {
     position: relative;
     overflow: hidden;
@@ -627,10 +627,10 @@
 
         @for $i from 1 through 12 {
           &:nth-child(#{$i}) {
-            top: random(100) * 1%;
-            left: random(100) * 1%;
+            top: math.random(100) * 1%;
+            left: math.random(100) * 1%;
             animation-delay: #{$i * 0.5}s;
-            animation-duration: #{3 + random(6)}s;
+            animation-duration: #{3 + math.random(6)}s;
           }
         }
       }
