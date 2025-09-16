@@ -175,7 +175,7 @@
 
   // SEO with structured data
   useHead({
-    title: 'FAQ - Часті питання про фавіконки | Faviconitys',
+    title: 'FAQ - Часті питання про фавіконки | FaviconGen',
     meta: [
       {
         name: 'description',
@@ -188,7 +188,7 @@
       { name: 'robots', content: 'index, follow' },
       {
         property: 'og:title',
-        content: 'FAQ - Часті питання про фавіконки | Faviconitys'
+        content: 'FAQ - Часті питання про фавіконки | FaviconGen'
       },
       {
         property: 'og:description',

@@ -2,11 +2,11 @@
   <header class="header" role="banner">
     <div class="container">
       <nav class="header__nav" role="navigation" aria-label="Головна навігація">
-        <NuxtLink to="/" class="header__logo" aria-label="Faviconitys - головна сторінка">
+        <NuxtLink to="/" class="header__logo" aria-label="FaviconGen - головна сторінка">
           <div class="header__logo-icon" aria-hidden="true">
-            <Icon name="lucide:image" />
+            <Icon name="lucide:zap" />
           </div>
-          <span class="header__logo-text">Faviconitys</span>
+          <span class="header__logo-text">FaviconGen</span>
         </NuxtLink>
 
         

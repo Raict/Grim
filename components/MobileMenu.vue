@@ -19,7 +19,7 @@
             <div class="mobile-menu__logo-icon">
               <Icon name="lucide:image" />
             </div>
-            <span class="mobile-menu__logo-text">Faviconitys</span>
+            <span class="mobile-menu__logo-text">FaviconGen</span>
           </div>
           <button
             class="mobile-menu__close"

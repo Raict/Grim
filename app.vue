@@ -56,7 +56,7 @@ const twitterImage = computed(() => {
 
 useHead(() => ({
   title: t('seo.fullTitle'),
-  titleTemplate: '%s | Faviconitys',
+  titleTemplate: '%s | FaviconGen',
   meta: [
     // Primary SEO
     { name: 'description', content: t('seo.description') },
@@ -233,7 +233,7 @@ useHead(() => ({
       innerHTML: () => JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'SoftwareApplication',
-        name: 'Faviconitys - Favicon Generator',
+        name: 'FaviconGen - Favicon Generator',
         description: t('seo.socialDescription'),
         url: url.value,
         image: ogImage.value,

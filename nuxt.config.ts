@@ -8,15 +8,15 @@ export default defineNuxtConfig({
   },
 
   site: {
-    url: 'https://faviconitys.com',
-    name: 'Faviconitys',
-    description: 'Free online favicon generator and converter. Create professional favicons from images, text, or AI generation.',
+    url: 'https://favicon-gen.com',
+    name: 'FaviconGen',
+    description: 'Professional favicon generator and converter. Create high-quality favicons from images and text instantly. Fast, free, and easy to use.',
     defaultLocale: 'uk',
   },
 
   app: {
     head: {
-      title: "faviconitys",
+      title: "FaviconGen - Professional Favicon Generator",
       meta: [
         { charset: "utf-8" },
         {
@@ -58,6 +58,22 @@ export default defineNuxtConfig({
   ],
 
   css: ["~/assets/scss/main.scss"],
+
+  // Security headers
+  nitro: {
+    routeRules: {
+      '/**': {
+        headers: {
+          'X-Frame-Options': 'DENY',
+          'X-Content-Type-Options': 'nosniff',
+          'Referrer-Policy': 'strict-origin-when-cross-origin',
+          'Permissions-Policy': 'geolocation=(), microphone=(), camera=()',
+          'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
+        }
+      }
+    }
+  },
+
   typescript: {
     strict: true,
   },

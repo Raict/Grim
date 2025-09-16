@@ -118,16 +118,28 @@
     })
   }
   
-  async function fileToImageBitmap(file: File) {
-  return await createImageBitmap(file)
+  async function fileToImageBitmap(file: File): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = () => resolve(img)
+    img.onerror = reject
+    img.src = URL.createObjectURL(file)
+  })
 }
 
-async function resizeImage(imageBitmap: ImageBitmap, size: number): Promise<Blob> {
+async function resizeImage(img: HTMLImageElement, size: number): Promise<Blob> {
   const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')!
+
   canvas.width = size
   canvas.height = size
-  await pica().resize(imageBitmap, canvas)
-  return await new Promise(resolve => canvas.toBlob(blob => resolve(blob!), "image/png"))
+
+  // Simple canvas drawing instead of pica
+  ctx.drawImage(img, 0, 0, size, size)
+
+  return new Promise(resolve => {
+    canvas.toBlob(blob => resolve(blob!), "image/png")
+  })
 }
 
 async function processImages() {
@@ -140,7 +152,7 @@ async function processImages() {
     // Show processing animation for at least 1 second for visual feedback
     await new Promise(resolve => setTimeout(resolve, 500))
 
-    const imageBitmap = await fileToImageBitmap(selectedFile.value)
+    const img = await fileToImageBitmap(selectedFile.value)
     progress.value = 20
 
     await new Promise(resolve => setTimeout(resolve, 300))
@@ -148,7 +160,7 @@ async function processImages() {
 
     const processed = await Promise.all(
       selectedSizes.value.map(async (size) => {
-        const blob = await resizeImage(imageBitmap, size)
+        const blob = await resizeImage(img, size)
         const dataUrl = await blobToDataUrl(blob)
         let fileName = `favicon-${size}x${size}.png`
         if (size === 180) fileName = "apple-touch-icon.png"
@@ -257,12 +269,6 @@ function blobToDataUrl(blob: Blob): Promise<string> {
     })
   }
   
-  const showErrorToast = () => {
-    toast.add({
-      title: i18n.t('converter.error') as string,
-      type: 'background'
-    })
-  }
   </script>
   
   <style lang="scss" scoped>

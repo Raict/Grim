@@ -3,17 +3,24 @@
     class="btn btn--gradient btn--lg download-btn"
     :class="{
       'download-btn--loading': isProcessing,
-      'download-btn--success': showSuccess && !isProcessing
+      'download-btn--success': showSuccess && !isProcessing,
+      'download-btn--downloading': isDownloading
     }"
     :disabled="disabled || isProcessing"
-    @click="$emit('click')"
+    @click="handleClick"
     type="button"
   >
     <div class="download-btn__content">
       <Icon
-        v-if="!isProcessing && !showSuccess"
+        v-if="!isProcessing && !showSuccess && !isDownloading"
         name="lucide:download"
         class="download-btn__icon"
+        aria-hidden="true"
+      />
+      <Icon
+        v-if="isDownloading"
+        name="lucide:file-down"
+        class="download-btn__icon download-btn__icon--downloading"
         aria-hidden="true"
       />
       <div
@@ -22,7 +29,7 @@
         aria-hidden="true"
       ></div>
       <span class="download-btn__text">
-        {{ isProcessing ? processingText : (showSuccess ? successText : defaultText) }}
+        {{ displayText }}
       </span>
     </div>
     <div
@@ -40,6 +47,22 @@
       class="download-btn__pulse"
       aria-hidden="true"
     ></div>
+    <div
+      v-if="isDownloading"
+      class="download-btn__download-animation"
+      aria-hidden="true"
+    ></div>
+    <div
+      v-if="showSuccess"
+      class="download-btn__success-particles"
+      aria-hidden="true"
+    >
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
   </button>
 </template>
 
@@ -54,10 +77,45 @@ interface Props {
   processingText: string
 }
 
-defineProps<Props>()
-defineEmits<{
+const props = defineProps<Props>()
+const emit = defineEmits<{
   click: []
 }>()
+
+const isDownloading = ref(false)
+
+const displayText = computed(() => {
+  if (isDownloading.value) return 'Завантаження...'
+  if (props.isProcessing) return props.processingText
+  if (props.showSuccess) return props.successText
+  return props.defaultText
+})
+
+const handleClick = async () => {
+  emit('click')
+}
+
+// Watch for when processing completes to trigger download animation
+watch(() => props.progress, (newProgress, oldProgress) => {
+  // When progress reaches 100%, trigger the download animation
+  if (newProgress === 100 && oldProgress < 100) {
+    setTimeout(() => {
+      isDownloading.value = true
+
+      // Reset downloading state after showing the animation
+      setTimeout(() => {
+        isDownloading.value = false
+      }, 1500)
+    }, 200) // Small delay to let the success state show first
+  }
+})
+
+// Clean up when component resets
+watch(() => props.showSuccess, (newSuccess) => {
+  if (!newSuccess) {
+    isDownloading.value = false
+  }
+})
 </script>
 
 <style lang="scss" scoped>
@@ -84,6 +142,11 @@ defineEmits<{
     &--success {
       color: #10b981 !important;
       animation: successBounce 0.8s ease-out;
+    }
+
+    &--downloading {
+      color: #3b82f6 !important;
+      animation: downloadBounce 1.2s ease-in-out infinite;
     }
   }
 
@@ -143,6 +206,67 @@ defineEmits<{
     .download-btn__text {
       animation: successScale 0.8s ease-out;
       color: white !important;
+    }
+  }
+
+  &--downloading {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+    animation: downloadingPulse 1.5s ease-in-out infinite;
+    transform: scale(1.01);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+
+    .download-btn__text {
+      color: white !important;
+      animation: downloadTextPulse 1.2s ease-in-out infinite;
+    }
+  }
+
+  &__download-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    animation: downloadFlow 2s ease-in-out infinite;
+    border-radius: inherit;
+  }
+
+  &__success-particles {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #10b981;
+      border-radius: 50%;
+      animation: particleExplode 1.5s ease-out forwards;
+
+      &:nth-child(1) {
+        animation-delay: 0s;
+        transform: rotate(0deg) translateX(30px);
+      }
+      &:nth-child(2) {
+        animation-delay: 0.1s;
+        transform: rotate(72deg) translateX(30px);
+      }
+      &:nth-child(3) {
+        animation-delay: 0.2s;
+        transform: rotate(144deg) translateX(30px);
+      }
+      &:nth-child(4) {
+        animation-delay: 0.3s;
+        transform: rotate(216deg) translateX(30px);
+      }
+      &:nth-child(5) {
+        animation-delay: 0.4s;
+        transform: rotate(288deg) translateX(30px);
+      }
     }
   }
 }
@@ -219,6 +343,62 @@ defineEmits<{
   }
   100% {
     box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+  }
+}
+
+@keyframes downloadBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes downloadingPulse {
+  0%, 100% {
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+    transform: scale(1.01);
+  }
+  50% {
+    box-shadow: 0 12px 35px rgba(59, 130, 246, 0.5);
+    transform: scale(1.02);
+  }
+}
+
+@keyframes downloadTextPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes downloadFlow {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+  50% {
+    transform: translateX(50%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(200%) rotate(45deg);
+  }
+}
+
+@keyframes particleExplode {
+  0% {
+    opacity: 1;
+    transform: scale(0) rotate(var(--rotation, 0deg)) translateX(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(var(--rotation, 0deg)) translateX(20px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5) rotate(var(--rotation, 0deg)) translateX(40px);
   }
 }
 

@@ -5,7 +5,7 @@
     "contact": "Contact",
     "converter": "Converter",
     "textGenerator": "From text",
-    "aiGenerator": "AI Generator",
+    "aiGenerator": "Generator",
     "faq": "FAQ",
     "navigation": "Navigation",
     "settings": "Settings",
@@ -20,11 +20,11 @@
     "dark": "Dark"
   },
   "hero": {
-    "badge": "✨ Most Popular Favicon Generator",
-    "title": "Faviconitys",
-    "titleAccent": "Generator",
+    "badge": "⚡ Fast & Easy Favicon Generator",
+    "title": "FaviconGen",
+    "titleAccent": "",
     "subtitle": "Convert any image to favicon instantly",
-    "description": "Simple and fast tool for creating favicons from your images. Supports various formats and sizes.",
+    "description": "Free online favicon generator and converter. Create professional favicons from images or text.",
     "uploadButton": "Upload Image",
     "dragDrop": "Drag and drop an image here or click to select",
     "stats": {
@@ -42,11 +42,11 @@
   },
   "pages": {
     "home": {
-      "title": "Faviconitys",
+      "title": "FaviconGen",
       "subtitle": "Create favicons easily",
       "description": "Powerful tool for creating professional favicons. Convert images, generate from text.",
-      "fullTitle": "Faviconitys - Create favicons easily and quickly",
-      "keywords": "favicon, icon, generator, converter, AI, text, image, free favicon, фавіконка, генератор, конвертер, ШІ, текст, зображення, безкоштовно",
+      "fullTitle": "FaviconGen - Favicon Generator & Converter",
+      "keywords": "favicon, icon, generator, converter, favicons-gen, favicon generation, text, image, free favicon, professional favicon, website icons",
       "stats": {
         "created": "Created favicons",
         "free": "Free",
@@ -84,7 +84,7 @@
         }
       },
       "benefits": {
-        "title": "Why choose Faviconitys?",
+        "title": "Why choose FaviconGen?",
         "fast": {
           "title": "Fast",
           "description": "Create favicons in seconds without complex settings"
@@ -140,11 +140,11 @@
       "downloadComplete": "✓ Downloaded Successfully"
     },
     "aiGenerator": {
-      "title": "AI Favicon Generator",
-      "subtitle": "Create unique favicons with artificial intelligence",
-      "description": "Describe your idea, choose style, and our AI will create professional favicon for you",
-      "fullTitle": "AI Favicon Generator - Faviconitys",
-      "metaDescription": "Create unique favicons using artificial intelligence. Describe your idea and get a professional design.",
+      "title": "Text Favicon Generator",
+      "subtitle": "Create unique favicons from text",
+      "description": "Enter your text, choose style, and generate professional favicon instantly",
+      "fullTitle": "Text Favicon Generator - FaviconGen",
+      "metaDescription": "Create unique favicons from text. Enter your text and get a professional design instantly.",
       "prompt": {
         "title": "Describe your idea",
         "label": "Favicon description",
@@ -196,7 +196,7 @@
     "privacy": {
       "title": "Privacy Policy",
       "lastUpdated": "Last updated: December 2024",
-      "intro": "This Privacy Policy describes how Faviconitys collects, uses, and protects your information when you use our service.",
+      "intro": "This Privacy Policy describes how FaviconGen collects, uses, and protects your information when you use our service.",
       "sections": {
         "dataCollection": {
           "title": "Information We Collect",
@@ -227,11 +227,11 @@
     "terms": {
       "title": "Terms of Use",
       "lastUpdated": "Last updated: December 2024",
-      "intro": "By using Faviconitys, you agree to these terms and conditions.",
+      "intro": "By using FaviconGen, you agree to these terms and conditions.",
       "sections": {
         "serviceDescription": {
           "title": "Service Description",
-          "content": "Faviconitys is a free online tool for creating favicons from images, text, or AI generation. The service is provided as-is without warranties."
+          "content": "FaviconGen is a free online tool for creating favicons from images and text. The service is provided as-is without warranties."
         },
         "userResponsibilities": {
           "title": "User Responsibilities",
@@ -347,7 +347,7 @@
   "converter": {
     "title": "Favicon Converter",
     "subtitle": "Convert any image to professional favicons in all required sizes",
-    "fullTitle": "Faviconitys - Image to Favicon Converter",
+    "fullTitle": "FaviconGen - Image to Favicon Converter",
     "selectSize": "Select Size",
     "download": "Download",
     "processing": "Processing...",
@@ -403,7 +403,7 @@
     }
   },
   "footer": {
-    "copyright": "© 2024 Faviconitys. All rights reserved.",
+    "copyright": "© 2024 FaviconGen. All rights reserved.",
     "madeWith": "Made with ❤️ in Ukraine",
     "links": {
       "privacy": "Privacy Policy",
@@ -420,13 +420,13 @@
     }
   },
   "seo": {
-    "fullTitle": "Faviconitys - Free Favicon Generator & Converter | Create Professional Icons",
-    "description": "Free online favicon generator and converter. Create professional favicons from images, text, or AI generation. Supports all sizes: 16x16, 32x32, 180x180, 192x192, 512x512. No registration required.",
-    "keywords": "favicon generator, favicon converter, free favicon, create favicon, favicon maker, icon generator, website icon, browser icon, favicon from image, favicon from text, AI favicon, PWA icons, apple touch icon, android icon, ICO file, PNG favicon, 16x16 favicon, 32x32 favicon, 180x180 icon, 192x192 icon, 512x512 icon, web development tools, favicon.ico, site icon, tab icon, bookmark icon, favicon online, favicon creator, favicon tool, фавіконка генератор, фавіконка конвертер, безкоштовна фавіконка, створити фавіконку, фавіконка онлайн, іконка сайту, браузерна іконка, фавіконка з зображення, фавіконка з тексту, ШІ фавіконка, PWA іконки, іконка Apple, Android іконка, ICO файл, PNG фавіконка, 16x16 фавіконка, 32x32 фавіконка, 180x180 іконка, 192x192 іконка, 512x512 іконка, інструменти веб-розробки, іконка сайту, іконка вкладки, іконка закладки, фавіконка створювач, фавіконка інструмент, генератор фавиконок, конвертер фавиконок, бесплатная фавиконка, создать фавиконку, фавиконка онлайн, иконка сайта, браузерная иконка, фавиконка из изображения, фавиконка из текста, ИИ фавиконка, PWA иконки, иконка Apple, Android иконка, ICO файл, PNG фавиконка, 16x16 фавиконка, 32x32 фавиконка, 180x180 иконка, 192x192 иконка, 512x512 иконка, инструменты веб-разработки, иконка сайта, иконка вкладки, иконка закладки, фавиконка создатель, фавиконка инструмент, generate favicon, згенерувати фавіконку, сгенерировать фавиконку, convert image to favicon, конвертувати зображення у фавіконку, конвертировать изображение в фавиконку",
+    "fullTitle": "FaviconGen - Free Favicon Generator & Converter | Create Quality Icons",
+    "description": "Free online favicon generator and converter. Create professional favicons from images and text. Supports all sizes: 16x16, 32x32, 180x180, 192x192, 512x512. No registration required.",
+    "keywords": "favicon generator, favicon converter, free favicon, create favicon, favicon maker, icon generator, website icon, browser icon, favicon from image, favicon from text, favicons-gen, favicon generation, PWA icons, apple touch icon, android icon, ICO file, PNG favicon, 16x16 favicon, 32x32 favicon, 180x180 icon, 192x192 icon, 512x512 icon, web development tools, favicon.ico, site icon, tab icon, bookmark icon, favicon online, favicon creator, favicon tool, фавіконка генератор, фавіконка конвертер, безкоштовна фавіконка, створити фавіконку, фавіконка онлайн, іконка сайту, браузерна іконка, фавіконка з зображення, фавіконка з тексту, PWA іконки, іконка Apple, Android іконка, ICO файл, PNG фавіконка, 16x16 фавіконка, 32x32 фавіконка, 180x180 іконка, 192x192 іконка, 512x512 іконка, інструменти веб-розробки, іконка сайту, іконка вкладки, іконка закладки, фавіконка створювач, фавіконка інструмент, генератор фавиконок, конвертер фавиконок, бесплатная фавиконка, создать фавиконку, фавиконка онлайн, иконка сайта, браузерная иконка, фавиконка из изображения, фавиконка из текста, PWA иконки, иконка Apple, Android иконка, ICO файл, PNG фавиконка, 16x16 фавиконка, 32x32 фавиконка, 180x180 иконка, 192x192 иконка, 512x512 иконка, инструменты веб-разработки, иконка сайта, иконка вкладки, иконка закладки, фавиконка создатель, фавиконка инструмент, generate favicon, згенерувати фавіконку, сгенерировать фавиконку, convert image to favicon, конвертувати зображення у фавіконку, конвертировать изображение в фавиконку",
     "author": "Rai",
-    "socialDescription": "Free online favicon generator and converter. Create professional favicons from images, text, or AI generation. All sizes included.",
-    "siteName": "Faviconitys",
-    "ogImageAlt": "Faviconitys - Free Favicon Generator & Converter for creating professional website icons"
+    "socialDescription": "Free online favicon generator and converter. Create professional favicons from images and text. All sizes included.",
+    "siteName": "FaviconGen",
+    "ogImageAlt": "FaviconGen - Free Favicon Generator & Converter for creating professional website icons"
   },
   "cookie": {
     "title": "Cookie Consent",

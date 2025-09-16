@@ -14,7 +14,7 @@
       </div>
     </section>
 
-    <!-- Text Faviconly Generator -->
+    <!-- Text Favicon Generator -->
     <section class="section section-settings">
       <div class="container">
         <div class="generator-card">
@@ -102,23 +102,23 @@
                 </div>
               </div>
 
-              <!-- Preview Faviconlys (row, right-to-left) -->
-              <div class="Faviconlys-preview-row" role="group" aria-label="Попередній перегляд фавіконок різних розмірів">
+              <!-- Preview Favicons (row, right-to-left) -->
+              <div class="Favicons-preview-row" role="group" aria-label="Попередній перегляд фавіконок різних розмірів">
                 <div
                   v-for="size in [96, 64, 48, 32, 16]"
                   :key="size"
-                  class="Faviconly-preview-item"
+                  class="Favicon-preview-item"
                 >
                   <canvas
-                    :ref="el => setFaviconlyPreviewRef(size, el as HTMLCanvasElement | null)"
+                    :ref="el => setFaviconPreviewRef(size, el as HTMLCanvasElement | null)"
                     :width="size"
                     :height="size"
                     :style="{ width: size + 'px', height: size + 'px' }"
-                    class="Faviconly-preview-canvas"
+                    class="Favicon-preview-canvas"
                     :aria-label="`Попередній перегляд фавіконки розміром ${size} на ${size} пікселів`"
                     role="img"
                   />
-                  <div class="Faviconly-size-label" aria-hidden="true">{{ size }}x{{ size }}</div>
+                  <div class="Favicon-size-label" aria-hidden="true">{{ size }}x{{ size }}</div>
                 </div>
               </div>
             </div>
@@ -310,7 +310,7 @@
             :default-text="$t('pages.textGenerator.generate')"
             :success-text="$t('pages.textGenerator.downloadComplete')"
             :processing-text="processingText"
-            @click="generateFaviconlys"
+            @click="generateFavicons"
           />
         </div>
 
@@ -337,6 +337,7 @@
   
   <script setup lang="ts">
   import JSZip from 'jszip'
+import { colorPalette, grayscalePalette, fontOptions, FONT_WEIGHT_LABELS, FONT_WEIGHTS } from '~/utils/options'
 
 
   
@@ -362,6 +363,18 @@ interface FontObject {
       backgroundAlpha: 0,
   })
 
+  // Simple text length limit
+  watch(() => textSettings.text, (newText) => {
+    if (newText && newText.length > 10) {
+      textSettings.text = newText.slice(0, 10)
+    }
+  })
+
+  // Helper function to get supported font weights
+  function getSupportedFontWeights(fontFamily: string): number[] {
+    return FONT_WEIGHTS[fontFamily] || [400, 700]
+  }
+
   const { t } = useI18n()
   const isClient = typeof window !== 'undefined' && typeof document !== 'undefined'
   const selectedSizes = ref([16, 32, 48])
@@ -372,7 +385,7 @@ interface FontObject {
   const progress = ref(0)
   const toast = useToast()
   const previewCanvas = ref<HTMLCanvasElement | null>(null)
-  const FaviconlyPreviewRefs = reactive<Record<number, HTMLCanvasElement | null>>({})
+  const FaviconPreviewRefs = reactive<Record<number, HTMLCanvasElement | null>>({})
   const fontFamily = ref(textSettings.fontFamily)
   const availableFontWeights = ref<number[]>([400, 700])
   const activeFontFamily = ref(textSettings.fontFamily)
@@ -396,77 +409,80 @@ interface FontObject {
   }))
 )
 
-  const  setFaviconlyPreviewRef = (size: number, el: HTMLCanvasElement | null) => {
-    FaviconlyPreviewRefs[size] = el
+  const  setFaviconPreviewRef = (size: number, el: HTMLCanvasElement | null) => {
+    FaviconPreviewRefs[size] = el
   }
   
   const drawTextOnCanvas = (canvas: HTMLCanvasElement, size: number) => {
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-  ctx.clearRect(0, 0, size, size);
+    ctx.clearRect(0, 0, size, size);
 
-  const percent = Math.max(0, Math.min(textSettings.borderRadiusPercent, 100));
-  const radius = (percent / 100) * (size / 2);
+    const percent = Math.max(0, Math.min(textSettings.borderRadiusPercent, 100));
+    const radius = (percent / 100) * (size / 2);
 
-  ctx.save();
+    ctx.save();
 
-  if (radius >= size / 2) {
-    ctx.beginPath();
-    ctx.arc(size / 2, size / 2, size / 2, 0, 2 * Math.PI);
-    ctx.closePath();
-    ctx.clip();
-  } else {
-    ctx.beginPath();
-    ctx.moveTo(radius, 0);
-    ctx.lineTo(size - radius, 0);
-    ctx.quadraticCurveTo(size, 0, size, radius);
-    ctx.lineTo(size, size - radius);
-    ctx.quadraticCurveTo(size, size, size - radius, size);
-    ctx.lineTo(radius, size);
-    ctx.quadraticCurveTo(0, size, 0, size - radius);
-    ctx.lineTo(0, radius);
-    ctx.quadraticCurveTo(0, 0, radius, 0);
-    ctx.closePath();
-    ctx.clip();
-  }
+    // Apply clipping for rounded corners or circle
+    if (radius >= size / 2) {
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, size / 2, 0, 2 * Math.PI);
+      ctx.closePath();
+      ctx.clip();
+    } else {
+      ctx.beginPath();
+      ctx.moveTo(radius, 0);
+      ctx.lineTo(size - radius, 0);
+      ctx.quadraticCurveTo(size, 0, size, radius);
+      ctx.lineTo(size, size - radius);
+      ctx.quadraticCurveTo(size, size, size - radius, size);
+      ctx.lineTo(radius, size);
+      ctx.quadraticCurveTo(0, size, 0, size - radius);
+      ctx.lineTo(0, radius);
+      ctx.quadraticCurveTo(0, 0, radius, 0);
+      ctx.closePath();
+      ctx.clip();
+    }
 
-  if (textSettings.backgroundType === 'transparent') {
-    ctx.globalAlpha = textSettings.backgroundAlpha / 100; 
-    ctx.fillStyle = textSettings.backgroundColor;
-    ctx.fillRect(0, 0, size, size);
-    ctx.globalAlpha = 1.0;
-  } else if (textSettings.backgroundType === 'gradient') {
-    const gradient = ctx.createLinearGradient(0, 0, size, size);
-    gradient.addColorStop(0, textSettings.backgroundColor);
-    gradient.addColorStop(1, textSettings.gradientColor);
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, size, size);
-  } else {
-    ctx.fillStyle = textSettings.backgroundColor;
-    ctx.fillRect(0, 0, size, size);
-  }
+    // Draw background
+    if (textSettings.backgroundType === 'transparent') {
+      ctx.globalAlpha = textSettings.backgroundAlpha / 100;
+      ctx.fillStyle = textSettings.backgroundColor;
+      ctx.fillRect(0, 0, size, size);
+      ctx.globalAlpha = 1.0;
+    } else if (textSettings.backgroundType === 'gradient') {
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, textSettings.backgroundColor);
+      gradient.addColorStop(1, textSettings.gradientColor);
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, size, size);
+    } else {
+      ctx.fillStyle = textSettings.backgroundColor;
+      ctx.fillRect(0, 0, size, size);
+    }
 
-  const fontSize = Math.floor(size * (textSettings.fontSize / 48));
+    // Draw text
+    const fontSize = Math.floor(size * (textSettings.fontSize / 48));
     ctx.font = `${textSettings.fontWeight} ${fontSize}px ${activeFontFamily.value}`;
-  ctx.fillStyle = textSettings.textColor;
-  ctx.textAlign = 'center';
-  const metrics = ctx.measureText(textSettings.text);
-  const actualHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
-  const centerY = size / 2 + (actualHeight / 2) - metrics.actualBoundingBoxDescent;
-  ctx.fillText(textSettings.text, size / 2, centerY);
+    ctx.fillStyle = textSettings.textColor;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
 
-  ctx.restore();
+    // Draw text in center
+    ctx.fillText(textSettings.text, size / 2, size / 2);
+
+    ctx.restore();
   };
 
 
-  const redrawAllFaviconlys = () => {
+  const redrawAllFavicons = () => {
     if (fontIsLoading.value) return;
   [16, 32, 48, 64, 96].forEach(size => {
-    const canvas = FaviconlyPreviewRefs[size]
+    const canvas = FaviconPreviewRefs[size]
     if (canvas) drawTextOnCanvas(canvas, size)
   })
-  updateFaviconly(FaviconlyPreviewRefs[32] || null)
+  updateFavicon(FaviconPreviewRefs[32] || null)
 }
 
 
@@ -523,7 +539,7 @@ watch(
     if (fontObj && !fontObj.url) {
       activeFontFamily.value = newFont
       fontIsLoading.value = false
-      redrawAllFaviconlys()
+      redrawAllFavicons()
       return
     }
 
@@ -539,7 +555,7 @@ watch(
     if (loaded) {
       activeFontFamily.value = newFont
       fontIsLoading.value = false
-      redrawAllFaviconlys()
+      redrawAllFavicons()
     } else {
       fontIsLoading.value = false
       toast.add({ title: t('error.loadFont'), color: 'error' })
@@ -556,144 +572,159 @@ watch(
     }
   }
 
-  const updateFaviconly = (canvas: HTMLCanvasElement | null) => {
+  const updateFavicon = (canvas: HTMLCanvasElement | null) => {
     if (!canvas) return
     const dataUrl = canvas.toDataURL('image/png')
-    let Faviconly = document.querySelector('link[rel="icon"]') as HTMLLinkElement | null
-    if (!Faviconly) {
-      Faviconly = document.createElement('link') as HTMLLinkElement
-      Faviconly.rel = 'icon'
-      document.head.appendChild(Faviconly)
+    let Favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement | null
+    if (!Favicon) {
+      Favicon = document.createElement('link') as HTMLLinkElement
+      Favicon.rel = 'icon'
+      document.head.appendChild(Favicon)
     }
-    Faviconly.setAttribute('type', 'image/png')
-    Faviconly.setAttribute('href', dataUrl)
+    Favicon.setAttribute('type', 'image/png')
+    Favicon.setAttribute('href', dataUrl)
   }
   
-  const generateFaviconlys = async () => {
-  if (!textSettings.text && fontIsLoading.value) return
+  // Helper function to create text-based image (like resizeImage but for text)
+  async function createTextImage(size: number): Promise<Blob> {
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')!
 
-  isGenerating.value = true
-  progress.value = 0
+    canvas.width = size
+    canvas.height = size
 
-  try {
-    // Show processing animation for better UX
-    await new Promise(resolve => setTimeout(resolve, 400))
-    progress.value = 20
+    // Use simplified drawing logic
+    drawTextOnCanvas(canvas, size)
 
-    await new Promise(resolve => setTimeout(resolve, 300))
-    progress.value = 40
-
-    const zip = new JSZip()
-    const images: any[] = []
-
-    for (const size of selectedSizes.value) {
-      const canvas = document.createElement('canvas')
-      canvas.width = size
-      canvas.height = size
-
-      drawTextOnCanvas(canvas, size)
-
-      const dataUrl = canvas.toDataURL('image/png')
-      const base64Data = dataUrl.split(',')[1]
-
-      let fileName = `Faviconly-${size}x${size}.png`
-      if (size === 180) fileName = 'apple-touch-icon.png'
-      if (size === 192) fileName = 'android-chrome-192x192.png'
-      if (size === 512) fileName = 'android-chrome-512x512.png'
-
-      // Save as binary Blob, not base64
-      const response = await fetch(dataUrl)
-      const blob = await response.blob()
-      zip.file(fileName, blob)
-
-      images.push({
-        size,
-        dataUrl,
-        fileName
-      })
-    }
-
-    // Add Faviconly.ico as a PNG (for real ICO you’d need special logic)
-    const icoSize = selectedSizes.value.includes(32) ? 32 : selectedSizes.value.includes(16) ? 16 : selectedSizes.value[0]
-    const icoCanvas = document.createElement('canvas')
-    icoCanvas.width = icoSize
-    icoCanvas.height = icoSize
-    drawTextOnCanvas(icoCanvas, icoSize)
-    const icoDataUrl = icoCanvas.toDataURL('image/png')
-    const icoBlob = await (await fetch(icoDataUrl)).blob()
-    zip.file('Faviconly.ico', icoBlob)
-
-    // Add manifest file
-    const manifest = {
-      name: "My Website",
-      short_name: "Website",
-      icons: images.filter(x => x.size >= 192).map(({ size, fileName }) => ({
-        src: `/${fileName}`,
-        sizes: `${size}x${size}`,
-        type: "image/png"
-      })),
-      theme_color: textSettings.backgroundColor,
-      background_color: "#ffffff",
-      display: "standalone"
-    }
-    zip.file('site.webmanifest', JSON.stringify(manifest, null, 2))
-
-    await new Promise(resolve => setTimeout(resolve, 300))
-    progress.value = 90
-
-    // Generate ZIP as Blob and trigger download
-    const zipBuffer = await zip.generateAsync({ type: 'blob' })
-
-    await new Promise(resolve => setTimeout(resolve, 200))
-    progress.value = 100
-
-    generatedImages.value = images
-
-    // Trigger standard browser download with animation
-    const link = document.createElement('a')
-    link.href = URL.createObjectURL(zipBuffer)
-    link.download = 'text-favicons.zip'
-    link.style.display = 'none'
-    document.body.appendChild(link)
-
-    // Small delay to ensure proper animation timing
-    await new Promise(resolve => setTimeout(resolve, 100))
-    link.click()
-
-    // Cleanup
-    setTimeout(() => {
-      document.body.removeChild(link)
-      URL.revokeObjectURL(link.href)
-    }, 1000)
-
-    // Show success toast
-    toast.add({
-      title: t('notify.zipGeneratedsuccess'),
-      type: 'foreground'
+    return new Promise(resolve => {
+      canvas.toBlob(blob => resolve(blob!), "image/png")
     })
-
-    // Show success state
-    showSuccess.value = true
-    console.log('✅ Text generator success state set to true, should show green button')
-
-    // Auto-reset to normal state after showing success for 3 seconds
-    setTimeout(() => {
-      showSuccess.value = false
-      progress.value = 0
-    }, 3000)
-
-  } catch (error) {
-    console.error('Error generating text Faviconlys:', error)
-
-    // Show error toast
-    toast.add({
-      title: t('converter.error'),
-      type: 'background'
-    })
-  } finally {
-    isGenerating.value = false
   }
-}
+
+  // Helper: Blob to DataURL (same as FaviconConverter)
+  function blobToDataUrl(blob: Blob): Promise<string> {
+    return new Promise(resolve => {
+      const reader = new FileReader()
+      reader.onload = e => resolve(e.target!.result as string)
+      reader.readAsDataURL(blob)
+    })
+  }
+
+  const generateFavicons = async () => {
+    if (!textSettings.text || fontIsLoading.value) return
+
+    isGenerating.value = true
+    progress.value = 0
+
+    try {
+      // Show processing animation for at least 1 second for visual feedback
+      await new Promise(resolve => setTimeout(resolve, 500))
+
+      progress.value = 20
+
+      await new Promise(resolve => setTimeout(resolve, 300))
+      progress.value = 40
+
+      // Process all sizes using the same pattern as FaviconConverter
+      const processed = await Promise.all(
+        selectedSizes.value.map(async (size) => {
+          const blob = await createTextImage(size)
+          const dataUrl = await blobToDataUrl(blob)
+          let fileName = `favicon-${size}x${size}.png`
+          if (size === 180) fileName = "apple-touch-icon.png"
+          if (size === 192) fileName = "android-chrome-192x192.png"
+          if (size === 512) fileName = "android-chrome-512x512.png"
+          return { size, dataUrl, fileName, blob }
+        })
+      )
+
+      await new Promise(resolve => setTimeout(resolve, 400))
+      progress.value = 70
+
+      const zip = new JSZip()
+      for (const img of processed) {
+        zip.file(img.fileName, img.blob)
+      }
+
+      const manifest = {
+        name: "My Website",
+        short_name: "Website",
+        icons: processed.filter(x => x.size >= 192).map(x => ({
+          src: "/" + x.fileName,
+          sizes: `${x.size}x${x.size}`,
+          type: "image/png",
+        })),
+        theme_color: textSettings.backgroundColor,
+        background_color: "#ffffff",
+        display: "standalone",
+      }
+      zip.file("site.webmanifest", JSON.stringify(manifest, null, 2))
+
+      await new Promise(resolve => setTimeout(resolve, 300))
+      progress.value = 90
+
+      const zipBlob = await zip.generateAsync({ type: "blob" })
+
+      await new Promise(resolve => setTimeout(resolve, 200))
+      progress.value = 100
+
+      generatedImages.value = processed
+
+      // Trigger standard browser download with animation
+      const link = document.createElement('a')
+      link.href = URL.createObjectURL(zipBlob)
+      link.download = 'text-favicons.zip'
+      link.style.display = 'none'
+      document.body.appendChild(link)
+
+      // Small delay to ensure proper animation timing
+      await new Promise(resolve => setTimeout(resolve, 100))
+      link.click()
+
+      // Cleanup
+      setTimeout(() => {
+        document.body.removeChild(link)
+        URL.revokeObjectURL(link.href)
+      }, 1000)
+
+      // Show success toast
+      toast.add({
+        title: t('notify.zipGeneratedsuccess'),
+        type: 'foreground'
+      })
+
+      // Show success state
+      showSuccess.value = true
+
+      // Auto-reset to normal state after showing success for 3 seconds
+      setTimeout(() => {
+        showSuccess.value = false
+        progress.value = 0
+      }, 3000)
+
+    } catch (error) {
+      console.error('Error generating text favicons:', error)
+
+      let errorMessage = t('converter.error')
+      if (error instanceof Error) {
+        if (error.message.includes('memory')) {
+          errorMessage = t('converter.errorMemory')
+        } else if (error.message.includes('format')) {
+          errorMessage = t('converter.errorFormat')
+        } else if (error.message.includes('size')) {
+          errorMessage = t('converter.errorSize')
+        }
+      }
+
+      toast.add({
+        title: errorMessage,
+        type: 'background'
+      })
+    } finally {
+      isGenerating.value = false
+      // Don't reset progress here - let the success state show
+    }
+  }
   
   
   watch(textSettings, updatePreview, { deep: true })
@@ -707,10 +738,10 @@ watch(
 
       await nextTick();
       [16, 32, 48, 64, 96].forEach(size => {
-        const canvas = FaviconlyPreviewRefs[size]
+        const canvas = FaviconPreviewRefs[size]
         if (canvas && !fontIsLoading.value) drawTextOnCanvas(canvas, size)
       })
-      updateFaviconly(FaviconlyPreviewRefs[32] || null)
+      updateFavicon(FaviconPreviewRefs[32] || null)
     },
     { deep: true }
   )
@@ -729,7 +760,7 @@ watch(
     await ensureFontLoaded(textSettings.fontFamily, newWeight, textSettings.fontSize);
     fontIsLoading.value = false;
     activeFontFamily.value = textSettings.fontFamily;
-    redrawAllFaviconlys();
+    redrawAllFavicons();
   }
 });
 
@@ -737,10 +768,10 @@ watch(
   
   onMounted(() => {
     [16, 32, 48, 64, 96].forEach(size => {
-      const canvas = FaviconlyPreviewRefs[size]
+      const canvas = FaviconPreviewRefs[size]
       if (canvas && !fontIsLoading.value) drawTextOnCanvas(canvas, size)
     })
-    updateFaviconly(FaviconlyPreviewRefs[32] || null)
+    updateFavicon(FaviconPreviewRefs[32] || null)
     updatePreview()
       if (isClient) {
           availableFontWeights.value = getSupportedFontWeights(fontFamily.value)
@@ -990,7 +1021,7 @@ useHead({
     border-radius: border-radius(md);
   }
   
-  .Faviconlys-preview-row {
+  .Favicons-preview-row {
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -1003,19 +1034,19 @@ useHead({
     }
   }
   
-  .Faviconly-preview-item {
+  .Favicon-preview-item {
     display: flex;
     flex-direction: column;
     align-items: center;
   
-    .Faviconly-size-label {
+    .Favicon-size-label {
       margin-top: 6px;
       font-size: 13px;
       color: #888;
     }
   }
   
-  .Faviconly-preview-canvas {
+  .Favicon-preview-canvas {
     background: transparent;
     overflow: hidden;
   }

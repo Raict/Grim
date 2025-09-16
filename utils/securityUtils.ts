@@ -1,0 +1,188 @@
+// Security utility functions for safe favicon generation
+
+// File validation utilities
+export const ALLOWED_MIME_TYPES = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+  'image/gif'
+] as const
+
+export const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB
+
+// Magic number signatures for common image formats
+const FILE_SIGNATURES = {
+  'image/png': [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A],
+  'image/jpeg': [0xFF, 0xD8, 0xFF],
+  'image/webp': [0x52, 0x49, 0x46, 0x46], // RIFF header
+  'image/gif': [0x47, 0x49, 0x46, 0x38] // GIF8
+}
+
+/**
+ * Validates file type using magic number (binary signature)
+ */
+export function validateFileSignature(buffer: ArrayBuffer, expectedMimeType: string): boolean {
+  const uint8Array = new Uint8Array(buffer)
+  const signature = FILE_SIGNATURES[expectedMimeType as keyof typeof FILE_SIGNATURES]
+
+  if (!signature) return false
+
+  // Special case for WebP - need to check full RIFF header
+  if (expectedMimeType === 'image/webp') {
+    const webpSignature = new Uint8Array([0x52, 0x49, 0x46, 0x46]) // RIFF
+    const webpType = new Uint8Array([0x57, 0x45, 0x42, 0x50]) // WEBP at offset 8
+
+    const hasRiff = signature.every((byte, index) => uint8Array[index] === byte)
+    const hasWebp = webpType.every((byte, index) => uint8Array[index + 8] === byte)
+
+    return hasRiff && hasWebp
+  }
+
+  return signature.every((byte, index) => uint8Array[index] === byte)
+}
+
+/**
+ * Comprehensive file validation
+ */
+export function validateUploadedFile(file: File): { isValid: boolean; error?: string } {
+  // Check file size
+  if (file.size > MAX_FILE_SIZE) {
+    return { isValid: false, error: 'File too large. Maximum size is 10MB.' }
+  }
+
+  if (file.size === 0) {
+    return { isValid: false, error: 'File is empty.' }
+  }
+
+  // Check MIME type
+  if (!ALLOWED_MIME_TYPES.includes(file.type as any)) {
+    return { isValid: false, error: 'Invalid file type. Only PNG, JPG, JPEG, WebP, and GIF are allowed.' }
+  }
+
+  return { isValid: true }
+}
+
+/**
+ * Validates file buffer against expected type using magic numbers
+ */
+export async function validateFileBuffer(file: File): Promise<{ isValid: boolean; error?: string }> {
+  try {
+    const buffer = await file.arrayBuffer()
+
+    if (!validateFileSignature(buffer, file.type)) {
+      return {
+        isValid: false,
+        error: 'File signature does not match the declared file type. Possible file tampering detected.'
+      }
+    }
+
+    return { isValid: true }
+  } catch (error) {
+    return { isValid: false, error: 'Failed to read file data.' }
+  }
+}
+
+/**
+ * Sanitizes user text input to prevent XSS
+ */
+export function sanitizeTextInput(input: string): string {
+  return input
+    .replace(/[<>]/g, '') // Remove potential HTML tags
+    .replace(/javascript:/gi, '') // Remove javascript: protocol
+    .replace(/data:/gi, '') // Remove data: protocol
+    .replace(/vbscript:/gi, '') // Remove vbscript: protocol
+    .trim()
+    .slice(0, 10) // Limit to 10 characters max for favicon text
+}
+
+/**
+ * Safe HTML escaping for display
+ */
+export function escapeHtml(unsafe: string): string {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;")
+}
+
+/**
+ * Rate limiting utility (client-side)
+ */
+class RateLimiter {
+  private requests: number[] = []
+  private maxRequests: number
+  private timeWindow: number
+
+  constructor(maxRequests: number = 5, timeWindow: number = 60000) { // 5 requests per minute
+    this.maxRequests = maxRequests
+    this.timeWindow = timeWindow
+  }
+
+  canMakeRequest(): boolean {
+    const now = Date.now()
+    // Remove old requests outside time window
+    this.requests = this.requests.filter(time => now - time < this.timeWindow)
+
+    if (this.requests.length >= this.maxRequests) {
+      return false
+    }
+
+    this.requests.push(now)
+    return true
+  }
+
+  getTimeUntilNextRequest(): number {
+    if (this.requests.length < this.maxRequests) return 0
+
+    const oldestRequest = Math.min(...this.requests)
+    return Math.max(0, this.timeWindow - (Date.now() - oldestRequest))
+  }
+}
+
+export const processRateLimiter = new RateLimiter(3, 30000) // 3 processing requests per 30 seconds
+
+/**
+ * Memory-safe canvas creation with size limits
+ */
+export function createSafeCanvas(width: number, height: number): HTMLCanvasElement | null {
+  const MAX_CANVAS_SIZE = 4096 // Maximum dimension
+  const MAX_CANVAS_AREA = 16 * 1024 * 1024 // 16 megapixels
+
+  if (width > MAX_CANVAS_SIZE || height > MAX_CANVAS_SIZE) {
+    throw new Error(`Canvas dimensions too large. Maximum size is ${MAX_CANVAS_SIZE}x${MAX_CANVAS_SIZE}`)
+  }
+
+  if (width * height > MAX_CANVAS_AREA) {
+    throw new Error('Canvas area too large. Reduce image dimensions.')
+  }
+
+  try {
+    const canvas = document.createElement('canvas')
+    canvas.width = width
+    canvas.height = height
+    return canvas
+  } catch (error) {
+    throw new Error('Failed to create canvas. Insufficient memory.')
+  }
+}
+
+/**
+ * Generates secure Content Security Policy header value
+ */
+export function generateCSPHeader(): string {
+  return [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval'", // Nuxt requires unsafe-inline/eval
+    "style-src 'self' 'unsafe-inline' fonts.googleapis.com",
+    "font-src 'self' fonts.gstatic.com",
+    "img-src 'self' data: blob: https:",
+    "connect-src 'self' https:",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'none'"
+  ].join('; ')
+}

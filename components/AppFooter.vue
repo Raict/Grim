@@ -11,7 +11,7 @@
                 <Icon name="lucide:image" />
                 <div class="footer__logo-glow"></div>
               </div>
-              <span class="footer__logo-text">Faviconitys</span>
+              <span class="footer__logo-text">FaviconGen</span>
             </div>
             <p class="footer__description">
               {{ $t('footer.description') }}
