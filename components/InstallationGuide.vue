@@ -233,8 +233,16 @@ const copyToClipboard = async (text: string) => {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: border-radius(xl);
-  padding: spacing(2xl);
+  padding: spacing(md);
   margin-top: spacing(2xl);
+
+  @include respond-to(sm) {
+    padding: spacing(lg);
+  }
+
+  @include respond-to(md) {
+    padding: spacing(2xl);
+  }
   
   &__header {
     margin-bottom: spacing(2xl);
@@ -299,7 +307,15 @@ const copyToClipboard = async (text: string) => {
   background: var(--bg-primary);
   border: 1px solid var(--border);
   border-radius: border-radius(lg);
-  padding: spacing(lg);
+  padding: spacing(sm);
+
+  @include respond-to(sm) {
+    padding: spacing(md);
+  }
+
+  @include respond-to(md) {
+    padding: spacing(lg);
+  }
   
   &__header {
     display: flex;
@@ -325,12 +341,18 @@ const copyToClipboard = async (text: string) => {
   &__item {
     display: flex;
     align-items: center;
-    gap: spacing(sm);
+    gap: spacing(xs);
     padding: spacing(xs) 0;
     color: var(--text-secondary);
-    font-size: font-size(sm);
+    font-size: font-size(xs);
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-    
+    min-width: 0;
+
+    @include respond-to(sm) {
+      gap: spacing(sm);
+      font-size: font-size(sm);
+    }
+
     &:not(:last-child) {
       border-bottom: 1px solid var(--border-light);
     }
@@ -346,6 +368,16 @@ const copyToClipboard = async (text: string) => {
   &__item-name {
     flex: 1;
     color: var(--text-primary);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    @include respond-to(sm) {
+      white-space: normal;
+      overflow: visible;
+      text-overflow: initial;
+    }
   }
   
   &__item-size {
@@ -365,22 +397,42 @@ const copyToClipboard = async (text: string) => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: spacing(md) spacing(lg);
+    padding: spacing(sm);
     background: var(--bg-tertiary);
     border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: spacing(sm);
+
+    @include respond-to(sm) {
+      padding: spacing(md) spacing(lg);
+      flex-wrap: nowrap;
+      gap: 0;
+    }
   }
   
   &__title {
     display: flex;
     align-items: center;
     gap: spacing(xs);
-    font-size: font-size(sm);
+    font-size: font-size(xs);
     font-weight: font-weight(medium);
     color: var(--text-primary);
-    
+    flex: 1;
+    min-width: 0;
+
+    @include respond-to(sm) {
+      font-size: font-size(sm);
+    }
+
     svg {
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+
+      @include respond-to(sm) {
+        width: 16px;
+        height: 16px;
+      }
     }
   }
   
@@ -397,16 +449,22 @@ const copyToClipboard = async (text: string) => {
     font-weight: font-weight(medium);
     cursor: pointer;
     transition: background 0.3s ease-out, transform 0.3s ease-out;
-    
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    @include respond-to(sm) {
+      padding: spacing(xs) spacing(md);
+    }
+
     &:hover {
       background: var(--primary-dark);
       transform: translateY(-1px);
     }
-    
+
     &--copied {
       background: var(--success);
     }
-    
+
     svg {
       width: 14px;
       height: 14px;
@@ -414,14 +472,27 @@ const copyToClipboard = async (text: string) => {
   }
   
   &__content {
-    padding: spacing(lg);
+    padding: spacing(sm);
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-    font-size: font-size(sm);
-    line-height: 1.6;
+    font-size: font-size(xs);
+    line-height: 1.4;
     color: var(--text-primary);
     overflow-x: auto;
     margin: 0;
-    
+    white-space: pre-wrap;
+    word-break: break-all;
+
+    @include respond-to(sm) {
+      padding: spacing(md);
+      font-size: font-size(sm);
+      line-height: 1.6;
+      word-break: normal;
+    }
+
+    @include respond-to(md) {
+      padding: spacing(lg);
+    }
+
     code {
       color: inherit;
     }

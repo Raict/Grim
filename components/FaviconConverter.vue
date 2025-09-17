@@ -1,11 +1,11 @@
 <template>
     <section id="favicon-converter" class="section" role="main" aria-labelledby="converter-title">
       <div class="container">
-        <div class="text-center mb-5">
+        <div class="text-center converter-header">
           <h2 id="converter-title" class="converter-title">
             {{ title }}
           </h2>
-          <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          <p class="converter-subtitle">
             {{ $t('converter.subtitle') }}
           </p>
         </div>
@@ -285,13 +285,33 @@ function blobToDataUrl(blob: Blob): Promise<string> {
   }
   
   .converter-content {
-    margin-top: spacing(2xl);
-  
+    margin-top: spacing(sm);
+
+    @include respond-to(sm) {
+      margin-top: spacing(md);
+    }
+
+    @include respond-to(md) {
+      margin-top: spacing(lg);
+    }
+
+    @include respond-to(lg) {
+      margin-top: spacing(xl);
+    }
+
     &__header {
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      margin-bottom: spacing(lg);
+      margin-bottom: spacing(sm);
+
+      @include respond-to(sm) {
+        margin-bottom: spacing(md);
+      }
+
+      @include respond-to(md) {
+        margin-bottom: spacing(lg);
+      }
     }
   
     &__title {
@@ -328,14 +348,26 @@ function blobToDataUrl(blob: Blob): Promise<string> {
   }
   
   .converter-actions {
-    margin-top: spacing(2xl);
+    margin-top: spacing(md);
     text-align: center;
+
+    @include respond-to(sm) {
+      margin-top: spacing(lg);
+    }
+
+    @include respond-to(md) {
+      margin-top: spacing(xl);
+    }
+
+    @include respond-to(lg) {
+      margin-top: spacing(2xl);
+    }
   }
 
   .converter-title {
-    font-size: font-size(4xl);
+    font-size: font-size(2xl);
     font-weight: font-weight(bold);
-    margin-bottom: spacing(md);
+    margin-bottom: spacing(sm);
     background: linear-gradient(135deg, var(--primary), var(--secondary), var(--primary));
     background-clip: text;
     -webkit-background-clip: text;
@@ -343,6 +375,15 @@ function blobToDataUrl(blob: Blob): Promise<string> {
     background-size: 300% 300%;
     animation: gradientText 4s ease-in-out infinite;
     filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.3));
+
+    @include respond-to(sm) {
+      font-size: font-size(3xl);
+      margin-bottom: spacing(md);
+    }
+
+    @include respond-to(md) {
+      font-size: font-size(4xl);
+    }
 
     @supports not (-webkit-background-clip: text) {
       color: var(--primary);
@@ -352,5 +393,37 @@ function blobToDataUrl(blob: Blob): Promise<string> {
   @keyframes gradientText {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
+  }
+
+  .converter-header {
+    margin-bottom: spacing(md);
+
+    @include respond-to(sm) {
+      margin-bottom: spacing(lg);
+    }
+
+    @include respond-to(md) {
+      margin-bottom: spacing(xl);
+    }
+  }
+
+  .converter-subtitle {
+    font-size: font-size(sm);
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
+    padding: 0 spacing(xs);
+
+    @include respond-to(sm) {
+      font-size: font-size(base);
+      padding: 0 spacing(sm);
+    }
+
+    @include respond-to(md) {
+      font-size: font-size(lg);
+      max-width: 700px;
+      padding: 0;
+    }
   }
   </style>

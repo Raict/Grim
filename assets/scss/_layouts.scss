@@ -6,9 +6,21 @@
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 spacing(lg);
-    
+    padding: 0 spacing(xs);
+
     @include respond-to(sm) {
+      padding: 0 spacing(sm);
+    }
+
+    @include respond-to(md) {
+      padding: 0 spacing(md);
+    }
+
+    @include respond-to(lg) {
+      padding: 0 spacing(lg);
+    }
+
+    @include respond-to(xl) {
       padding: 0 spacing(xl);
     }
   }
@@ -137,12 +149,32 @@
   }
   
   .section {
-    padding: spacing(2xl) 0;
-    
+    padding: spacing(lg) 0;
+
+    @include respond-to(sm) {
+      padding: spacing(xl) 0;
+    }
+
+    @include respond-to(md) {
+      padding: spacing(2xl) 0;
+    }
+
     &--hero {
-      padding: spacing(5xl) 0;
+      padding: spacing(2xl) 0;
       text-align: center;
       @include gradient(135deg, rgba(16, 185, 129, 0.1), rgba(20, 184, 166, 0.1));
+
+      @include respond-to(sm) {
+        padding: spacing(3xl) 0;
+      }
+
+      @include respond-to(md) {
+        padding: spacing(4xl) 0;
+      }
+
+      @include respond-to(lg) {
+        padding: spacing(5xl) 0;
+      }
     }
     
     &__title {

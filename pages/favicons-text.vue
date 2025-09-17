@@ -829,9 +829,26 @@ useHead({
   .generator-card {
     background: var(--bg-secondary);
     border: 1px solid var(--border);
-    border-radius: border-radius(xl);
+    border-radius: border-radius(lg);
     margin: 0 auto;
-    padding: spacing(xl);
+    padding: spacing(xs);
+
+    @include respond-to(sm) {
+      padding: spacing(sm);
+      border-radius: border-radius(xl);
+    }
+
+    @include respond-to(md) {
+      padding: spacing(md);
+    }
+
+    @include respond-to(lg) {
+      padding: spacing(lg);
+    }
+
+    @include respond-to(xl) {
+      padding: spacing(xl);
+    }
 
     // Slightly darker on light theme
     .light-mode & {
@@ -843,10 +860,19 @@ useHead({
   .generator-layout {
     display: grid;
     grid-template-columns: 1fr;
-    gap: spacing(xl);
-  
+    gap: spacing(sm);
+
+    @include respond-to(sm) {
+      gap: spacing(md);
+    }
+
+    @include respond-to(md) {
+      gap: spacing(lg);
+    }
+
     @include respond-to(xl) {
       grid-template-columns: 1fr 1fr;
+      gap: spacing(xl);
     }
   }
   
@@ -869,27 +895,45 @@ useHead({
   .text-font-row {
     display: grid;
     grid-template-columns: 1fr;
-    gap: spacing(sm);
-    margin-bottom: spacing(lg);
-  
+    gap: spacing(xs);
+    margin-bottom: spacing(sm);
+
     @include respond-to(sm) {
+      gap: spacing(sm);
+      margin-bottom: spacing(md);
+    }
+
+    @include respond-to(md) {
+      grid-template-columns: 1fr 1.5fr;
+      margin-bottom: spacing(lg);
+    }
+
+    @include respond-to(lg) {
       grid-template-columns: 1fr 2fr;
     }
   }
   
   .form-group {
-    margin-bottom: spacing(lg);
-  
+    margin-bottom: spacing(sm);
+
+    @include respond-to(sm) {
+      margin-bottom: spacing(md);
+    }
+
+    @include respond-to(md) {
+      margin-bottom: spacing(lg);
+    }
+
     &:last-child {
       margin-bottom: 0;
     }
-  
-    &--text { 
-      margin-bottom: 0; 
+
+    &--text {
+      margin-bottom: 0;
     }
-  
-    &--font { 
-      margin-bottom: 0; 
+
+    &--font {
+      margin-bottom: 0;
     }
   }
   
@@ -903,62 +947,93 @@ useHead({
   
   .form-input {
     width: 100%;
-    padding: spacing(sm) spacing(md);
+    padding: spacing(xs) spacing(sm);
     border: 1px solid var(--border);
-    border-radius: border-radius(lg);
+    border-radius: border-radius(md);
     background: var(--bg-primary);
     color: var(--text-primary);
-    font-size: font-size(base);
+    font-size: font-size(sm);
+    box-sizing: border-box;
     @include transition();
-  
+
+    @include respond-to(sm) {
+      padding: spacing(sm) spacing(md);
+      border-radius: border-radius(lg);
+      font-size: font-size(base);
+    }
+
     &:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
     }
-  
+
     &--text {
-      min-height: 46px;
+      min-height: 40px;
       text-align: center;
-      font-size: font-size(xl);
+      font-size: font-size(lg);
       font-weight: font-weight(bold);
       padding: spacing(xs);
+
+      @include respond-to(sm) {
+        min-height: 46px;
+        font-size: font-size(xl);
+      }
     }
-  
+
     &--color {
       flex: 1;
       font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-      font-size: font-size(sm);
+      font-size: font-size(xs);
+      min-width: 0;
+
+      @include respond-to(sm) {
+        font-size: font-size(sm);
+      }
     }
   }
   
   .form-select {
     width: 100%;
-    min-height: 46px;
-    padding: spacing(sm) spacing(md);
+    min-height: 40px;
+    padding: spacing(xs) spacing(lg) spacing(xs) spacing(sm);
     border: 1px solid var(--border);
-    border-radius: border-radius(lg);
+    border-radius: border-radius(md);
     background: var(--bg-primary);
     color: var(--text-primary);
-    font-size: font-size(base);
+    font-size: font-size(sm);
     cursor: pointer;
     @include transition();
-    padding-right: spacing(2xl);
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right spacing(md) center;
+    background-position: right spacing(sm) center;
     background-repeat: no-repeat;
-    background-size: 16px 16px;
+    background-size: 14px 14px;
     appearance: none;
-  
+    box-sizing: border-box;
+
+    @include respond-to(sm) {
+      min-height: 46px;
+      padding: spacing(sm) spacing(2xl) spacing(sm) spacing(md);
+      border-radius: border-radius(lg);
+      font-size: font-size(base);
+      background-position: right spacing(md) center;
+      background-size: 16px 16px;
+    }
+
     &:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
     }
-  
+
     &--font {
-      font-size: font-size(sm);
-      min-height: 46px;
+      font-size: font-size(xs);
+      min-height: 40px;
+
+      @include respond-to(sm) {
+        font-size: font-size(sm);
+        min-height: 46px;
+      }
     }
   }
   
@@ -1036,12 +1111,15 @@ useHead({
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    gap: 16px;
+    gap: 8px;
     margin-bottom: 32px;
     flex-wrap: wrap;
-  
+    padding: 0 spacing(xs);
+
     @include respond-to(sm) {
       flex-wrap: nowrap;
+      gap: 16px;
+      padding: 0;
     }
   }
   
@@ -1065,11 +1143,15 @@ useHead({
   .palettes-row {
     display: grid;
     grid-template-columns: 1fr;
-    gap: spacing(lg);
-    margin-top: 32px;
-    margin-bottom: 16px;
-  
-    @include respond-to(md) {
+    gap: spacing(md);
+    margin-top: spacing(lg);
+    margin-bottom: spacing(md);
+
+    @include respond-to(sm) {
+      gap: spacing(lg);
+    }
+
+    @include respond-to(lg) {
       grid-template-columns: 1fr 1fr;
       gap: spacing(xl);
     }
@@ -1087,8 +1169,9 @@ useHead({
     .color-input-row {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
+      gap: spacing(xs);
+      margin-bottom: spacing(sm);
+      min-width: 0;
     }
   
     .palette-bg {
@@ -1139,14 +1222,20 @@ useHead({
   
     .color-input {
       flex: 1;
-      min-width: 84px;
-      font-size: 16px;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 6px;
+      min-width: 60px;
+      font-size: font-size(sm);
+      padding: spacing(xs) spacing(sm);
+      border: 1px solid var(--border);
+      border-radius: border-radius(md);
       background: var(--bg-primary);
       font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
       color: var(--text-primary);
+
+      @include respond-to(sm) {
+        min-width: 84px;
+        font-size: font-size(base);
+        padding: spacing(sm);
+      }
     }
   }
   
@@ -1154,18 +1243,26 @@ useHead({
     display: flex;
     flex-direction: row;
     gap: 2px;
-  
+    overflow-x: auto;
+    padding: 2px;
+
     .color-row {
       display: flex;
       flex-direction: column;
       gap: 2px;
+      min-width: 28px;
     }
-  
+
     .grayscale-column {
       display: flex;
       flex-direction: column;
       gap: 2px;
-      margin-left: spacing(sm);
+      margin-left: spacing(xs);
+      min-width: 28px;
+
+      @include respond-to(sm) {
+        margin-left: spacing(sm);
+      }
     }
   }
   
@@ -1314,6 +1411,12 @@ useHead({
   .section-settings {
     padding-top: spacing(lg);
     padding-bottom: spacing(2xl);
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 0 spacing(xs);
+      }
+    }
   }
   
   .generation-section {

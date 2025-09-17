@@ -79,16 +79,28 @@
   
   .card {
     @include card;
-    padding: spacing(xl);
-    
+    padding: spacing(sm);
+
+    @include respond-to(sm) {
+      padding: spacing(md);
+    }
+
+    @include respond-to(md) {
+      padding: spacing(lg);
+    }
+
+    @include respond-to(lg) {
+      padding: spacing(xl);
+    }
+
     &--hover {
       cursor: pointer;
-      
+
       &:hover {
         transform: translateY(-4px);
       }
     }
-    
+
     &--glass {
       @include glass-effect;
     }

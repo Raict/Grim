@@ -253,8 +253,12 @@ const isHomePage = computed(() => {
   &__controls {
     display: flex;
     align-items: center;
-    gap: spacing(xs);
+    gap: 10px;
     flex-shrink: 0;
+
+    @include respond-to(sm) {
+      gap: spacing(sm);
+    }
   }
 
   &__kofi-btn {
@@ -320,10 +324,6 @@ const isHomePage = computed(() => {
   .header {
     &__nav {
       padding: spacing(lg) 0;
-    }
-
-    &__controls {
-      gap: spacing(sm);
     }
   }
 }
