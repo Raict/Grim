@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     public: {
       apiBaseUrl: process.env.API_BASE_URL || "http://localhost:3000/api",
       siteName: 'FaviconGen',
-      siteUrl: 'https://favicon-gen.com'
+      siteUrl: 'https://www.favicon-gen.com'
     },
   },
 
@@ -19,6 +19,27 @@ export default defineNuxtConfig({
           content: "width=device-width, initial-scale=1",
         },
       ],
+      script: [
+        {
+          innerHTML: `
+            <!--
+              🎨 FaviconGen - Professional Favicon Generator
+              © 2024 FaviconGen. All rights reserved.
+
+              Built with ❤️ using:
+              - Nuxt 3 & Vue 3
+              - TypeScript
+              - SCSS & Tailwind CSS
+
+              Developer: [Your Name]
+              GitHub: https://github.com/[your-username]/faviconitysb
+
+              We appreciate developers who respect intellectual property! 🤝
+              Feel free to explore the code, but please don't copy without permission.
+            -->
+          `
+        }
+      ]
     },
     pageTransition: {
       name: 'page',

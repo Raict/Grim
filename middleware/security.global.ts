@@ -1,43 +1,38 @@
 // Global security middleware
 export default defineNuxtRouteMiddleware((to) => {
-  // Client-side security checks
+  // Client-side monitoring and copyright
   if (typeof window !== 'undefined') {
-    // Disable right-click context menu on production
+    // Display copyright notice in console
     if (process.env.NODE_ENV === 'production') {
-      document.addEventListener('contextmenu', (e) => {
-        e.preventDefault()
-      })
+      console.log(
+        '%c🎨 FaviconGen - Professional Favicon Generator',
+        'color: #10b981; font-size: 16px; font-weight: bold;'
+      )
+      console.log(
+        '%c© 2024 FaviconGen. Built with ❤️ using Nuxt 3 & Vue 3',
+        'color: #6b7280; font-size: 12px;'
+      )
+      console.log(
+        '%cSource code: https://github.com/[your-username]/faviconitysb',
+        'color: #3b82f6; font-size: 12px;'
+      )
+      console.log(
+        '%cWe appreciate developers who respect intellectual property! 🤝',
+        'color: #059669; font-size: 12px;'
+      )
     }
 
-    // Disable certain key combinations
-    document.addEventListener('keydown', (e) => {
-      // Disable F12, Ctrl+Shift+I, Ctrl+U in production
-      if (process.env.NODE_ENV === 'production') {
-        if (
-          e.key === 'F12' ||
-          (e.ctrlKey && e.shiftKey && e.key === 'I') ||
-          (e.ctrlKey && e.key === 'u')
-        ) {
-          e.preventDefault()
-        }
-      }
-    })
-
-    // Basic bot detection
+    // Basic monitoring (silent)
     const userAgent = navigator.userAgent.toLowerCase()
     const suspiciousPatterns = [
       'bot', 'crawler', 'spider', 'scraper', 'curl', 'wget'
     ]
 
-    if (suspiciousPatterns.some(pattern => userAgent.includes(pattern))) {
-      console.warn('Potential bot detected')
-    }
-
     // Memory monitoring for large file processing
     if ('memory' in performance) {
       const memory = (performance as any).memory
-      if (memory.usedJSHeapSize > 100 * 1024 * 1024) { // 100MB
-        console.warn('High memory usage detected')
+      if (memory.usedJSHeapSize > 150 * 1024 * 1024) { // 150MB
+        console.warn('⚠️ High memory usage detected. Consider optimizing your images.')
       }
     }
   }

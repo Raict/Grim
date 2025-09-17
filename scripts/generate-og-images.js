@@ -12,22 +12,22 @@ cloudinary.config({
 
 const translations = {
   en: {
-    title: 'Faviconitys',
+    title: 'FaviconGen',
     subtitle: 'Create Professional Favicons Instantly',
-    description: 'Free online favicon generator • Convert images • Generate from text • AI-powered',
-    features: ['🖼️ Image Converter', '✏️ Text Generator', '🤖 AI-Powered', '📱 PWA Ready']
+    description: 'Free online favicon generator • Convert images • Generate from text',
+    features: ['🖼️  Image Converter', '✏️  Text Generator', '🎨  Multiple Formats', '⚡  Fast & Easy']
   },
   uk: {
-    title: 'Faviconitys',
+    title: 'FaviconGen',
     subtitle: 'Створюйте професійні фавіконки миттєво',
-    description: 'Безкоштовний онлайн генератор фавіконок • Конвертуй зображення • Генеруй з тексту • На основі ШІ',
-    features: ['🖼️ Конвертер зображень', '✏️ Генератор з тексту', '🤖 На основі ШІ', '📱 PWA готовий']
+    description: 'Безкоштовний онлайн генератор фавіконок • Конвертуй зображення • Генеруй з тексту',
+    features: ['🖼️  Конвертер зображень', '✏️  Генератор з тексту', '🎨  Різні формати', '⚡  Швидко і легко']
   },
   ru: {
-    title: 'Faviconitys',
+    title: 'FaviconGen',
     subtitle: 'Создавайте профессиональные фавиконки мгновенно',
-    description: 'Бесплатный онлайн генератор фавиконок • Конвертируй изображения • Генерируй из текста • На основе ИИ',
-    features: ['🖼️ Конвертер изображений', '✏️ Генератор из текста', '🤖 На основе ИИ', '📱 PWA готовый']
+    description: 'Бесплатный онлайн генератор фавиконок • Конвертируй изображения • Генерируй из текста',
+    features: ['🖼️  Конвертер изображений', '✏️  Генератор из текста', '🎨  Разные форматы', '⚡  Быстро и легко']
   }
 };
 
@@ -105,16 +105,16 @@ async function generateOGImage(lang, type = 'og') {
   // Add website URL
   ctx.font = '20px Arial, sans-serif';
   ctx.fillStyle = '#cbd5e1'; // Gray-300
-  ctx.fillText('faviconitys.com', width / 2, 550);
+  ctx.fillText('https://www.favicon-gen.com/', width / 2, 550);
 
   // Add favicon icon in top-right corner
   ctx.fillStyle = '#ffffff';
-  roundRect(ctx, width - 120, 40, 80, 80, 15);
+  roundRect(ctx, width - 140, 40, 100, 80, 15);
   ctx.fill();
 
   ctx.fillStyle = '#3b82f6';
-  ctx.font = 'bold 48px Arial, sans-serif';
-  ctx.fillText('F', width - 80, 80);
+  ctx.font = 'bold 36px Arial, sans-serif';
+  ctx.fillText('FG', width - 90, 80);
 
   return canvas.toBuffer('image/png');
 }

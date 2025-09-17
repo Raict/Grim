@@ -50,7 +50,6 @@
             :class="{ 'header__link--active': $route.path.includes('/faq') }"
             role="menuitem"
             :aria-label="$t('nav.faq') + ' - часті питання та відповіді'"
-            @click="() => console.log('🔗 FAQ link clicked, navigating to:', localePath('/faq'))"
           >
             <Icon name="lucide:help-circle" aria-hidden="true" />
             <span>{{ $t('nav.faq') }}</span>

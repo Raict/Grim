@@ -351,7 +351,7 @@ interface FontObject {
 )
 
   const textSettings = reactive({
-    text: 'FS',
+    text: 'FG',
     fontFamily: 'Bookman',
       fontSize: 32,
       fontWeight: 400,

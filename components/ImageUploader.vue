@@ -86,17 +86,14 @@
   const validateAndEmitFile = async (file: File) => {
     // Simple and reliable validation
     if (!file.type.startsWith('image/')) {
-      console.error('Please select an image file')
       return
     }
 
     if (file.size > 10 * 1024 * 1024) {
-      console.error('Selected file is too large. Maximum size is 10MB.')
       return
     }
 
     if (file.size === 0) {
-      console.error('File is empty')
       return
     }
 
