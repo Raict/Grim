@@ -1,9 +1,9 @@
 <template>
   <div>
     <!-- Hero Section -->
-    <section class="section section--hero section--text-generator">
+    <section class="section section--hero section--text-generator fixed-header-section">
       <div class="container">
-        <div class="hero-content">
+        <div class="hero-content fixed-header-content">
           <h1 class="section__title">
             {{ $t('pages.textGenerator.title') }}
           </h1>
@@ -467,10 +467,15 @@ interface FontObject {
     ctx.font = `${textSettings.fontWeight} ${fontSize}px ${activeFontFamily.value}`;
     ctx.fillStyle = textSettings.textColor;
     ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
+    ctx.textBaseline = 'alphabetic';
+
+    // Calculate proper center position accounting for font metrics
+    const textMetrics = ctx.measureText(textSettings.text);
+    const actualHeight = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
+    const centerY = size / 2 + actualHeight / 2 - textMetrics.actualBoundingBoxDescent;
 
     // Draw text in center
-    ctx.fillText(textSettings.text, size / 2, size / 2);
+    ctx.fillText(textSettings.text, size / 2, centerY);
 
     ctx.restore();
   };
@@ -827,6 +832,12 @@ useHead({
     border-radius: border-radius(xl);
     margin: 0 auto;
     padding: spacing(xl);
+
+    // Slightly darker on light theme
+    .light-mode & {
+      background: #f3f4f6;
+      border-color: #e5e7eb;
+    }
   }
   
   .generator-layout {
@@ -1088,10 +1099,11 @@ useHead({
       margin: 0 auto;
       margin-bottom: spacing(md);
   
-      // Darker background for light theme
+      // Darker background for light theme to improve color visibility
       .light-mode & {
-        background: #e5e7eb;
-        border-color: #d1d5db;
+        background: #d1d5db;
+        border: 1px solid #9ca3af;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       }
     }
   
@@ -1165,15 +1177,33 @@ useHead({
     cursor: pointer;
     transition: 0.12s;
     box-shadow: 0 1px 2px rgba(0,0,0,0.06);
-  
+    position: relative;
+
+    // Better visibility on light theme
+    .light-mode & {
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), inset 0 0 0 1px rgba(0,0,0,0.1);
+    }
+
     &:hover {
       border-color: var(--primary);
+      transform: scale(1.05);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+
+      .light-mode & {
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(0,0,0,0.15);
+      }
     }
-  
+
     &--active {
       border-color: var(--primary);
       outline: 2px solid var(--bg-primary);
       z-index: 2;
+      transform: scale(1.05);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+
+      .light-mode & {
+        box-shadow: 0 3px 8px rgba(0,0,0,0.25), inset 0 0 0 1px rgba(0,0,0,0.2);
+      }
     }
   }
   

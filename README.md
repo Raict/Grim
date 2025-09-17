@@ -75,7 +75,6 @@ npm run typecheck   # Run TypeScript checks
 
 - 🇺🇦 Ukrainian (default)
 - 🇺🇸 English
-- 🇷🇺 Russian
 
 ## 📝 License
 

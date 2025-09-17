@@ -1,12 +1,12 @@
 <template>
-    <section class="section section--hero">
+    <section class="section section--hero fixed-header-section">
       <div class="hero-background">
         <div class="hero-gradient"></div>
         <div class="hero-glow"></div>
       </div>
 
       <div class="container">
-        <div class="hero-content">
+        <div class="hero-content fixed-header-content">
 
           <h1 class="hero-title">
             <span class="hero-title__main">{{ $t('hero.title') }}</span>
@@ -51,10 +51,18 @@
   .section--hero {
     position: relative;
     overflow: hidden;
-    min-height: 100vh;
+    min-height: calc(100vh - 50px);
     display: flex;
     align-items: center;
     padding: spacing(6xl) 0 spacing(4xl);
+
+    @include respond-to(sm) {
+      min-height: calc(100vh - 60px);
+    }
+
+    @include respond-to(md) {
+      min-height: calc(100vh - 70px);
+    }
 
     &::before {
       content: '';

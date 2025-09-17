@@ -1,9 +1,9 @@
 <template>
     <div>
       <!-- Hero Section -->
-      <section class="section section--hero">
+      <section class="section section--hero fixed-header-section">
         <div class="container">
-          <div class="hero-content">
+          <div class="hero-content fixed-header-content">
             <h1 class="section__title">
               {{ $t('pages.privacy.title') }}
             </h1>

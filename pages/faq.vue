@@ -1,14 +1,14 @@
 <template>
     <div>
       <!-- Hero Section -->
-      <section class="section section--hero">
+      <section class="section section--hero fixed-header-section">
         <div class="hero-background">
           <div class="hero-gradient"></div>
           <div class="hero-glow"></div>
         </div>
 
         <div class="container">
-          <div class="hero-content">
+          <div class="hero-content fixed-header-content">
             <h1 class="section__title">
               {{ $t('pages.faq.title') }}
             </h1>

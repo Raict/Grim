@@ -100,8 +100,10 @@ const isHomePage = computed(() => {
 @use 'sass:map';
 
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: map.get($z-index, sticky);
   @include glass-effect;
   border-bottom: 1px solid var(--border-light);
@@ -111,7 +113,15 @@ const isHomePage = computed(() => {
     align-items: center;
     justify-content: space-between;
     padding: spacing(xs) 0;
-    min-height: 70px;
+    min-height: 50px;
+
+    @include respond-to(sm) {
+      min-height: 60px;
+    }
+
+    @include respond-to(md) {
+      min-height: 70px;
+    }
   }
   
   &__logo {

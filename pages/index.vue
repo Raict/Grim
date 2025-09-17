@@ -1,13 +1,13 @@
 <template>
   <div>
     <!-- Hero Section -->
-    <section class="hero-section">
+    <section class="hero-section fixed-header-section">
       <div class="hero-background">
         <div class="hero-gradient"></div>
         <div class="hero-glow"></div>
       </div>
       <div class="container hero-container">
-        <div class="hero-content">
+        <div class="hero-content fixed-header-content">
           <div class="hero-text">
             <h1 class="hero-title">
               <span class="hero-title__main">{{ $t('pages.home.title') }}</span>
@@ -277,6 +277,17 @@ onUnmounted(() => {
 .hero-section {
   position: relative;
   overflow: hidden;
+  min-height: calc(100vh - 50px);
+
+  @include respond-to(sm) {
+    min-height: calc(100vh - 60px);
+  }
+
+  @include respond-to(md) {
+    min-height: calc(100vh - 70px);
+  }
+  display: flex;
+  align-items: center;
   padding: spacing(xl) 0;
 
   &::before {
@@ -298,6 +309,13 @@ onUnmounted(() => {
   @include respond-to(xl) {
     padding: spacing(6xl) 0;
   }
+}
+
+.hero-container {
+  display: flex;
+  align-items: center;
+  min-height: 100%;
+  width: 100%;
 }
 
 .hero-background {

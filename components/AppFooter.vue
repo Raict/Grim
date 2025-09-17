@@ -145,6 +145,12 @@ const scrollToTop = () => {
   border-top: 1px solid var(--border);
   margin-top: spacing(4xl);
 
+  // Slightly darker on light theme
+  .light-mode & {
+    background: #f3f4f6;
+    border-top-color: #e5e7eb;
+  }
+
   &__content {
     padding: spacing(2xl) 0 spacing(lg);
   }
