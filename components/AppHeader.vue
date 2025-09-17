@@ -79,8 +79,8 @@
             <span class="header__kofi-text">{{ $t('supportMe') }}</span>
           </a>
 
-          <LanguageSwitcher />
-          <ThemeSwitcher />
+          <LanguageSwitcher class="header__control--desktop-only" />
+          <ThemeSwitcher class="header__control--desktop-only" />
           <MobileMenu class="header__mobile-menu" />
         </div>
       </nav>
@@ -296,6 +296,14 @@ const isHomePage = computed(() => {
   @include respond-to(xl) {
     display: none;
   }
+  }
+
+  &__control--desktop-only {
+    display: none;
+
+    @include respond-to(xl) {
+      display: flex;
+    }
   }
 }
 

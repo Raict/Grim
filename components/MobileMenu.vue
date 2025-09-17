@@ -99,13 +99,6 @@
             </div>
           </div>
           
-          <!-- Про додаток -->
-          <div class="mobile-menu__section">
-            <h3 class="mobile-menu__section-title">{{ $t('nav.about') }}</h3>
-            <p class="mobile-menu__description">
-              {{ $t('nav.appDescription') }}
-            </p>
-          </div>
         </div>
 
         <div class="mobile-menu__footer">
@@ -123,9 +116,14 @@ const localePath = useLocalePath()
 
 const isOpen = ref(false)
 watch(isOpen, (newValue) => {
+  const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
+  document.body.style.transition = 'padding-right 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+
   if (newValue) {
     document.body.style.overflow = 'hidden'
+    document.body.style.paddingRight = `${scrollbarWidth}px`
   } else {
+    document.body.style.paddingRight = ''
     document.body.style.overflow = ''
   }
 })
@@ -163,10 +161,10 @@ watch(isOpen, (newValue) => {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background: rgba(0, 0, 0, 0.5);
-    z-index: map.get($z-index, modal);
+    z-index: 9999;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -190,8 +188,9 @@ watch(isOpen, (newValue) => {
     display: flex;
     flex-direction: column;
     transform: translateX(100%);
+    z-index: 10000;
     @include transition();
-    
+
     .mobile-menu__overlay--show & {
       transform: translateX(0);
     }
@@ -340,6 +339,11 @@ watch(isOpen, (newValue) => {
     font-size: font-size(sm);
     font-weight: font-weight(medium);
     color: var(--text-secondary);
+  }
+
+  .theme-switcher {
+    width: 150px;
+    min-width: 150px;
   }
   
   &__description {

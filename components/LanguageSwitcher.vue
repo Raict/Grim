@@ -67,13 +67,14 @@
   })
   
   const availableLocales = computed(() => {
-    return locales.value.filter(l => l.code !== locale.value)
+    return locales.value.filter(l => l.code !== locale.value && l.code !== 'ru')
   })
 
   const getFlagEmoji = (code: string): string => {
     const flags: Record<string, string> = {
       'uk': '🇺🇦',
-      'en': '🇺🇸'
+      'en': '🇺🇸',
+      'ru': '-'
     }
     return flags[code] || '🌐'
   }
