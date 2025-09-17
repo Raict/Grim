@@ -655,7 +655,7 @@ onUnmounted(() => {
 
 .favicon-demo {
   position: absolute;
-  left: -spacing(xl);
+  left: -spacing(2xl);
   top: 50%;
   transform: translateY(-50%);
   width: 26px;
@@ -674,7 +674,7 @@ onUnmounted(() => {
     width: 32px;
     height: 32px;
     font-size: 16px;
-    left: -spacing(2xl);
+    left: -spacing(3xl);
   }
 
   &:not(:hover) {
