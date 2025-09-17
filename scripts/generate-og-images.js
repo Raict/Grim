@@ -126,7 +126,7 @@ async function uploadToCloudinary(buffer, publicId) {
         public_id: publicId,
         resource_type: 'image',
         format: 'png',
-        folder: 'faviconitys'
+        folder: 'favicon-gen'
       },
       (error, result) => {
         if (error) reject(error);

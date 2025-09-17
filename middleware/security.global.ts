@@ -13,10 +13,6 @@ export default defineNuxtRouteMiddleware((to) => {
         'color: #6b7280; font-size: 12px;'
       )
       console.log(
-        '%cSource code: https://github.com/[your-username]/faviconitysb',
-        'color: #3b82f6; font-size: 12px;'
-      )
-      console.log(
         '%cWe appreciate developers who respect intellectual property! 🤝',
         'color: #059669; font-size: 12px;'
       )

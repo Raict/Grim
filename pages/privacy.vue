@@ -54,11 +54,11 @@
   
   // SEO
   useHead({
-    title: 'Privacy Policy - Faviconitys',
+    title: 'Privacy Policy - FaviconGen',
     meta: [
-      { 
-        name: 'description', 
-        content: 'Privacy Policy for Faviconitys favicon generator. Learn how we collect, use, and protect your data.' 
+      {
+        name: 'description',
+        content: 'Privacy Policy for FaviconGen favicon generator. Learn how we collect, use, and protect your data.'
       },
       { name: 'robots', content: 'index, follow' }
     ]

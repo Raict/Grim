@@ -120,8 +120,8 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([^.]+)$ $1.html [NC,L]
 
 # Canonical domain redirect (www to non-www)
-RewriteCond %{HTTP_HOST} ^www\.faviconitys\.com [NC]
-RewriteRule ^(.*)$ https://faviconitys.com/$1 [L,R=301]
+RewriteCond %{HTTP_HOST} ^www\.favicon-gen\.com [NC]
+RewriteRule ^(.*)$ https://www.favicon-gen.com/$1 [L,R=301]
 
 # Language-based redirects for better SEO
 # Detect Ukrainian users and redirect to Ukrainian version
@@ -173,5 +173,5 @@ ServerSignature Off
 
 # Prevent hotlinking of images
 RewriteCond %{HTTP_REFERER} !^$
-RewriteCond %{HTTP_REFERER} !^https?://(www\.)?faviconitys\.com [NC]
+RewriteCond %{HTTP_REFERER} !^https?://(www\.)?favicon-gen\.com [NC]
 RewriteRule \.(jpe?g|png|gif|ico|svg|webp)$ - [F]

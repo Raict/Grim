@@ -9,7 +9,7 @@
             <TileColor>#10b981</TileColor>
         </tile>
         <notification>
-            <polling-uri src="https://faviconitys.com/notifications/"/>
+            <polling-uri src="https://www.favicon-gen.com/notifications/"/>
             <frequency>30</frequency>
             <cycle>1</cycle>
         </notification>

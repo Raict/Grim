@@ -31,8 +31,8 @@ Visit [favicon-gen.com](https://favicon-gen.com) to try it out!
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/faviconitysb.git
-cd faviconitysb
+git clone https://github.com/favicon-gen/favicon-generator.git
+cd favicon-generator
 
 # Install dependencies
 npm install

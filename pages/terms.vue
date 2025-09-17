@@ -54,11 +54,11 @@
   }
   
   useHead({
-    title: 'Terms of Use - Faviconitys',
+    title: 'Terms of Use - FaviconGen',
     meta: [
-      { 
-        name: 'description', 
-        content: 'Terms of Use for Faviconitys favicon generator. Read our terms and conditions for using our service.' 
+      {
+        name: 'description',
+        content: 'Terms of Use for FaviconGen favicon generator. Read our terms and conditions for using our service.'
       },
       { name: 'robots', content: 'index, follow' }
     ]

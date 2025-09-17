@@ -32,7 +32,7 @@ export default defineNuxtConfig({
               - SCSS & Tailwind CSS
 
               Developer: [Your Name]
-              GitHub: https://github.com/[your-username]/faviconitysb
+              GitHub: https://github.com/favicon-gen
 
               We appreciate developers who respect intellectual property! 🤝
               Feel free to explore the code, but please don't copy without permission.

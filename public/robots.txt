@@ -1,4 +1,4 @@
-# robots.txt for FaviconGen - https://faviconitys.com
+# robots.txt for FaviconGen - https://www.favicon-gen.com
 
 User-agent: *
 Allow: /
@@ -70,8 +70,8 @@ User-agent: YandexBot
 Crawl-delay: 2
 
 # Sitemap location
-Sitemap: https://faviconitys.com/sitemap.xml
-Sitemap: https://faviconitys.com/sitemap-index.xml
+Sitemap: https://www.favicon-gen.com/sitemap.xml
+Sitemap: https://www.favicon-gen.com/sitemap-index.xml
 
 # Host (primary domain)
-Host: https://faviconitys.com
+Host: https://www.favicon-gen.com

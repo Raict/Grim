@@ -19,11 +19,11 @@ const { t, locale } = useI18n()
 const url = computed(() => {
   switch (locale.value) {
     case 'uk':
-      return 'https://faviconitys.com/'
+      return 'https://www.favicon-gen.com/'
     case 'ru':
-      return 'https://faviconitys.com/ru'
+      return 'https://www.favicon-gen.com/ru'
     default:
-      return 'https://faviconitys.com/en'
+      return 'https://www.favicon-gen.com/en'
   }
 })
 
@@ -43,22 +43,22 @@ const ogLocale = computed(() => {
 const ogImage = computed(() => {
   switch (locale.value) {
     case 'uk':
-      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_630/v1/faviconitys/og-image-uk.png'
+      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_630/v1/favicon-gen/og-image-uk.png'
     case 'ru':
-      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_630/v1/faviconitys/og-image-ru.png'
+      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_630/v1/favicon-gen/og-image-ru.png'
     default:
-      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_630/v1/faviconitys/og-image-en.png'
+      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_630/v1/favicon-gen/og-image-en.png'
   }
 })
 
 const twitterImage = computed(() => {
   switch (locale.value) {
     case 'uk':
-      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_600/v1/faviconitys/twitter-image-uk.png'
+      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_600/v1/favicon-gen/twitter-image-uk.png'
     case 'ru':
-      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_600/v1/faviconitys/twitter-image-ru.png'
+      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_600/v1/favicon-gen/twitter-image-ru.png'
     default:
-      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_600/v1/faviconitys/twitter-image-en.png'
+      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_600/v1/favicon-gen/twitter-image-en.png'
   }
 })
 
@@ -133,7 +133,7 @@ useHead(() => ({
 
     // Article properties
     { property: 'article:author', content: t('seo.author') },
-    { property: 'article:publisher', content: 'https://faviconitys.com' },
+    { property: 'article:publisher', content: 'https://www.favicon-gen.com' },
     { property: 'article:section', content: 'Web Design Tools' },
     { property: 'article:tag', content: 'favicon' },
     { property: 'article:tag', content: 'icon generator' },
@@ -145,9 +145,9 @@ useHead(() => ({
     { name: 'twitter:description', content: t('seo.socialDescription') },
     { name: 'twitter:image', content: twitterImage.value },
     { name: 'twitter:image:alt', content: t('seo.ogImageAlt') },
-    { name: 'twitter:site', content: '@faviconitys' },
-    { name: 'twitter:creator', content: '@faviconitys' },
-    { name: 'twitter:domain', content: 'faviconitys.com' },
+    { name: 'twitter:site', content: '@favicon_gen' },
+    { name: 'twitter:creator', content: '@favicon_gen' },
+    { name: 'twitter:domain', content: 'favicon-gen.com' },
     { name: 'twitter:app:name:iphone', content: t('seo.siteName') },
     { name: 'twitter:app:name:ipad', content: t('seo.siteName') },
     { name: 'twitter:app:name:googleplay', content: t('seo.siteName') },
@@ -211,10 +211,10 @@ useHead(() => ({
 
     // Canonical & alternate hreflang
     { rel: 'canonical', href: url },
-    { rel: 'alternate', hreflang: 'uk', href: 'https://faviconitys.com/' },
-    { rel: 'alternate', hreflang: 'en', href: 'https://faviconitys.com/en' },
-    { rel: 'alternate', hreflang: 'ru', href: 'https://faviconitys.com/ru' },
-    { rel: 'alternate', hreflang: 'x-default', href: 'https://faviconitys.com' }
+    { rel: 'alternate', hreflang: 'uk', href: 'https://www.favicon-gen.com/' },
+    { rel: 'alternate', hreflang: 'en', href: 'https://www.favicon-gen.com/en' },
+    { rel: 'alternate', hreflang: 'ru', href: 'https://www.favicon-gen.com/ru' },
+    { rel: 'alternate', hreflang: 'x-default', href: 'https://www.favicon-gen.com' }
   ],
   htmlAttrs: {
     lang: locale.value
@@ -235,7 +235,7 @@ useHead(() => ({
         keywords: t('seo.keywords'),
         potentialAction: {
           '@type': 'SearchAction',
-          target: 'https://faviconitys.com/search?q={search_term_string}',
+          target: 'https://www.favicon-gen.com/search?q={search_term_string}',
           'query-input': 'required name=search_term_string'
         },
         mainEntity: {
@@ -253,18 +253,18 @@ useHead(() => ({
         '@context': 'https://schema.org',
         '@type': 'Organization',
         name: t('seo.siteName'),
-        url: 'https://faviconitys.com',
-        logo: 'https://faviconitys.com/favicon-512x512.png',
+        url: 'https://www.favicon-gen.com',
+        logo: 'https://www.favicon-gen.com/favicon-512x512.png',
         image: ogImage.value,
         description: t('seo.description'),
         sameAs: [
-          'https://github.com/faviconitys',
-          'https://twitter.com/faviconitys'
+          'https://github.com/favicon-gen',
+          'https://twitter.com/favicon_gen'
         ],
         contactPoint: {
           '@type': 'ContactPoint',
           contactType: 'Customer Service',
-          url: 'https://faviconitys.com/contact'
+          url: 'https://www.favicon-gen.com/contact'
         }
       })
     },
@@ -395,7 +395,7 @@ useHead(() => ({
             '@type': 'ListItem',
             position: 1,
             name: 'Home',
-            item: 'https://faviconitys.com'
+            item: 'https://www.favicon-gen.com'
           },
           {
             '@type': 'ListItem',
