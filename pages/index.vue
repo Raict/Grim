@@ -278,6 +278,9 @@ onUnmounted(() => {
   position: relative;
   overflow: hidden;
   min-height: calc(100vh - 50px);
+  display: flex;
+  align-items: center;
+  padding: spacing(xl) 0;
 
   @include respond-to(sm) {
     min-height: calc(100vh - 60px);
@@ -286,9 +289,6 @@ onUnmounted(() => {
   @include respond-to(md) {
     min-height: calc(100vh - 70px);
   }
-  display: flex;
-  align-items: center;
-  padding: spacing(xl) 0;
 
   &::before {
     content: '';
