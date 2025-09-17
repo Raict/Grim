@@ -2,6 +2,7 @@ import { z } from "zod"
 import { publicProcedure, router } from "../trpc"
 import sharp from "sharp"
 import JSZip from "jszip"
+import pngToIco from "png-to-ico"
 
 // Server-side file validation
 const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB
@@ -101,15 +102,25 @@ export const faviconRouter = router({
           }),
         )
 
-        const icoSize = input.sizes.includes(32) ? 32 : input.sizes.includes(16) ? 16 : input.sizes[0]
-        const icoBuffer = await sharp(imageBuffer)
-          .resize(icoSize, icoSize, {
-            fit: "contain",
-            background: { r: 0, g: 0, b: 0, alpha: 0 },
-          })
-          .png()
-          .toBuffer()
+        // Генеруємо справжній ICO файл
+        const icoSizes = [16, 32].filter(size => input.sizes.includes(size))
+        if (icoSizes.length === 0) {
+          icoSizes.push(input.sizes.includes(16) ? 16 : 32)
+        }
 
+        const icoPngBuffers = await Promise.all(
+          icoSizes.map(async (size) => {
+            return await sharp(imageBuffer)
+              .resize(size, size, {
+                fit: "contain",
+                background: { r: 0, g: 0, b: 0, alpha: 0 },
+              })
+              .png()
+              .toBuffer()
+          })
+        )
+
+        const icoBuffer = await pngToIco(icoPngBuffers)
         zip.file("favicon.ico", icoBuffer)
 
         const manifest = {
