@@ -66,7 +66,8 @@
   </template>
   
   <script setup lang="ts">
-  import JSZip from "jszip" 
+  import JSZip from "jszip"
+import { createIcoFile } from "~/utils/icoGenerator" 
 
   const toast = useToast()
   const i18n = useI18n()
@@ -184,6 +185,27 @@ async function processImages() {
     for (const img of processed) {
       zip.file(img.fileName, img.blob)
     }
+
+    // Generate ICO file from multiple sizes (always include ICO)
+    const icoSizes = [16, 32, 48].filter(size => selectedSizes.value.includes(size))
+    if (icoSizes.length === 0) {
+      // If no ICO sizes selected, use the smallest available size
+      icoSizes.push(Math.min(...selectedSizes.value))
+    }
+
+    // Create canvases for ICO generation
+    const icoCanvases: HTMLCanvasElement[] = []
+    for (const size of icoSizes) {
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')!
+      canvas.width = size
+      canvas.height = size
+      ctx.drawImage(img, 0, 0, size, size)
+      icoCanvases.push(canvas)
+    }
+
+    const icoBlob = await createIcoFile(icoCanvases)
+    zip.file("favicon.ico", icoBlob)
 
     const manifest = {
       name: "My Website",

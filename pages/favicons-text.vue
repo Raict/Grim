@@ -338,6 +338,7 @@
   <script setup lang="ts">
   import JSZip from 'jszip'
 import { colorPalette, grayscalePalette, fontOptions, FONT_WEIGHT_LABELS, FONT_WEIGHTS } from '~/utils/options'
+import { createIcoFile } from '~/utils/icoGenerator'
 
 
   
@@ -650,6 +651,26 @@ watch(
       for (const img of processed) {
         zip.file(img.fileName, img.blob)
       }
+
+      // Generate ICO file from multiple sizes (always include ICO)
+      const icoSizes = [16, 32, 48].filter(size => selectedSizes.value.includes(size))
+      if (icoSizes.length === 0) {
+        // If no ICO sizes selected, use the smallest available size
+        icoSizes.push(Math.min(...selectedSizes.value))
+      }
+
+      // Create canvases for ICO generation
+      const icoCanvases: HTMLCanvasElement[] = []
+      for (const size of icoSizes) {
+        const canvas = document.createElement('canvas')
+        canvas.width = size
+        canvas.height = size
+        drawTextOnCanvas(canvas, size)
+        icoCanvases.push(canvas)
+      }
+
+      const icoBlob = await createIcoFile(icoCanvases)
+      zip.file("favicon.ico", icoBlob)
 
       const manifest = {
         name: "My Website",
