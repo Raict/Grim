@@ -1,20 +1,20 @@
 <template>
-  <main role="main">
+  <div role="main" itemscope itemtype="https://schema.org/WebPage">
     <!-- Hero Section -->
-    <section class="hero-section fixed-header-section" aria-labelledby="main-heading">
-      <div class="hero-background">
+    <section class="hero-section fixed-header-section" aria-labelledby="main-heading" role="banner">
+      <div class="hero-background" aria-hidden="true">
         <div class="hero-gradient"></div>
         <div class="hero-glow"></div>
       </div>
       <div class="container hero-container">
-        <div class="hero-content fixed-header-content">
+        <header class="hero-content fixed-header-content">
           <div class="hero-text">
-            <h1 id="main-heading" class="hero-title">
+            <h1 id="main-heading" class="hero-title" itemprop="name">
               <span class="hero-title__main">{{ $t('pages.home.title') }}</span>
               <span class="hero-title__sub">{{ $t('pages.home.subtitle') }}</span>
             </h1>
-            
-            <p class="hero-description">
+
+            <p class="hero-description" itemprop="description">
               {{ $t('pages.home.description') }}
             </p>
 
@@ -50,16 +50,16 @@
               </div>
             </div>
           </div>
-        </div>
+        </header>
       </div>
     </section>
 
     <!-- Features Section -->
-    <section class="features-section" aria-labelledby="features-heading">
+    <section class="features-section" aria-labelledby="features-heading" itemscope itemtype="https://schema.org/ItemList">
       <div class="container">
         <header class="section-header">
-          <h2 id="features-heading" class="section-title">{{ $t('pages.home.features.title') }}</h2>
-          <p class="section-description">
+          <h2 id="features-heading" class="section-title" itemprop="name">{{ $t('pages.home.features.title') }}</h2>
+          <p class="section-description" itemprop="description">
             {{ $t('pages.home.features.description') }}
           </p>
         </header>
@@ -223,7 +223,7 @@
         </div>
       </div>
     </section> -->
-  </main>
+  </div>
 </template>
 
 <script setup lang="ts">

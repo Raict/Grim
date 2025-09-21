@@ -1,17 +1,20 @@
 <template>
-    <div class="app-layout layout-container">
-      <a href="#main-content" class="skip-link">Перейти до основного вмісту</a>
+    <div class="app-layout layout-container" role="document">
+      <a href="#main-content" class="skip-link">{{ $t('nav.skipToMain', 'Перейти до основного вмісту') }}</a>
 
       <AppHeader />
 
-      <main id="main-content" class="main-content page-wrapper" role="main">
+      <main id="main-content" class="main-content page-wrapper" role="main" aria-label="Основний вміст сторінки">
         <slot />
       </main>
 
       <AppFooter />
-      <CookieConsent />
-      <!-- Google AdSense  -->
-      <!-- <GoogleAdsense /> -->
+
+      <aside aria-label="Додаткові функції" class="additional-features">
+        <CookieConsent />
+        <!-- Google AdSense  -->
+        <!-- <GoogleAdsense /> -->
+      </aside>
     </div>
   </template>
   
