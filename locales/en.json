@@ -44,22 +44,22 @@
   },
   "pages": {
     "home": {
-      "title": "FaviconGen",
-      "subtitle": "Create favicons easily",
+      "title": "Free Favicon Generator Online",
+      "subtitle": "Convert Images to Favicon Instantly",
       "description": "Powerful tool for creating professional favicons. Convert images, generate from text.",
-      "fullTitle": "FaviconGen - Favicon Generator & Converter",
-      "keywords": "favicon, icon, generator, converter, favicons-gen, favicon generation, text, image, free favicon, professional favicon, website icons",
+      "fullTitle": "Free Favicon Generator Online | Create Favicon from Image & Text - FaviconGen",
+      "keywords": "favicon generator free, convert image to favicon, create favicon online, generate favicon from image, favicon maker online, ICO file generator, website icon creator, browser tab icon, PWA icons, Apple Touch Icon generator, Android favicon creator, favicon sizes 16x16 32x32, professional favicon design, favicon converter tool, згенерувати фавіконку, фавіконка безкоштовно",
       "stats": {
         "created": "Created favicons",
         "free": "Free",
         "rating": "User rating"
       },
       "features": {
-        "title": "Choose creation method",
-        "description": "Two powerful tools for creating the perfect favicon for your website",
+        "title": "Free Favicon Generator & Converter Tools",
+        "description": "Two powerful tools for creating professional favicons: from images and from text",
         "converter": {
-          "title": "Image Converter",
-          "description": "Upload your image and get favicons in all necessary sizes",
+          "title": "PNG/JPG to Favicon Converter",
+          "description": "Upload images (PNG, JPG, WEBP) and get ICO files in all sizes within seconds",
           "features": {
             "formats": "10+ size formats",
             "zip": "ZIP archive with manifest",
@@ -67,8 +67,8 @@
           }
         },
         "text": {
-          "title": "Text Generator",
-          "description": "Create favicon from text or symbols with customizable styling",
+          "title": "Create Favicon from Letters Online",
+          "description": "Enter text, symbols or letters and create unique favicons with custom fonts and colors",
           "features": {
             "fonts": "Custom fonts",
             "colors": "Color settings",
@@ -107,9 +107,9 @@
       "adsense": "Google AdSense Placeholder"
     },
     "textGenerator": {
-      "title": "Text Favicon Generator",
+      "title": "Free Text to Favicon Generator | Create Favicon from Letters Online",
       "subtitle": "Create unique favicons from text or symbols",
-      "description": "Enter text, choose font and colors to create professional favicon for your website",
+      "description": "Create favicon from text for free! Enter letters/symbols, choose fonts & colors to get professional icons in all sizes. Perfect for branding and personal projects. No signup required.",
       "settings": {
         "text": {
           "title": "Text Settings",
@@ -347,9 +347,9 @@
     "clear": "Clear Selection"
   },
   "converter": {
-    "title": "Favicon Converter",
-    "subtitle": "Convert any image to professional favicons in all required sizes",
-    "fullTitle": "FaviconGen - Image to Favicon Converter",
+    "title": "Free Image to Favicon Converter | Convert PNG JPG to ICO Online",
+    "description": "Free image to favicon converter! Upload PNG, JPG, WEBP and get ICO files in all sizes: 16x16, 32x32, 180x180, 192x192, 512x512. Includes HTML code and PWA manifest. No registration needed.",
+    "fullTitle": "Free Image to Favicon Converter | Convert PNG JPG WEBP to ICO Files",
     "selectSize": "Select Size",
     "download": "Download",
     "processing": "Processing...",
@@ -422,8 +422,8 @@
     }
   },
   "seo": {
-    "fullTitle": "FaviconGen - Free Favicon Generator & Converter | Create Quality Icons",
-    "description": "Free online favicon generator and converter. Create professional favicons from images and text. Supports all sizes: 16x16, 32x32, 180x180, 192x192, 512x512. No registration required.",
+    "fullTitle": "Free Favicon Generator Online | Convert Image to Favicon | Create ICO Files - FaviconGen",
+    "description": "🚀 Free favicon generator online! Convert images to favicons in all sizes: 16x16, 32x32, 180x180, 192x192, 512x512. Create professional icons from PNG/JPG/WEBP in seconds. No registration, ZIP download with HTML code included.",
     "keywords": "favicon generator, favicon converter, free favicon, create favicon, favicon maker, icon generator, website icon, browser icon, favicon from image, favicon from text, favicons-gen, favicon generation, AI favicon, generate favicon, convert image to favicon, favicon creator online, PWA icons, apple touch icon, android icon, ICO file, PNG favicon, 16x16 favicon, 32x32 favicon, 180x180 icon, 192x192 icon, 512x512 icon, web development tools, favicon.ico, site icon, tab icon, bookmark icon, favicon online, favicon creator, favicon tool, professional favicon, instant favicon generator, free online favicon generator, favicon creator tool, best favicon generator, favicon builder, favicon design tool, website favicon, browser tab icon, bookmark icon, favicons, icon maker, logo to favicon, image to favicon converter, text to favicon, favicon sizes, favicon formats, favicon for website, favicon tutorial, favicon SEO, favicon Google, favicon mobile, responsive favicon, фавіконка генератор, фавіконка конвертер, безкоштовна фавіконка, створити фавіконку, фавіконка онлайн, іконка сайту, браузерна іконка, фавіконка з зображення, фавіконка з тексту, PWA іконки, іконка Apple, Android іконка, ICO файл, PNG фавіконка, 16x16 фавіконка, 32x32 фавіконка, 180x180 іконка, 192x192 іконка, 512x512 іконка, інструменти веб-розробки, іконка сайту, іконка вкладки, іконка закладки, фавіконка створювач, фавіконка інструмент, генератор фавиконок, конвертер фавиконок, бесплатная фавиконка, создать фавиконку, фавиконка онлайн, иконка сайта, браузерная иконка, фавиконка из изображения, фавиконка из текста, PWA иконки, иконка Apple, Android иконка, ICO файл, PNG фавиконка, 16x16 фавиконка, 32x32 фавиконка, 180x180 иконка, 192x192 иконка, 512x512 иконка, инструменты веб-разработки, иконка сайта, иконка вкладки, иконка закладки, фавиконка создатель, фавиконка инструмент, згенерувати фавіконку, сгенерировать фавиконку, конвертувати зображення у фавіконку, конвертировать изображение в фавиконку",
     "author": "Rai",
     "socialDescription": "Free online favicon generator and converter. Create professional favicons from images and text. All sizes included.",

@@ -11,7 +11,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: "FaviconGen - Professional Favicon Generator",
+      title: "FaviconGen - Безкоштовний генератор фавіконок | Згенерувати фавіконку онлайн",
       meta: [
         { charset: "utf-8" },
         {
