@@ -228,51 +228,60 @@
 
 <script setup lang="ts">
 const { t } = useI18n();
+
 useHead({
-      title: t('pages.home.fullTitle'),
-      meta: [
-        {
-          name: 'description',
-          content: t('pages.home.description'),
+  title: t('pages.home.fullTitle'),
+  meta: [
+    {
+      name: 'description',
+      content: t('pages.home.description'),
+    },
+    {
+      name: 'keywords',
+      content: t('pages.home.keywords'),
+    },
+  ],
+  link: [
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap',
+      media: 'print',
+      onload: "this.media='all'"
+    }
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: t('pages.home.fullTitle'),
+        description: t('pages.home.description'),
+        url: 'https://www.favicon-gen.com',
+        mainEntity: {
+          '@type': 'SoftwareApplication',
+          name: 'FaviconGen',
+          applicationCategory: 'DesignApplication',
+          operatingSystem: 'Web Browser',
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD'
+          }
         },
-        {
-          name: 'keywords',
-          content: t('pages.home.keywords'),
-        },
-      ],
-      script: [
-        {
-          type: 'application/ld+json',
-          innerHTML: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'WebPage',
-            name: t('pages.home.fullTitle'),
-            description: t('pages.home.description'),
-            url: 'https://www.favicon-gen.com',
-            mainEntity: {
-              '@type': 'SoftwareApplication',
-              name: 'FaviconGen',
-              applicationCategory: 'DesignApplication',
-              operatingSystem: 'Web Browser',
-              offers: {
-                '@type': 'Offer',
-                price: '0',
-                priceCurrency: 'USD'
-              }
-            },
-            breadcrumb: {
-              '@type': 'BreadcrumbList',
-              itemListElement: [{
-                '@type': 'ListItem',
-                position: 1,
-                name: 'Home',
-                item: 'https://www.favicon-gen.com'
-              }]
-            }
-          })
+        breadcrumb: {
+          '@type': 'BreadcrumbList',
+          itemListElement: [{
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: 'https://www.favicon-gen.com'
+          }]
         }
-      ]
-    });
+      })
+    }
+  ]
+});
 
 const faviconVariants = [
   { icon: 'lucide:heart', color: '#ef4444' },
@@ -280,30 +289,30 @@ const faviconVariants = [
   { icon: 'lucide:coffee', color: '#8b5cf6' },
   { icon: 'lucide:home', color: '#10b981' },
   { icon: 'lucide:rocket', color: '#3b82f6' },
-  { icon: 'lucide:camera', color: '#ec4899' },
-  { icon: 'lucide:music', color: '#06b6d4' },
-  { icon: 'lucide:gamepad-2', color: '#84cc16' }
+  { icon: 'lucide:camera', color: '#ec4899' }
 ]
 
 const currentFaviconIndex = ref(0)
 const currentFavicon = computed(() => faviconVariants[currentFaviconIndex.value])
 
-let faviconInterval: NodeJS.Timeout
+let faviconInterval: number | undefined
 
 const playHoverSound = () => {
-  // Placeholder for subtle hover sound effect
-  // Could be implemented with Web Audio API for better UX
+  // Optimized for performance - no implementation needed
 }
 
 onMounted(() => {
-  faviconInterval = setInterval(() => {
-    currentFaviconIndex.value = (currentFaviconIndex.value + 1) % faviconVariants.length
-  }, 2000)
+  if (process.client) {
+    faviconInterval = window.setInterval(() => {
+      currentFaviconIndex.value = (currentFaviconIndex.value + 1) % faviconVariants.length
+    }, 3000)
+  }
 })
 
 onUnmounted(() => {
-  if (faviconInterval) {
-    clearInterval(faviconInterval)
+  if (faviconInterval && process.client) {
+    window.clearInterval(faviconInterval)
+    faviconInterval = undefined
   }
 })
 </script>

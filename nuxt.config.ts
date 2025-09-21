@@ -19,6 +19,23 @@ export default defineNuxtConfig({
           content: "width=device-width, initial-scale=1",
         },
       ],
+      link: [
+        {
+          rel: "preconnect",
+          href: "https://fonts.googleapis.com"
+        },
+        {
+          rel: "preconnect",
+          href: "https://fonts.gstatic.com",
+          crossorigin: ""
+        },
+        {
+          rel: "preload",
+          href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap",
+          as: "style",
+          onload: "this.onload=null;this.rel='stylesheet'"
+        }
+      ],
       script: []
     },
     pageTransition: {
@@ -33,10 +50,16 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   modules: [
-    ["@nuxt/ui", { global: true, icons: ["lucide"] }],
+    ["@nuxt/ui", {
+      global: true,
+      icons: ["lucide"],
+      safeListColors: ['primary', 'gray', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
+    }],
     ["@nuxtjs/i18n", {
       bundle: {
-        optimizeTranslationDirective: false
+        optimizeTranslationDirective: true,
+        compositionOnly: true,
+        runtimeOnly: false
       },
       locales: [
         { code: "uk", name: "Українська", file: "uk.json" },
@@ -45,9 +68,12 @@ export default defineNuxtConfig({
       ],
       lazy: true,
       langDir: '../locales/',
-
       defaultLocale: "uk",
       strategy: "prefix_except_default",
+      compilation: {
+        strictMessage: false,
+        escapeHtml: false
+      }
     }],
     ["@nuxtjs/color-mode", {
       preference: "system",
@@ -63,8 +89,9 @@ export default defineNuxtConfig({
 
   css: ["~/assets/scss/main.scss"],
 
-  // Security headers
+  // Security headers and performance optimization
   nitro: {
+    compressPublicAssets: true,
     routeRules: {
       '/**': {
         headers: {
@@ -77,7 +104,10 @@ export default defineNuxtConfig({
           'Cross-Origin-Embedder-Policy': 'credentialless',
           'Cross-Origin-Opener-Policy': 'same-origin'
         }
-      }
+      },
+      '/': { prerender: true, headers: { 'cache-control': 's-maxage=31536000' } },
+      '/api/**': { cors: true },
+      '/_nuxt/**': { headers: { 'cache-control': 'max-age=31536000' } }
     }
   },
 
@@ -87,7 +117,35 @@ export default defineNuxtConfig({
   build: {
     transpile: ["trpc-nuxt"],
   },
+
+  experimental: {
+    payloadExtraction: false,
+    inlineSSRStyles: false,
+    treeshakeClientOnly: true,
+    emitRouteChunkError: 'automatic'
+  },
+
+  optimization: {
+    keyedComposables: [
+      {
+        name: 'useI18n',
+        argumentLength: 1,
+      }
+    ]
+  },
+
+  ssr: true,
   vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['vue'],
+            ui: ['@nuxt/ui']
+          }
+        }
+      }
+    },
     css: {
       preprocessorOptions: {
         scss: {
