@@ -93,6 +93,20 @@ export default defineNuxtConfig({
   // Security headers and performance optimization
   nitro: {
     compressPublicAssets: true,
+    esbuild: {
+      options: {
+        target: 'es2022'
+      }
+    },
+    experimental: {
+      wasm: false
+    },
+    externals: {
+      inline: ['@nuxt/ui']
+    },
+    rollupConfig: {
+      external: ['@nuxt/kit', 'node:url', 'node:path', 'node:fs']
+    },
     routeRules: {
       '/**': {
         headers: {
@@ -145,10 +159,10 @@ export default defineNuxtConfig({
     build: {
       sourcemap: false,
       rollupOptions: {
+        external: ['@nuxt/kit', 'node:url', 'node:path', 'node:fs'],
         output: {
           manualChunks: {
-            vendor: ['vue'],
-            ui: ['@nuxt/ui']
+            vendor: ['vue']
           }
         }
       }
@@ -165,5 +179,25 @@ export default defineNuxtConfig({
         },
       },
     },
+    optimizeDeps: {
+      exclude: ['@nuxt/kit', '@nuxt/ui']
+    },
+    ssr: {
+      noExternal: ['@nuxt/ui']
+    }
   },
+
+  hooks: {
+    'vite:extendConfig': (config, { isServer }) => {
+      if (isServer) {
+        config.build = config.build || {}
+        config.build.rollupOptions = config.build.rollupOptions || {}
+        config.build.rollupOptions.external = config.build.rollupOptions.external || []
+
+        if (Array.isArray(config.build.rollupOptions.external)) {
+          config.build.rollupOptions.external.push('@nuxt/kit', 'node:url', 'node:path', 'node:fs')
+        }
+      }
+    }
+  }
 })

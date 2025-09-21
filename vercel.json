@@ -3,7 +3,13 @@
   "outputDirectory": ".output/public",
   "framework": "nuxtjs",
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "NITRO_PRESET": "vercel"
+  },
+  "build": {
+    "env": {
+      "NODE_OPTIONS": "--max-old-space-size=8192"
+    }
   },
   "headers": [
     {
