@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <main role="main">
     <!-- Hero Section -->
-    <section class="hero-section fixed-header-section">
+    <section class="hero-section fixed-header-section" aria-labelledby="main-heading">
       <div class="hero-background">
         <div class="hero-gradient"></div>
         <div class="hero-glow"></div>
@@ -9,7 +9,7 @@
       <div class="container hero-container">
         <div class="hero-content fixed-header-content">
           <div class="hero-text">
-            <h1 class="hero-title">
+            <h1 id="main-heading" class="hero-title">
               <span class="hero-title__main">{{ $t('pages.home.title') }}</span>
               <span class="hero-title__sub">{{ $t('pages.home.subtitle') }}</span>
             </h1>
@@ -55,74 +55,78 @@
     </section>
 
     <!-- Features Section -->
-    <section class="features-section">
+    <section class="features-section" aria-labelledby="features-heading">
       <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">{{ $t('pages.home.features.title') }}</h2>
+        <header class="section-header">
+          <h2 id="features-heading" class="section-title">{{ $t('pages.home.features.title') }}</h2>
           <p class="section-description">
             {{ $t('pages.home.features.description') }}
           </p>
-        </div>
+        </header>
 
-        <div class="features-grid">
-          <NuxtLink to="/favicons" class="feature-card feature-card--primary" @mouseenter="playHoverSound">
+        <div class="features-grid" role="list">
+          <article class="feature-card feature-card--primary" role="listitem">
+            <NuxtLink to="/favicons" class="feature-link" @mouseenter="playHoverSound" aria-describedby="converter-desc">
             <div class="feature-card__icon">
               <Icon name="lucide:image" :size="46"/>
             </div>
             <div class="feature-card__content">
               <h3 class="feature-card__title">{{ $t('pages.home.features.converter.title') }}</h3>
-              <p class="feature-card__description">
+              <p id="converter-desc" class="feature-card__description">
                 {{ $t('pages.home.features.converter.description') }}
               </p>
-              <div class="feature-card__features">
-                <div class="feature-item">
-                  <Icon name="lucide:check" />
+              <ul class="feature-card__features" role="list">
+                <li class="feature-item" role="listitem">
+                  <Icon name="lucide:check" aria-hidden="true" />
                   <span>{{ $t('pages.home.features.converter.features.formats') }}</span>
-                </div>
-                <div class="feature-item">
-                  <Icon name="lucide:check" />
+                </li>
+                <li class="feature-item" role="listitem">
+                  <Icon name="lucide:check" aria-hidden="true" />
                   <span>{{ $t('pages.home.features.converter.features.zip') }}</span>
-                </div>
-                <div class="feature-item">
-                  <Icon name="lucide:check" />
+                </li>
+                <li class="feature-item" role="listitem">
+                  <Icon name="lucide:check" aria-hidden="true" />
                   <span>{{ $t('pages.home.features.converter.features.guide') }}</span>
-                </div>
-              </div>
+                </li>
+              </ul>
             </div>
-            <div class="feature-card__arrow">
+            <div class="feature-card__arrow" aria-hidden="true">
               <Icon name="lucide:arrow-right" />
             </div>
-          </NuxtLink>
+            </NuxtLink>
+          </article>
 
           <!-- Генератор з тексту -->
-          <NuxtLink to="/favicons-text" class="feature-card feature-card--secondary" @mouseenter="playHoverSound">
+          <article class="feature-card feature-card--secondary" role="listitem">
+            <NuxtLink to="/favicons-text" class="feature-link" @mouseenter="playHoverSound" aria-describedby="text-desc">
             <div class="feature-card__icon">
               <Icon name="lucide:type" :size="46"/>
             </div>
             <div class="feature-card__content">
               <h3 class="feature-card__title">{{ $t('pages.home.features.text.title') }}</h3>
-              <p class="feature-card__description">
+              <p id="text-desc" class="feature-card__description">
                 {{ $t('pages.home.features.text.description') }}
               </p>
-              <div class="feature-card__features">
-                <div class="feature-item">
-                  <Icon name="lucide:check" />
+              <ul class="feature-card__features" role="list">
+                <li class="feature-item" role="listitem">
+                  <Icon name="lucide:check" aria-hidden="true" />
                   <span>{{ $t('pages.home.features.text.features.fonts') }}</span>
-                </div>
-                <div class="feature-item">
-                  <Icon name="lucide:check" />
+                </li>
+                <li class="feature-item" role="listitem">
+                  <Icon name="lucide:check" aria-hidden="true" />
                   <span>{{ $t('pages.home.features.text.features.colors') }}</span>
-                </div>
-                <div class="feature-item">
-                  <Icon name="lucide:check" />
+                </li>
+                <li class="feature-item" role="listitem">
+                  <Icon name="lucide:check" aria-hidden="true" />
                   <span>{{ $t('pages.home.features.text.features.effects') }}</span>
-                </div>
-              </div>
+                </li>
+              </ul>
             </div>
-            <div class="feature-card__arrow">
+            <div class="feature-card__arrow" aria-hidden="true">
               <Icon name="lucide:arrow-right" />
             </div>
-          </NuxtLink>
+            </NuxtLink>
+          </article>
 
           <!-- ШІ генератор -->
           <!-- <NuxtLink to="/favicon-ai" class="feature-card feature-card--accent">
@@ -219,7 +223,7 @@
         </div>
       </div>
     </section> -->
-  </div>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -236,6 +240,38 @@ useHead({
           content: t('pages.home.keywords'),
         },
       ],
+      script: [
+        {
+          type: 'application/ld+json',
+          innerHTML: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebPage',
+            name: t('pages.home.fullTitle'),
+            description: t('pages.home.description'),
+            url: 'https://www.favicon-gen.com',
+            mainEntity: {
+              '@type': 'SoftwareApplication',
+              name: 'FaviconGen',
+              applicationCategory: 'DesignApplication',
+              operatingSystem: 'Web Browser',
+              offers: {
+                '@type': 'Offer',
+                price: '0',
+                priceCurrency: 'USD'
+              }
+            },
+            breadcrumb: {
+              '@type': 'BreadcrumbList',
+              itemListElement: [{
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: 'https://www.favicon-gen.com'
+              }]
+            }
+          })
+        }
+      ]
     });
 
 const faviconVariants = [
@@ -826,12 +862,16 @@ onUnmounted(() => {
 .feature-card {
   @include card;
   padding: spacing(2xl);
-  text-decoration: none;
-  color: inherit;
-  @include transition();
   position: relative;
   overflow: hidden;
-  cursor: pointer;
+
+  .feature-link {
+    text-decoration: none;
+    color: inherit;
+    @include transition();
+    cursor: pointer;
+    display: block;
+  }
   
   &::before {
     content: '';

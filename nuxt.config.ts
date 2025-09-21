@@ -19,27 +19,7 @@ export default defineNuxtConfig({
           content: "width=device-width, initial-scale=1",
         },
       ],
-      script: [
-        {
-          innerHTML: `
-            <!--
-              🎨 FaviconGen - Professional Favicon Generator
-              © 2024 FaviconGen. All rights reserved.
-
-              Built with ❤️ using:
-              - Nuxt 3 & Vue 3
-              - TypeScript
-              - SCSS & Tailwind CSS
-
-              Developer: [Your Name]
-              GitHub: https://github.com/favicon-gen
-
-              We appreciate developers who respect intellectual property! 🤝
-              Feel free to explore the code, but please don't copy without permission.
-            -->
-          `
-        }
-      ]
+      script: []
     },
     pageTransition: {
       name: 'page',
