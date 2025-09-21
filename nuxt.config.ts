@@ -50,11 +50,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   modules: [
-    ["@nuxt/ui", {
-      global: true,
-      icons: ["lucide"],
-      safeListColors: ['primary', 'gray', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
-    }],
+    "@nuxt/ui",
     ["@nuxtjs/i18n", {
       bundle: {
         optimizeTranslationDirective: true,
@@ -87,6 +83,11 @@ export default defineNuxtConfig({
     }],
   ],
 
+  ui: {
+    global: true,
+    icons: ["lucide"]
+  },
+
   css: ["~/assets/scss/main.scss"],
 
   // Security headers and performance optimization
@@ -105,9 +106,14 @@ export default defineNuxtConfig({
           'Cross-Origin-Opener-Policy': 'same-origin'
         }
       },
-      '/': { prerender: true, headers: { 'cache-control': 's-maxage=31536000' } },
+      '/': { prerender: true, headers: { 'cache-control': 's-maxage=86400' } },
+      '/favicons': { prerender: true },
+      '/favicons-text': { prerender: true },
+      '/faq': { prerender: true },
       '/api/**': { cors: true },
-      '/_nuxt/**': { headers: { 'cache-control': 'max-age=31536000' } }
+      '/_nuxt/**': { headers: { 'cache-control': 'max-age=31536000' } },
+      '/favicon*.{ico,png}': { headers: { 'cache-control': 'max-age=31536000' } },
+      '**/*.{js,css,png,jpg,jpeg,gif,ico,svg}': { headers: { 'cache-control': 'max-age=31536000' } }
     }
   },
 
@@ -115,7 +121,7 @@ export default defineNuxtConfig({
     strict: true,
   },
   build: {
-    transpile: ["trpc-nuxt"],
+    transpile: ["trpc-nuxt", "@nuxt/ui"],
   },
 
   experimental: {
@@ -137,6 +143,7 @@ export default defineNuxtConfig({
   ssr: true,
   vite: {
     build: {
+      sourcemap: false,
       rollupOptions: {
         output: {
           manualChunks: {
@@ -147,6 +154,7 @@ export default defineNuxtConfig({
       }
     },
     css: {
+      devSourcemap: false,
       preprocessorOptions: {
         scss: {
           api: "modern-compiler",

@@ -196,17 +196,15 @@ useHead(() => ({
       href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap'
     },
 
-    // DNS Prefetch and Preconnect for performance
+    // DNS Prefetch and Preconnect for performance optimization
     { rel: 'dns-prefetch', href: '//fonts.googleapis.com' },
     { rel: 'dns-prefetch', href: '//fonts.gstatic.com' },
     { rel: 'dns-prefetch', href: '//res.cloudinary.com' },
-    { rel: 'dns-prefetch', href: '//www.google-analytics.com' },
-    { rel: 'dns-prefetch', href: '//googleads.g.doubleclick.net' },
+    { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+    { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
     { rel: 'preconnect', href: 'https://res.cloudinary.com' },
-    { rel: 'preconnect', href: 'https://www.google-analytics.com' },
 
-    // Resource hints for better performance
-    { rel: 'preload', href: '/favicon-32x32.png', as: 'image', type: 'image/png' },
+    // Resource hints for better performance - removed favicon preload as it's not critical
     { rel: 'prefetch', href: '/apple-touch-icon.png' },
 
     // Canonical & alternate hreflang

@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.favicon-gen.com/</loc>
-    <lastmod>2024-12-16</lastmod>
+    <lastmod>2024-09-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/" />
@@ -12,7 +12,7 @@
   </url>
   <url>
     <loc>https://www.favicon-gen.com/en</loc>
-    <lastmod>2024-12-16</lastmod>
+    <lastmod>2024-09-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/" />
@@ -22,7 +22,7 @@
   </url>
   <url>
     <loc>https://www.favicon-gen.com/ru</loc>
-    <lastmod>2024-12-16</lastmod>
+    <lastmod>2024-09-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/" />
@@ -31,89 +31,62 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.favicon-gen.com/" />
   </url>
   <url>
-    <loc>https://www.favicon-gen.com/en/converter</loc>
-    <lastmod>2024-12-16</lastmod>
+    <loc>https://www.favicon-gen.com/en/favicons</loc>
+    <lastmod>2024-09-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/converter" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.favicon-gen.com/en/converter" />
-    <xhtml:link rel="alternate" hreflang="ru" href="https://www.favicon-gen.com/ru/converter" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/favicons" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.favicon-gen.com/en/favicons" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.favicon-gen.com/ru/favicons" />
   </url>
   <url>
-    <loc>https://www.favicon-gen.com/converter</loc>
-    <lastmod>2024-12-16</lastmod>
+    <loc>https://www.favicon-gen.com/favicons</loc>
+    <lastmod>2024-09-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/converter" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.favicon-gen.com/en/converter" />
-    <xhtml:link rel="alternate" hreflang="ru" href="https://www.favicon-gen.com/ru/converter" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/favicons" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.favicon-gen.com/en/favicons" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.favicon-gen.com/ru/favicons" />
   </url>
   <url>
-    <loc>https://www.favicon-gen.com/ru/converter</loc>
-    <lastmod>2024-12-16</lastmod>
+    <loc>https://www.favicon-gen.com/ru/favicons</loc>
+    <lastmod>2024-09-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/converter" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.favicon-gen.com/en/converter" />
-    <xhtml:link rel="alternate" hreflang="ru" href="https://www.favicon-gen.com/ru/converter" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/favicons" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.favicon-gen.com/en/favicons" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.favicon-gen.com/ru/favicons" />
   </url>
   <url>
-    <loc>https://www.favicon-gen.com/en/text-generator</loc>
-    <lastmod>2024-12-16</lastmod>
+    <loc>https://www.favicon-gen.com/en/favicons-text</loc>
+    <lastmod>2024-09-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/text-generator" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.favicon-gen.com/en/text-generator" />
-    <xhtml:link rel="alternate" hreflang="ru" href="https://www.favicon-gen.com/ru/text-generator" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/favicons-text" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.favicon-gen.com/en/favicons-text" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.favicon-gen.com/ru/favicons-text" />
   </url>
   <url>
-    <loc>https://www.favicon-gen.com/text-generator</loc>
-    <lastmod>2024-12-16</lastmod>
+    <loc>https://www.favicon-gen.com/favicons-text</loc>
+    <lastmod>2024-09-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/text-generator" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.favicon-gen.com/en/text-generator" />
-    <xhtml:link rel="alternate" hreflang="ru" href="https://www.favicon-gen.com/ru/text-generator" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/favicons-text" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.favicon-gen.com/en/favicons-text" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.favicon-gen.com/ru/favicons-text" />
   </url>
   <url>
-    <loc>https://www.favicon-gen.com/ru/text-generator</loc>
-    <lastmod>2024-12-16</lastmod>
+    <loc>https://www.favicon-gen.com/ru/favicons-text</loc>
+    <lastmod>2024-09-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/text-generator" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.favicon-gen.com/en/text-generator" />
-    <xhtml:link rel="alternate" hreflang="ru" href="https://www.favicon-gen.com/ru/text-generator" />
-  </url>
-  <url>
-    <loc>https://www.favicon-gen.com/en/ai-generator</loc>
-    <lastmod>2024-12-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/ai-generator" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.favicon-gen.com/en/ai-generator" />
-    <xhtml:link rel="alternate" hreflang="ru" href="https://www.favicon-gen.com/ru/ai-generator" />
-  </url>
-  <url>
-    <loc>https://www.favicon-gen.com/ai-generator</loc>
-    <lastmod>2024-12-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/ai-generator" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.favicon-gen.com/en/ai-generator" />
-    <xhtml:link rel="alternate" hreflang="ru" href="https://www.favicon-gen.com/ru/ai-generator" />
-  </url>
-  <url>
-    <loc>https://www.favicon-gen.com/ru/ai-generator</loc>
-    <lastmod>2024-12-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/ai-generator" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.favicon-gen.com/en/ai-generator" />
-    <xhtml:link rel="alternate" hreflang="ru" href="https://www.favicon-gen.com/ru/ai-generator" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/favicons-text" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.favicon-gen.com/en/favicons-text" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.favicon-gen.com/ru/favicons-text" />
   </url>
   <url>
     <loc>https://www.favicon-gen.com/en/faq</loc>
-    <lastmod>2024-12-16</lastmod>
+    <lastmod>2024-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/faq" />
@@ -122,7 +95,7 @@
   </url>
   <url>
     <loc>https://www.favicon-gen.com/faq</loc>
-    <lastmod>2024-12-16</lastmod>
+    <lastmod>2024-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/faq" />
@@ -131,11 +104,29 @@
   </url>
   <url>
     <loc>https://www.favicon-gen.com/ru/faq</loc>
-    <lastmod>2024-12-16</lastmod>
+    <lastmod>2024-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/faq" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.favicon-gen.com/en/faq" />
     <xhtml:link rel="alternate" hreflang="ru" href="https://www.favicon-gen.com/ru/faq" />
+  </url>
+  <url>
+    <loc>https://www.favicon-gen.com/privacy</loc>
+    <lastmod>2024-09-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/privacy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.favicon-gen.com/en/privacy" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.favicon-gen.com/ru/privacy" />
+  </url>
+  <url>
+    <loc>https://www.favicon-gen.com/terms</loc>
+    <lastmod>2024-09-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.favicon-gen.com/terms" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.favicon-gen.com/en/terms" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.favicon-gen.com/ru/terms" />
   </url>
 </urlset>
