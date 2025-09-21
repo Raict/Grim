@@ -1,6 +1,7 @@
 <template>
     <div class="app-layout layout-container" role="document">
-      <a href="#main-content" class="skip-link">{{ $t('nav.skipToMain', 'Перейти до основного вмісту') }}</a>
+      <a href="#main-content" class="skip-link" aria-label="Перейти до основного вмісту сторінки">{{ $t('nav.skipToMain', 'Перейти до основного вмісту') }}</a>
+      <a href="#features-section" class="skip-link" aria-label="Перейти до розділу функцій">Перейти до функцій</a>
 
       <AppHeader />
 
@@ -10,11 +11,14 @@
 
       <AppFooter />
 
-      <aside aria-label="Додаткові функції" class="additional-features">
+      <aside aria-label="Додаткові функції та компоненти сайту" class="additional-features">
         <CookieConsent />
         <!-- Google AdSense  -->
         <!-- <GoogleAdsense /> -->
       </aside>
+
+      <!-- Повідомлення для скрінрідерів -->
+      <LiveAnnouncer />
     </div>
   </template>
   
@@ -113,31 +117,96 @@
   
   .app-layout {
     :deep(*:focus) {
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
+      outline: 3px solid var(--primary);
+      outline-offset: 3px;
       border-radius: border-radius(sm);
+      box-shadow: 0 0 0 1px var(--bg-primary);
     }
-    
-    :deep(button:focus),
-    :deep(a:focus),
-    :deep(input:focus),
-    :deep(textarea:focus),
-    :deep(select:focus) {
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
+
+    :deep(button:focus-visible),
+    :deep(a:focus-visible),
+    :deep(input:focus-visible),
+    :deep(textarea:focus-visible),
+    :deep(select:focus-visible) {
+      outline: 3px solid var(--primary);
+      outline-offset: 3px;
+      box-shadow: 0 0 0 1px var(--bg-primary), 0 0 8px rgba(16, 185, 129, 0.4);
+    }
+
+    // Приховання обведення при кліках мишкою
+    :deep(*:focus:not(:focus-visible)) {
+      outline: none;
+      box-shadow: none;
     }
   }
   
+  // Покращена доступність
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--primary);
+    color: white;
+    padding: spacing(sm) spacing(md);
+    border-radius: border-radius(sm);
+    text-decoration: none;
+    font-weight: font-weight(medium);
+    z-index: 9999;
+    @include transition();
+
+    &:focus {
+      top: 6px;
+      outline: 3px solid var(--bg-primary);
+      outline-offset: 2px;
+    }
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  // Підтримка висококонтрастного режиму
+  @media (prefers-contrast: high) {
+    .app-layout {
+      --border: #000000;
+
+      :deep(*:focus) {
+        outline: 4px solid #000000;
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  // Підтримка зменшеної анімації
+  @media (prefers-reduced-motion: reduce) {
+    .app-layout {
+      :deep(*) {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  }
+
   @include respond-to(sm) {
     .main-content {
     }
   }
-  
+
   @include respond-to(md) {
     .main-content {
     }
   }
-  
+
   @include respond-to(lg) {
     .main-content {
     }

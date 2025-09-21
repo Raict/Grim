@@ -11,7 +11,7 @@
 
         
 
-        <div class="header__menu" role="menubar">
+        <div class="header__menu" role="menubar" aria-label="Основна навігація сайту">
           <NuxtLink
                 :to=" localePath('/')"
                 class="header__link"
@@ -70,9 +70,10 @@
           <a
             href="https://ko-fi.com/serhieie"
             target="_blank"
+            rel="noopener noreferrer"
             class="header__kofi-btn"
             :title="$t('buyMeCoffee')"
-            :aria-label="$t('supportMe')"
+            :aria-label="$t('supportMe') + ' - відкриється в новому вікні'"
           >
             <Icon name="lucide:coffee" aria-hidden="true" />
             <span class="header__kofi-text">{{ $t('supportMe') }}</span>

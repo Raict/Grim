@@ -4,6 +4,8 @@
       @click="toggleTheme"
       :title="title"
       :aria-label="title"
+      :aria-pressed="isDark.toString()"
+      role="switch"
     >
       <Icon
         :name="iconName"
@@ -18,7 +20,7 @@
   const {t} = useI18n()
   const isDark = computed(() => colorMode.value === 'dark')
   
-  const title = computed(() => isDark.value ? 'Перемкнути на світлу тему' : 'Перемкнути на темну тему')
+  const title = computed(() => isDark.value ? 'Перемкнути на світлу тему. Поточна тема: темна' : 'Перемкнути на темну тему. Поточна тема: світла')
   const iconName = computed(() => isDark.value ? 'lucide:sun' : 'lucide:moon')
   const themeText = computed(() => isDark.value ? t('theme.light') : t('theme.dark'))
   

@@ -20,30 +20,30 @@
 
           </div>
 
-          <div class="hero-visual">
+          <div class="hero-visual" role="img" aria-label="Демонстрація роботи генератора фавіконок у браузері">
             <div class="hero-preview">
               <div class="browser-mockup">
                 <div class="browser-header">
-                  <div class="browser-dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                  <div class="browser-dots" aria-hidden="true">
+                    <span aria-label="Кнопка закриття вікна браузера"></span>
+                    <span aria-label="Кнопка згортання вікна браузера"></span>
+                    <span aria-label="Кнопка розгортання вікна браузера"></span>
                   </div>
-                  <div class="browser-url">
-                    <Icon name="lucide:globe" />
+                  <div class="browser-url" role="textbox" aria-label="Адресний рядок браузера">
+                    <Icon name="lucide:globe" aria-hidden="true" />
                     <span>mywebsite.com</span>
-                    <div class="favicon-demo" :key="currentFaviconIndex">
-                      <Icon :name="currentFavicon.icon" :style="{ color: currentFavicon.color }" />
+                    <div class="favicon-demo" :key="currentFaviconIndex" role="img" :aria-label="`Приклад фавіконки: ${currentFavicon.icon.replace('lucide:', '')}`">
+                      <Icon :name="currentFavicon.icon" :style="{ color: currentFavicon.color }" aria-hidden="true" />
                     </div>
                   </div>
                 </div>
-                <div class="browser-content">
+                <div class="browser-content" aria-label="Контент демонстраційного веб-сайту">
                   <div class="demo-website">
-                    <div class="demo-header"></div>
-                    <div class="demo-content">
-                      <div class="demo-line"></div>
-                      <div class="demo-line short"></div>
-                      <div class="demo-line"></div>
+                    <div class="demo-header" aria-hidden="true" aria-label="Заголовок сторінки"></div>
+                    <div class="demo-content" aria-hidden="true">
+                      <div class="demo-line" aria-label="Рядок тексту"></div>
+                      <div class="demo-line short" aria-label="Короткий рядок тексту"></div>
+                      <div class="demo-line" aria-label="Рядок тексту"></div>
                     </div>
                   </div>
                 </div>
@@ -55,7 +55,7 @@
     </section>
 
     <!-- Features Section -->
-    <section class="features-section" aria-labelledby="features-heading" itemscope itemtype="https://schema.org/ItemList">
+    <section id="features-section" class="features-section" aria-labelledby="features-heading" itemscope itemtype="https://schema.org/ItemList" role="region">
       <div class="container">
         <header class="section-header">
           <h2 id="features-heading" class="section-title" itemprop="name">{{ $t('pages.home.features.title') }}</h2>
@@ -66,9 +66,9 @@
 
         <div class="features-grid" role="list">
           <article class="feature-card feature-card--primary" role="listitem">
-            <NuxtLink to="/favicons" class="feature-link" @mouseenter="playHoverSound" aria-describedby="converter-desc">
-            <div class="feature-card__icon">
-              <Icon name="lucide:image" :size="46"/>
+            <NuxtLink to="/favicons" class="feature-link" @mouseenter="playHoverSound" aria-describedby="converter-desc" :aria-label="$t('pages.home.features.converter.title') + ' - перейти до конвертера зображень'">
+            <div class="feature-card__icon" role="img" :aria-label="'Іконка конвертера зображень'">
+              <Icon name="lucide:image" :size="46" aria-hidden="true"/>
             </div>
             <div class="feature-card__content">
               <h3 class="feature-card__title">{{ $t('pages.home.features.converter.title') }}</h3>
@@ -98,9 +98,9 @@
 
           <!-- Генератор з тексту -->
           <article class="feature-card feature-card--secondary" role="listitem">
-            <NuxtLink to="/favicons-text" class="feature-link" @mouseenter="playHoverSound" aria-describedby="text-desc">
-            <div class="feature-card__icon">
-              <Icon name="lucide:type" :size="46"/>
+            <NuxtLink to="/favicons-text" class="feature-link" @mouseenter="playHoverSound" aria-describedby="text-desc" :aria-label="$t('pages.home.features.text.title') + ' - перейти до генератора з тексту'">
+            <div class="feature-card__icon" role="img" :aria-label="'Іконка генератора з тексту'">
+              <Icon name="lucide:type" :size="46" aria-hidden="true"/>
             </div>
             <div class="feature-card__content">
               <h3 class="feature-card__title">{{ $t('pages.home.features.text.title') }}</h3>

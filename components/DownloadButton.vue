@@ -9,6 +9,8 @@
     :disabled="disabled || isProcessing"
     @click="handleClick"
     type="button"
+    :aria-label="displayText + (isProcessing ? ` - прогрес ${progress}%` : '')"
+    :aria-describedby="isProcessing ? 'download-progress' : undefined"
   >
     <div class="download-btn__content">
       <Icon
@@ -41,6 +43,8 @@
       aria-valuemin="0"
       aria-valuemax="100"
       :aria-label="`Прогрес завантаження: ${progress}%`"
+      id="download-progress"
+      :aria-live="progress < 100 ? 'polite' : 'assertive'"
     ></div>
     <div
       v-if="isProcessing"
