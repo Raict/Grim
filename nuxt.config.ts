@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     public: {
       apiBaseUrl: process.env.API_BASE_URL || "http://localhost:3000/api",
       siteName: 'FaviconGen',
-      siteUrl: 'https://www.favicon-gen.com'
+      siteUrl: 'https://favicon-gen.com'
     },
   },
 

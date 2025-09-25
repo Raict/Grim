@@ -243,6 +243,10 @@ useHead({
   ],
   link: [
     {
+      rel: 'canonical',
+      href: 'https://favicon-gen.com'
+    },
+    {
       rel: 'stylesheet',
       href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap',
       media: 'print',
@@ -257,7 +261,7 @@ useHead({
         '@type': 'WebPage',
         name: t('pages.home.fullTitle'),
         description: t('pages.home.description'),
-        url: 'https://www.favicon-gen.com',
+        url: 'https://favicon-gen.com',
         mainEntity: {
           '@type': 'SoftwareApplication',
           name: 'FaviconGen',
@@ -275,7 +279,7 @@ useHead({
             '@type': 'ListItem',
             position: 1,
             name: 'Home',
-            item: 'https://www.favicon-gen.com'
+            item: 'https://favicon-gen.com'
           }]
         }
       })
