@@ -1,7 +1,7 @@
 <template>
     <div class="app-layout layout-container" role="document">
-      <a href="#main-content" class="skip-link" aria-label="Перейти до основного вмісту сторінки">{{ $t('nav.skipToMain', 'Перейти до основного вмісту') }}</a>
-      <a href="#features-section" class="skip-link" aria-label="Перейти до розділу функцій">Перейти до функцій</a>
+      <!-- <a href="#main-content" class="skip-link" aria-label="Перейти до основного вмісту сторінки">{{ $t('nav.skipToMain', 'Перейти до основного вмісту') }}</a> -->
+      <!-- <a href="#features-section" class="skip-link" aria-label="Перейти до розділу функцій">Перейти до функцій</a> -->
 
       <AppHeader />
 
