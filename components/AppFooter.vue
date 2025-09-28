@@ -29,9 +29,9 @@
               <ul class="footer__links">
                 <li>
                   <NuxtLink
-                    to="/"
+                    :to="localePath('/')"
                     class="footer__link"
-                    :class="{ 'footer__link--active': $route.path === '/' }"
+                    :class="{ 'footer__link--active': $route.path === '/' || $route.path === '/en' }"
                   >
                     <Icon name="lucide:home" class="footer__link-icon" />
                     {{ $t('nav.home') }}
@@ -39,9 +39,9 @@
                 </li>
                 <li>
                   <NuxtLink
-                    to="/favicons"
+                    :to="localePath('/favicons')"
                     class="footer__link"
-                    :class="{ 'footer__link--active': $route.path === '/favicons' }"
+                    :class="{ 'footer__link--active': $route.path.includes('/favicons') && !$route.path.includes('/favicons-text') }"
                   >
                     <Icon name="lucide:image" class="footer__link-icon" />
                     {{ $t('nav.converter') }}
@@ -49,9 +49,9 @@
                 </li>
                 <li>
                   <NuxtLink
-                    to="/favicons-text"
+                    :to="localePath('/favicons-text')"
                     class="footer__link"
-                    :class="{ 'footer__link--active': $route.path === '/favicons-text' }"
+                    :class="{ 'footer__link--active': $route.path.includes('/favicons-text') }"
                   >
                     <Icon name="lucide:type" class="footer__link-icon" />
                     {{ $t('nav.textGenerator') }}
@@ -69,9 +69,9 @@
               <ul class="footer__links">
                 <li>
                   <NuxtLink
-                    to="/faq"
+                    :to="localePath('/faq')"
                     class="footer__link"
-                    :class="{ 'footer__link--active': $route.path === '/faq' }"
+                    :class="{ 'footer__link--active': $route.path.includes('/faq') }"
                   >
                     <Icon name="lucide:help-circle" class="footer__link-icon" />
                     {{ $t('nav.faq') }}
@@ -79,9 +79,9 @@
                 </li>
                 <li>
                   <NuxtLink
-                    to="/privacy"
+                    :to="localePath('/privacy')"
                     class="footer__link"
-                    :class="{ 'footer__link--active': $route.path === '/privacy' }"
+                    :class="{ 'footer__link--active': $route.path.includes('/privacy') }"
                   >
                     <Icon name="lucide:shield" class="footer__link-icon" />
                     {{ $t('footer.links.privacy') }}
@@ -89,9 +89,9 @@
                 </li>
                 <li>
                   <NuxtLink
-                    to="/terms"
+                    :to="localePath('/terms')"
                     class="footer__link"
-                    :class="{ 'footer__link--active': $route.path === '/terms' }"
+                    :class="{ 'footer__link--active': $route.path.includes('/terms') }"
                   >
                     <Icon name="lucide:file-text" class="footer__link-icon" />
                     {{ $t('footer.links.terms') }}
@@ -131,6 +131,8 @@
 </template>
 
 <script setup lang="ts">
+const localePath = useLocalePath()
+
 const scrollToTop = () => {
   window.scrollTo({
     top: 0,
