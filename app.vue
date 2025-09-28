@@ -39,16 +39,9 @@ const ogLocale = computed(() => {
   }
 })
 
-// Dynamic OG images based on language
+// Static OG image for all languages
 const ogImage = computed(() => {
-  switch (locale.value) {
-    case 'uk':
-      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_630/v1/favicon-gen/og-image-uk.png'
-    case 'ru':
-      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_630/v1/favicon-gen/og-image-ru.png'
-    default:
-      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_630/v1/favicon-gen/og-image-en.png'
-  }
+  return 'https://raw.githubusercontent.com/Raict/Grim/main/public/og-image-new.png'
 })
 
 const twitterImage = computed(() => {
