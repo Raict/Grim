@@ -104,7 +104,10 @@
           "description": "Works on all devices - computer, tablet, phone"
         }
       },
-      "info": "Free service info"
+      "info": "Free service info",
+      "demo": {
+        "generateBtn": "Generate"
+      }
     },
     "textGenerator": {
       "title": "Free Text to Favicon Generator | Create Favicon from Letters Online",

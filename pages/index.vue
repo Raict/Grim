@@ -42,8 +42,19 @@
                     <div class="demo-header" aria-hidden="true" aria-label="Заголовок сторінки"></div>
                     <div class="demo-content" aria-hidden="true">
                       <div class="demo-line" aria-label="Рядок тексту"></div>
-                      <div class="demo-line short" aria-label="Короткий рядок тексту"></div>
                       <div class="demo-line" aria-label="Рядок тексту"></div>
+                      <div class="demo-bottom-section">
+                        <div class="demo-lines-group">
+                          <div class="demo-line short" aria-label="Короткий рядок тексту"></div>
+                          <div class="demo-line short" aria-label="Короткий рядок тексту"></div>
+                        </div>
+                        <div class="demo-cta">
+                          <a href="https://favicon-gen.com/favicons" class="demo-generate-btn" :aria-label="$t('nav.converter') + ' - перейти до генератора'">
+                            <Icon name="lucide:sparkles" />
+                            <span>{{ $t('pages.home.demo.generateBtn') }}</span>
+                          </a>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -329,7 +340,7 @@ onUnmounted(() => {
   min-height: calc(100vh - 50px);
   display: flex;
   align-items: center;
-  padding: spacing(xl) 0;
+  padding: calc(spacing(xl) - 40px) 0;
 
   @include respond-to(sm) {
     min-height: calc(100vh - 60px);
@@ -352,11 +363,11 @@ onUnmounted(() => {
   }
 
   @include respond-to(md) {
-    padding: spacing(3xl) 0;
+    padding: calc(spacing(3xl) - 40px) 0;
   }
 
   @include respond-to(xl) {
-    padding: spacing(6xl) 0;
+    padding: calc(spacing(6xl) - 40px) 0;
   }
 }
 
@@ -798,6 +809,104 @@ onUnmounted(() => {
 
     &.short {
       width: 60%;
+    }
+  }
+
+  .demo-bottom-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .demo-lines-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: spacing(sm);
+
+    @include respond-to(lg) {
+      gap: spacing(md);
+    }
+
+    .demo-line {
+      width: 100%; // Змушуємо рядки займати всю ширину контейнера
+
+      &.short {
+        width: 100%; // Перевизначаємо ширину для короткого рядка в цьому контексті
+      }
+    }
+  }
+
+  .demo-cta {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+}
+
+.demo-generate-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: spacing(xs);
+  padding: spacing(xs) spacing(sm);
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-radius: border-radius(md);
+  text-decoration: none;
+  font-weight: font-weight(medium);
+  font-size: font-size(xs);
+  box-shadow: shadow(sm);
+  @include transition();
+  position: relative;
+  overflow: hidden;
+  min-width: calc(80px + 100px); // +100px ширше
+
+  // Висота двох рядків + gap між ними + 2px вище
+  height: calc(12px + spacing(sm) + 12px + 2px);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    @include transition();
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: shadow(lg);
+    color: white;
+    text-decoration: none;
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+  }
+
+  @include respond-to(lg) {
+    padding: spacing(sm) spacing(md);
+    font-size: font-size(sm);
+    min-width: calc(100px + 100px); // +100px ширше для lg
+    // Висота двох рядків + gap між ними + 2px вище для lg екранів
+    height: calc(16px + spacing(md) + 16px + 2px);
+
+    svg {
+      width: 16px;
+      height: 16px;
     }
   }
 }
