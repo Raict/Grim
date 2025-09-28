@@ -448,6 +448,11 @@
     }
   },
   "supportMe": "Support dev",
-  "buyMeCoffee": "Buy me a coffee"
+  "buyMeCoffee": "Buy me a coffee",
+  "error": {
+    "title": "Page Not Found",
+    "message": "Sorry, the requested page does not exist. You will be automatically redirected to the home page in 3 seconds.",
+    "goHome": "Go to Home"
+  }
 }
   

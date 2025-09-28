@@ -124,6 +124,8 @@ export default defineNuxtConfig({
       '/favicons': { prerender: true },
       '/favicons-text': { prerender: true },
       '/faq': { prerender: true },
+      '/terms': { prerender: true },
+      '/privacy': { prerender: true },
       '/api/**': { cors: true },
       '/_nuxt/**': { headers: { 'cache-control': 'max-age=31536000' } },
       '/favicon*.{ico,png}': { headers: { 'cache-control': 'max-age=31536000' } },
