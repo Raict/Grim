@@ -364,6 +364,18 @@ interface FontObject {
       backgroundAlpha: 0,
   })
 
+
+  // Save settings to localStorage when they change and sync with global state
+  watch(textSettings, (newSettings) => {
+    if (isClient) {
+      localStorage.setItem('favicon-text-settings', JSON.stringify(newSettings))
+      // Trigger custom event for immediate same-page sync
+      window.dispatchEvent(new CustomEvent('logo-settings-changed', {
+        detail: newSettings
+      }))
+    }
+  }, { deep: true })
+
   // Simple text length limit
   watch(() => textSettings.text, (newText) => {
     if (newText && newText.length > 10) {
@@ -488,7 +500,7 @@ interface FontObject {
     const canvas = FaviconPreviewRefs[size]
     if (canvas) drawTextOnCanvas(canvas, size)
   })
-  updateFavicon(FaviconPreviewRefs[32] || null)
+  // Don't call updateFavicon here to avoid conflicts - main watcher will handle it
 }
 
 
@@ -578,17 +590,31 @@ watch(
     }
   }
 
+  // Create debounced version of updateFavicon
+  let faviconUpdateTimeout: NodeJS.Timeout | null = null
+
   const updateFavicon = (canvas: HTMLCanvasElement | null) => {
-    if (!canvas) return
-    const dataUrl = canvas.toDataURL('image/png')
-    let Favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement | null
-    if (!Favicon) {
-      Favicon = document.createElement('link') as HTMLLinkElement
-      Favicon.rel = 'icon'
-      document.head.appendChild(Favicon)
+    if (!canvas) {
+      return
     }
-    Favicon.setAttribute('type', 'image/png')
-    Favicon.setAttribute('href', dataUrl)
+
+    // Clear existing timeout
+    if (faviconUpdateTimeout) {
+      clearTimeout(faviconUpdateTimeout)
+    }
+
+    // Debounce the favicon update
+    faviconUpdateTimeout = setTimeout(() => {
+      const dataUrl = canvas.toDataURL('image/png')
+      let Favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement | null
+      if (!Favicon) {
+        Favicon = document.createElement('link') as HTMLLinkElement
+        Favicon.rel = 'icon'
+        document.head.appendChild(Favicon)
+      }
+      Favicon.setAttribute('type', 'image/png')
+      Favicon.setAttribute('href', dataUrl)
+    }, 100) // Wait 100ms before updating
   }
   
   // Helper function to create text-based image (like resizeImage but for text)
@@ -751,9 +777,9 @@ watch(
       // Don't reset progress here - let the success state show
     }
   }
-  
-  
-  watch(textSettings, updatePreview, { deep: true })
+
+
+  // Combined watcher for all textSettings changes
   watch(
     textSettings,
     async () => {
@@ -762,6 +788,13 @@ watch(
       showSuccess.value = false
       progress.value = 0
 
+      // Update preview (same as updatePreview function)
+      await nextTick()
+      if (previewCanvas.value && !fontIsLoading.value) {
+        drawTextOnCanvas(previewCanvas.value, 150)
+      }
+
+      // Redraw all favicons
       await nextTick();
       [16, 32, 48, 64, 96].forEach(size => {
         const canvas = FaviconPreviewRefs[size]
@@ -791,18 +824,35 @@ watch(
 });
 
 
-  
+
   onMounted(() => {
-    [16, 32, 48, 64, 96].forEach(size => {
-      const canvas = FaviconPreviewRefs[size]
-      if (canvas && !fontIsLoading.value) drawTextOnCanvas(canvas, size)
+    if (isClient) {
+      // Load settings first
+      const savedSettings = localStorage.getItem('favicon-text-settings')
+      if (savedSettings) {
+        try {
+          const parsed = JSON.parse(savedSettings)
+          Object.assign(textSettings, parsed)
+        } catch (error) {
+          console.warn('Failed to parse saved text settings:', error)
+        }
+      }
+
+      availableFontWeights.value = getSupportedFontWeights(textSettings.fontFamily)
+      if (!availableFontWeights.value.includes(textSettings.fontWeight)) {
+        textSettings.fontWeight = availableFontWeights.value[0]
+      }
+    }
+
+    // Draw previews after settings are loaded
+    nextTick(() => {
+      [16, 32, 48, 64, 96].forEach(size => {
+        const canvas = FaviconPreviewRefs[size]
+        if (canvas && !fontIsLoading.value) drawTextOnCanvas(canvas, size)
+      })
+      updateFavicon(FaviconPreviewRefs[32] || null) // Initial favicon setup only
+      updatePreview()
     })
-    updateFavicon(FaviconPreviewRefs[32] || null)
-    updatePreview()
-      if (isClient) {
-          availableFontWeights.value = getSupportedFontWeights(fontFamily.value)
-          textSettings.fontWeight = availableFontWeights.value[0]
-     }
   })
   
   

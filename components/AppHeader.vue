@@ -4,9 +4,20 @@
       <nav class="header__nav" role="navigation" aria-label="Головна навігація">
         <NuxtLink to="/" class="header__logo" aria-label="FaviconGen - головна сторінка">
           <div class="header__logo-icon" aria-hidden="true">
-            <Icon name="lucide:zap" />
+            <DynamicLogo :size="logoSize" canvas-class="header__dynamic-logo" />
           </div>
-          <span class="header__logo-text">FaviconGen</span>
+          <span
+            class="header__logo-text"
+            :style="{
+              fontFamily: logoTextStyles.fontFamily,
+              background: logoTextStyles.background,
+              '-webkit-background-clip': 'text',
+              '-webkit-text-fill-color': 'transparent',
+              'background-clip': 'text'
+            }"
+          >
+            FaviconGen
+          </span>
         </NuxtLink>
 
         
@@ -95,6 +106,60 @@ const route = useRoute()
 const isHomePage = computed(() => {
   return route.name === 'index' || route.name === 'index___en' || route.path === '/' || route.path === '/en'
 })
+
+// Reactive logo size based on screen size
+const logoSize = ref(32)
+
+// Dynamic logo text styles
+const logoTextStyles = reactive({
+  fontFamily: 'system-ui',
+  background: 'linear-gradient(135deg, var(--primary), var(--secondary))'
+})
+
+// Listen for logo settings changes
+const handleLogoSettingsChange = (e: CustomEvent) => {
+  const settings = e.detail
+  if (settings.fontFamily) {
+    logoTextStyles.fontFamily = settings.fontFamily
+  }
+  if (settings.backgroundType === 'gradient' && settings.backgroundColor && settings.gradientColor) {
+    logoTextStyles.background = `linear-gradient(135deg, ${settings.backgroundColor}, ${settings.gradientColor})`
+  } else if (settings.backgroundColor) {
+    logoTextStyles.background = settings.backgroundColor
+  }
+}
+
+onMounted(() => {
+  const updateLogoSize = () => {
+    if (window.innerWidth >= 768) {
+      logoSize.value = 36 // md and up
+    } else {
+      logoSize.value = 32 // default
+    }
+  }
+
+  updateLogoSize()
+  window.addEventListener('resize', updateLogoSize)
+
+  // Load initial settings from localStorage
+  try {
+    const saved = localStorage.getItem('favicon-text-settings')
+    if (saved) {
+      const settings = JSON.parse(saved)
+      handleLogoSettingsChange({ detail: settings } as CustomEvent)
+    }
+  } catch (error) {
+    console.warn('Failed to load logo text settings:', error)
+  }
+
+  // Listen for settings changes
+  window.addEventListener('logo-settings-changed', handleLogoSettingsChange as EventListener)
+
+  onUnmounted(() => {
+    window.removeEventListener('resize', updateLogoSize)
+    window.removeEventListener('logo-settings-changed', handleLogoSettingsChange as EventListener)
+  })
+})
 </script>
 
 <style lang="scss" scoped>
@@ -147,12 +212,11 @@ const isHomePage = computed(() => {
   &__logo-icon {
     width: 32px;
     height: 32px;
-    @include gradient(135deg, var(--primary), var(--secondary));
-    border-radius: border-radius(lg);
     @include flex-center;
-    color: white;
     @include transition();
+    // Remove overflow: hidden to allow dynamic border-radius
   }
+
   
   &__logo-text {
     @include gradient(135deg, var(--primary), var(--secondary));
