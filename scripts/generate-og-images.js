@@ -13,21 +13,21 @@ cloudinary.config({
 const translations = {
   en: {
     title: 'FaviconGen',
-    subtitle: 'Create Professional Favicons Instantly',
-    description: 'Free online favicon generator • Convert images • Generate from text',
-    features: ['🖼️  Image Converter', '✏️  Text Generator', '🎨  Multiple Formats', '⚡  Fast & Easy']
+    subtitle: 'Generate Favicons for Free',
+    description: 'Free online favicon generator without ads • Convert images • Create from text',
+    features: ['✓ Completely Free', '✓ No Ads', '✓ Fast & Easy', '✓ Multiple Sizes']
   },
   uk: {
     title: 'FaviconGen',
-    subtitle: 'Створюйте професійні фавіконки миттєво',
-    description: 'Безкоштовний онлайн генератор фавіконок • Конвертуй зображення • Генеруй з тексту',
-    features: ['🖼️  Конвертер зображень', '✏️  Генератор з тексту', '🎨  Різні формати', '⚡  Швидко і легко']
+    subtitle: 'Генеруй фавіконки безкоштовно',
+    description: 'Безкоштовний онлайн генератор фавіконок без реклами • Конвертуй зображення • Створюй з тексту',
+    features: ['✓ Повністю безкоштовно', '✓ Без реклами', '✓ Швидко і легко', '✓ Різні розміри']
   },
   ru: {
     title: 'FaviconGen',
-    subtitle: 'Создавайте профессиональные фавиконки мгновенно',
-    description: 'Бесплатный онлайн генератор фавиконок • Конвертируй изображения • Генерируй из текста',
-    features: ['🖼️  Конвертер изображений', '✏️  Генератор из текста', '🎨  Разные форматы', '⚡  Быстро и легко']
+    subtitle: 'Генерируй фавиконки бесплатно',
+    description: 'Бесплатный онлайн генератор фавиконок без рекламы • Конвертируй изображения • Создавай из текста',
+    features: ['✓ Полностью бесплатно', '✓ Без рекламы', '✓ Быстро и легко', '✓ Разные размеры']
   }
 };
 
@@ -50,71 +50,125 @@ async function generateOGImage(lang, type = 'og') {
   const canvas = createCanvas(width, height);
   const ctx = canvas.getContext('2d');
 
-  // Background gradient
+  // Background gradient using site colors
   const gradient = ctx.createLinearGradient(0, 0, width, height);
-  gradient.addColorStop(0, '#1e40af'); // Blue-700
-  gradient.addColorStop(0.5, '#3b82f6'); // Blue-500
-  gradient.addColorStop(1, '#10b981'); // Emerald-500
+  gradient.addColorStop(0, '#10b981'); // Primary emerald
+  gradient.addColorStop(0.5, '#14b8a6'); // Secondary teal
+  gradient.addColorStop(1, '#059669'); // Primary dark
 
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, width, height);
 
-  // Add subtle pattern overlay
-  ctx.globalAlpha = 0.1;
-  for (let i = 0; i < width; i += 40) {
-    for (let j = 0; j < height; j += 40) {
+  // Add subtle geometric pattern overlay
+  ctx.globalAlpha = 0.08;
+  for (let i = 0; i < width; i += 60) {
+    for (let j = 0; j < height; j += 60) {
       ctx.fillStyle = '#ffffff';
-      ctx.fillRect(i, j, 2, 2);
+      roundRect(ctx, i, j, 4, 4, 2);
+      ctx.fill();
     }
   }
   ctx.globalAlpha = 1;
 
   const t = translations[lang];
 
-  // Set text properties
-  ctx.fillStyle = '#ffffff';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
+  // Add main logo area with FG
+  const logoSize = 120;
+  const logoX = 80;
+  const logoY = 60;
 
-  // Draw title
-  ctx.font = 'bold 92px Arial, sans-serif';
-  ctx.fillText(t.title, width / 2, 200);
+  // Logo background - rounded square with gradient
+  const logoGradient = ctx.createLinearGradient(logoX, logoY, logoX + logoSize, logoY + logoSize);
+  logoGradient.addColorStop(0, '#ffffff');
+  logoGradient.addColorStop(1, '#f3f4f6');
 
-  // Draw subtitle
-  ctx.font = 'bold 42px Arial, sans-serif';
-  ctx.fillText(t.subtitle, width / 2, 280);
-
-  // Draw description
-  ctx.font = '28px Arial, sans-serif';
-  ctx.fillStyle = '#e5e7eb'; // Gray-200
-  ctx.fillText(t.description, width / 2, 360);
-
-  // Draw features
-  ctx.font = 'bold 24px Arial, sans-serif';
-  ctx.fillStyle = '#ffffff';
-
-  const featureY = 450;
-  const featureSpacing = 280;
-  const startX = (width - (t.features.length - 1) * featureSpacing) / 2;
-
-  t.features.forEach((feature, index) => {
-    const x = startX + index * featureSpacing;
-    ctx.fillText(feature, x, featureY);
-  });
-
-  // Add website URL
-  ctx.font = '20px Arial, sans-serif';
-  ctx.fillStyle = '#cbd5e1'; // Gray-300
-  ctx.fillText('https://www.favicon-gen.com/', width / 2, 550);
-
-  // Add favicon icon in top-right corner
-  ctx.fillStyle = '#ffffff';
-  roundRect(ctx, width - 140, 40, 100, 80, 15);
+  ctx.fillStyle = logoGradient;
+  roundRect(ctx, logoX, logoY, logoSize, logoSize, 20);
   ctx.fill();
 
-  ctx.fillStyle = '#3b82f6';
-  ctx.font = 'bold 36px Arial, sans-serif';
-  ctx.fillText('FG', width - 90, 80);
+  // Logo border
+  ctx.strokeStyle = '#e5e7eb';
+  ctx.lineWidth = 2;
+  roundRect(ctx, logoX, logoY, logoSize, logoSize, 20);
+  ctx.stroke();
+
+  // FG letters in logo
+  ctx.fillStyle = '#10b981';
+  ctx.font = 'bold 48px Arial, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('FG', logoX + logoSize / 2, logoY + logoSize / 2);
+
+  // Main content area
+  ctx.fillStyle = '#ffffff';
+  ctx.textAlign = 'left';
+
+  // Title
+  ctx.font = 'bold 88px Arial, sans-serif';
+  ctx.fillText(t.title, 250, 140);
+
+  // Subtitle
+  ctx.font = 'bold 38px Arial, sans-serif';
+  ctx.fillStyle = '#f3f4f6';
+  ctx.fillText(t.subtitle, 250, 200);
+
+  // Description
+  ctx.font = '26px Arial, sans-serif';
+  ctx.fillStyle = '#e5e7eb';
+  ctx.fillText(t.description, 80, 280);
+
+  // Features in a grid layout
+  ctx.font = 'bold 22px Arial, sans-serif';
+  ctx.fillStyle = '#ffffff';
+
+  const featuresPerRow = 2;
+  const featureSpacingX = 280;
+  const featureSpacingY = 50;
+  const featuresStartX = 80;
+  const featuresStartY = 350;
+
+  t.features.forEach((feature, index) => {
+    const row = Math.floor(index / featuresPerRow);
+    const col = index % featuresPerRow;
+    const x = featuresStartX + col * featureSpacingX;
+    const y = featuresStartY + row * featureSpacingY;
+
+    // Feature background
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+    roundRect(ctx, x - 10, y - 15, 260, 30, 8);
+    ctx.fill();
+
+    // Feature text
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(feature, x, y);
+  });
+
+  // Website URL at bottom
+  ctx.font = '18px Arial, sans-serif';
+  ctx.fillStyle = '#d1d5db';
+  ctx.textAlign = 'center';
+  ctx.fillText('favicon-gen.com', width / 2, height - 40);
+
+  // Decorative elements
+  // Add small favicon icons as decoration
+  const iconSize = 24;
+  const iconsY = height - 100;
+
+  for (let i = 0; i < 5; i++) {
+    const iconX = 100 + i * 100;
+
+    // Icon background
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+    roundRect(ctx, iconX, iconsY, iconSize, iconSize, 4);
+    ctx.fill();
+
+    // Icon content (different sizes to represent favicon formats)
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 10px Arial, sans-serif';
+    ctx.textAlign = 'center';
+    const sizes = ['16', '32', '48', '96', '192'];
+    ctx.fillText(sizes[i], iconX + iconSize/2, iconsY + iconSize/2);
+  }
 
   return canvas.toBuffer('image/png');
 }

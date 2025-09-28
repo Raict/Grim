@@ -81,7 +81,6 @@ useHead(() => ({
     { name: 'category', content: 'Technology' },
     { name: 'coverage', content: 'Worldwide' },
     { name: 'distribution', content: 'Global' },
-    { name: 'rating', content: 'General' },
 
     // Language and geo
     { name: 'language', content: locale.value },
@@ -303,14 +302,7 @@ useHead(() => ({
           'Free online tool',
           'No registration required',
           'Multiple language support'
-        ],
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: '4.8',
-          reviewCount: '1247',
-          bestRating: '5',
-          worstRating: '1'
-        }
+        ]
       })
     },
     {
