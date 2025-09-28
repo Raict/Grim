@@ -104,7 +104,7 @@
           "description": "Works on all devices - computer, tablet, phone"
         }
       },
-      "adsense": "Google AdSense Placeholder"
+      "info": "Free service info"
     },
     "textGenerator": {
       "title": "Free Text to Favicon Generator | Create Favicon from Letters Online",
@@ -202,19 +202,19 @@
       "sections": {
         "dataCollection": {
           "title": "Information We Collect",
-          "content": "We collect minimal information to provide our service. This includes uploaded images (processed locally), usage analytics through Google Analytics, and advertising data through Google AdSense."
+          "content": "We collect minimal information to provide our service. This includes uploaded images (processed locally) and basic usage analytics through Google Analytics to improve our service."
         },
         "dataUsage": {
           "title": "How We Use Your Information",
-          "content": "Your uploaded images are processed locally in your browser and are not stored on our servers. We use analytics to improve our service and advertising to support free access."
+          "content": "Your uploaded images are processed locally in your browser and are not stored on our servers. We use analytics only to understand how to improve our free service."
         },
         "cookies": {
           "title": "Cookies and Tracking",
-          "content": "We use cookies for analytics and advertising purposes. You can control cookie preferences through your browser settings or our cookie consent banner."
+          "content": "We use cookies only for analytics purposes to improve our service. You can control cookie preferences through your browser settings."
         },
         "thirdParty": {
           "title": "Third-Party Services",
-          "content": "We use Google Analytics for usage statistics and Google AdSense for advertising. These services may collect data according to their own privacy policies."
+          "content": "We use Google Analytics for usage statistics to improve our service. This service may collect data according to its own privacy policy."
         },
         "dataProtection": {
           "title": "Data Protection",
@@ -438,12 +438,12 @@
     "customize": "Customize",
     "necessary": "Necessary",
     "analytics": "Analytics",
-    "advertising": "Advertising",
+    "functionality": "Functionality",
     "preferences": "Preferences",
     "details": {
       "necessary": "Essential cookies required for basic website functionality.",
       "analytics": "Help us understand how visitors interact with our website.",
-      "advertising": "Used to show relevant advertisements and measure their effectiveness.",
+      "functionality": "Used to enhance your experience with additional features.",
       "preferences": "Remember your settings and preferences for future visits."
     }
   },
