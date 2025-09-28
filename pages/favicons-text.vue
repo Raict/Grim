@@ -355,7 +355,7 @@ interface FontObject {
     text: 'FG',
     fontFamily: 'Bookman',
       fontSize: 32,
-      fontWeight: 400,
+      fontWeight: 700,
     textColor: '#ffffff',
     backgroundColor: '#6ee7b7',
     backgroundType: 'gradient',

@@ -30,7 +30,7 @@ const logoSettings = reactive({
   text: 'FG',
   fontFamily: 'Bookman',
   fontSize: 32,
-  fontWeight: 400,
+  fontWeight: 700,
   textColor: '#ffffff',
   backgroundColor: '#6ee7b7',
   backgroundType: 'gradient' as 'solid' | 'gradient' | 'transparent',
@@ -110,6 +110,11 @@ const drawLogo = async () => {
   const size = props.size
   ctx.clearRect(0, 0, size, size)
 
+  // Debug log to ensure this function is being called
+  if (process.dev) {
+    console.log('DynamicLogo: Drawing logo with settings:', logoSettings)
+  }
+
 
   const percent = Math.max(0, Math.min(logoSettings.borderRadiusPercent, 100))
   const radius = (percent / 100) * (size / 2)
@@ -170,6 +175,13 @@ const drawLogo = async () => {
   ctx.fillText(logoSettings.text, size / 2, centerY)
 
   ctx.restore()
+
+  // Debug: Check if canvas has content
+  if (process.dev) {
+    const imageData = ctx.getImageData(0, 0, size, size)
+    const hasContent = Array.from(imageData.data).some((byte, index) => index % 4 === 3 && byte > 0) // Check alpha channel
+    console.log('DynamicLogo: Canvas has content:', hasContent)
+  }
 }
 
 // Watch for font family changes
@@ -259,11 +271,16 @@ onMounted(() => {
     // Listen for same-page changes (immediate)
     window.addEventListener('logo-settings-changed', handleLogoSettingsChange as EventListener)
 
-    // Draw initial logo
+    // Draw initial logo immediately and with a small delay as fallback
+    activeFontFamily.value = logoSettings.fontFamily
     nextTick(() => {
-      activeFontFamily.value = logoSettings.fontFamily
       drawLogo()
     })
+
+    // Also draw after a small delay to ensure everything is loaded
+    setTimeout(() => {
+      drawLogo()
+    }, 100)
   }
 })
 
@@ -274,3 +291,29 @@ onUnmounted(() => {
   }
 })
 </script>
+
+<style scoped>
+canvas {
+  display: block;
+  /* Fallback background in case canvas is empty */
+  background: linear-gradient(135deg, #6ee7b7, #3814b8);
+
+  /* Show 'FG' text if canvas fails to render */
+  position: relative;
+}
+
+canvas:empty::before,
+canvas[width="0"]::before {
+  content: 'FG';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-family: 'Bookman', serif;
+  font-weight: 400;
+  font-size: 18px;
+  text-align: center;
+  line-height: 1;
+}
+</style>
