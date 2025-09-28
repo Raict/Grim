@@ -202,7 +202,7 @@
       "sections": {
         "dataCollection": {
           "title": "Information We Collect",
-          "content": "We collect minimal information to provide our service. This includes uploaded images (processed locally) and basic usage analytics through Google Analytics to improve our service."
+          "content": "We collect minimal information to provide our service. This includes uploaded images (processed locally) and basic usage analytics to improve our service."
         },
         "dataUsage": {
           "title": "How We Use Your Information",
@@ -214,7 +214,7 @@
         },
         "thirdParty": {
           "title": "Third-Party Services",
-          "content": "We use Google Analytics for usage statistics to improve our service. This service may collect data according to its own privacy policy."
+          "content": "We may use third-party analytics services to understand how our service is used and to improve it. These services may collect data according to their own privacy policies."
         },
         "dataProtection": {
           "title": "Data Protection",
