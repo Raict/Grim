@@ -45,14 +45,7 @@ const ogImage = computed(() => {
 })
 
 const twitterImage = computed(() => {
-  switch (locale.value) {
-    case 'uk':
-      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_600/v1/favicon-gen/twitter-image-uk.png'
-    case 'ru':
-      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_600/v1/favicon-gen/twitter-image-ru.png'
-    default:
-      return 'https://res.cloudinary.com/dnqperiuu/image/upload/c_scale,w_1200,h_600/v1/favicon-gen/twitter-image-en.png'
-  }
+  return 'https://raw.githubusercontent.com/Raict/Grim/main/public/og-image-new-small.png'
 })
 
 useHead(() => ({
@@ -91,10 +84,10 @@ useHead(() => ({
     { 'http-equiv': 'cache-control', content: 'public, max-age=31536000' },
     { 'http-equiv': 'expires', content: new Date(Date.now() + 31536000000).toUTCString() },
 
-    // Rich snippets and search features
-    { name: 'google-site-verification', content: 'your-google-verification-code' },
-    { name: 'msvalidate.01', content: 'your-bing-verification-code' },
-    { name: 'yandex-verification', content: 'your-yandex-verification-code' },
+    // Rich snippets and search features (verification codes will be added when registered)
+    // { name: 'google-site-verification', content: 'verification-code-will-be-added' },
+    // { name: 'msvalidate.01', content: 'verification-code-will-be-added' },
+    // { name: 'yandex-verification', content: 'verification-code-will-be-added' },
 
     // Social media and sharing
     { name: 'pinterest-rich-pins', content: 'true' },
@@ -223,17 +216,27 @@ useHead(() => ({
         inLanguage: locale.value === 'uk' ? 'uk-UA' : locale.value === 'ru' ? 'ru-RU' : 'en-US',
         description: t('seo.description'),
         keywords: t('seo.keywords'),
-        potentialAction: {
-          '@type': 'SearchAction',
-          target: 'https://www.favicon-gen.com/search?q={search_term_string}',
-          'query-input': 'required name=search_term_string'
-        },
+        // Removed search action as the site doesn't have search functionality
         mainEntity: {
-          '@type': 'WebApplication',
-          name: 'Favicon Generator',
+          '@type': ['WebApplication', 'SoftwareApplication'],
+          name: 'Free Favicon Generator',
           description: t('seo.socialDescription'),
-          applicationCategory: 'DesignApplication',
-          operatingSystem: 'Web Browser'
+          applicationCategory: ['DesignApplication', 'DeveloperApplication'],
+          operatingSystem: 'Web Browser',
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD',
+            availability: 'https://schema.org/InStock'
+          },
+          featureList: [
+            'Convert images to favicon',
+            'Generate favicon from text',
+            'Multiple favicon sizes',
+            'ZIP download with HTML code',
+            'No registration required',
+            'Ad-free service'
+          ]
         }
       })
     },
