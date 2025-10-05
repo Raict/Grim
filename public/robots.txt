@@ -31,7 +31,7 @@ Allow: /favicon.ico
 Allow: /favicon-*.png
 Allow: /apple-touch-icon.png
 Allow: /site.webmanifest
-Allow: /_nuxt/
+Disallow: /_nuxt/
 Allow: /assets/
 
 # SEO files
