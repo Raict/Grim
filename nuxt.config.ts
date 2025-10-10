@@ -126,8 +126,23 @@ export default defineNuxtConfig({
       '/faq': { prerender: true },
       '/terms': { prerender: true },
       '/privacy': { prerender: true },
-      '/api/**': { cors: true },
-      '/_nuxt/**': { headers: { 'cache-control': 'max-age=31536000' } },
+      '/api/**': {
+        cors: true,
+        headers: {
+          'X-Robots-Tag': 'noindex, nofollow'
+        }
+      },
+      '/_nuxt/**': {
+        headers: {
+          'cache-control': 'max-age=31536000',
+          'X-Robots-Tag': 'noindex, nofollow'
+        }
+      },
+      '/.nuxt/**': {
+        headers: {
+          'X-Robots-Tag': 'noindex, nofollow'
+        }
+      },
       '/favicon*.{ico,png}': { headers: { 'cache-control': 'max-age=31536000' } },
       '**/*.{js,css,png,jpg,jpeg,gif,ico,svg}': { headers: { 'cache-control': 'max-age=31536000' } }
     }

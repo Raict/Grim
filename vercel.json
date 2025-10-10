@@ -40,7 +40,7 @@
       "has": [
         {
           "type": "host",
-          "value": "www.favicon-gen.com"
+          "value": "favicon-gen.com"
         }
       ],
       "destination": "https://favicon-gen.com/$1",

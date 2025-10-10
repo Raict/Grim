@@ -19,11 +19,11 @@ const { t, locale } = useI18n()
 const url = computed(() => {
   switch (locale.value) {
     case 'uk':
-      return 'https://www.favicon-gen.com/'
+      return 'https://favicon-gen.com/'
     case 'ru':
-      return 'https://www.favicon-gen.com/ru'
+      return 'https://favicon-gen.com/ru'
     default:
-      return 'https://www.favicon-gen.com/en'
+      return 'https://favicon-gen.com/en'
   }
 })
 
@@ -118,7 +118,7 @@ useHead(() => ({
 
     // Article properties
     { property: 'article:author', content: t('seo.author') },
-    { property: 'article:publisher', content: 'https://www.favicon-gen.com' },
+    { property: 'article:publisher', content: 'https://favicon-gen.com' },
     { property: 'article:section', content: 'Web Design Tools' },
     { property: 'article:tag', content: 'favicon' },
     { property: 'article:tag', content: 'icon generator' },
@@ -194,10 +194,10 @@ useHead(() => ({
 
     // Canonical & alternate hreflang
     { rel: 'canonical', href: url },
-    { rel: 'alternate', hreflang: 'uk', href: 'https://www.favicon-gen.com/' },
-    { rel: 'alternate', hreflang: 'en', href: 'https://www.favicon-gen.com/en' },
-    { rel: 'alternate', hreflang: 'ru', href: 'https://www.favicon-gen.com/ru' },
-    { rel: 'alternate', hreflang: 'x-default', href: 'https://www.favicon-gen.com' }
+    { rel: 'alternate', hreflang: 'uk', href: 'https://favicon-gen.com/' },
+    { rel: 'alternate', hreflang: 'en', href: 'https://favicon-gen.com/en' },
+    { rel: 'alternate', hreflang: 'ru', href: 'https://favicon-gen.com/ru' },
+    { rel: 'alternate', hreflang: 'x-default', href: 'https://favicon-gen.com' }
   ],
   htmlAttrs: {
     lang: locale.value
@@ -246,8 +246,8 @@ useHead(() => ({
         '@context': 'https://schema.org',
         '@type': 'Organization',
         name: t('seo.siteName'),
-        url: 'https://www.favicon-gen.com',
-        logo: 'https://www.favicon-gen.com/favicon-512x512.png',
+        url: 'https://favicon-gen.com',
+        logo: 'https://favicon-gen.com/favicon-512x512.png',
         image: ogImage.value,
         description: t('seo.description'),
         sameAs: [
@@ -257,7 +257,7 @@ useHead(() => ({
         contactPoint: {
           '@type': 'ContactPoint',
           contactType: 'Customer Service',
-          url: 'https://www.favicon-gen.com/contact'
+          url: 'https://favicon-gen.com/contact'
         }
       })
     },
@@ -381,7 +381,7 @@ useHead(() => ({
             '@type': 'ListItem',
             position: 1,
             name: 'Home',
-            item: 'https://www.favicon-gen.com'
+            item: 'https://favicon-gen.com'
           },
           {
             '@type': 'ListItem',

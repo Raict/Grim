@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event) => {
-  const baseURL = 'https://www.favicon-gen.com'
+  const baseURL = 'https://favicon-gen.com'
   const languages = ['uk', 'en']
   const pages = [
     '',
