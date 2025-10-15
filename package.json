@@ -35,6 +35,8 @@
     "@types/file-saver": "^2.0.7",
     "@types/pica": "^9.0.5",
     "gh-pages": "^6.3.0",
+    "nuxt-simple-robots": "^3.1.10",
+    "nuxt-simple-sitemap": "^4.4.1",
     "typescript": "^5.8.3"
   }
 }

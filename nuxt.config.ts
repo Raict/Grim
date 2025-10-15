@@ -1,4 +1,5 @@
 import { defineNuxtConfig } from "nuxt/config"
+import { fileURLToPath } from 'node:url'
 
 export default defineNuxtConfig({
   runtimeConfig: {
@@ -50,27 +51,37 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   modules: [
+    'nuxt-simple-robots',
+    'nuxt-simple-sitemap',
     "@nuxt/ui",
-    ["@nuxtjs/i18n", {
-      bundle: {
-        optimizeTranslationDirective: true,
-        compositionOnly: true,
-        runtimeOnly: false
-      },
-      locales: [
-        { code: "uk", name: "Українська", file: "uk.json" },
-        { code: "en", name: "English", file: "en.json" },
-        { code: "ru", name: "Русский", file: "ru.json" },
-      ],
-      lazy: true,
-      langDir: '../locales/',
-      defaultLocale: "uk",
-      strategy: "prefix_except_default",
-      compilation: {
-        strictMessage: false,
-        escapeHtml: false
-      }
-    }],
+    ['@nuxtjs/i18n', {
+  bundle: {
+    optimizeTranslationDirective: true,
+    compositionOnly: true,
+    runtimeOnly: false
+  },
+  locales: [
+    { code: 'uk', name: 'Українська', file: 'uk.json' },
+    { code: 'en', name: 'English',    file: 'en.json' },
+    { code: 'ru', name: 'Русский',    file: 'ru.json' }
+  ],
+  lazy: true,
+  langDir: fileURLToPath(new URL('./locales', import.meta.url)), 
+  defaultLocale: 'uk',
+  strategy: 'prefix_except_default',
+  seo: true,                 
+  baseUrl: 'https://favicon-gen.com',
+  compilation: {
+    strictMessage: false,
+    escapeHtml: false
+  },
+  detectBrowserLanguage: {
+    useCookie: true,
+    cookieKey: 'i18n_redirected',
+    redirectOn: 'root',
+    alwaysRedirect: false
+  }
+}],
     ["@nuxtjs/color-mode", {
       preference: "system",
       fallback: "dark",
@@ -82,7 +93,26 @@ export default defineNuxtConfig({
       storageKey: "nuxt-color-mode",
     }],
   ],
-
+robots: {
+  siteUrl: 'https://favicon-gen.com',
+  sitemap: ['/sitemap.xml'],
+  disallow: ['/api/', '/_nuxt/', '/vercel/'],
+  allow: ['/'],
+  host: 'https://favicon-gen.com'
+},
+sitemap: {
+  siteUrl: 'https://favicon-gen.com',
+  autoI18n: true,
+  defaultLocale: 'uk',
+  i18n: {
+    locales: ['uk', 'en', 'ru'],
+    defaultLocale: 'uk'
+  },
+  exclude: ['/api/**', '/_nuxt/**', '/vercel/**'],
+  urls: [
+    '/', '/favicons', '/favicons-text', '/faq', '/terms', '/privacy'
+  ]
+},
   ui: {
     global: true,
     icons: ["lucide"]
@@ -140,6 +170,11 @@ export default defineNuxtConfig({
       },
       '/.nuxt/**': {
         headers: {
+          'X-Robots-Tag': 'noindex, nofollow'
+        }
+      },
+      '/vercel/**': {
+                headers: {
           'X-Robots-Tag': 'noindex, nofollow'
         }
       },
