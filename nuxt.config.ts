@@ -59,11 +59,10 @@ export default defineNuxtConfig({
     optimizeTranslationDirective: true,
     compositionOnly: true,
     runtimeOnly: false
-  },
+      },
   locales: [
     { code: 'uk', name: 'Українська', file: 'uk.json' },
-    { code: 'en', name: 'English',    file: 'en.json' },
-    { code: 'ru', name: 'Русский',    file: 'ru.json' }
+    { code: 'en', name: 'English',    file: 'en.json' }
   ],
   lazy: true,
   langDir: fileURLToPath(new URL('./locales', import.meta.url)), 
@@ -93,19 +92,12 @@ export default defineNuxtConfig({
       storageKey: "nuxt-color-mode",
     }],
   ],
-robots: {
-  siteUrl: 'https://favicon-gen.com',
-  sitemap: ['/sitemap.xml'],
-  disallow: ['/api/', '/_nuxt/', '/vercel/'],
-  allow: ['/'],
-  host: 'https://favicon-gen.com'
-},
 sitemap: {
   siteUrl: 'https://favicon-gen.com',
   autoI18n: true,
   defaultLocale: 'uk',
   i18n: {
-    locales: ['uk', 'en', 'ru'],
+    locales: ['uk', 'en'],
     defaultLocale: 'uk'
   },
   exclude: ['/api/**', '/_nuxt/**', '/vercel/**'],
@@ -238,6 +230,33 @@ sitemap: {
       noExternal: ['@nuxt/ui']
     }
   },
+
+  robots: {
+  siteUrl: 'https://favicon-gen.com',
+  sitemap: 'https://favicon-gen.com/sitemap.xml',
+
+  allow: [
+    '/', '/en/', '/en/favicon', '/favicon',
+    '/en/favicons-text', '/favicons-text',
+    '/en/faq', '/faq', '/en/privacy', '/privacy',
+    '/en/terms', '/terms', '/favicon.ico',
+    '/favicon-*.png', '/apple-touch-icon.png',
+    '/site.webmanifest', '/assets/', '/sitemap.xml'
+  ],
+
+  disallow: [
+    '/_nuxt/', '/_nuxt/builds/', '/.nuxt/', '/admin/',
+    '/tmp/', '/temp/', '/api/', '/ru/', '/vercel/'
+  ],
+
+  groups: [
+    {
+      userAgent: ['Googlebot', 'Bingbot', 'Slurp', 'DuckDuckBot', 'Baiduspider', 'YandexBot']
+    }
+  ],
+
+  host: 'https://favicon-gen.com'
+},
 
   hooks: {
     'vite:extendConfig': (config, { isServer }) => {

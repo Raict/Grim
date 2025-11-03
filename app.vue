@@ -20,8 +20,8 @@ const url = computed(() => {
   switch (locale.value) {
     case 'uk':
       return 'https://favicon-gen.com/'
-    case 'ru':
-      return 'https://favicon-gen.com/ru'
+    // case 'ru':
+    //   return 'https://favicon-gen.com/ru'
     default:
       return 'https://favicon-gen.com/en'
   }
@@ -32,8 +32,8 @@ const ogLocale = computed(() => {
   switch (locale.value) {
     case 'uk':
       return 'uk_UA'
-    case 'ru':
-      return 'ru_RU'
+    // case 'ru':
+    //   return 'ru_RU'
     default:
       return 'en_US'
   }
@@ -114,7 +114,7 @@ useHead(() => ({
     { property: 'og:locale', content: ogLocale.value },
     { property: 'og:locale:alternate', content: 'en_US' },
     { property: 'og:locale:alternate', content: 'uk_UA' },
-    { property: 'og:locale:alternate', content: 'ru_RU' },
+    // { property: 'og:locale:alternate', content: 'ru_RU' },
 
     // Article properties
     { property: 'article:author', content: t('seo.author') },
@@ -137,7 +137,6 @@ useHead(() => ({
     { name: 'twitter:app:name:ipad', content: t('seo.siteName') },
     { name: 'twitter:app:name:googleplay', content: t('seo.siteName') },
 
-    // Facebook specific tags будуть додані при налаштуванні Facebook App
 
     // Schema.org microdata
     { name: 'application-name', content: t('seo.siteName') },
@@ -159,7 +158,6 @@ useHead(() => ({
     { 'http-equiv': 'Content-Type', content: 'text/html; charset=utf-8' },
     { name: 'format-detection', content: 'telephone=no' },
 
-    // Verification tags будуть додані пізніше при реєстрації в пошукових системах
 
     // Rich snippets support
     { name: 'thumbnail', content: ogImage.value }
@@ -196,7 +194,7 @@ useHead(() => ({
     { rel: 'canonical', href: url },
     { rel: 'alternate', hreflang: 'uk', href: 'https://favicon-gen.com/' },
     { rel: 'alternate', hreflang: 'en', href: 'https://favicon-gen.com/en' },
-    { rel: 'alternate', hreflang: 'ru', href: 'https://favicon-gen.com/ru' },
+    // { rel: 'alternate', hreflang: 'ru', href: 'https://favicon-gen.com/ru' },
     { rel: 'alternate', hreflang: 'x-default', href: 'https://favicon-gen.com' }
   ],
   htmlAttrs: {
@@ -213,7 +211,7 @@ useHead(() => ({
         '@type': 'WebSite',
         name: t('seo.siteName'),
         url: url.value,
-        inLanguage: locale.value === 'uk' ? 'uk-UA' : locale.value === 'ru' ? 'ru-RU' : 'en-US',
+        inLanguage: locale.value === 'uk' ? 'uk-UA' : 'en-US',
         description: t('seo.description'),
         keywords: t('seo.keywords'),
         // Removed search action as the site doesn't have search functionality
@@ -254,11 +252,11 @@ useHead(() => ({
           'https://github.com/favicon-gen',
           'https://twitter.com/favicon_gen'
         ],
-        contactPoint: {
-          '@type': 'ContactPoint',
-          contactType: 'Customer Service',
-          url: 'https://favicon-gen.com/contact'
-        }
+        // contactPoint: {
+        //   '@type': 'ContactPoint',
+        //   contactType: 'Customer Service',
+        //   url: 'https://favicon-gen.com/contact'
+        // }
       })
     },
     {
@@ -287,7 +285,7 @@ useHead(() => ({
           name: t('seo.author')
         },
         keywords: t('seo.keywords'),
-        inLanguage: locale.value === 'uk' ? 'uk-UA' : locale.value === 'ru' ? 'ru-RU' : 'en-US',
+        inLanguage: locale.value === 'uk' ? 'uk-UA' : 'en-US',
         featureList: [
           'Convert images to favicon',
           'Generate favicon from text',

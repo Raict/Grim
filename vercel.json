@@ -46,7 +46,8 @@
       "source": "/(.*)",
       "has": [{ "type": "host", "value": "www.favicon-gen.com" }],
       "destination": "https://favicon-gen.com/$1",
-      "permanent": true
+      "permanent": true,
+      "statusCode": 301
     },
     {
       "source": "/(.*)",
@@ -56,5 +57,6 @@
       "destination": "https://favicon-gen.com/$1",
       "permanent": true
     }
-  ]
+  ], 
+  "errorPage": "404.html"
 }
