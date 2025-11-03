@@ -2,7 +2,7 @@
   <footer class="footer">
     <div class="container">
       <div class="footer__content">
-        <!-- Main Footer Content -->
+        <!-- Main Footer -->
         <div class="footer__main">
           <!-- Brand Section -->
           <div class="footer__brand">
