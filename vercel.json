@@ -57,6 +57,5 @@
       "destination": "https://favicon-gen.com/$1",
       "permanent": true
     }
-  ], 
-  "errorPage": "404.html"
+  ]
 }
