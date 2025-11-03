@@ -184,7 +184,6 @@ sitemap: {
 
   experimental: {
     payloadExtraction: false,
-    inlineSSRStyles: false,
     treeshakeClientOnly: true,
     emitRouteChunkError: 'automatic'
   },
