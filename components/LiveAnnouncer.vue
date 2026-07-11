@@ -33,7 +33,7 @@ watch(() => props.message, (newMessage) => {
 
 // Глобальна функція для сповіщень
 if (process.client) {
-  window.announceToScreenReader = announce
+  ;(window as Window & { announceToScreenReader?: typeof announce }).announceToScreenReader = announce
 }
 
 defineExpose({

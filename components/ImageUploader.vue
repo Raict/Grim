@@ -17,7 +17,7 @@
       <input
         ref="fileInput"
         type="file"
-        accept="image/*"
+        accept="image/png,image/jpeg,image/webp,image/gif"
         class="hidden"
         @change="handleFileInput"
       />
@@ -43,6 +43,7 @@
   </template>
   
   <script setup lang="ts">
+  import { validateFileBuffer, validateUploadedFile } from '~/utils/securityUtils'
   
   interface Props {
     isProcessing?: boolean
@@ -84,20 +85,12 @@
   }
   
   const validateAndEmitFile = async (file: File) => {
-    // Simple and reliable validation
-    if (!file.type.startsWith('image/')) {
-      return
-    }
+    const metadataValidation = validateUploadedFile(file)
+    if (!metadataValidation.isValid) return
 
-    if (file.size > 10 * 1024 * 1024) {
-      return
-    }
+    const signatureValidation = await validateFileBuffer(file)
+    if (!signatureValidation.isValid) return
 
-    if (file.size === 0) {
-      return
-    }
-
-    // Proceed with file selection
     emit('file-selected', file)
   }
   </script>

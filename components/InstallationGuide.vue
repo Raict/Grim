@@ -103,7 +103,7 @@ interface Props {
 
 const props = defineProps<Props>()
 const isCopied = ref(false)
-const { t } = useI18n()
+const { t } = useI18n({ useScope: 'global' })
 
 // Generate file list based on sizes with descriptions
 const generatedFiles = computed(() => {

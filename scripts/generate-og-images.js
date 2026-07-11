@@ -22,12 +22,6 @@ const translations = {
     subtitle: 'Генеруй фавіконки безкоштовно',
     description: 'Безкоштовний онлайн генератор фавіконок без реклами • Конвертуй зображення • Створюй з тексту',
     features: ['✓ Повністю безкоштовно', '✓ Без реклами', '✓ Швидко і легко', '✓ Різні розміри']
-  },
-  ru: {
-    title: 'FaviconGen',
-    subtitle: 'Генерируй фавиконки бесплатно',
-    description: 'Бесплатный онлайн генератор фавиконок без рекламы • Конвертируй изображения • Создавай из текста',
-    features: ['✓ Полностью бесплатно', '✓ Без рекламы', '✓ Быстро и легко', '✓ Разные размеры']
   }
 };
 
@@ -191,7 +185,7 @@ async function uploadToCloudinary(buffer, publicId) {
 }
 
 async function generateAllImages() {
-  const languages = ['en', 'uk', 'ru'];
+  const languages = ['en', 'uk'];
   const types = ['og', 'twitter'];
 
   for (const lang of languages) {

@@ -199,9 +199,8 @@
 </template>
 
 <script setup lang="ts">
-import { useToast } from '~/utils/toastUtils'
 import JSZip from 'jszip'
-const { t } = useI18n();
+const { t } = useI18n({ useScope: 'global' });
 // SEO
 useHead({
       title: t('pages.aiGenerator.fullTitle'),
@@ -213,7 +212,11 @@ useHead({
       ],
     });
 
-const toast = useToast()
+const nuxtToast = useToast()
+const toast = {
+  success: (title: string) => nuxtToast.add({ title, color: 'success' }),
+  error: (title: string) => nuxtToast.add({ title, color: 'error' })
+}
 
 const aiSettings = reactive({
   prompt: '',

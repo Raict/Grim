@@ -7,7 +7,6 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBaseUrl: process.env.API_BASE_URL || "http://localhost:3000/api",
       siteName: 'FaviconGen',
       siteUrl: 'https://favicon-gen.com'
     },
@@ -28,10 +27,7 @@ export default defineNuxtConfig({
     },
     pageTransition: {
       name: 'page',
-      mode: 'out-in',
-      onBeforeEnter: () => {
-        // Will be handled by middleware
-      }
+      mode: 'out-in'
     }
   },
   compatibilityDate: "2025-06-15",
@@ -81,17 +77,8 @@ export default defineNuxtConfig({
   ],
 sitemap: {
   autoI18n: true,
-  defaultLocale: 'uk',
-  i18n: {
-    locales: ['uk', 'en'],
-    defaultLocale: 'uk'
-  },
   exclude: ['/api/**', '/_nuxt/**', '/vercel/**', '/ru', '/ru/**']
 },
-  ui: {
-    global: true,
-    icons: ["lucide"]
-  },
 
   css: ["~/assets/scss/main.scss"],
 
@@ -125,7 +112,10 @@ sitemap: {
           'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
           'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
           'Cross-Origin-Embedder-Policy': 'credentialless',
-          'Cross-Origin-Opener-Policy': 'same-origin'
+          'Cross-Origin-Opener-Policy': 'same-origin',
+          'Cross-Origin-Resource-Policy': 'same-origin',
+          'X-DNS-Prefetch-Control': 'off',
+          'Content-Security-Policy': "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self'; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests"
         }
       },
       '/': { prerender: true, headers: { 'cache-control': 's-maxage=86400' } },
@@ -141,7 +131,6 @@ sitemap: {
       '/en/terms': { prerender: true },
       '/en/privacy': { prerender: true },
       '/api/**': {
-        cors: true,
         headers: {
           'X-Robots-Tag': 'noindex, nofollow'
         }
@@ -171,12 +160,11 @@ sitemap: {
     strict: true,
   },
   build: {
-    transpile: ["trpc-nuxt", "@nuxt/ui"],
+    transpile: ["@nuxt/ui"],
   },
 
   experimental: {
     payloadExtraction: false,
-    treeshakeClientOnly: true,
     emitRouteChunkError: 'automatic'
   },
 
@@ -223,27 +211,10 @@ sitemap: {
   },
 
   robots: {
-  siteUrl: 'https://favicon-gen.com',
   allow: ['/'],
 
   disallow: [
     '/.nuxt/', '/admin/', '/tmp/', '/temp/', '/vercel/'
-  ],
-
-  host: 'https://favicon-gen.com'
-},
-
-  hooks: {
-    'vite:extendConfig': (config, { isServer }) => {
-      if (isServer) {
-        config.build = config.build || {}
-        config.build.rollupOptions = config.build.rollupOptions || {}
-        config.build.rollupOptions.external = config.build.rollupOptions.external || []
-
-        if (Array.isArray(config.build.rollupOptions.external)) {
-          config.build.rollupOptions.external.push('@nuxt/kit', 'node:url', 'node:path', 'node:fs')
-        }
-      }
-    }
+  ]
   }
 })

@@ -19,17 +19,54 @@ const FILE_SIGNATURES = {
   'image/gif': [0x47, 0x49, 0x46, 0x38] // GIF8
 }
 
+export interface SafeFaviconSettings {
+  text?: string
+  fontFamily?: string
+  fontSize?: number
+  fontWeight?: number
+  textColor?: string
+  backgroundColor?: string
+  backgroundType?: 'solid' | 'gradient' | 'transparent'
+  gradientColor?: string
+  borderRadiusPercent?: number
+  backgroundAlpha?: number
+}
+
+const isHexColor = (value: unknown): value is string =>
+  typeof value === 'string' && /^#[0-9a-f]{6}$/i.test(value)
+
+/** Copies only expected, bounded settings from untrusted storage/events. */
+export function sanitizeFaviconSettings(value: unknown): SafeFaviconSettings {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return {}
+  const input = value as Record<string, unknown>
+  const safe: SafeFaviconSettings = Object.create(null)
+
+  if (typeof input.text === 'string') safe.text = sanitizeTextInput(input.text).slice(0, 3)
+  if (typeof input.fontFamily === 'string' && /^[\w .-]{1,64}$/.test(input.fontFamily)) safe.fontFamily = input.fontFamily
+  if (typeof input.fontSize === 'number' && Number.isFinite(input.fontSize)) safe.fontSize = Math.min(48, Math.max(8, input.fontSize))
+  if (typeof input.fontWeight === 'number' && Number.isInteger(input.fontWeight) && input.fontWeight >= 100 && input.fontWeight <= 900) safe.fontWeight = input.fontWeight
+  if (isHexColor(input.textColor)) safe.textColor = input.textColor
+  if (isHexColor(input.backgroundColor)) safe.backgroundColor = input.backgroundColor
+  if (isHexColor(input.gradientColor)) safe.gradientColor = input.gradientColor
+  if (input.backgroundType === 'solid' || input.backgroundType === 'gradient' || input.backgroundType === 'transparent') safe.backgroundType = input.backgroundType
+  if (typeof input.borderRadiusPercent === 'number' && Number.isFinite(input.borderRadiusPercent)) safe.borderRadiusPercent = Math.min(100, Math.max(0, input.borderRadiusPercent))
+  if (typeof input.backgroundAlpha === 'number' && Number.isFinite(input.backgroundAlpha)) safe.backgroundAlpha = Math.min(1, Math.max(0, input.backgroundAlpha))
+
+  return safe
+}
+
 /**
  * Validates file type using magic number (binary signature)
  */
 export function validateFileSignature(buffer: ArrayBuffer, expectedMimeType: string): boolean {
   const uint8Array = new Uint8Array(buffer)
-  const signature = FILE_SIGNATURES[expectedMimeType as keyof typeof FILE_SIGNATURES]
+  const normalizedMimeType = expectedMimeType === 'image/jpg' ? 'image/jpeg' : expectedMimeType
+  const signature = FILE_SIGNATURES[normalizedMimeType as keyof typeof FILE_SIGNATURES]
 
   if (!signature) return false
 
   // Special case for WebP - need to check full RIFF header
-  if (expectedMimeType === 'image/webp') {
+  if (normalizedMimeType === 'image/webp') {
     const webpSignature = new Uint8Array([0x52, 0x49, 0x46, 0x46]) // RIFF
     const webpType = new Uint8Array([0x57, 0x45, 0x42, 0x50]) // WEBP at offset 8
 
@@ -175,14 +212,17 @@ export function createSafeCanvas(width: number, height: number): HTMLCanvasEleme
 export function generateCSPHeader(): string {
   return [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval'", // Nuxt requires unsafe-inline/eval
-    "style-src 'self' 'unsafe-inline' fonts.googleapis.com",
-    "font-src 'self' fonts.gstatic.com",
-    "img-src 'self' data: blob: https:",
-    "connect-src 'self' https:",
+    "script-src 'self' 'unsafe-inline'",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src 'self' data: https://fonts.gstatic.com",
+    "img-src 'self' data: blob:",
+    "connect-src 'self'",
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
-    "frame-ancestors 'none'"
+    "frame-ancestors 'none'",
+    "worker-src 'self' blob:",
+    "manifest-src 'self'",
+    "upgrade-insecure-requests"
   ].join('; ')
 }

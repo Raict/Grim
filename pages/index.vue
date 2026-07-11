@@ -238,7 +238,7 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
+const { t } = useI18n({ useScope: 'global' });
 const localePath = useLocalePath()
 const route = useRoute()
 const pageUrl = computed(() => `https://favicon-gen.com${route.path === '/' ? '/' : route.path}`)

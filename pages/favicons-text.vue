@@ -350,6 +350,7 @@
   import JSZip from 'jszip'
 import { colorPalette, grayscalePalette, fontOptions, FONT_WEIGHT_LABELS, FONT_WEIGHTS } from '~/utils/options'
 import { createIcoFile } from '~/utils/icoGenerator'
+import { sanitizeFaviconSettings } from '~/utils/securityUtils'
 
 
   
@@ -399,7 +400,7 @@ interface FontObject {
     return FONT_WEIGHTS[fontFamily] || [400, 700]
   }
 
-  const { t, locale } = useI18n()
+  const { t, locale } = useI18n({ useScope: 'global' })
   const localePath = useLocalePath()
   const route = useRoute()
   const pageUrl = computed(() => `https://favicon-gen.com${route.path}`)
@@ -846,7 +847,7 @@ watch(
       const savedSettings = localStorage.getItem('favicon-text-settings')
       if (savedSettings) {
         try {
-          const parsed = JSON.parse(savedSettings)
+          const parsed = sanitizeFaviconSettings(JSON.parse(savedSettings))
           Object.assign(textSettings, parsed)
         } catch (error) {
           console.warn('Failed to parse saved text settings:', error)

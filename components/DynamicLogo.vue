@@ -14,6 +14,7 @@
 
 <script setup lang="ts">
 import { fontOptions, FONT_WEIGHTS } from '~/utils/options'
+import { sanitizeFaviconSettings } from '~/utils/securityUtils'
 
 interface Props {
   size?: number
@@ -232,7 +233,7 @@ watch(logoSettings, () => {
 const handleStorageChange = (e: StorageEvent) => {
   if (e.key === 'favicon-text-settings' && e.newValue) {
     try {
-      const parsed = JSON.parse(e.newValue)
+      const parsed = sanitizeFaviconSettings(JSON.parse(e.newValue))
       Object.assign(logoSettings, parsed)
       nextTick(() => {
         drawLogo()
@@ -245,7 +246,7 @@ const handleStorageChange = (e: StorageEvent) => {
 
 // Listen for same-page updates (immediate sync)
 const handleLogoSettingsChange = (e: CustomEvent) => {
-  Object.assign(logoSettings, e.detail)
+  Object.assign(logoSettings, sanitizeFaviconSettings(e.detail))
   nextTick(() => {
     drawLogo()
   })
@@ -258,7 +259,7 @@ onMounted(() => {
     try {
       const saved = localStorage.getItem('favicon-text-settings')
       if (saved) {
-        const parsed = JSON.parse(saved)
+        const parsed = sanitizeFaviconSettings(JSON.parse(saved))
         Object.assign(logoSettings, parsed)
       }
     } catch (error) {

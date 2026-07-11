@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-const { t, locale } = useI18n()
+const { t, locale } = useI18n({ useScope: 'global' })
 const route = useRoute()
 
 const siteUrl = 'https://favicon-gen.com'
@@ -33,8 +33,6 @@ const ogLocale = computed(() => {
   switch (locale.value) {
     case 'uk':
       return 'uk_UA'
-    // case 'ru':
-    //   return 'ru_RU'
     default:
       return 'en_US'
   }

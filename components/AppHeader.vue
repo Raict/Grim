@@ -100,6 +100,7 @@
 </template>
 
 <script setup lang="ts">
+import { sanitizeFaviconSettings } from '~/utils/securityUtils'
 const localePath = useLocalePath()
 const route = useRoute()
 
@@ -118,7 +119,7 @@ const logoTextStyles = reactive({
 
 // Listen for logo settings changes
 const handleLogoSettingsChange = (e: CustomEvent) => {
-  const settings = e.detail
+  const settings = sanitizeFaviconSettings(e.detail)
   if (settings.fontFamily) {
     logoTextStyles.fontFamily = settings.fontFamily
   }
@@ -145,7 +146,7 @@ onMounted(() => {
   try {
     const saved = localStorage.getItem('favicon-text-settings')
     if (saved) {
-      const settings = JSON.parse(saved)
+      const settings = sanitizeFaviconSettings(JSON.parse(saved))
       handleLogoSettingsChange({ detail: settings } as CustomEvent)
     }
   } catch (error) {

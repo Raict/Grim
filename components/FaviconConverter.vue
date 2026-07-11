@@ -70,7 +70,7 @@
 import { createIcoFile } from "~/utils/icoGenerator" 
 
   const toast = useToast()
-  const i18n = useI18n()
+  const i18n = useI18n({ useScope: 'global' })
   
   const title = i18n.t('converter.title')
   

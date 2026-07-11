@@ -57,7 +57,7 @@
   <script setup lang="ts">
   import { useI18n } from 'vue-i18n';
   
-  const { locale, locales, t } = useI18n()
+  const { locale, locales, t } = useI18n({ useScope: 'global' })
   const switchLocalePath = useSwitchLocalePath()
   const isOpen = ref(false)
   const dropdownRef = ref<HTMLElement | null>(null)
@@ -67,14 +67,13 @@
   })
   
   const availableLocales = computed(() => {
-    return locales.value.filter(l => l.code !== locale.value && l.code !== 'ru')
+    return locales.value.filter(l => l.code !== locale.value)
   })
 
   const getFlagEmoji = (code: string): string => {
     const flags: Record<string, string> = {
       'uk': '🇺🇦',
-      'en': '🇺🇸',
-      'ru': '-'
+      'en': '🇺🇸'
     }
     return flags[code] || '🌐'
   }

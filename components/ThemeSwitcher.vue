@@ -4,7 +4,7 @@
       @click="toggleTheme"
       :title="title"
       :aria-label="title"
-      :aria-pressed="isDark.toString()"
+      :aria-pressed="isDark"
       role="switch"
     >
       <Icon
@@ -17,7 +17,7 @@
   <script setup lang="ts">
   
   const colorMode = useColorMode()
-  const {t} = useI18n()
+  const {t} = useI18n({ useScope: 'global' })
   const isDark = computed(() => colorMode.value === 'dark')
   
   const title = computed(() => isDark.value ? t('a11y.switchToLight') : t('a11y.switchToDark'))

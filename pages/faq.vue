@@ -102,7 +102,7 @@
                     :aria-labelledby="`faq-question-${index}`"
                   >
                     <div class="faq-answer__content">
-                      <component :is="'div'" v-html="getFormattedAnswer(item.key)"></component>
+                      <p class="faq-answer__text">{{ getPlainAnswer(item.key) }}</p>
                     </div>
                   </div>
                 </Transition>
@@ -146,7 +146,7 @@
   
   <script setup lang="ts">
 
-  const { t } = useI18n()
+  const { t } = useI18n({ useScope: 'global' })
   const localePath = useLocalePath()
   const route = useRoute()
   const pageUrl = computed(() => `https://favicon-gen.com${route.path}`)
@@ -258,14 +258,9 @@
     }
   }
   
-  const getFormattedAnswer = (key: string) => {
-    const answer = t(`pages.faq.items.${key}.answer`)
-    
-    return answer
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/`(.*?)`/g, '<code>$1</code>')
-      .replace(/\n/g, '<br>')
-  }
+  const getPlainAnswer = (key: string) => t(`pages.faq.items.${key}.answer`)
+    .replace(/\*\*(.*?)\*\*/g, '$1')
+    .replace(/`(.*?)`/g, '$1')
   </script>
 
   <style lang="scss" scoped>
