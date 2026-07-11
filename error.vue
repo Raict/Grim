@@ -13,15 +13,15 @@
         <Icon name="lucide:search-x" class="error-icon__svg" />
       </div>
 
-      <h1 class="error-title">{{ $t('error.title', 'Сторінка не знайдена') }}</h1>
+      <h1 class="error-title">{{ $t('error.title') }}</h1>
 
-      <p class="error-message">{{ $t('error.message', 'На жаль, запитувана сторінка не існує.') }}</p>
+      <p class="error-message">{{ $t('error.message') }}</p>
 
       <div class="error-actions">
-        <NuxtLink to="/" class="btn btn--hero btn--cta">
+        <NuxtLink :to="localePath('/')" class="btn btn--hero btn--cta">
           <div class="btn-glow"></div>
           <Icon name="lucide:home" class="btn-icon" />
-          <span class="btn-text">{{ $t('error.goHome', 'Повернутися на головну') }}</span>
+          <span class="btn-text">{{ $t('error.goHome') }}</span>
           <Icon name="lucide:arrow-right" class="btn-arrow" />
         </NuxtLink>
       </div>
@@ -49,8 +49,8 @@ const handleError = () => {
 
 // For SEO and accessibility
 useSeoMeta({
-  title: $i18n?.t ? $i18n.t('error.title') : 'Сторінка не знайдена',
-  description: $i18n?.t ? $i18n.t('error.message') : 'На жаль, запитувана сторінка не існує.',
+  title: $i18n.t('error.title'),
+  description: $i18n.t('error.message'),
   robots: 'noindex, nofollow'
 })
 

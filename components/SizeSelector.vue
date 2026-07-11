@@ -2,7 +2,7 @@
     <div class="size-selector" role="group" aria-labelledby="size-selector-title">
       <h3 id="size-selector-title" class="size-selector__title">{{ t('converter.selectSize') }}</h3>
 
-      <div class="size-grid" role="group" aria-label="Виберіть розміри фавіконок">
+      <div class="size-grid" role="group" :aria-label="t('a11y.chooseFaviconSizes')">
         <label
           v-for="size in availableSizes"
           :key="size.value"
@@ -17,7 +17,7 @@
             :checked="modelValue.includes(size.value)"
             @change="toggleSize(size.value)"
             class="size-option__input"
-            :aria-label="`Розмір ${size.value}x${size.value} пікселів - ${size.label}`"
+            :aria-label="t('a11y.faviconSize', { size: size.value, label: size.label })"
             :aria-describedby="`size-${size.value}-desc`"
           />
           

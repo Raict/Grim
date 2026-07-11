@@ -1,6 +1,6 @@
 {
-  "name": "My Website",
-  "short_name": "Website",
+  "name": "FaviconGen — Free Favicon Generator",
+  "short_name": "FaviconGen",
   "icons": [
     {
       "src": "/android-chrome-512x512.png",

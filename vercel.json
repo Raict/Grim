@@ -25,6 +25,11 @@
   ],
   "redirects": [
     {
+      "source": "/ru/:path*",
+      "destination": "/:path*",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         { "type": "host", "value": "www.favicon-gen.com" }

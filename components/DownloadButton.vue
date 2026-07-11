@@ -9,7 +9,7 @@
     :disabled="disabled || isProcessing"
     @click="handleClick"
     type="button"
-    :aria-label="displayText + (isProcessing ? ` - прогрес ${progress}%` : '')"
+    :aria-label="displayText + (isProcessing ? ` - ${t('a11y.progress', { progress })}` : '')"
     :aria-describedby="isProcessing ? 'download-progress' : undefined"
   >
     <div class="download-btn__content">
@@ -42,7 +42,7 @@
       :aria-valuenow="progress"
       aria-valuemin="0"
       aria-valuemax="100"
-      :aria-label="`Прогрес завантаження: ${progress}%`"
+      :aria-label="t('a11y.downloadProgress', { progress })"
       id="download-progress"
       :aria-live="progress < 100 ? 'polite' : 'assertive'"
     ></div>
@@ -82,6 +82,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const { t } = useI18n()
 const emit = defineEmits<{
   click: []
 }>()
@@ -89,7 +90,7 @@ const emit = defineEmits<{
 const isDownloading = ref(false)
 
 const displayText = computed(() => {
-  if (isDownloading.value) return 'Завантаження...'
+  if (isDownloading.value) return t('a11y.downloading')
   if (props.isProcessing) return props.processingText
   if (props.showSuccess) return props.successText
   return props.defaultText

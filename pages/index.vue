@@ -20,39 +20,39 @@
 
           </div>
 
-          <div class="hero-visual" role="img" aria-label="Демонстрація роботи генератора фавіконок у браузері">
+          <div class="hero-visual" role="img" :aria-label="$t('a11y.generatorDemo')">
             <div class="hero-preview">
               <div class="browser-mockup">
                 <div class="browser-header">
                   <div class="browser-dots" aria-hidden="true">
-                    <span aria-label="Кнопка закриття вікна браузера"></span>
-                    <span aria-label="Кнопка згортання вікна браузера"></span>
-                    <span aria-label="Кнопка розгортання вікна браузера"></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
                   </div>
-                  <div class="browser-url" role="textbox" aria-label="Адресний рядок браузера">
+                  <div class="browser-url" role="textbox" :aria-label="$t('a11y.browserAddressBar')">
                     <Icon name="lucide:globe" aria-hidden="true" />
                     <span>mywebsite.com</span>
-                    <div class="favicon-demo" :key="currentFaviconIndex" role="img" :aria-label="`Приклад фавіконки: ${currentFavicon.icon.replace('lucide:', '')}`">
+                    <div class="favicon-demo" :key="currentFaviconIndex" role="img" :aria-label="$t('a11y.faviconExample', { icon: currentFavicon.icon.replace('lucide:', '') })">
                       <Icon :name="currentFavicon.icon" :style="{ color: currentFavicon.color }" aria-hidden="true" />
                     </div>
                   </div>
                 </div>
-                <div class="browser-content" aria-label="Контент демонстраційного веб-сайту">
+                <div class="browser-content" :aria-label="$t('a11y.demoWebsiteContent')">
                   <div class="demo-website">
-                    <div class="demo-header" aria-hidden="true" aria-label="Заголовок сторінки"></div>
+                    <div class="demo-header" aria-hidden="true"></div>
                     <div class="demo-content" aria-hidden="true">
-                      <div class="demo-line" aria-label="Рядок тексту"></div>
-                      <div class="demo-line" aria-label="Рядок тексту"></div>
+                      <div class="demo-line"></div>
+                      <div class="demo-line"></div>
                       <div class="demo-bottom-section">
                         <div class="demo-lines-group">
-                          <div class="demo-line short" aria-label="Короткий рядок тексту"></div>
-                          <div class="demo-line short" aria-label="Короткий рядок тексту"></div>
+                          <div class="demo-line short"></div>
+                          <div class="demo-line short"></div>
                         </div>
                         <div class="demo-cta">
-                          <a href="https://favicon-gen.com/favicons" class="demo-generate-btn" :aria-label="$t('nav.converter') + ' - перейти до генератора'">
+                          <NuxtLink :to="localePath('/favicons')" class="demo-generate-btn" :aria-label="$t('a11y.openConverter')">
                             <Icon name="lucide:sparkles" />
                             <span>{{ $t('pages.home.demo.generateBtn') }}</span>
-                          </a>
+                          </NuxtLink>
                         </div>
                       </div>
                     </div>
@@ -77,8 +77,8 @@
 
         <div class="features-grid" role="list">
           <article class="feature-card feature-card--primary" role="listitem">
-            <NuxtLink to="/favicons" class="feature-link" @mouseenter="playHoverSound" aria-describedby="converter-desc" :aria-label="$t('pages.home.features.converter.title') + ' - перейти до конвертера зображень'">
-            <div class="feature-card__icon" role="img" :aria-label="'Іконка конвертера зображень'">
+            <NuxtLink :to="localePath('/favicons')" class="feature-link" @mouseenter="playHoverSound" aria-describedby="converter-desc" :aria-label="$t('a11y.openConverter')">
+            <div class="feature-card__icon" aria-hidden="true">
               <Icon name="lucide:image" :size="46" aria-hidden="true"/>
             </div>
             <div class="feature-card__content">
@@ -109,8 +109,8 @@
 
           <!-- Генератор з тексту -->
           <article class="feature-card feature-card--secondary" role="listitem">
-            <NuxtLink to="/favicons-text" class="feature-link" @mouseenter="playHoverSound" aria-describedby="text-desc" :aria-label="$t('pages.home.features.text.title') + ' - перейти до генератора з тексту'">
-            <div class="feature-card__icon" role="img" :aria-label="'Іконка генератора з тексту'">
+            <NuxtLink :to="localePath('/favicons-text')" class="feature-link" @mouseenter="playHoverSound" aria-describedby="text-desc" :aria-label="$t('a11y.openTextGenerator')">
+            <div class="feature-card__icon" aria-hidden="true">
               <Icon name="lucide:type" :size="46" aria-hidden="true"/>
             </div>
             <div class="feature-card__content">
@@ -239,6 +239,9 @@
 
 <script setup lang="ts">
 const { t } = useI18n();
+const localePath = useLocalePath()
+const route = useRoute()
+const pageUrl = computed(() => `https://favicon-gen.com${route.path === '/' ? '/' : route.path}`)
 
 useHead({
   title: t('pages.home.fullTitle'),
@@ -247,22 +250,6 @@ useHead({
       name: 'description',
       content: t('pages.home.description'),
     },
-    {
-      name: 'keywords',
-      content: t('pages.home.keywords'),
-    },
-  ],
-  link: [
-    {
-      rel: 'canonical',
-      href: 'https://favicon-gen.com'
-    },
-    {
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap',
-      media: 'print',
-      onload: "this.media='all'"
-    }
   ],
   script: [
     {
@@ -272,7 +259,7 @@ useHead({
         '@type': 'WebPage',
         name: t('pages.home.fullTitle'),
         description: t('pages.home.description'),
-        url: 'https://favicon-gen.com',
+        url: pageUrl.value,
         mainEntity: {
           '@type': 'SoftwareApplication',
           name: 'FaviconGen',
@@ -289,8 +276,8 @@ useHead({
           itemListElement: [{
             '@type': 'ListItem',
             position: 1,
-            name: 'Home',
-            item: 'https://favicon-gen.com'
+            name: t('nav.home'),
+            item: pageUrl.value
           }]
         }
       })

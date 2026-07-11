@@ -9,16 +9,15 @@
         <div class="hero-content fixed-header-content">
 
           <h1 class="hero-title">
-            <span class="hero-title__main">{{ $t('hero.title') }}</span>
-            <span class="hero-title__gradient">{{ $t('hero.titleAccent') }}</span>
+            <span class="hero-title__main">{{ $t('converter.pageHeading') }}</span>
           </h1>
 
           <p class="hero-subtitle">
-            {{ $t('hero.subtitle') }}
+            {{ $t('converter.subtitle') }}
           </p>
 
           <p class="hero-description">
-            {{ $t('hero.description') }}
+            {{ $t('converter.intro') }}
           </p>
 
 
@@ -578,4 +577,3 @@
     50% { background-position: 100% 50%; }
   }
   </style>
-  

@@ -35,7 +35,7 @@
             {{ $t('hero.dragDrop') }}
           </p>
           <p class="file-uploader__subtitle">
-            PNG, JPG, JPEG, WEBP до 10MB
+            {{ $t('a11y.supportedUploadFormats') }}
           </p>
         </div>
       </div>

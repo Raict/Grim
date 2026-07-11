@@ -14,6 +14,17 @@
       </div>
     </section>
 
+    <section class="text-seo-guide" aria-labelledby="text-favicon-guide-title">
+      <div class="container">
+        <h2 id="text-favicon-guide-title">{{ $t('pages.textGenerator.guide.title') }}</h2>
+        <p>{{ $t('pages.textGenerator.guide.content') }}</p>
+        <div class="text-seo-guide__links">
+          <NuxtLink :to="localePath('/favicons')">{{ $t('pages.textGenerator.guide.imageLink') }}</NuxtLink>
+          <NuxtLink :to="localePath('/faq')">{{ $t('pages.textGenerator.guide.faqLink') }}</NuxtLink>
+        </div>
+      </div>
+    </section>
+
     <!-- Text Favicon Generator -->
     <section class="section section-settings">
       <div class="container">
@@ -38,7 +49,7 @@
                     :aria-describedby="textSettings.text.length === 0 ? 'text-input-help' : undefined"
                   />
                   <div v-if="textSettings.text.length === 0" id="text-input-help" class="sr-only">
-                    Введіть до 3 символів для генерації фавіконки
+                    {{ $t('a11y.textInputHelp') }}
                   </div>
                 </div>
                 <div class="form-group form-group--font">
@@ -48,7 +59,7 @@
                         {{ font.label }}
                       </option>
                     </select> -->
-                  <select id="font-select" v-model="textSettings.fontFamily" class="form-select form-select--font" aria-label="Виберіть шрифт для тексту">
+                  <select id="font-select" v-model="textSettings.fontFamily" class="form-select form-select--font" :aria-label="$t('a11y.chooseFont')">
                     <option
                       v-for="font in fontOptions"
                       :key="font.value"
@@ -62,7 +73,7 @@
               </div>
               <div class="form-group">
                 <label class="form-label" for="font-weight-select">{{ $t('pages.textGenerator.settings.text.weight') }}</label>
-                <select id="font-weight-select" v-model="textSettings.fontWeight" class="form-select" aria-label="Виберіть жирність шрифту">
+                <select id="font-weight-select" v-model="textSettings.fontWeight" class="form-select" :aria-label="$t('a11y.chooseFontWeight')">
                   <option v-for="option in fontWeightOptions" :key="option.value" :value="option.value">
                     {{ option.label }}
                   </option>
@@ -78,7 +89,7 @@
                     min="8"
                     max="48"
                     class="form-range"
-                    :aria-label="`Розмір шрифту: ${textSettings.fontSize} пікселів`"
+                    :aria-label="$t('a11y.fontSize', { size: textSettings.fontSize })"
                     aria-describedby="font-size-value"
                   />
                   <span id="font-size-value" class="range-value" aria-live="polite">{{ textSettings.fontSize }}px</span>
@@ -95,7 +106,7 @@
                     min="0"
                     max="100"
                     class="form-range"
-                    :aria-label="`Заокруглення кутів: ${textSettings.borderRadiusPercent} відсотків`"
+                    :aria-label="$t('a11y.cornerRadius', { value: textSettings.borderRadiusPercent })"
                     aria-describedby="border-radius-value"
                   />
                   <span id="border-radius-value" class="range-value" aria-live="polite">{{ textSettings.borderRadiusPercent }}%</span>
@@ -103,7 +114,7 @@
               </div>
 
               <!-- Preview Favicons (row, right-to-left) -->
-              <div class="Favicons-preview-row" role="group" aria-label="Попередній перегляд фавіконок різних розмірів">
+              <div class="Favicons-preview-row" role="group" :aria-label="$t('a11y.faviconPreviews')">
                 <div
                   v-for="size in [96, 64, 48, 32, 16]"
                   :key="size"
@@ -115,7 +126,7 @@
                     :height="size"
                     :style="{ width: size + 'px', height: size + 'px' }"
                     class="Favicon-preview-canvas"
-                    :aria-label="`Попередній перегляд фавіконки розміром ${size} на ${size} пікселів`"
+                    :aria-label="$t('a11y.faviconPreviewSize', { size })"
                     role="img"
                   />
                   <div class="Favicon-size-label" aria-hidden="true">{{ size }}x{{ size }}</div>
@@ -388,7 +399,11 @@ interface FontObject {
     return FONT_WEIGHTS[fontFamily] || [400, 700]
   }
 
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
+  const localePath = useLocalePath()
+  const route = useRoute()
+  const pageUrl = computed(() => `https://favicon-gen.com${route.path}`)
+  const homeUrl = computed(() => `https://favicon-gen.com${localePath('/')}`)
   const isClient = typeof window !== 'undefined' && typeof document !== 'undefined'
   const selectedSizes = ref([16, 32, 48])
   const isGenerating = ref(false)
@@ -406,10 +421,10 @@ interface FontObject {
 
   const processingText = computed(() => {
     if (progress.value < 20) return t('pages.textGenerator.generating')
-    if (progress.value < 40) return 'Рендер тексту...'
-    if (progress.value < 70) return 'Створення фавіконок...'
-    if (progress.value < 90) return 'Створення архіву...'
-    return 'Майже готово...'
+    if (progress.value < 40) return t('a11y.renderingText')
+    if (progress.value < 70) return t('a11y.creatingFavicons')
+    if (progress.value < 90) return t('a11y.creatingArchive')
+    return t('a11y.almostReady')
   })
 
   
@@ -856,16 +871,12 @@ watch(
   })
   
   
-useHead({
+useHead(() => ({
     title: t('pages.textGenerator.title'),
     meta: [
       {
         name: 'description',
         content: t('pages.textGenerator.description')
-      },
-      {
-        name: 'keywords',
-        content: 'text to favicon, favicon from text, letter favicon, symbol favicon, text favicon generator, custom font favicon'
       },
       {
         property: 'og:title',
@@ -879,8 +890,35 @@ useHead({
         property: 'og:type',
         content: 'website'
       }
+    ],
+    script: [
+      {
+        type: 'application/ld+json',
+        innerHTML: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'WebApplication',
+          name: t('pages.textGenerator.title'),
+          description: t('pages.textGenerator.description'),
+          url: pageUrl.value,
+          applicationCategory: 'DesignApplication',
+          operatingSystem: 'Web Browser',
+          inLanguage: locale.value === 'uk' ? 'uk-UA' : 'en-US',
+          offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }
+        })
+      },
+      {
+        type: 'application/ld+json',
+        innerHTML: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: t('nav.home'), item: homeUrl.value },
+            { '@type': 'ListItem', position: 2, name: t('nav.textGenerator'), item: pageUrl.value }
+          ]
+        })
+      }
     ]
-  })
+  }))
   </script>
   
   <style lang="scss" scoped>
@@ -894,6 +932,28 @@ useHead({
   
     .section__subtitle {
       margin-bottom: 0;
+    }
+  }
+
+  .text-seo-guide {
+    padding: spacing(3xl) 0;
+    background: var(--bg-secondary);
+    text-align: center;
+
+    p {
+      max-width: 850px;
+      margin: spacing(md) auto spacing(lg);
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    &__links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: spacing(lg);
+
+      a { color: var(--primary); font-weight: font-weight(semibold); }
     }
   }
   

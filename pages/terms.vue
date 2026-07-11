@@ -53,16 +53,35 @@
     termination: {}
   }
   
-  useHead({
-    title: 'Terms of Use - FaviconGen',
+  const { t } = useI18n()
+  const localePath = useLocalePath()
+  const route = useRoute()
+  const pageUrl = computed(() => `https://favicon-gen.com${route.path}`)
+  const homeUrl = computed(() => `https://favicon-gen.com${localePath('/')}`)
+
+  useHead(() => ({
+    title: t('pages.terms.seoTitle'),
     meta: [
       {
         name: 'description',
-        content: 'Terms of Use for FaviconGen favicon generator. Read our terms and conditions for using our service.'
+        content: t('pages.terms.seoDescription')
       },
       { name: 'robots', content: 'index, follow' }
+    ],
+    script: [
+      {
+        type: 'application/ld+json',
+        innerHTML: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: t('nav.home'), item: homeUrl.value },
+            { '@type': 'ListItem', position: 2, name: t('pages.terms.title'), item: pageUrl.value }
+          ]
+        })
+      }
     ]
-  })
+  }))
   </script>
   
   <style lang="scss" scoped>

@@ -104,10 +104,9 @@
                 <div class="form-group">
                   <label class="form-label">{{ $t('pages.aiGenerator.settings.variants') }}</label>
                   <select v-model="aiSettings.variants" class="form-select">
-                    <option value="1">1 {{ $t('pages.aiGenerator.variant') }}</option>
-                    <option value="2">2 {{ $t('pages.aiGenerator.variant') }}и</option>
-                    <option value="3">3 {{ $t('pages.aiGenerator.variant') }}и</option>
-                    <option value="4">4 {{ $t('pages.aiGenerator.variant') }}и</option>
+                    <option v-for="count in [1, 2, 3, 4]" :key="count" :value="String(count)">
+                      {{ $t('pages.aiGenerator.variantCount', { count }) }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -232,14 +231,7 @@ const selectedVariant = ref<number | null>(null)
 const selectedSizes = ref([16, 32, 48, 180, 192, 512])
 const finalImages = ref<any[]>([])
 
-const promptExamples = [
-  'Мінімалістична іконка кави в синіх тонах',
-  'Сучасний логотип технологічної компанії',
-  'Іконка дому в плоскому стилі',
-  'Абстрактна геометрична фігура',
-  'Іконка листа з градієнтом',
-  'Символ нескінченності в фіолетових тонах'
-]
+const promptExamples = computed(() => [1, 2, 3, 4, 5, 6].map(index => t(`pages.aiGenerator.promptExamples.${index}`)))
 
 const generateAIFavicons = async () => {
   if (!aiSettings.prompt.trim()) return
@@ -279,11 +271,11 @@ const generateAIFavicons = async () => {
     }
     
     generatedVariants.value = variants
-    toast.success(`Згенеровано ${variantCount} варіантів фавіконок!`)
+    toast.success(t('pages.aiGenerator.generatedSuccess', { count: variantCount }))
     
   } catch (error) {
     console.error('Error generating AI favicons:', error)
-    toast.error('Помилка при генерації фавіконок')
+    toast.error(t('pages.aiGenerator.generationError'))
   } finally {
     isGenerating.value = false
   }
@@ -292,7 +284,7 @@ const generateAIFavicons = async () => {
 
 const selectVariant = (index: number) => {
   selectedVariant.value = index
-  toast.success(`Обрано варіант ${index + 1}`)
+  toast.success(t('pages.aiGenerator.variantSelected', { count: index + 1 }))
 }
 
 const processFinalFavicons = async () => {
@@ -383,11 +375,11 @@ const processFinalFavicons = async () => {
     await downloadZipFile(zipDataUrl, 'ai-favicon-package.zip')
     
     finalImages.value = images
-    toast.success('ШІ фавіконки успішно створено!')
+    toast.success(t('pages.aiGenerator.processingSuccess'))
     
   } catch (error) {
     console.error('Error processing AI favicons:', error)
-    toast.error('Помилка при обробці фавіконок')
+    toast.error(t('pages.aiGenerator.processingError'))
   } finally {
     isProcessing.value = false
   }

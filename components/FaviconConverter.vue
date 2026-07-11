@@ -23,7 +23,7 @@
               <button
                 class="btn btn--outline btn--sm converter-content__clear-btn"
                 @click="clearConverter"
-                :aria-label="$t('converter.clear') + ' - очистити всі завантажені файли'"
+                :aria-label="$t('a11y.clearUploadedFiles')"
                 type="button"
               >
                 <Icon name="lucide:trash-2" class="converter-content__clear-icon" aria-hidden="true" />
@@ -90,10 +90,10 @@ import { createIcoFile } from "~/utils/icoGenerator"
   
   const processingText = computed(() => {
     if (progress.value < 20) return i18n.t('converter.processing')
-    if (progress.value < 40) return 'Обробка зображення...'
-    if (progress.value < 70) return 'Створення фавіконок...'
-    if (progress.value < 90) return 'Створення архіву...'
-    return 'Майже готово...'
+    if (progress.value < 40) return i18n.t('a11y.processingImage')
+    if (progress.value < 70) return i18n.t('a11y.creatingFavicons')
+    if (progress.value < 90) return i18n.t('a11y.creatingArchive')
+    return i18n.t('a11y.almostReady')
   })
   
   const handleFileSelected = (file: File) => {

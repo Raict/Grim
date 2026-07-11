@@ -53,16 +53,35 @@
   }
   
   // SEO
-  useHead({
-    title: 'Privacy Policy - FaviconGen',
+  const { t } = useI18n()
+  const localePath = useLocalePath()
+  const route = useRoute()
+  const pageUrl = computed(() => `https://favicon-gen.com${route.path}`)
+  const homeUrl = computed(() => `https://favicon-gen.com${localePath('/')}`)
+
+  useHead(() => ({
+    title: t('pages.privacy.seoTitle'),
     meta: [
       {
         name: 'description',
-        content: 'Privacy Policy for FaviconGen favicon generator. Learn how we collect, use, and protect your data.'
+        content: t('pages.privacy.seoDescription')
       },
       { name: 'robots', content: 'index, follow' }
+    ],
+    script: [
+      {
+        type: 'application/ld+json',
+        innerHTML: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: t('nav.home'), item: homeUrl.value },
+            { '@type': 'ListItem', position: 2, name: t('pages.privacy.title'), item: pageUrl.value }
+          ]
+        })
+      }
     ]
-  })
+  }))
   </script>
   
   <style lang="scss" scoped>

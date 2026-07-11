@@ -26,7 +26,7 @@
           v-if="isOpen" 
           class="language-switcher__dropdown"
           role="menu"
-          :aria-label="'Оберіть мову'"
+          :aria-label="$t('a11y.chooseLanguage')"
         >
           <button
             v-for="locale in availableLocales"
@@ -35,7 +35,7 @@
             :class="{ 'language-switcher__option--active': locale.code === currentLocale.code }"
             @click="switchLanguage(locale.code)"
             role="menuitem"
-            :aria-label="`Перемкнути на ${locale.name}`"
+            :aria-label="$t('a11y.switchLanguage', { language: locale.name })"
           >
             <span class="language-switcher__option-flag">
               {{ getFlagEmoji(locale.code) }}
@@ -57,7 +57,7 @@
   <script setup lang="ts">
   import { useI18n } from 'vue-i18n';
   
-  const { locale, locales } = useI18n()
+  const { locale, locales, t } = useI18n()
   const switchLocalePath = useSwitchLocalePath()
   const isOpen = ref(false)
   const dropdownRef = ref<HTMLElement | null>(null)
@@ -106,7 +106,7 @@
   }
   
   const currentLocaleAriaLabel = computed(() => {
-    return `Поточна мова: ${currentLocale.value.name}. Натисніть для зміни мови`
+    return t('a11y.currentLanguage', { language: currentLocale.value.name })
   })
   
   onMounted(() => {

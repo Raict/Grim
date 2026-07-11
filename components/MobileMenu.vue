@@ -64,7 +64,7 @@
                 <span>{{ $t('nav.textGenerator') }}</span>
               </NuxtLink>
               <NuxtLink 
-                to="/faq" 
+                :to="localePath('/faq')" 
                 class="mobile-menu__nav-link"
                 :class="{ 'mobile-menu__nav-link--active': $route.path === '/faq' }"
                 @click="isOpen = false"

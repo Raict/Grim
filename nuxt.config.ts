@@ -1,7 +1,10 @@
 import { defineNuxtConfig } from "nuxt/config"
-import { fileURLToPath } from 'node:url'
 
 export default defineNuxtConfig({
+  site: {
+    url: 'https://favicon-gen.com',
+    name: 'FaviconGen'
+  },
   runtimeConfig: {
     public: {
       apiBaseUrl: process.env.API_BASE_URL || "http://localhost:3000/api",
@@ -20,23 +23,7 @@ export default defineNuxtConfig({
           content: "width=device-width, initial-scale=1",
         },
       ],
-      link: [
-        {
-          rel: "preconnect",
-          href: "https://fonts.googleapis.com"
-        },
-        {
-          rel: "preconnect",
-          href: "https://fonts.gstatic.com",
-          crossorigin: ""
-        },
-        {
-          rel: "preload",
-          href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap",
-          as: "style",
-          onload: "this.onload=null;this.rel='stylesheet'"
-        }
-      ],
+      link: [],
       script: []
     },
     pageTransition: {
@@ -51,8 +38,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   modules: [
-    'nuxt-simple-robots',
-    'nuxt-simple-sitemap',
+    '@nuxtjs/robots',
+    '@nuxtjs/sitemap',
     "@nuxt/ui",
     ['@nuxtjs/i18n', {
   bundle: {
@@ -65,7 +52,7 @@ export default defineNuxtConfig({
     { code: 'en', name: 'English',    file: 'en.json' }
   ],
   lazy: true,
-  langDir: fileURLToPath(new URL('./locales', import.meta.url)), 
+  langDir: '../locales',
   defaultLocale: 'uk',
   strategy: 'prefix_except_default',
   seo: true,                 
@@ -93,17 +80,13 @@ export default defineNuxtConfig({
     }],
   ],
 sitemap: {
-  siteUrl: 'https://favicon-gen.com',
   autoI18n: true,
   defaultLocale: 'uk',
   i18n: {
     locales: ['uk', 'en'],
     defaultLocale: 'uk'
   },
-  exclude: ['/api/**', '/_nuxt/**', '/vercel/**'],
-  urls: [
-    '/', '/favicons', '/favicons-text', '/faq', '/terms', '/privacy'
-  ]
+  exclude: ['/api/**', '/_nuxt/**', '/vercel/**', '/ru', '/ru/**']
 },
   ui: {
     global: true,
@@ -115,6 +98,9 @@ sitemap: {
   // Security headers and performance optimization
   nitro: {
     compressPublicAssets: true,
+    prerender: {
+      routes: ['/sitemap_index.xml', '/robots.txt']
+    },
     esbuild: {
       options: {
         target: 'es2022'
@@ -148,6 +134,12 @@ sitemap: {
       '/faq': { prerender: true },
       '/terms': { prerender: true },
       '/privacy': { prerender: true },
+      '/en': { prerender: true },
+      '/en/favicons': { prerender: true },
+      '/en/favicons-text': { prerender: true },
+      '/en/faq': { prerender: true },
+      '/en/terms': { prerender: true },
+      '/en/privacy': { prerender: true },
       '/api/**': {
         cors: true,
         headers: {
@@ -232,26 +224,10 @@ sitemap: {
 
   robots: {
   siteUrl: 'https://favicon-gen.com',
-  sitemap: 'https://favicon-gen.com/sitemap.xml',
-
-  allow: [
-    '/', '/en/', '/en/favicon', '/favicon',
-    '/en/favicons-text', '/favicons-text',
-    '/en/faq', '/faq', '/en/privacy', '/privacy',
-    '/en/terms', '/terms', '/favicon.ico',
-    '/favicon-*.png', '/apple-touch-icon.png',
-    '/site.webmanifest', '/assets/', '/sitemap.xml'
-  ],
+  allow: ['/'],
 
   disallow: [
-    '/_nuxt/', '/_nuxt/builds/', '/.nuxt/', '/admin/',
-    '/tmp/', '/temp/', '/api/', '/ru/', '/vercel/'
-  ],
-
-  groups: [
-    {
-      userAgent: ['Googlebot', 'Bingbot', 'Slurp', 'DuckDuckBot', 'Baiduspider', 'YandexBot']
-    }
+    '/.nuxt/', '/admin/', '/tmp/', '/temp/', '/vercel/'
   ],
 
   host: 'https://favicon-gen.com'

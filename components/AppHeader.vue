@@ -1,8 +1,8 @@
 <template>
   <header class="header" role="banner">
     <div class="container">
-      <nav class="header__nav" role="navigation" aria-label="Головна навігація">
-        <NuxtLink to="/" class="header__logo" aria-label="FaviconGen - головна сторінка">
+      <nav class="header__nav" role="navigation" :aria-label="$t('a11y.mainNavigation')">
+        <NuxtLink :to="localePath('/')" class="header__logo" :aria-label="$t('a11y.logoHome')">
           <div class="header__logo-icon" aria-hidden="true">
             <DynamicLogo :size="logoSize" canvas-class="header__dynamic-logo" />
           </div>
@@ -22,13 +22,13 @@
 
         
 
-        <div class="header__menu" role="menubar" aria-label="Основна навігація сайту">
+        <div class="header__menu" role="menubar" :aria-label="$t('a11y.siteNavigation')">
           <NuxtLink
                 :to=" localePath('/')"
                 class="header__link"
                 :class="{ 'header__link--active': isHomePage }"
                 role="menuitem"
-                :aria-label="$t('nav.home') + ' - перейти на головну сторінку'"
+                :aria-label="$t('a11y.goHome')"
               >
                 <Icon name="lucide:home" aria-hidden="true" />
                 <span>{{ $t('nav.home') }}</span>
@@ -38,7 +38,7 @@
             class="header__link"
             :class="{ 'header__link--active': $route.path === '/favicons' || $route.path === '/uk/favicons' || $route.path === '/en/favicons' }"
             role="menuitem"
-            :aria-label="$t('nav.converter') + ' - конвертер зображень у фавіконки'"
+            :aria-label="$t('a11y.openConverter')"
           >
             <!-- <Icon name="lucide:image"  class="home"/> -->
             <span>{{ $t('nav.converter') }}</span>
@@ -49,7 +49,7 @@
             class="header__link"
             :class="{ 'header__link--active': $route.path === '/favicons-text' || $route.path === '/uk/favicons-text' || $route.path === '/en/favicons-text' }"
             role="menuitem"
-            :aria-label="$t('nav.textGenerator') + ' - створення фавіконок з тексту'"
+            :aria-label="$t('a11y.openTextGenerator')"
           >
             <!-- <Icon name="lucide:type" /> -->
             <span>{{ $t('nav.textGenerator') }}</span>
@@ -60,7 +60,7 @@
             class="header__link"
             :class="{ 'header__link--active': $route.path.includes('/faq') }"
             role="menuitem"
-            :aria-label="$t('nav.faq') + ' - часті питання та відповіді'"
+            :aria-label="$t('a11y.openFaq')"
           >
             <Icon name="lucide:help-circle" aria-hidden="true" />
             <span>{{ $t('nav.faq') }}</span>
@@ -84,7 +84,7 @@
             rel="noopener noreferrer"
             class="header__kofi-btn"
             :title="$t('buyMeCoffee')"
-            :aria-label="$t('supportMe') + ' - відкриється в новому вікні'"
+            :aria-label="$t('a11y.supportNewWindow')"
           >
             <Icon name="lucide:coffee" aria-hidden="true" />
             <span class="header__kofi-text">{{ $t('supportMe') }}</span>

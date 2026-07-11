@@ -112,7 +112,8 @@
     "textGenerator": {
       "title": "Free Text to Favicon Generator | Create Favicon from Letters Online",
       "subtitle": "Create unique favicons from text or symbols",
-      "description": "Create favicon from text for free! Enter letters/symbols, choose fonts & colors to get professional icons in all sizes. Perfect for branding and personal projects. No signup required.",
+      "description": "Create a favicon from letters or symbols online. Customize the font, colors, and background, then download every required size for free.",
+      "keywords": "text to favicon, letter favicon generator, create favicon from text online, symbol website icon, custom font favicon, initials favicon maker, favicon 16x16 32x32",
       "settings": {
         "text": {
           "title": "Text Settings",
@@ -142,7 +143,13 @@
       },
       "generate": "Generate Favicons",
       "generating": "Generating...",
-      "downloadComplete": "✓ Downloaded Successfully"
+      "downloadComplete": "✓ Downloaded Successfully",
+      "guide": {
+        "title": "When to Use a Text Favicon",
+        "content": "A text favicon works well for a new brand without a finished logo, a personal website, documentation, or a prototype. Use one to three letters, contrasting colors, and a simple font so the symbol remains readable at 16×16. The generator creates ICO, PNG, Apple Touch Icon, and PWA files.",
+        "imageLink": "Convert an existing logo to a favicon",
+        "faqLink": "Learn more about favicon sizes"
+      }
     },
     "aiGenerator": {
       "title": "Text Favicon Generator",
@@ -194,13 +201,29 @@
       "generationNote": "Generation may take 30-60 seconds",
       "results": "Generated variants",
       "variant": "Variant",
+      "variantCount": "Variants: {count}",
+      "promptExamples": {
+        "1": "Minimalist coffee icon in blue tones",
+        "2": "Modern technology company logo",
+        "3": "Flat-style home icon",
+        "4": "Abstract geometric shape",
+        "5": "Gradient envelope icon",
+        "6": "Infinity symbol in purple tones"
+      },
+      "generatedSuccess": "Generated favicon variants: {count}",
+      "generationError": "Error generating favicons",
+      "variantSelected": "Selected variant {count}",
+      "processingSuccess": "AI favicons created successfully",
+      "processingError": "Error processing favicons",
       "selectVariant": "Select this variant",
       "downloadFavicons": "Download Favicons",
       "processing": "Processing..."
     },
     "privacy": {
       "title": "Privacy Policy",
-      "lastUpdated": "Last updated: December 2024",
+      "seoTitle": "Privacy Policy",
+      "seoDescription": "Learn how FaviconGen processes files locally in your browser, uses cookies, and protects user data.",
+      "lastUpdated": "Last updated: July 2026",
       "intro": "This Privacy Policy describes how FaviconGen collects, uses, and protects your information when you use our service.",
       "sections": {
         "dataCollection": {
@@ -231,7 +254,9 @@
     },
     "terms": {
       "title": "Terms of Use",
-      "lastUpdated": "Last updated: December 2024",
+      "seoTitle": "Terms of Use",
+      "seoDescription": "Read the terms for using the free FaviconGen favicon generator, including user rights and service rules.",
+      "lastUpdated": "Last updated: July 2026",
       "intro": "By using FaviconGen, you agree to these terms and conditions.",
       "sections": {
         "serviceDescription": {
@@ -264,6 +289,7 @@
       "title": "Frequently Asked Questions",
       "subtitle": "Everything you need to know about Faviconlys",
       "description": "Answers to the most common questions about creating, installing and configuring Faviconlys for your website",
+      "keywords": "favicon FAQ, how to create a favicon, favicon sizes, how to install favicon, favicon ICO PNG, favicon for Google Search, PWA icons",
       "search": {
         "placeholder": "Search questions..."
       },
@@ -351,8 +377,12 @@
   },
   "converter": {
     "title": "Free Image to Favicon Converter | Convert PNG JPG to ICO Online",
-    "description": "Free image to favicon converter! Upload PNG, JPG, WEBP and get ICO files in all sizes: 16x16, 32x32, 180x180, 192x192, 512x512. Includes HTML code and PWA manifest. No registration needed.",
+    "pageHeading": "Free Image to Favicon Converter",
+    "subtitle": "Upload PNG, JPG, or WEBP and get a ready-to-use favicon.ico plus a complete website icon package",
+    "intro": "Create favicon.ico, Apple Touch Icon, and PWA icons for free without signing up. Your image is processed directly in your browser.",
+    "description": "Convert PNG, JPG, or WEBP to favicon.ico and a complete icon set for browsers, Apple devices, and PWAs. Free, with no signup.",
     "fullTitle": "Free Image to Favicon Converter | Convert PNG JPG WEBP to ICO Files",
+    "keywords": "image to favicon converter, PNG to ICO online, JPG to favicon, WEBP to favicon, create favicon.ico, website icon generator, favicon converter online, logo to favicon",
     "selectSize": "Select Size",
     "download": "Download",
     "processing": "Processing...",
@@ -367,7 +397,32 @@
     "downloadComplete": "✓ Downloaded Successfully",
     "generateFavicons": "Generated Favicons",
     "clear": "Clear",
-    "cleared": "Converter cleared successfully"
+    "cleared": "Converter cleared successfully",
+    "guide": {
+      "title": "How to Create a Favicon for Your Website",
+      "intro": "FaviconGen turns a logo or image into a ready-to-use favicon package. Upload a file, choose the required sizes, and download a ZIP archive containing favicon.ico, PNG icons, a web manifest, and ready-made HTML tags.",
+      "sections": {
+        "convert": {
+          "title": "Convert PNG, JPG, and WEBP to ICO",
+          "content": "The converter supports popular image formats and scales them automatically without changing their proportions. For the clearest result, use a square logo with a recognizable shape and a transparent or solid background."
+        },
+        "sizes": {
+          "title": "Essential Favicon Sizes",
+          "content": "Browsers use 16×16 and 32×32 icons, Apple Touch Icon uses 180×180, and Android or PWA apps use 192×192 and 512×512. One generated package covers modern browsers and mobile devices."
+        },
+        "install": {
+          "title": "Install a Favicon in HTML",
+          "content": "Extract the archive into the website root and add the generated link tags to the head section. After publishing, clear the browser cache and verify that favicon.ico, PNG files, and site.webmanifest are available at their listed URLs."
+        },
+        "privacy": {
+          "title": "Private In-Browser Processing",
+          "content": "Standard favicons are generated locally in your browser. Your logo does not need to be uploaded to a third-party editor, making the tool convenient for personal websites and commercial projects."
+        }
+      },
+      "nextSteps": "Need an icon made from letters or more favicon guidance?",
+      "textGeneratorLink": "Create a favicon from text",
+      "faqLink": "Read the favicon FAQ"
+    }
   },
 "notify": {
   "zipGeneratedsuccess": "ZIP archive with favicons has been created successfully!"
@@ -408,7 +463,7 @@
     }
   },
   "footer": {
-    "copyright": "© 2024 FaviconGen. All rights reserved.",
+    "copyright": "© {year} FaviconGen. All rights reserved.",
     "madeWith": "Made with ❤️ in Ukraine",
     "links": {
       "privacy": "Privacy Policy",
@@ -452,6 +507,49 @@
   },
   "supportMe": "Support dev",
   "buyMeCoffee": "Buy me a coffee",
+  "a11y": {
+    "mainContent": "Main page content",
+    "additionalFeatures": "Additional site features",
+    "mainNavigation": "Main navigation",
+    "siteNavigation": "Primary site navigation",
+    "logoHome": "FaviconGen — home page",
+    "goHome": "Go to the home page",
+    "openConverter": "Open the image to favicon converter",
+    "openTextGenerator": "Open the text favicon generator",
+    "openFaq": "Open frequently asked questions and answers",
+    "supportNewWindow": "Support the developer — opens in a new window",
+    "chooseLanguage": "Choose a language",
+    "switchLanguage": "Switch language to {language}",
+    "currentLanguage": "Current language: {language}. Press to change language",
+    "switchToLight": "Switch to light theme. Current theme: dark",
+    "switchToDark": "Switch to dark theme. Current theme: light",
+    "chooseFaviconSizes": "Choose favicon sizes",
+    "faviconSize": "Size {size} by {size} pixels — {label}",
+    "progress": "progress {progress}%",
+    "downloadProgress": "Download progress: {progress}%",
+    "downloading": "Downloading...",
+    "clearUploadedFiles": "Clear all uploaded files",
+    "processingImage": "Processing image...",
+    "creatingFavicons": "Creating favicons...",
+    "creatingArchive": "Creating archive...",
+    "almostReady": "Almost ready...",
+    "renderingText": "Rendering text...",
+    "generatorDemo": "Browser demonstration of the favicon generator",
+    "browserAddressBar": "Browser address bar",
+    "faviconExample": "Favicon example: {icon}",
+    "demoWebsiteContent": "Demo website content",
+    "searchFaq": "Search frequently asked questions",
+    "faqCategories": "Question categories",
+    "textInputHelp": "Enter up to 3 characters to generate a favicon",
+    "chooseFont": "Choose a font for the text",
+    "chooseFontWeight": "Choose the font weight",
+    "fontSize": "Font size: {size} pixels",
+    "cornerRadius": "Corner radius: {value} percent",
+    "faviconPreviews": "Preview favicons in different sizes",
+    "faviconPreviewSize": "Preview favicon sized {size} by {size} pixels",
+    "supportedUploadFormats": "PNG, JPG, JPEG, or WEBP up to 10 MB",
+    "backToTop": "Back to top"
+  },
   "error": {
     "title": "Page Not Found",
     "message": "Sorry, the requested page does not exist. You will be automatically redirected to the home page in 3 seconds.",

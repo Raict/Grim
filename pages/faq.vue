@@ -37,14 +37,14 @@
                   type="search"
                   class="search-input"
                   :placeholder="$t('pages.faq.search.placeholder')"
-                  aria-label="Пошук по частих питаннях"
+                  :aria-label="$t('a11y.searchFaq')"
                   id="faq-search-input"
                 />
               </div>
             </div>
   
             <!-- FAQ Categories -->
-            <div class="faq-categories" role="tablist" aria-label="Категорії питань">
+            <div class="faq-categories" role="tablist" :aria-label="$t('a11y.faqCategories')">
               <button
                 v-for="category in categories"
                 :key="category"
@@ -129,7 +129,7 @@
                 </p>
 
                 <div class="faq-contact__actions">
-                  <NuxtLink to="/favicons" class="btn btn--hero btn--cta">
+                  <NuxtLink :to="localePath('/favicons')" class="btn btn--hero btn--cta">
                     <div class="btn-glow"></div>
                     <Icon name="lucide:rocket" class="btn-icon" />
                     <span class="btn-text">{{ $t('pages.faq.contact.tryNow') }}</span>
@@ -147,6 +147,10 @@
   <script setup lang="ts">
 
   const { t } = useI18n()
+  const localePath = useLocalePath()
+  const route = useRoute()
+  const pageUrl = computed(() => `https://favicon-gen.com${route.path}`)
+  const homeUrl = computed(() => `https://favicon-gen.com${localePath('/')}`)
   
   // State
   const searchQuery = ref('')
@@ -174,25 +178,21 @@
   ]
 
   // SEO with structured data
-  useHead({
-    title: 'FAQ - Часті питання про фавіконки | FaviconGen',
+  useHead(() => ({
+    title: t('pages.faq.title'),
     meta: [
       {
         name: 'description',
-        content: 'Відповіді на найпоширеніші питання про фавіконки: що це таке, як створити, встановити та налаштувати. Повний гід по фавіконкам.'
-      },
-      {
-        name: 'keywords',
-        content: 'FAQ favicon, питання фавіконки, як створити фавіконку, розміри фавіконок, встановлення фавіконки'
+        content: t('pages.faq.description')
       },
       { name: 'robots', content: 'index, follow' },
       {
         property: 'og:title',
-        content: 'FAQ - Часті питання про фавіконки | FaviconGen'
+        content: `${t('pages.faq.title')} | FaviconGen`
       },
       {
         property: 'og:description',
-        content: 'Відповіді на найпоширеніші питання про фавіконки: що це таке, як створити, встановити та налаштувати.'
+        content: t('pages.faq.description')
       }
     ],
     script: [
@@ -210,9 +210,20 @@
             }
           }))
         })
+      },
+      {
+        type: 'application/ld+json',
+        innerHTML: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: t('nav.home'), item: homeUrl.value },
+            { '@type': 'ListItem', position: 2, name: t('nav.faq'), item: pageUrl.value }
+          ]
+        })
       }
     ]
-  })
+  }))
   
   
   // Computed

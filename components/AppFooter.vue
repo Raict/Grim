@@ -108,7 +108,7 @@
           <div class="footer__bottom-content">
             <div class="footer__copyright-section">
               <p class="footer__copyright">
-                {{ $t('footer.copyright') }}
+                {{ $t('footer.copyright', { year: currentYear }) }}
               </p>
               <p class="footer__made-with">
                 {{ $t('footer.madeWith') }}
@@ -118,7 +118,8 @@
               <button
                 class="footer__top-btn"
                 @click="scrollToTop"
-                :title="'Back to top'"
+                :title="$t('a11y.backToTop')"
+                :aria-label="$t('a11y.backToTop')"
               >
                 <Icon name="lucide:arrow-up" />
               </button>
@@ -132,6 +133,7 @@
 
 <script setup lang="ts">
 const localePath = useLocalePath()
+const currentYear = new Date().getFullYear()
 
 const scrollToTop = () => {
   window.scrollTo({

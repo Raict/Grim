@@ -20,7 +20,7 @@
   const {t} = useI18n()
   const isDark = computed(() => colorMode.value === 'dark')
   
-  const title = computed(() => isDark.value ? 'Перемкнути на світлу тему. Поточна тема: темна' : 'Перемкнути на темну тему. Поточна тема: світла')
+  const title = computed(() => isDark.value ? t('a11y.switchToLight') : t('a11y.switchToDark'))
   const iconName = computed(() => isDark.value ? 'lucide:sun' : 'lucide:moon')
   const themeText = computed(() => isDark.value ? t('theme.light') : t('theme.dark'))
   

@@ -5,13 +5,13 @@
 
       <AppHeader />
 
-      <main id="main-content" class="main-content page-wrapper" role="main" aria-label="Основний вміст сторінки">
+      <main id="main-content" class="main-content page-wrapper" role="main" :aria-label="$t('a11y.mainContent')">
         <slot />
       </main>
 
       <AppFooter />
 
-      <aside aria-label="Додаткові функції та компоненти сайту" class="additional-features">
+      <aside :aria-label="$t('a11y.additionalFeatures')" class="additional-features">
         <CookieConsent />
         <!-- Google AdSense  -->
         <!-- <GoogleAdsense /> -->
