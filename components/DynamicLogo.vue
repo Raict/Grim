@@ -1,8 +1,8 @@
 <template>
   <canvas
     ref="canvasRef"
-    :width="size"
-    :height="size"
+    :width="canvasPixelSize"
+    :height="canvasPixelSize"
     :style="{
       width: size + 'px',
       height: size + 'px',
@@ -32,9 +32,11 @@ const logoSettings = reactive({ ...BRAND_LOGO_SETTINGS })
 
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 const isClient = typeof window !== 'undefined'
+const pixelRatio = ref(1)
 
 const activeFontFamily = ref(BRAND_LOGO_SETTINGS.fontFamily)
 const fontIsLoading = ref(false)
+const canvasPixelSize = computed(() => Math.round(props.size * pixelRatio.value))
 
 // Computed border radius based on settings
 const borderRadius = computed(() => {
@@ -99,12 +101,8 @@ const drawLogo = async () => {
   if (!ctx) return
 
   const size = props.size
+  ctx.setTransform(pixelRatio.value, 0, 0, pixelRatio.value, 0, 0)
   ctx.clearRect(0, 0, size, size)
-
-  // Debug log to ensure this function is being called
-  if (import.meta.dev) {
-    console.log('DynamicLogo: Drawing logo with settings:', logoSettings)
-  }
 
 
   const percent = Math.max(0, Math.min(logoSettings.borderRadiusPercent, 100))
@@ -152,7 +150,7 @@ const drawLogo = async () => {
 
   // Draw text
   const fontSize = Math.floor(size * (logoSettings.fontSize / 48))
-  ctx.font = `${logoSettings.fontWeight} ${fontSize}px ${activeFontFamily.value}`
+  ctx.font = `${logoSettings.fontWeight} ${fontSize}px '${activeFontFamily.value}', system-ui, sans-serif`
   ctx.fillStyle = logoSettings.textColor
   ctx.textAlign = 'center'
   ctx.textBaseline = 'alphabetic'
@@ -166,13 +164,6 @@ const drawLogo = async () => {
   ctx.fillText(logoSettings.text, size / 2, centerY)
 
   ctx.restore()
-
-  // Debug: Check if canvas has content
-  if (import.meta.dev) {
-    const imageData = ctx.getImageData(0, 0, size, size)
-    const hasContent = Array.from(imageData.data).some((byte, index) => index % 4 === 3 && byte > 0) // Check alpha channel
-    console.log('DynamicLogo: Canvas has content:', hasContent)
-  }
 }
 
 // Watch for font family changes
@@ -206,7 +197,7 @@ watch(() => logoSettings.fontFamily, async (newFont, oldFont) => {
     drawLogo()
   } else {
     fontIsLoading.value = false
-    activeFontFamily.value = oldFont
+    activeFontFamily.value = oldFont || BRAND_LOGO_SETTINGS.fontFamily
   }
 })
 
@@ -251,6 +242,8 @@ const handleLogoSettingsChange = (e: CustomEvent) => {
 // Initial draw and setup
 onMounted(async () => {
   if (isClient) {
+    pixelRatio.value = Math.min(window.devicePixelRatio || 1, 3)
+
     // Load from localStorage immediately
     try {
       const saved = localStorage.getItem('favicon-text-settings')
@@ -268,14 +261,15 @@ onMounted(async () => {
     // Listen for same-page changes (immediate)
     window.addEventListener('logo-settings-changed', handleLogoSettingsChange as EventListener)
 
-    const initialFont = fontOptions.find(font => font.value === logoSettings.fontFamily)
+    const initialFontFamily = logoSettings.fontFamily
+    const initialFont = fontOptions.find(font => font.value === initialFontFamily)
     if (initialFont?.url) {
       loadFont(initialFont)
-      await ensureFontLoaded(logoSettings.fontFamily, logoSettings.fontWeight, logoSettings.fontSize)
+      await ensureFontLoaded(initialFontFamily, logoSettings.fontWeight, logoSettings.fontSize)
     }
 
     // Draw the initial logo and repeat once after layout settles
-    activeFontFamily.value = logoSettings.fontFamily
+    activeFontFamily.value = initialFontFamily
     nextTick(() => {
       drawLogo()
     })

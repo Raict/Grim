@@ -53,7 +53,7 @@
                   </div>
                 </div>
                 <div class="form-group form-group--font">
-                  <label class="form-label" for="font-select">{{ $t('pages.textGenerator.settings.text.font') }}</label>
+                  <label class="form-label" for="font-select">{{ $t('pages.textGenerator.settings.text.faviconFont') }}</label>
                     <!-- <select v-model="textSettings.fontFamily" class="form-select form-select--font">
                       <option v-for="font in fontOptions" :key="font.value" :value="font.value">
                         {{ font.label }}
@@ -63,6 +63,19 @@
                     <option
                       v-for="font in fontOptions"
                       :key="font.value"
+                      :value="font.value"
+                      :style="{ fontFamily: font.value }"
+                    >
+                      {{ font.label }}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group form-group--font">
+                  <label class="form-label" for="brand-text-font-select">{{ $t('pages.textGenerator.settings.text.logoTextFont') }}</label>
+                  <select id="brand-text-font-select" v-model="textSettings.brandTextFontFamily" class="form-select form-select--font">
+                    <option
+                      v-for="font in fontOptions"
+                      :key="`brand-${font.value}`"
                       :value="font.value"
                       :style="{ fontFamily: font.value }"
                     >
@@ -1026,7 +1039,7 @@ useHead(() => ({
       color: var(--primary);
     }
   }
-  
+
   .text-font-row {
     display: grid;
     grid-template-columns: 1fr;
@@ -1039,12 +1052,12 @@ useHead(() => ({
     }
 
     @include respond-to(md) {
-      grid-template-columns: 1fr 1.5fr;
+      grid-template-columns: minmax(0, 1fr) repeat(2, minmax(0, 1.2fr));
       margin-bottom: spacing(lg);
     }
 
     @include respond-to(lg) {
-      grid-template-columns: 1fr 2fr;
+      grid-template-columns: minmax(0, 1fr) repeat(2, minmax(0, 1.5fr));
     }
   }
   

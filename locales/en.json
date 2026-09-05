@@ -120,6 +120,8 @@
           "placeholder": "A",
           "hint": "Maximum 3 characters for best result",
           "font": "Font",
+          "faviconFont": "Favicon font",
+          "logoTextFont": "Text font",
           "size": "Font size",
           "border": "Border radius",
           "weight": "Font weight",

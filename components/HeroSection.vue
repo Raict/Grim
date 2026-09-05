@@ -249,7 +249,7 @@ const scrollToConverter = () => {
 .hero-title {
   margin-bottom: spacing(lg);
   line-height: 1.04;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
 
   &__main {
     display: block;
@@ -434,7 +434,7 @@ const scrollToConverter = () => {
 
   &__toolbar {
     display: grid;
-    grid-template-columns: auto minmax(150px, 340px) auto minmax(0, 1fr);
+    grid-template-columns: auto minmax(140px, 300px) auto minmax(0, 1fr);
     align-items: center;
     gap: spacing(sm);
     min-height: 62px;
@@ -467,11 +467,11 @@ const scrollToConverter = () => {
     gap: spacing(md);
     width: 100%;
     height: 52px;
-    max-width: 340px;
+    max-width: 300px;
     background: var(--browser-tab);
     border: 1px solid var(--browser-tab-border);
     border-bottom: 0;
-    border-radius: 21px 21px 0 0;
+    border-radius: 12px 12px 0 0;
     box-shadow: var(--browser-tab-shadow);
   }
 
@@ -629,7 +629,7 @@ const scrollToConverter = () => {
   .converter-preview { transform: none; }
 
   .preview-browser__toolbar {
-    grid-template-columns: auto minmax(140px, 1fr) auto;
+    grid-template-columns: auto minmax(128px, 1fr) auto;
     min-height: 58px;
     padding-inline: spacing(md);
   }

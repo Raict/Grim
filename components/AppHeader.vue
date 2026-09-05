@@ -97,6 +97,7 @@
 <script setup lang="ts">
 import { sanitizeFaviconSettings } from '~/utils/securityUtils'
 import { BRAND_LOGO_SETTINGS, migrateLegacyLogoSettings } from '~/utils/logoSettings'
+import { fontOptions } from '~/utils/options'
 const localePath = useLocalePath()
 const route = useRoute()
 const headerRef = ref<HTMLElement | null>(null)
@@ -110,16 +111,30 @@ const logoSize = ref(34)
 
 // Dynamic logo text styles
 const logoTextStyles = reactive({
-  fontFamily: `'${BRAND_LOGO_SETTINGS.fontFamily}', system-ui, sans-serif`,
+  fontFamily: `'${BRAND_LOGO_SETTINGS.brandTextFontFamily}', system-ui, sans-serif`,
   fontWeight: BRAND_LOGO_SETTINGS.fontWeight,
   background: `linear-gradient(135deg, ${BRAND_LOGO_SETTINGS.backgroundColor}, ${BRAND_LOGO_SETTINGS.gradientColor})`
 })
 
+const loadBrandTextFont = (fontFamily: string) => {
+  const fontObj = fontOptions.find(font => font.value === fontFamily)
+  if (!fontObj?.url || document.querySelector(`link[data-font="${fontObj.value}"]`)) return
+
+  const link = document.createElement('link')
+  link.rel = 'stylesheet'
+  link.href = fontObj.url
+  link.setAttribute('data-font', fontObj.value)
+  document.head.appendChild(link)
+}
+
 // Listen for logo settings changes
 const handleLogoSettingsChange = (e: CustomEvent) => {
   const settings = sanitizeFaviconSettings(e.detail)
-  if (settings.fontFamily) {
-    logoTextStyles.fontFamily = `'${settings.fontFamily}', system-ui, sans-serif`
+  const brandTextFontFamily = settings.brandTextFontFamily || BRAND_LOGO_SETTINGS.brandTextFontFamily
+
+  if (brandTextFontFamily) {
+    loadBrandTextFont(brandTextFontFamily)
+    logoTextStyles.fontFamily = `'${brandTextFontFamily}', system-ui, sans-serif`
   }
   if (settings.fontWeight) {
     logoTextStyles.fontWeight = settings.fontWeight
@@ -150,6 +165,7 @@ onMounted(() => {
   }
 
   updateLogoSize()
+  loadBrandTextFont(BRAND_LOGO_SETTINGS.brandTextFontFamily)
   nextTick(syncHeaderHeight)
   window.addEventListener('resize', updateLogoSize)
   window.addEventListener('resize', syncHeaderHeight)
@@ -215,7 +231,7 @@ onMounted(() => {
   &__logo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 11px;
     font-size: font-size(xl);
     font-weight: font-weight(bold);
     color: var(--text-primary);
@@ -242,12 +258,12 @@ onMounted(() => {
     &::before {
       content: '';
       position: absolute;
-      inset: -4px;
+      inset: -5px;
       z-index: -1;
-      background: linear-gradient(135deg, rgba(34, 199, 201, 0.52), rgba(104, 117, 245, 0.5));
-      border-radius: 38%;
-      filter: blur(7px);
-      opacity: 0.36;
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.5), rgba(79, 70, 229, 0.42));
+      border-radius: 34%;
+      filter: blur(8px);
+      opacity: 0.32;
       transition: opacity 0.25s ease, transform 0.25s ease;
     }
   }
@@ -260,8 +276,8 @@ onMounted(() => {
     background-clip: text;
     font-weight: font-weight(extrabold);
     line-height: 1;
-    letter-spacing: -0.045em;
-    filter: drop-shadow(0 5px 14px rgba(30, 145, 183, 0.14));
+    letter-spacing: 0;
+    filter: drop-shadow(0 5px 14px rgba(30, 145, 183, 0.12));
     
     @supports not (-webkit-background-clip: text) {
       color: var(--primary);

@@ -22,6 +22,7 @@ const FILE_SIGNATURES = {
 export interface SafeFaviconSettings {
   text?: string
   fontFamily?: string
+  brandTextFontFamily?: string
   fontSize?: number
   fontWeight?: number
   textColor?: string
@@ -56,6 +57,7 @@ export function sanitizeFaviconSettings(value: unknown): SafeFaviconSettings {
 
   if (typeof input.text === 'string') safe.text = sanitizeTextInput(input.text).slice(0, 3)
   if (typeof input.fontFamily === 'string' && /^[\w .-]{1,64}$/.test(input.fontFamily)) safe.fontFamily = input.fontFamily
+  if (typeof input.brandTextFontFamily === 'string' && /^[\w .-]{1,64}$/.test(input.brandTextFontFamily)) safe.brandTextFontFamily = input.brandTextFontFamily
   if (fontSize !== undefined) safe.fontSize = Math.min(48, Math.max(8, fontSize))
   if (fontWeight !== undefined && Number.isInteger(fontWeight) && fontWeight >= 100 && fontWeight <= 900) safe.fontWeight = fontWeight
   if (isHexColor(input.textColor)) safe.textColor = input.textColor

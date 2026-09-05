@@ -710,8 +710,16 @@ onUnmounted(() => {
 
 // Responsive browser mockup sizing
 .hero-preview {
+  box-sizing: border-box;
   max-width: 400px;
   width: 100%;
+  padding: spacing(sm);
+  overflow: hidden;
+  background: var(--browser-frame-bg);
+  border: 1px solid var(--browser-frame-border);
+  border-radius: border-radius(3xl);
+  box-shadow: var(--browser-frame-shadow);
+  @include transition();
 
   @include respond-to(md) {
     max-width: 500px;
@@ -739,8 +747,8 @@ onUnmounted(() => {
   width: 100%;
   background: var(--browser-surface);
   border: 1px solid var(--browser-border);
-  border-radius: border-radius(2xl);
-  box-shadow: var(--browser-frame-shadow);
+  border-radius: 18px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
   overflow: hidden;
   @include transition();
 
@@ -749,9 +757,8 @@ onUnmounted(() => {
     flex-direction: column;
   }
   
-  &:hover {
+  .hero-preview:hover & {
     transform: translateY(-4px);
-    box-shadow: var(--browser-frame-shadow), 0 0 0 1px var(--browser-frame-border);
   }
 }
 
@@ -759,7 +766,7 @@ onUnmounted(() => {
   min-height: 64px;
   padding: spacing(sm) spacing(md) 0;
   display: grid;
-  grid-template-columns: auto minmax(150px, 320px) auto minmax(0, 1fr);
+  grid-template-columns: auto minmax(140px, 280px) auto minmax(0, 1fr);
   align-items: center;
   gap: spacing(sm);
   background: var(--browser-toolbar);
@@ -769,6 +776,7 @@ onUnmounted(() => {
     min-height: 76px;
     padding: spacing(md) spacing(xl) 0;
     gap: spacing(md);
+    grid-template-columns: auto minmax(150px, 300px) auto minmax(0, 1fr);
   }
 }
 
@@ -798,17 +806,18 @@ onUnmounted(() => {
   justify-content: flex-start;
   gap: spacing(md);
   width: 100%;
-  max-width: 320px;
+  max-width: 280px;
   height: 48px;
   background: var(--browser-tab);
   border: 1px solid var(--browser-tab-border);
   border-bottom: 0;
-  border-radius: 20px 20px 0 0;
+  border-radius: 12px 12px 0 0;
   box-shadow: var(--browser-tab-shadow);
 
   @include respond-to(lg) {
     height: 58px;
-    border-radius: 24px 24px 0 0;
+    max-width: 300px;
+    border-radius: 14px 14px 0 0;
   }
 }
 

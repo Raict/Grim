@@ -3,6 +3,7 @@ import type { SafeFaviconSettings } from './securityUtils'
 export interface LogoSettings {
   text: string
   fontFamily: string
+  brandTextFontFamily: string
   fontSize: number
   fontWeight: number
   textColor: string
@@ -16,12 +17,13 @@ export interface LogoSettings {
 export const BRAND_LOGO_SETTINGS: LogoSettings = {
   text: 'FG',
   fontFamily: 'Space Grotesk',
+  brandTextFontFamily: 'Sora',
   fontSize: 30,
   fontWeight: 800,
   textColor: '#ffffff',
-  backgroundColor: '#22c7c9',
+  backgroundColor: '#22d3ee',
   backgroundType: 'gradient',
-  gradientColor: '#6875f5',
+  gradientColor: '#4f46e5',
   borderRadiusPercent: 32,
   backgroundAlpha: 0
 }

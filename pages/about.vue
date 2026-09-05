@@ -3,15 +3,26 @@
     <section class="section section--hero fixed-header-section" aria-labelledby="about-title">
       <div class="container">
         <div class="hero-content fixed-header-content">
-          <p class="hero-eyebrow">FaviconGen</p>
-          <h1 id="about-title" class="section__title">{{ $t('pages.about.title') }}</h1>
-          <p class="section__subtitle">{{ $t('pages.about.subtitle') }}</p>
-          <p class="section__description">{{ $t('pages.about.intro') }}</p>
+          <div class="hero-copy">
+            <p class="hero-eyebrow">FaviconGen</p>
+            <h1 id="about-title" class="section__title">{{ $t('pages.about.title') }}</h1>
+            <p class="section__subtitle">{{ $t('pages.about.subtitle') }}</p>
+            <p class="section__description">{{ $t('pages.about.intro') }}</p>
+          </div>
+
+          <div class="hero-mark" aria-hidden="true">
+            <DynamicLogo :size="88" canvas-class="hero-mark__logo" />
+            <div class="hero-mark__text">
+              <span>ICO</span>
+              <span>PNG</span>
+              <span>PWA</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="principles-title">
+    <section class="section principles-section" aria-labelledby="principles-title">
       <div class="container">
         <h2 id="principles-title" class="section-heading">{{ $t('pages.about.principlesTitle') }}</h2>
         <div class="principles-grid">
@@ -25,8 +36,9 @@
     </section>
 
     <section class="section project-section" aria-labelledby="maintainer-title">
-      <div class="container project-section__content">
-        <div>
+      <div class="container">
+        <div class="project-section__content">
+        <div class="project-section__copy">
           <h2 id="maintainer-title" class="section-heading">{{ $t('pages.about.maintainerTitle') }}</h2>
           <p>{{ $t('pages.about.maintainer') }}</p>
         </div>
@@ -39,6 +51,7 @@
             <Icon name="lucide:coffee" aria-hidden="true" />
             {{ $t('pages.about.support') }}
           </a>
+        </div>
         </div>
       </div>
     </section>
@@ -99,27 +112,44 @@ useHead(() => ({
 }
 
 .section--hero {
-  padding: spacing(4xl) 0 spacing(3xl);
-  background: radial-gradient(circle at 75% 20%, rgba(99, 102, 241, 0.16), transparent 40%);
+  overflow: hidden;
+  padding: spacing(3xl) 0 spacing(2xl);
+  background:
+    radial-gradient(circle at 74% 28%, rgba(104, 117, 245, 0.16), transparent 34%),
+    radial-gradient(circle at 24% 64%, rgba(34, 199, 201, 0.1), transparent 32%);
 
-  @include respond-to(2xl) {
-    padding: spacing(6xl) 0 spacing(5xl);
+  @include respond-to(md) {
+    padding: spacing(4xl) 0 spacing(3xl);
   }
 
   @include respond-to(3xl) {
-    padding: spacing(7xl) 0 spacing(6xl);
+    padding: spacing(5xl) 0 spacing(4xl);
   }
 }
 
 .hero-content {
-  max-width: 820px;
+  display: grid;
+  align-items: center;
+  gap: spacing(2xl);
+  max-width: 1180px;
+  margin: 0 auto;
+  text-align: left;
 
-  @include respond-to(2xl) {
-    max-width: 1120px;
+  @include respond-to(md) {
+    grid-template-columns: minmax(0, 1.35fr) minmax(240px, 0.65fr);
+  }
+}
+
+.hero-copy {
+  max-width: 760px;
+
+  @include respond-to(sm-down) {
+    text-align: center;
   }
 }
 
 .hero-eyebrow {
+  margin-bottom: spacing(sm);
   color: var(--primary);
   font-weight: font-weight(bold);
   letter-spacing: 0.08em;
@@ -127,7 +157,8 @@ useHead(() => ({
 }
 
 .section__title {
-  margin: spacing(sm) 0;
+  margin: 0 0 spacing(md);
+  line-height: 1.04;
 }
 
 .section__subtitle,
@@ -138,8 +169,79 @@ useHead(() => ({
   line-height: 1.75;
 }
 
+.section__subtitle {
+  margin-bottom: spacing(md);
+  color: var(--text-primary);
+  font-size: font-size(xl);
+  font-weight: font-weight(semibold);
+}
+
+.section__description {
+  max-width: 690px;
+  margin: 0;
+}
+
+.hero-mark {
+  position: relative;
+  display: none;
+  min-height: 240px;
+  align-items: center;
+  justify-content: center;
+
+  @include respond-to(md) {
+    display: flex;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border: 1px solid color-mix(in srgb, var(--primary) 28%, transparent);
+    border-radius: 32px;
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--bg-secondary) 82%, transparent), transparent),
+      radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--primary) 18%, transparent), transparent 46%);
+    box-shadow: var(--browser-frame-shadow);
+    transform: rotate(7deg);
+  }
+
+  &__logo {
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 18px 44px rgba(34, 199, 201, 0.18);
+  }
+
+  &__text {
+    position: absolute;
+    z-index: 2;
+    right: 6%;
+    bottom: 12%;
+    display: flex;
+    gap: spacing(xs);
+
+    span {
+      padding: 5px 8px;
+      color: var(--hero-chip-text);
+      background: var(--hero-chip-bg);
+      border: 1px solid var(--hero-chip-border);
+      border-radius: border-radius(full);
+      font-size: 11px;
+      font-weight: font-weight(bold);
+    }
+  }
+}
+
+.principles-section {
+  padding-top: spacing(2xl);
+
+  @include respond-to(md) {
+    padding-top: spacing(3xl);
+  }
+}
+
 .section-heading {
-  margin-bottom: spacing(xl);
+  margin-bottom: spacing(lg);
   font-size: font-size(2xl);
 }
 
@@ -155,8 +257,10 @@ useHead(() => ({
 .principle-card {
   padding: spacing(xl);
   border: 1px solid var(--border);
-  border-radius: border-radius(xl);
-  background: var(--bg-secondary);
+  border-radius: border-radius(lg);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--bg-secondary) 92%, var(--primary) 4%), var(--bg-secondary));
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.08);
 
   h3 {
     margin: spacing(md) 0 spacing(sm);
@@ -171,7 +275,13 @@ useHead(() => ({
 
 .project-section__content {
   display: grid;
-  gap: spacing(xl);
+  gap: spacing(lg);
+  padding: spacing(xl);
+  border: 1px solid var(--border);
+  border-radius: border-radius(lg);
+  background:
+    radial-gradient(circle at 92% 12%, color-mix(in srgb, var(--primary) 15%, transparent), transparent 34%),
+    var(--bg-secondary);
 
   @include respond-to(md) {
     grid-template-columns: 1fr auto;
@@ -179,22 +289,48 @@ useHead(() => ({
   }
 }
 
+.project-section__copy {
+  max-width: 780px;
+
+  .section-heading {
+    margin-bottom: spacing(sm);
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
 .project-actions {
   display: flex;
   flex-wrap: wrap;
   gap: spacing(md);
+  justify-content: flex-start;
+
+  @include respond-to(md) {
+    justify-content: flex-end;
+  }
 }
 
 .project-link {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: spacing(sm);
+  min-height: 48px;
   padding: spacing(md) spacing(lg);
   border-radius: border-radius(lg);
-  background: var(--primary);
-  color: #052e2b;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #041524;
   font-weight: font-weight(semibold);
   text-decoration: none;
+  box-shadow: 0 14px 34px rgba(34, 199, 201, 0.16);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 42px rgba(34, 199, 201, 0.22);
+  }
 
   &:focus-visible {
     outline: 3px solid var(--primary);
@@ -203,8 +339,9 @@ useHead(() => ({
 }
 
 .project-link--secondary {
-  background: var(--bg-secondary);
+  background: color-mix(in srgb, var(--bg-secondary) 84%, var(--bg-primary) 16%);
   border: 1px solid var(--border);
   color: var(--text-primary);
+  box-shadow: none;
 }
 </style>
