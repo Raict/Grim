@@ -1,5 +1,5 @@
 <template>
-    <section id="favicon-converter" class="section" aria-labelledby="converter-title">
+    <section id="favicon-converter" class="section converter-section" aria-labelledby="converter-title">
       <div class="container">
         <div class="text-center converter-header">
           <h2 id="converter-title" class="converter-title">
@@ -301,9 +301,44 @@ function blobToDataUrl(blob: Blob): Promise<string> {
   </script>
   
   <style lang="scss" scoped>
+  .converter-section {
+    position: relative;
+    overflow: hidden;
+    padding: spacing(3xl) 0 spacing(4xl);
+    background:
+      radial-gradient(circle at 50% 0%, rgba(34, 199, 201, 0.1), transparent 34%),
+      var(--bg-primary);
+    border-top: 1px solid rgba(75, 112, 151, 0.22);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: min(520px, 70vw);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      transform: translateX(-50%);
+    }
+
+    @include respond-to(2xl) {
+      padding: spacing(5xl) 0 spacing(6xl);
+    }
+  }
+
   .converter-card {
-    max-width: 800px;
+    position: relative;
+    max-width: 860px;
     margin: 0 auto;
+    background: linear-gradient(145deg, var(--bg-secondary), color-mix(in srgb, var(--bg-secondary) 84%, var(--primary) 16%));
+    border-color: color-mix(in srgb, var(--border) 74%, var(--primary) 26%);
+    box-shadow:
+      0 28px 70px rgba(0, 7, 22, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+    @include respond-to(2xl) {
+      max-width: 1080px;
+    }
   }
   
   .converter-content {
@@ -407,6 +442,10 @@ function blobToDataUrl(blob: Blob): Promise<string> {
       font-size: font-size(4xl);
     }
 
+    @include respond-to(2xl) {
+      font-size: font-size(5xl);
+    }
+
     @supports not (-webkit-background-clip: text) {
       color: var(--primary);
     }
@@ -446,6 +485,11 @@ function blobToDataUrl(blob: Blob): Promise<string> {
       font-size: font-size(lg);
       max-width: 700px;
       padding: 0;
+    }
+
+    @include respond-to(2xl) {
+      max-width: 940px;
+      font-size: font-size(xl);
     }
   }
   </style>

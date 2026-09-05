@@ -13,8 +13,9 @@
 </template>
 
 <script setup lang="ts">
-import { fontOptions, FONT_WEIGHTS } from '~/utils/options'
+import { fontOptions } from '~/utils/options'
 import { sanitizeFaviconSettings } from '~/utils/securityUtils'
+import { BRAND_LOGO_SETTINGS, migrateLegacyLogoSettings } from '~/utils/logoSettings'
 
 interface Props {
   size?: number
@@ -27,23 +28,12 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 // Create a local reactive copy that we can modify
-const logoSettings = reactive({
-  text: 'FG',
-  fontFamily: 'Bookman',
-  fontSize: 32,
-  fontWeight: 700,
-  textColor: '#ffffff',
-  backgroundColor: '#6ee7b7',
-  backgroundType: 'gradient' as 'solid' | 'gradient' | 'transparent',
-  gradientColor: '#3814b8',
-  borderRadiusPercent: 50,
-  backgroundAlpha: 0
-})
+const logoSettings = reactive({ ...BRAND_LOGO_SETTINGS })
 
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 const isClient = typeof window !== 'undefined'
 
-const activeFontFamily = ref('Bookman')
+const activeFontFamily = ref(BRAND_LOGO_SETTINGS.fontFamily)
 const fontIsLoading = ref(false)
 
 // Computed border radius based on settings
@@ -220,7 +210,7 @@ watch(() => logoSettings.fontFamily, async (newFont, oldFont) => {
   }
 })
 
-// Watch for other setting changes - immediate reaction
+// Watch for other setting changes with an immediate redraw
 watch(logoSettings, () => {
   nextTick(() => {
     if (!fontIsLoading.value) {
@@ -229,11 +219,17 @@ watch(logoSettings, () => {
   })
 }, { deep: true, immediate: true })
 
+watch(() => props.size, () => {
+  nextTick(() => {
+    drawLogo()
+  })
+})
+
 // Listen for localStorage changes for cross-tab sync
 const handleStorageChange = (e: StorageEvent) => {
   if (e.key === 'favicon-text-settings' && e.newValue) {
     try {
-      const parsed = sanitizeFaviconSettings(JSON.parse(e.newValue))
+      const parsed = migrateLegacyLogoSettings(sanitizeFaviconSettings(JSON.parse(e.newValue)))
       Object.assign(logoSettings, parsed)
       nextTick(() => {
         drawLogo()
@@ -253,13 +249,13 @@ const handleLogoSettingsChange = (e: CustomEvent) => {
 }
 
 // Initial draw and setup
-onMounted(() => {
+onMounted(async () => {
   if (isClient) {
     // Load from localStorage immediately
     try {
       const saved = localStorage.getItem('favicon-text-settings')
       if (saved) {
-        const parsed = sanitizeFaviconSettings(JSON.parse(saved))
+        const parsed = migrateLegacyLogoSettings(sanitizeFaviconSettings(JSON.parse(saved)))
         Object.assign(logoSettings, parsed)
       }
     } catch (error) {
@@ -272,7 +268,13 @@ onMounted(() => {
     // Listen for same-page changes (immediate)
     window.addEventListener('logo-settings-changed', handleLogoSettingsChange as EventListener)
 
-    // Draw initial logo immediately and with a small delay as fallback
+    const initialFont = fontOptions.find(font => font.value === logoSettings.fontFamily)
+    if (initialFont?.url) {
+      loadFont(initialFont)
+      await ensureFontLoaded(logoSettings.fontFamily, logoSettings.fontWeight, logoSettings.fontSize)
+    }
+
+    // Draw the initial logo and repeat once after layout settles
     activeFontFamily.value = logoSettings.fontFamily
     nextTick(() => {
       drawLogo()
@@ -297,7 +299,7 @@ onUnmounted(() => {
 canvas {
   display: block;
   /* Fallback background in case canvas is empty */
-  background: linear-gradient(135deg, #6ee7b7, #3814b8);
+  background: linear-gradient(135deg, #22c7c9, #6875f5);
 
   /* Show 'FG' text if canvas fails to render */
   position: relative;
@@ -311,8 +313,8 @@ canvas[width="0"]::before {
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  font-family: 'Bookman', serif;
-  font-weight: 400;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-weight: 800;
   font-size: 18px;
   text-align: center;
   line-height: 1;

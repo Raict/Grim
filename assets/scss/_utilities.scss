@@ -180,25 +180,9 @@
 
 // Fixed header compensation classes
 .fixed-header-section {
-  margin-top: 50px;
-
-  @include respond-to(sm) {
-    margin-top: 60px;
-  }
-
-  @include respond-to(md) {
-    margin-top: 70px;
-  }
+  margin-top: 0;
 }
 
 .fixed-header-content {
-  padding-top: 10px;
-
-  @include respond-to(sm) {
-    padding-top: 15px;
-  }
-
-  @include respond-to(md) {
-    padding-top: 20px;
-  }
+  padding-top: 0;
 }

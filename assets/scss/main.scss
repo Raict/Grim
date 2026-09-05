@@ -22,22 +22,6 @@
   --gray-light: #f3f4f6;
 }
 
-.dark-mode {
-  --bg-primary: #1f2937;
-  --bg-secondary: #374151;
-  --text-primary: #f9fafb;
-  --text-secondary: #d1d5db;
-  --accent: var(--secondary-teal);
-}
-
-.light-mode {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f9fafb;
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
-  --accent: var(--primary-mint);
-}
-
 * {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }

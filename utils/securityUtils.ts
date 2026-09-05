@@ -35,22 +35,35 @@ export interface SafeFaviconSettings {
 const isHexColor = (value: unknown): value is string =>
   typeof value === 'string' && /^#[0-9a-f]{6}$/i.test(value)
 
+const toFiniteNumber = (value: unknown): number | undefined => {
+  if (typeof value === 'number' && Number.isFinite(value)) return value
+  if (typeof value === 'string' && value.trim() !== '') {
+    const parsed = Number(value)
+    if (Number.isFinite(parsed)) return parsed
+  }
+  return undefined
+}
+
 /** Copies only expected, bounded settings from untrusted storage/events. */
 export function sanitizeFaviconSettings(value: unknown): SafeFaviconSettings {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return {}
   const input = value as Record<string, unknown>
   const safe: SafeFaviconSettings = Object.create(null)
+  const fontSize = toFiniteNumber(input.fontSize)
+  const fontWeight = toFiniteNumber(input.fontWeight)
+  const borderRadiusPercent = toFiniteNumber(input.borderRadiusPercent)
+  const backgroundAlpha = toFiniteNumber(input.backgroundAlpha)
 
   if (typeof input.text === 'string') safe.text = sanitizeTextInput(input.text).slice(0, 3)
   if (typeof input.fontFamily === 'string' && /^[\w .-]{1,64}$/.test(input.fontFamily)) safe.fontFamily = input.fontFamily
-  if (typeof input.fontSize === 'number' && Number.isFinite(input.fontSize)) safe.fontSize = Math.min(48, Math.max(8, input.fontSize))
-  if (typeof input.fontWeight === 'number' && Number.isInteger(input.fontWeight) && input.fontWeight >= 100 && input.fontWeight <= 900) safe.fontWeight = input.fontWeight
+  if (fontSize !== undefined) safe.fontSize = Math.min(48, Math.max(8, fontSize))
+  if (fontWeight !== undefined && Number.isInteger(fontWeight) && fontWeight >= 100 && fontWeight <= 900) safe.fontWeight = fontWeight
   if (isHexColor(input.textColor)) safe.textColor = input.textColor
   if (isHexColor(input.backgroundColor)) safe.backgroundColor = input.backgroundColor
   if (isHexColor(input.gradientColor)) safe.gradientColor = input.gradientColor
   if (input.backgroundType === 'solid' || input.backgroundType === 'gradient' || input.backgroundType === 'transparent') safe.backgroundType = input.backgroundType
-  if (typeof input.borderRadiusPercent === 'number' && Number.isFinite(input.borderRadiusPercent)) safe.borderRadiusPercent = Math.min(100, Math.max(0, input.borderRadiusPercent))
-  if (typeof input.backgroundAlpha === 'number' && Number.isFinite(input.backgroundAlpha)) safe.backgroundAlpha = Math.min(1, Math.max(0, input.backgroundAlpha))
+  if (borderRadiusPercent !== undefined) safe.borderRadiusPercent = Math.min(100, Math.max(0, borderRadiusPercent))
+  if (backgroundAlpha !== undefined) safe.backgroundAlpha = Math.min(100, Math.max(0, backgroundAlpha))
 
   return safe
 }

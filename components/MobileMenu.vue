@@ -88,7 +88,7 @@
             </nav>
           </div>
           
-          <!-- Налаштування -->
+          <!-- Settings -->
           <div class="mobile-menu__section">
             <h3 class="mobile-menu__section-title">{{ $t('nav.settings') }}</h3>
             <div class="mobile-menu__controls">
@@ -277,7 +277,7 @@ watch(isOpen, (newValue) => {
     margin-bottom: spacing(lg);
   }
   
-  // Навігаційні посилання
+  // Navigation links
   &__nav {
     display: flex;
     flex-direction: column;
@@ -371,7 +371,7 @@ watch(isOpen, (newValue) => {
   }
 }
 
-// Анімації
+// Animations
 .mobile-menu__content {
   animation-duration: 0.3s;
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

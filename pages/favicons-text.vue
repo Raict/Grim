@@ -84,7 +84,7 @@
                 <div class="range-group">
                   <input
                     id="font-size-range"
-                    v-model="textSettings.fontSize"
+                    v-model.number="textSettings.fontSize"
                     type="range"
                     min="8"
                     max="48"
@@ -101,7 +101,7 @@
                 <div class="range-group">
                   <input
                     id="border-radius-range"
-                    v-model="textSettings.borderRadiusPercent"
+                    v-model.number="textSettings.borderRadiusPercent"
                     type="range"
                     min="0"
                     max="100"
@@ -277,7 +277,7 @@
                 <label class="form-label">{{ $t('pages.textGenerator.settings.text.opacity') }}</label>
                 <div class="range-group">
                   <input
-                    v-model="textSettings.backgroundAlpha"
+                    v-model.number="textSettings.backgroundAlpha"
                     type="range"
                     min="0"
                     max="100"
@@ -351,6 +351,7 @@
 import { colorPalette, grayscalePalette, fontOptions, FONT_WEIGHT_LABELS, FONT_WEIGHTS } from '~/utils/options'
 import { createIcoFile } from '~/utils/icoGenerator'
 import { sanitizeFaviconSettings } from '~/utils/securityUtils'
+import { BRAND_LOGO_SETTINGS, migrateLegacyLogoSettings } from '~/utils/logoSettings'
 
 
   
@@ -363,30 +364,20 @@ interface FontObject {
   colorPalette.map(row => row[colIdx])
 )
 
-  const textSettings = reactive({
-    text: 'FG',
-    fontFamily: 'Bookman',
-      fontSize: 32,
-      fontWeight: 700,
-    textColor: '#ffffff',
-    backgroundColor: '#6ee7b7',
-    backgroundType: 'gradient',
-      gradientColor: '#3814b8',
-      borderRadiusPercent: 50,
-      backgroundAlpha: 0,
-  })
+  const textSettings = reactive({ ...BRAND_LOGO_SETTINGS })
 
 
   // Save settings to localStorage when they change and sync with global state
   watch(textSettings, (newSettings) => {
     if (isClient) {
-      localStorage.setItem('favicon-text-settings', JSON.stringify(newSettings))
+      const settingsSnapshot = { ...newSettings }
+      localStorage.setItem('favicon-text-settings', JSON.stringify(settingsSnapshot))
       // Trigger custom event for immediate same-page sync
       window.dispatchEvent(new CustomEvent('logo-settings-changed', {
-        detail: newSettings
+        detail: settingsSnapshot
       }))
     }
-  }, { deep: true })
+  }, { deep: true, flush: 'sync' })
 
   // Simple text length limit
   watch(() => textSettings.text, (newText) => {
@@ -847,7 +838,7 @@ watch(
       const savedSettings = localStorage.getItem('favicon-text-settings')
       if (savedSettings) {
         try {
-          const parsed = sanitizeFaviconSettings(JSON.parse(savedSettings))
+          const parsed = migrateLegacyLogoSettings(sanitizeFaviconSettings(JSON.parse(savedSettings)))
           Object.assign(textSettings, parsed)
         } catch (error) {
           console.warn('Failed to parse saved text settings:', error)
@@ -930,6 +921,14 @@ useHead(() => ({
   .section--text-generator {
     background: var(--bg-primary);
     padding: 2rem 0 spacing(xl);
+
+    @include respond-to(2xl) {
+      padding: spacing(5xl) 0 spacing(3xl);
+    }
+
+    @include respond-to(3xl) {
+      padding: spacing(6xl) 0 spacing(4xl);
+    }
   
     .section__title {
       margin-bottom: 0.5rem;

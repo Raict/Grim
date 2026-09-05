@@ -9,7 +9,7 @@
       @return map.get($dark-colors, $name);
     }
   }
-  
+
   @function spacing($size) {
     @return map.get($spacing, $size);
   }
@@ -20,6 +20,10 @@
   
   @function font-weight($weight) {
     @return map.get($font-weights, $weight);
+  }
+
+  @function container-width($size) {
+    @return map.get($container-max-widths, $size);
   }
   
   @function border-radius($size) {
@@ -85,4 +89,3 @@
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
-  

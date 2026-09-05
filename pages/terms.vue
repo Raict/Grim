@@ -92,6 +92,10 @@
   .legal-content {
     max-width: 800px;
     margin: 0 auto;
+
+    @include respond-to(2xl) {
+      max-width: 1040px;
+    }
   }
   
   .legal-section {

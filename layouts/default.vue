@@ -1,31 +1,45 @@
 <template>
     <div class="app-layout layout-container" role="document">
-      <a href="#main-content" class="skip-link">{{ $t('a11y.skipToMain') }}</a>
+      <a href="#main-content" class="skip-link" @click="focusMainContent">{{ $t('a11y.skipToMain') }}</a>
 
       <AppHeader />
 
-      <main id="main-content" class="main-content page-wrapper" role="main" :aria-label="$t('a11y.mainContent')">
+      <main id="main-content" class="main-content page-wrapper" role="main" tabindex="-1" :aria-label="$t('a11y.mainContent')">
         <slot />
       </main>
 
       <AppFooter />
       <AppToaster />
 
-      <!-- Повідомлення для скрінрідерів -->
+      <!-- Screen reader announcements -->
       <LiveAnnouncer />
     </div>
   </template>
   
   <script setup lang="ts">
   const colorMode = useColorMode()
-  
+
+  const syncBodyThemeClass = (mode: string) => {
+    if (!import.meta.client) return
+
+    document.body.classList.remove('light-mode', 'dark-mode')
+    document.body.classList.add(`${mode}-mode`)
+  }
+
   onMounted(() => {
-    document.body.className = `${colorMode.value}-mode`
+    syncBodyThemeClass(colorMode.value)
   })
-  
+
   watch(() => colorMode.value, (newMode) => {
-    document.body.className = `${newMode}-mode`
+    syncBodyThemeClass(newMode)
   })
+
+  const focusMainContent = () => {
+    nextTick(() => {
+      document.getElementById('main-content')?.focus({ preventScroll: true })
+    })
+  }
+  
   </script>
   
   <style lang="scss" scoped>
@@ -43,30 +57,11 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - 140px);
+    min-height: calc(100vh - var(--header-height));
     position: relative;
     z-index: 1;
 
-    padding-top: 0;
-
-    @include respond-to(md) {
-      min-height: calc(100vh - 160px);
-    }
-  }
-  
-  :deep(.container) {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 spacing(lg);
-    
-    @include respond-to(sm) {
-      padding: 0 spacing(xl);
-    }
-    
-    @include respond-to(xl) {
-      max-width: 1400px;
-    }
+    padding-top: var(--header-height);
   }
   
   .page-enter-active,
@@ -110,46 +105,40 @@
   }
   
   .app-layout {
-    :deep(*:focus) {
+    :deep(*:focus-visible) {
       outline: 3px solid var(--primary);
       outline-offset: 3px;
-      border-radius: border-radius(sm);
-      box-shadow: 0 0 0 1px var(--bg-primary);
     }
 
-    :deep(button:focus-visible),
-    :deep(a:focus-visible),
-    :deep(input:focus-visible),
-    :deep(textarea:focus-visible),
-    :deep(select:focus-visible) {
-      outline: 3px solid var(--primary);
-      outline-offset: 3px;
-      box-shadow: 0 0 0 1px var(--bg-primary), 0 0 8px rgba(16, 185, 129, 0.4);
-    }
-
-    // Приховання обведення при кліках мишкою
+    // Hide focus outlines for pointer interactions
     :deep(*:focus:not(:focus-visible)) {
       outline: none;
-      box-shadow: none;
     }
   }
   
-  // Покращена доступність
+  // Accessible skip navigation
   .skip-link {
-    position: absolute;
-    top: -40px;
-    left: 6px;
+    position: fixed;
+    top: spacing(md);
+    left: spacing(md);
     background: var(--primary);
     color: #052e2b;
     padding: spacing(sm) spacing(md);
-    border-radius: border-radius(sm);
+    border-radius: border-radius(md);
     text-decoration: none;
     font-weight: font-weight(medium);
     z-index: 9999;
-    @include transition();
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(calc(-100% - #{spacing(2xl)}));
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
 
-    &:focus {
-      top: 6px;
+    &:focus-visible {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0);
       outline: 3px solid var(--bg-primary);
       outline-offset: 2px;
     }
@@ -167,19 +156,19 @@
     border: 0;
   }
 
-  // Підтримка висококонтрастного режиму
+  // High-contrast mode support
   @media (prefers-contrast: high) {
     .app-layout {
       --border: #000000;
 
-      :deep(*:focus) {
+      :deep(*:focus-visible) {
         outline: 4px solid #000000;
         outline-offset: 2px;
       }
     }
   }
 
-  // Підтримка зменшеної анімації
+  // Reduced-motion support
   @media (prefers-reduced-motion: reduce) {
     .app-layout {
       :deep(*) {

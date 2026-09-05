@@ -101,6 +101,10 @@
   .legal-content {
     max-width: 800px;
     margin: 0 auto;
+
+    @include respond-to(2xl) {
+      max-width: 1040px;
+    }
   }
   
   .legal-section {
@@ -134,7 +138,7 @@
     }
   }
   
-  // Анімації
+  // Animations
   .legal-section {
     animation: fadeInUp 0.6s ease-out;
     

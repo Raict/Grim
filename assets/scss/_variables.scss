@@ -8,8 +8,8 @@ $light-colors: (
   secondary-light: #5eead4,
   
   bg-primary: #ffffff,
-  bg-secondary: #f3f4f6, 
-  bg-tertiary: #e5e7eb, 
+  bg-secondary: #f9fafb,
+  bg-tertiary: #e5e7eb,
   
   text-primary: #111827,
   text-secondary: #6b7280,
@@ -21,32 +21,104 @@ $light-colors: (
   success: #10b981,
   error: #ef4444,
   warning: #f59e0b,
-  info: #3b82f6
+  info: #3b82f6,
+  accent: #10b981,
+
+  hero-surface: #edf7ff,
+  hero-border: rgba(78, 143, 186, 0.14),
+  hero-dots: rgba(27, 172, 180, 0.2),
+  hero-gradient: (radial-gradient(circle at 10% 48%, rgba(60, 211, 205, 0.2), transparent 42%), radial-gradient(circle at 82% 24%, rgba(96, 132, 238, 0.16), transparent 38%), linear-gradient(115deg, #f4fcff 0%, #eaf6ff 48%, #f1f3ff 100%)),
+  hero-glow: radial-gradient(ellipse at center, rgba(34, 199, 201, 0.17) 0%, rgba(104, 117, 245, 0.1) 42%, transparent 74%),
+  hero-title-gradient: linear-gradient(120deg, #087f78 0%, #168fc1 48%, #5268d9 100%),
+  hero-heading: #10243c,
+  hero-subheading: #30465f,
+  hero-copy: #5d7087,
+  hero-chip-text: #087f78,
+  hero-chip-bg: rgba(255, 255, 255, 0.74),
+  hero-chip-border: rgba(19, 151, 154, 0.25),
+  browser-frame-bg: linear-gradient(145deg, rgba(48, 188, 188, 0.16), rgba(104, 117, 245, 0.1)),
+  browser-frame-border: rgba(43, 135, 163, 0.42),
+  browser-frame-shadow: (0 34px 80px rgba(50, 88, 125, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.82)),
+  browser-surface: #f7fbff,
+  browser-border: rgba(65, 111, 153, 0.58),
+  browser-toolbar: linear-gradient(180deg, #edf5fc, #e3eef8),
+  browser-toolbar-border: rgba(93, 127, 164, 0.32),
+  browser-tab: linear-gradient(180deg, #ffffff, #f5f9fd),
+  browser-tab-border: rgba(91, 126, 166, 0.36),
+  browser-tab-shadow: (inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 -8px 24px rgba(72, 103, 137, 0.1)),
+  browser-chrome-icon: #52657c,
+  browser-content: (radial-gradient(circle at 50% 0%, rgba(92, 159, 211, 0.12), transparent 54%), linear-gradient(155deg, #f9fcff 0%, #edf5fb 100%)),
+  browser-card-bg: rgba(237, 245, 252, 0.92),
+  browser-card-border: rgba(91, 126, 166, 0.24),
+  browser-card-text: #233a55,
+  browser-muted: #647890,
+  browser-preview-bg: rgba(255, 255, 255, 0.68),
+  browser-preview-border: rgba(82, 108, 216, 0.18),
+  browser-line: #c7d6e6,
+  browser-ready-text: #176e6c,
+  browser-ready-bg: rgba(34, 199, 201, 0.1),
+  browser-ready-border: rgba(23, 150, 151, 0.2)
 );
 
 $dark-colors: (
-  primary: #14b8a6,
-  primary-dark: #0f766e,
-  primary-light: #5eead4,
-  secondary: #6366f1,
-  secondary-dark: #4f46e5,
-  secondary-light: #818cf8,
+  primary: #22c7c9,
+  primary-dark: #119da4,
+  primary-light: #66e4e1,
+  secondary: #6875f5,
+  secondary-dark: #4f58d8,
+  secondary-light: #9aa4ff,
   
-  bg-primary: #1f2937,
-  bg-secondary: #374151,
-  bg-tertiary: #4b5563,
+  bg-primary: #071426,
+  bg-secondary: #111f35,
+  bg-tertiary: #263750,
   
-  text-primary: #f9fafb,
-  text-secondary: #d1d5db,
-  text-tertiary: #9ca3af,
+  text-primary: #f4f7fb,
+  text-secondary: #bec9d9,
+  text-tertiary: #8998ad,
   
-  border: #4b5563,
-  border-light: #374151,
+  border: #344861,
+  border-light: #20324b,
   
   success: #10b981,
   error: #ef4444,
   warning: #f59e0b,
-  info: #3b82f6
+  info: #3b82f6,
+  accent: #14b8a6,
+
+  hero-surface: #061326,
+  hero-border: rgba(52, 72, 97, 0.36),
+  hero-dots: rgba(42, 210, 210, 0.22),
+  hero-gradient: (radial-gradient(circle at 12% 48%, rgba(12, 126, 132, 0.34), transparent 44%), radial-gradient(circle at 82% 26%, rgba(80, 91, 202, 0.2), transparent 40%), linear-gradient(112deg, #062432 0%, #081a31 48%, #081329 100%)),
+  hero-glow: radial-gradient(ellipse at center, rgba(34, 199, 201, 0.14) 0%, rgba(76, 102, 236, 0.08) 42%, transparent 74%),
+  hero-title-gradient: linear-gradient(120deg, #f8fbff 0%, #b8f4f1 42%, #8ba5ff 100%),
+  hero-heading: #f4f7fb,
+  hero-subheading: #dce5f1,
+  hero-copy: #aab8ca,
+  hero-chip-text: #9eeeed,
+  hero-chip-bg: rgba(11, 37, 58, 0.72),
+  hero-chip-border: rgba(54, 211, 210, 0.28),
+  browser-frame-bg: linear-gradient(145deg, rgba(68, 209, 207, 0.12), rgba(104, 117, 245, 0.08)),
+  browser-frame-border: rgba(81, 210, 211, 0.2),
+  browser-frame-shadow: 0 34px 80px rgba(0, 5, 18, 0.44),
+  browser-surface: #09172b,
+  browser-border: rgba(117, 140, 176, 0.48),
+  browser-toolbar: linear-gradient(180deg, #1b2d49, #172943),
+  browser-toolbar-border: rgba(108, 130, 164, 0.34),
+  browser-tab: linear-gradient(180deg, #172943, #0c1b31),
+  browser-tab-border: rgba(115, 139, 177, 0.42),
+  browser-tab-shadow: (inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 -8px 24px rgba(0, 5, 18, 0.16)),
+  browser-chrome-icon: #aebacc,
+  browser-content: (radial-gradient(circle at 50% 0%, rgba(35, 80, 126, 0.18), transparent 52%), #09172b),
+  browser-card-bg: rgba(20, 38, 63, 0.88),
+  browser-card-border: rgba(84, 111, 148, 0.36),
+  browser-card-text: #eaf0f8,
+  browser-muted: #8292a8,
+  browser-preview-bg: rgba(4, 16, 32, 0.55),
+  browser-preview-border: rgba(104, 117, 245, 0.2),
+  browser-line: #354963,
+  browser-ready-text: #bde9e6,
+  browser-ready-bg: rgba(34, 199, 201, 0.08),
+  browser-ready-border: rgba(34, 199, 201, 0.2)
 );
 
 $spacing: (
@@ -59,7 +131,8 @@ $spacing: (
   3xl: 4rem,
   4xl: 6rem,
   5xl: 8rem,
-  6xl: 12rem
+  6xl: 12rem,
+  7xl: 16rem
 );
 
 $font-sizes: (
@@ -72,7 +145,9 @@ $font-sizes: (
   3xl: 1.875rem,
   4xl: 2.25rem,
   5xl: 3rem,
-  6xl: 3.75rem
+  6xl: 3.75rem,
+  7xl: 4.5rem,
+  8xl: 6rem
 );
 
 $font-weights: (
@@ -107,7 +182,19 @@ $breakpoints: (
   md: 768px,
   lg: 1024px,
   xl: 1280px,
-  2xl: 1536px
+  2xl: 1536px,
+  3xl: 1920px,
+  4xl: 2560px
+);
+
+$container-max-widths: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  2xl: 1440px,
+  3xl: 1600px,
+  4xl: 1920px
 );
 
 $z-index: (

@@ -1,6 +1,6 @@
 <template>
   <div itemscope itemtype="https://schema.org/WebPage">
-    <!-- Hero Section -->
+    <!-- Hero section -->
     <section class="hero-section fixed-header-section" aria-labelledby="main-heading" role="banner">
       <div class="hero-background" aria-hidden="true">
         <div class="hero-gradient"></div>
@@ -29,17 +29,29 @@
                     <span></span>
                     <span></span>
                   </div>
-                  <div class="browser-url" role="textbox" :aria-label="$t('a11y.browserAddressBar')">
-                    <Icon name="lucide:globe" aria-hidden="true" />
-                    <span>mywebsite.com</span>
-                    <div class="favicon-demo" :key="currentFaviconIndex" role="img" :aria-label="$t('a11y.faviconExample', { icon: currentFavicon.icon.replace('lucide:', '') })">
-                      <Icon :name="currentFavicon.icon" :style="{ color: currentFavicon.color }" aria-hidden="true" />
+                  <div class="browser-tab">
+                    <div class="favicon-demo" :key="currentFaviconIndex" :style="faviconStyle" role="img" :aria-label="$t('a11y.faviconExample', { icon: currentFavicon.icon.replace('lucide:', '') })">
+                      <Icon :name="currentFavicon.icon" aria-hidden="true" />
                     </div>
+                    <Icon name="lucide:x" class="browser-tab__close" aria-hidden="true" />
                   </div>
+                  <div class="browser-new-tab" aria-hidden="true">
+                    <Icon name="lucide:plus" />
+                  </div>
+                  <span class="browser-header__spacer" aria-hidden="true"></span>
                 </div>
                 <div class="browser-content">
                   <div class="demo-website">
-                    <div class="demo-header" aria-hidden="true"></div>
+                    <div class="demo-favicon-showcase" aria-hidden="true">
+                      <span
+                        v-for="size in [52, 40, 30, 22]"
+                        :key="size"
+                        class="demo-favicon-tile"
+                        :style="[{ width: `${size}px`, height: `${size}px` }, faviconStyle]"
+                      >
+                        <Icon :name="currentFavicon.icon" />
+                      </span>
+                    </div>
                     <div class="demo-content">
                       <div class="demo-line"></div>
                       <div class="demo-line"></div>
@@ -65,7 +77,7 @@
       </div>
     </section>
 
-    <!-- Features Section -->
+    <!-- Features section -->
     <section id="features-section" class="features-section" aria-labelledby="features-heading" itemscope itemtype="https://schema.org/ItemList" role="region">
       <div class="container">
         <header class="section-header">
@@ -107,7 +119,7 @@
             </NuxtLink>
           </article>
 
-          <!-- Генератор з тексту -->
+          <!-- Text favicon generator -->
           <article class="feature-card feature-card--secondary">
             <NuxtLink :to="localePath('/favicons-text')" prefetch-on="interaction" class="feature-link" @mouseenter="playHoverSound">
             <div class="feature-card__icon" aria-hidden="true">
@@ -139,7 +151,7 @@
             </NuxtLink>
           </article>
 
-          <!-- ШІ генератор -->
+          <!-- AI favicon generator -->
           <!-- <NuxtLink to="/favicon-ai" class="feature-card feature-card--accent">
             <div class="feature-card__icon">
               <Icon name="lucide:sparkles" />
@@ -172,7 +184,7 @@
       </div>
     </section>
 
-    <!-- Google AdSense Section -->
+    <!-- Google AdSense section -->
     <!-- <section class="adsense-section">
       <div class="container">
         <div class="adsense-placeholder">
@@ -184,7 +196,7 @@
       </div>
     </section> -->
 
-    <!-- Benefits Section -->
+    <!-- Benefits section -->
     <section class="benefits-section" aria-labelledby="benefits-heading">
       <div class="container">
         <div class="section-header">
@@ -322,16 +334,20 @@ useHead(() => ({
 }));
 
 const faviconVariants = [
-  { icon: 'lucide:heart', color: '#ef4444' },
-  { icon: 'lucide:star', color: '#f59e0b' },
-  { icon: 'lucide:coffee', color: '#8b5cf6' },
-  { icon: 'lucide:home', color: '#10b981' },
-  { icon: 'lucide:rocket', color: '#3b82f6' },
-  { icon: 'lucide:camera', color: '#ec4899' }
+  { icon: 'lucide:heart', background: 'linear-gradient(135deg, #fb7185, #be123c)', foreground: '#ffffff' },
+  { icon: 'lucide:star', background: 'linear-gradient(135deg, #fbbf24, #b45309)', foreground: '#ffffff' },
+  { icon: 'lucide:coffee', background: 'linear-gradient(135deg, #a78bfa, #6d28d9)', foreground: '#ffffff' },
+  { icon: 'lucide:home', background: 'linear-gradient(135deg, #34d399, #047857)', foreground: '#ffffff' },
+  { icon: 'lucide:rocket', background: 'linear-gradient(135deg, #60a5fa, #1d4ed8)', foreground: '#ffffff' },
+  { icon: 'lucide:camera', background: 'linear-gradient(135deg, #f472b6, #be185d)', foreground: '#ffffff' }
 ]
 
 const currentFaviconIndex = ref(0)
 const currentFavicon = computed(() => faviconVariants[currentFaviconIndex.value])
+const faviconStyle = computed<Record<string, string>>(() => ({
+  '--favicon-background': currentFavicon.value.background,
+  '--favicon-foreground': currentFavicon.value.foreground
+}))
 
 let faviconInterval: number | undefined
 
@@ -360,18 +376,13 @@ onUnmounted(() => {
 .hero-section {
   position: relative;
   overflow: hidden;
-  min-height: calc(100vh - 50px);
+  min-height: calc((var(--vh, 1vh) * 100) - var(--header-height));
   display: flex;
   align-items: center;
   padding: calc(spacing(xl) - 40px) 0;
-
-  @include respond-to(sm) {
-    min-height: calc(100vh - 60px);
-  }
-
-  @include respond-to(md) {
-    min-height: calc(100vh - 70px);
-  }
+  color: var(--hero-heading);
+  background: var(--hero-surface);
+  border-bottom: 1px solid var(--hero-border);
 
   &::before {
     content: '';
@@ -380,9 +391,10 @@ onUnmounted(() => {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2310b981' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+    background-image: radial-gradient(circle, var(--hero-dots) 2.25px, transparent 2.75px);
+    background-size: 72px 72px;
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
   }
 
   @include respond-to(md) {
@@ -391,6 +403,10 @@ onUnmounted(() => {
 
   @include respond-to(xl) {
     padding: calc(spacing(6xl) - 40px) 0;
+  }
+
+  @include respond-to(3xl) {
+    padding: spacing(6xl) 0;
   }
 }
 
@@ -408,6 +424,7 @@ onUnmounted(() => {
   right: 0;
   bottom: 0;
   pointer-events: none;
+  z-index: 0;
 }
 
 .hero-gradient {
@@ -416,15 +433,8 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(16, 185, 129, 0.12) 0%,
-    rgba(20, 184, 166, 0.18) 25%,
-    rgba(99, 102, 241, 0.15) 50%,
-    rgba(168, 85, 247, 0.12) 75%,
-    rgba(236, 72, 153, 0.15) 100%
-  );
-  background-size: 400% 400%;
+  background: var(--hero-gradient);
+  background-size: 160% 160%;
   animation: gradientShift 15s ease infinite;
 }
 
@@ -436,13 +446,7 @@ onUnmounted(() => {
   transform: translate(-50%, -50%);
   width: 1000px;
   height: 800px;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(16, 185, 129, 0.08) 0%,
-    rgba(99, 102, 241, 0.06) 30%,
-    rgba(168, 85, 247, 0.04) 60%,
-    transparent 80%
-  );
+  background: var(--hero-glow);
   animation: glowPulse 6s ease-in-out infinite;
   filter: blur(40px);
 }
@@ -455,7 +459,7 @@ onUnmounted(() => {
   align-items: center;
   position: relative;
   z-index: 2;
-  max-width: 86%;
+  max-width: 92%;
   margin: 0 auto;
   
 
@@ -464,12 +468,24 @@ onUnmounted(() => {
   }
 
   @include respond-to(lg) {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
     gap: spacing(2xl);
   }
 
   @include respond-to(xl) {
     gap: spacing(3xl);
+  }
+
+  @include respond-to(2xl) {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: spacing(3xl);
+    max-width: 100%;
+  }
+
+  @include respond-to(3xl) {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: spacing(4xl);
+    max-width: 1580px;
   }
 }
 
@@ -478,6 +494,10 @@ onUnmounted(() => {
   
   @include respond-to(lg) {
     text-align: left;
+  }
+
+  @include respond-to(2xl) {
+    max-width: 720px;
   }
 }
 
@@ -494,14 +514,26 @@ onUnmounted(() => {
     display: block;
     font-size: font-size(5xl);
     font-weight: font-weight(extrabold);
-    @include gradient(135deg, var(--primary), var(--secondary));
+    background: var(--hero-title-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     line-height: 1.1;
 
     @include respond-to(md) {
+      font-size: font-size(5xl);
+    }
+
+    @include respond-to(xl) {
       font-size: font-size(6xl);
+    }
+
+    @include respond-to(2xl) {
+      font-size: font-size(6xl);
+    }
+
+    @include respond-to(3xl) {
+      font-size: font-size(7xl);
     }
   }
 
@@ -509,18 +541,23 @@ onUnmounted(() => {
     display: block;
     font-size: font-size(2xl);
     font-weight: font-weight(medium);
-    color: var(--text-secondary);
+    color: var(--hero-subheading);
     margin-top: spacing(sm);
 
     @include respond-to(md) {
+      font-size: font-size(2xl);
+    }
+
+    @include respond-to(2xl) {
       font-size: font-size(3xl);
+      line-height: 1.25;
     }
   }
 }
 
 .hero-description {
   font-size: font-size(lg);
-  color: var(--text-secondary);
+  color: var(--hero-copy);
   line-height: 1.6;
   margin-bottom: spacing(lg);
   max-width: 500px;
@@ -542,6 +579,12 @@ onUnmounted(() => {
 
   @include respond-to(xl) {
     margin-bottom: spacing(2xl);
+  }
+
+  @include respond-to(2xl) {
+    max-width: 680px;
+    font-size: font-size(xl);
+    line-height: 1.7;
   }
 }
 
@@ -653,17 +696,19 @@ onUnmounted(() => {
   }
 }
 
-// Browser Mockup
+// Browser mockup
 .hero-visual {
   display: flex;
   justify-content: center;
+  width: 100%;
+  min-width: 0;
   
   @include respond-to(lg) {
     justify-content: flex-end;
   }
 }
 
-// Browser Mockup - збільшуємо розмір
+// Responsive browser mockup sizing
 .hero-preview {
   max-width: 400px;
   width: 100%;
@@ -673,48 +718,69 @@ onUnmounted(() => {
   }
 
   @include respond-to(lg) {
-    max-width: 600px;
+    max-width: 640px;
   }
 
   @include respond-to(xl) {
-    max-width: 650px;
+    max-width: 700px;
+  }
+
+  @include respond-to(2xl) {
+    max-width: 760px;
+  }
+
+  @include respond-to(3xl) {
+    max-width: 840px;
   }
 }
 
 .browser-mockup {
-  background: var(--bg-primary);
-  border-radius: border-radius(xl);
-  box-shadow: shadow(2xl);
+  box-sizing: border-box;
+  width: 100%;
+  background: var(--browser-surface);
+  border: 1px solid var(--browser-border);
+  border-radius: border-radius(2xl);
+  box-shadow: var(--browser-frame-shadow);
   overflow: hidden;
   @include transition();
+
+  @include respond-to(lg) {
+    display: flex;
+    flex-direction: column;
+  }
   
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--browser-frame-shadow), 0 0 0 1px var(--browser-frame-border);
   }
 }
 
 .browser-header {
-  background: var(--bg-secondary);
-  padding: spacing(md);
-  display: flex;
+  min-height: 64px;
+  padding: spacing(sm) spacing(md) 0;
+  display: grid;
+  grid-template-columns: auto minmax(150px, 320px) auto minmax(0, 1fr);
   align-items: center;
-  gap: spacing(md);
-  border-bottom: 1px solid var(--border);
+  gap: spacing(sm);
+  background: var(--browser-toolbar);
+  border-bottom: 1px solid var(--browser-toolbar-border);
 
   @include respond-to(lg) {
-    padding: spacing(lg);
-    gap: spacing(lg);
+    min-height: 76px;
+    padding: spacing(md) spacing(xl) 0;
+    gap: spacing(md);
   }
 }
 
 .browser-dots {
   display: flex;
   gap: spacing(xs);
+  justify-self: start;
+  margin-right: spacing(sm);
   
   span {
-    width: 14px; // було 12px
-    height: 14px; // було 12px
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     
     &:nth-child(1) { background: #ff5f57; }
@@ -723,91 +789,149 @@ onUnmounted(() => {
   }
 }
 
-.browser-url {
-  flex: 1;
+.browser-tab {
+  position: relative;
+  align-self: end;
+  justify-self: stretch;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: spacing(md);
-  background: var(--bg-primary);
-  padding: spacing(xs) spacing(sm);
-  border-radius: border-radius(md);
-  font-size: font-size(sm);
-  color: var(--text-secondary);
-  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 48px;
+  background: var(--browser-tab);
+  border: 1px solid var(--browser-tab-border);
+  border-bottom: 0;
+  border-radius: 20px 20px 0 0;
+  box-shadow: var(--browser-tab-shadow);
+
+  @include respond-to(lg) {
+    height: 58px;
+    border-radius: 24px 24px 0 0;
+  }
+}
+
+.browser-tab__close {
+  width: 18px;
+  height: 18px;
+  margin-right: spacing(md);
+  margin-left: auto;
+  color: var(--browser-chrome-icon);
+  stroke-width: 2.2;
 }
 
 .favicon-demo {
-  position: absolute;
-  left: -spacing(2xl);
-  top: 50%;
-  transform: translateY(-50%);
-  width: 26px;
-  height: 26px;
-  background: var(--bg-primary);
-  border-radius: border-radius(sm);
+  width: 34px;
+  height: 34px;
+  margin-left: spacing(md);
+  color: var(--favicon-foreground, #ffffff);
+  background: var(--favicon-background, linear-gradient(135deg, #22c7c9, #397bdc 52%, #774ff2));
+  border-radius: border-radius(lg);
   @include flex-center;
   color: white;
-  font-size: 14px;
-  border: 2px solid var(--border);
-  box-shadow: shadow(sm);
+  border: 1px solid rgba(145, 161, 255, 0.58);
+  box-shadow:
+    0 8px 20px rgba(32, 199, 197, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  cursor: pointer;
 
   @include respond-to(lg) {
-    width: 32px;
-    height: 32px;
-    font-size: 16px;
-    left: -spacing(3xl);
+    width: 42px;
+    height: 42px;
   }
 
-  &:not(:hover) {
-    animation: faviconPulse 2s infinite;
+  svg {
+    width: 58%;
+    height: 58%;
+    stroke-width: 2.5;
+    color: inherit;
+    stroke: currentColor;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));
   }
 
   &:hover {
-    transform: translateY(-50%) scale(1.4);
-    box-shadow:
-      0 8px 25px rgba(0, 0, 0, 0.15),
-      0 0 0 4px rgba(16, 185, 129, 0.1);
-    border-color: var(--primary);
-    z-index: 10;
-    animation: none;
+    transform: translateY(-2px) scale(1.08);
   }
 }
 
-@keyframes faviconPulse {
-  0%, 100% {
-    transform: translateY(-50%) scale(1);
-    box-shadow: shadow(sm);
+.browser-new-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: start;
+  color: var(--browser-chrome-icon);
+
+  svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2.2;
+
+    @include respond-to(lg) {
+      width: 22px;
+      height: 22px;
+    }
   }
-  50% {
-    transform: translateY(-50%) scale(1.05);
-    box-shadow: shadow(md);
-  }
+}
+
+.browser-header__spacer {
+  min-width: 0;
 }
 
 .browser-content {
-  padding: spacing(xl);
+  padding: spacing(lg);
+  background: var(--browser-content);
 
   @include respond-to(lg) {
-    padding: spacing(2xl);
+    display: flex;
+    flex: 1;
+    align-items: center;
+  }
+
+  @include respond-to(lg) {
+    padding: spacing(lg);
   }
 
   @include respond-to(xl) {
-    padding: spacing(3xl);
+    padding: spacing(xl);
   }
 }
 
 .demo-website {
-  .demo-header {
-    height: 40px;
-    background: var(--bg-tertiary);
-    border-radius: border-radius(md);
-    margin-bottom: spacing(lg);
+  width: 100%;
 
-    @include respond-to(lg) {
-      height: 50px;
-      margin-bottom: spacing(xl);
+  .demo-favicon-showcase {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: spacing(md);
+    min-height: 64px;
+    margin-bottom: spacing(md);
+    padding: spacing(sm) spacing(md);
+    border: 1px solid var(--browser-preview-border);
+    border-radius: border-radius(xl);
+    background: var(--browser-preview-bg);
+  }
+
+  .demo-favicon-tile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    color: var(--favicon-foreground, #ffffff);
+    background: var(--favicon-background, linear-gradient(135deg, #20c7c5, #397bdc 50%, #774ff2));
+    border-radius: 24%;
+    box-shadow:
+      0 8px 18px rgba(32, 199, 197, 0.16),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+
+    svg {
+      width: 56%;
+      height: 56%;
+      stroke-width: 2.4;
+      color: inherit;
+      stroke: currentColor;
+      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.42));
     }
   }
 
@@ -823,7 +947,7 @@ onUnmounted(() => {
 
   .demo-line {
     height: 12px;
-    background: var(--bg-tertiary);
+    background: var(--browser-line);
     border-radius: border-radius(sm);
 
     @include respond-to(lg) {
@@ -837,7 +961,7 @@ onUnmounted(() => {
 
   .demo-bottom-section {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 12px;
   }
 
@@ -852,10 +976,10 @@ onUnmounted(() => {
     }
 
     .demo-line {
-      width: 100%; // Змушуємо рядки займати всю ширину контейнера
+      width: 100%;
 
       &.short {
-        width: 100%; // Перевизначаємо ширину для короткого рядка в цьому контексті
+        width: 100%;
       }
     }
   }
@@ -863,7 +987,7 @@ onUnmounted(() => {
   .demo-cta {
     display: flex;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
   }
 }
 
@@ -872,8 +996,8 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   gap: spacing(xs);
-  padding: spacing(xs) spacing(sm);
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  padding: spacing(sm) spacing(md);
+  background: linear-gradient(135deg, #20c7c5 0%, #397bdc 52%, #6875f5 100%);
   color: white;
   border-radius: border-radius(md);
   text-decoration: none;
@@ -883,10 +1007,8 @@ onUnmounted(() => {
   @include transition();
   position: relative;
   overflow: hidden;
-  min-width: calc(80px + 100px); // +100px ширше
-
-  // Висота двох рядків + gap між ними + 2px вище
-  height: calc(12px + spacing(sm) + 12px + 2px);
+  min-width: 138px;
+  min-height: 42px;
 
   &::before {
     content: '';
@@ -923,9 +1045,8 @@ onUnmounted(() => {
   @include respond-to(lg) {
     padding: spacing(sm) spacing(md);
     font-size: font-size(sm);
-    min-width: calc(100px + 100px); // +100px ширше для lg
-    // Висота двох рядків + gap між ними + 2px вище для lg екранів
-    height: calc(16px + spacing(md) + 16px + 2px);
+    min-width: 158px;
+    min-height: 48px;
 
     svg {
       width: 16px;
@@ -934,7 +1055,7 @@ onUnmounted(() => {
   }
 }
 
-// Features Section
+// Features section
 .features-section {
   padding: spacing(xl) 0;
 

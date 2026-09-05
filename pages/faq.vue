@@ -9,6 +9,11 @@
 
         <div class="container">
           <div class="hero-content fixed-header-content">
+            <div class="faq-hero__eyebrow">
+              <Icon name="lucide:circle-help" aria-hidden="true" />
+              <span>FaviconGen FAQ</span>
+            </div>
+
             <h1 class="section__title">
               {{ $t('pages.faq.title') }}
             </h1>
@@ -20,6 +25,12 @@
             <p class="section__description">
               {{ $t('pages.faq.description') }}
             </p>
+
+            <div class="faq-hero__topics" :aria-label="$t('a11y.faqCategories')">
+              <span v-for="category in categories" :key="category">
+                {{ $t(`pages.faq.categories.${category}`) }}
+              </span>
+            </div>
           </div>
         </div>
       </section>
@@ -254,26 +265,39 @@
   @use 'sass:math';
   .section--hero {
     position: relative;
+    isolation: isolate;
     overflow: hidden;
     min-height: 60vh;
     display: flex;
     align-items: center;
     padding: spacing(4xl) 0 spacing(3xl);
+    color: var(--hero-heading);
+    background: var(--hero-surface);
+    border-bottom: 1px solid var(--hero-border);
 
     &::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2310b981' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+      inset: 0;
+      background-image: radial-gradient(circle, var(--hero-dots) 3px, transparent 3.8px);
+      background-size: 76px 76px;
+      mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.42) 100%);
       pointer-events: none;
       z-index: 0;
     }
 
     @include respond-to(md) {
       padding: spacing(6xl) 0 spacing(4xl);
+    }
+
+    @include respond-to(2xl) {
+      min-height: 680px;
+      padding: spacing(6xl) 0 spacing(5xl);
+    }
+
+    @include respond-to(3xl) {
+      min-height: 780px;
+      padding: spacing(7xl) 0 spacing(6xl);
     }
   }
 
@@ -292,15 +316,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(16, 185, 129, 0.12) 0%,
-      rgba(20, 184, 166, 0.18) 25%,
-      rgba(99, 102, 241, 0.15) 50%,
-      rgba(168, 85, 247, 0.12) 75%,
-      rgba(236, 72, 153, 0.15) 100%
-    );
-    background-size: 400% 400%;
+    background: var(--hero-gradient);
+    background-size: 160% 160%;
     animation: gradientShift 15s ease infinite;
   }
 
@@ -309,25 +326,43 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 800px;
-    height: 600px;
-    background: radial-gradient(
-      ellipse at center,
-      rgba(16, 185, 129, 0.08) 0%,
-      rgba(99, 102, 241, 0.06) 30%,
-      rgba(168, 85, 247, 0.04) 60%,
-      transparent 80%
-    );
+    width: 1100px;
+    height: 700px;
+    background: var(--hero-glow);
     animation: glowPulse 6s ease-in-out infinite;
     filter: blur(40px);
   }
 
   .hero-content {
     position: relative;
-    max-width: 700px;
+    max-width: 920px;
     margin: 0 auto;
     text-align: center;
     z-index: 2;
+
+    @include respond-to(2xl) {
+      max-width: 1160px;
+    }
+  }
+
+  .faq-hero__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: spacing(sm);
+    margin-bottom: spacing(lg);
+    padding: spacing(sm) spacing(md);
+    color: var(--primary);
+    background: color-mix(in srgb, var(--bg-primary) 72%, transparent);
+    border: 1px solid color-mix(in srgb, var(--primary) 28%, transparent);
+    border-radius: border-radius(full);
+    font-size: font-size(sm);
+    font-weight: font-weight(semibold);
+    letter-spacing: 0.04em;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
   }
 
   .section__title {
@@ -335,7 +370,10 @@
     font-weight: font-weight(extrabold);
     line-height: 1.1;
     margin-bottom: spacing(lg);
-    color: var(--text-primary);
+    background: var(--hero-title-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     text-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 
     @include respond-to(sm) {
@@ -345,22 +383,34 @@
     @include respond-to(lg) {
       font-size: font-size(5xl);
     }
+
+    @include respond-to(2xl) {
+      font-size: font-size(6xl);
+    }
+
+    @include respond-to(3xl) {
+      font-size: font-size(7xl);
+    }
   }
 
   .section__subtitle {
     font-size: font-size(lg);
     font-weight: font-weight(medium);
-    color: var(--text-secondary);
+    color: var(--hero-subheading);
     margin-bottom: spacing(md);
 
     @include respond-to(sm) {
       font-size: font-size(xl);
     }
+
+    @include respond-to(2xl) {
+      font-size: font-size(3xl);
+    }
   }
 
   .section__description {
     font-size: font-size(base);
-    color: var(--text-tertiary);
+    color: var(--hero-copy);
     margin-bottom: spacing(2xl);
     max-width: 600px;
     margin-left: auto;
@@ -369,11 +419,46 @@
     @include respond-to(sm) {
       font-size: font-size(lg);
     }
+
+    @include respond-to(2xl) {
+      max-width: 900px;
+      font-size: font-size(xl);
+      line-height: 1.7;
+    }
+  }
+
+  .faq-hero__topics {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: spacing(sm);
+
+    span {
+      padding: spacing(xs) spacing(md);
+      color: var(--text-secondary);
+      background: color-mix(in srgb, var(--bg-primary) 68%, transparent);
+      border: 1px solid color-mix(in srgb, var(--border) 72%, var(--primary) 28%);
+      border-radius: border-radius(full);
+      font-size: font-size(sm);
+    }
+
+    @include respond-to(2xl) {
+      gap: spacing(md);
+
+      span {
+        padding: spacing(sm) spacing(lg);
+        font-size: font-size(base);
+      }
+    }
   }
 
   .faq-content {
     max-width: 800px;
     margin: 0 auto;
+
+    @include respond-to(2xl) {
+      max-width: 1080px;
+    }
   }
   
   .faq-search {
@@ -739,7 +824,7 @@
   }
 
   
-  // Анімації
+  // Animations
   .faq-answer-enter-active,
   .faq-answer-leave-active {
     @include transition();

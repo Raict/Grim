@@ -1,7 +1,7 @@
 // utils/downloadUtils.ts
 import JSZip from 'jszip'
 
-// Базова функція завантаження файлу
+// Base file download function
 export const downloadFile = (data: string | Blob, fileName: string, mimeType: string = 'application/octet-stream') => {
   const blob = typeof data === 'string' ? new Blob([data], { type: mimeType }) : data
   const url = URL.createObjectURL(blob)
@@ -16,7 +16,7 @@ export const downloadFile = (data: string | Blob, fileName: string, mimeType: st
   }, 0)
 }
 
-// Завантажує ZIP файл
+// Download a ZIP archive
 export const downloadZipFile = async (base64Zip: string, fileName: string = 'favicons.zip') => {
   try {
     const binary = atob(base64Zip.split(',')[1])
@@ -32,20 +32,20 @@ export const downloadZipFile = async (base64Zip: string, fileName: string = 'fav
   }
 }
 
-// Завантажує кілька файлів
+// Download multiple files
 export const downloadMultipleFiles = (files: { data: string | Blob; fileName: string; mimeType?: string }[]) => {
   files.forEach(({ data, fileName, mimeType }) => {
     downloadFile(data, fileName, mimeType)
   })
 }
 
-// Завантажує JSON файл
+// Download a JSON file
 export const downloadJsonFile = (data: object, fileName: string = 'data.json') => {
   const json = JSON.stringify(data, null, 2)
   downloadFile(json, fileName, 'application/json')
 }
 
-// Копіює текст у буфер обміну
+// Copy text to the clipboard
 export const copyToClipboard = async (text: string): Promise<boolean> => {
   try {
     await navigator.clipboard.writeText(text)

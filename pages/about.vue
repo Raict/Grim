@@ -101,10 +101,22 @@ useHead(() => ({
 .section--hero {
   padding: spacing(4xl) 0 spacing(3xl);
   background: radial-gradient(circle at 75% 20%, rgba(99, 102, 241, 0.16), transparent 40%);
+
+  @include respond-to(2xl) {
+    padding: spacing(6xl) 0 spacing(5xl);
+  }
+
+  @include respond-to(3xl) {
+    padding: spacing(7xl) 0 spacing(6xl);
+  }
 }
 
 .hero-content {
   max-width: 820px;
+
+  @include respond-to(2xl) {
+    max-width: 1120px;
+  }
 }
 
 .hero-eyebrow {

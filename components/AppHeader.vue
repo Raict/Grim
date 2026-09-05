@@ -1,5 +1,5 @@
 <template>
-  <header class="header" role="banner">
+  <header ref="headerRef" class="header" role="banner">
     <div class="container">
       <nav class="header__nav" role="navigation" :aria-label="$t('a11y.mainNavigation')">
         <NuxtLink :to="localePath('/')" class="header__logo" :aria-label="$t('a11y.logoHome')">
@@ -10,6 +10,7 @@
             class="header__logo-text"
             :style="{
               fontFamily: logoTextStyles.fontFamily,
+              fontWeight: logoTextStyles.fontWeight,
               background: logoTextStyles.background,
               '-webkit-background-clip': 'text',
               '-webkit-text-fill-color': 'transparent',
@@ -95,27 +96,33 @@
 
 <script setup lang="ts">
 import { sanitizeFaviconSettings } from '~/utils/securityUtils'
+import { BRAND_LOGO_SETTINGS, migrateLegacyLogoSettings } from '~/utils/logoSettings'
 const localePath = useLocalePath()
 const route = useRoute()
+const headerRef = ref<HTMLElement | null>(null)
 
 const isHomePage = computed(() => {
   return route.name === 'index' || route.name === 'index___en' || route.path === '/' || route.path === '/en'
 })
 
 // Reactive logo size based on screen size
-const logoSize = ref(32)
+const logoSize = ref(34)
 
 // Dynamic logo text styles
 const logoTextStyles = reactive({
-  fontFamily: 'system-ui',
-  background: 'linear-gradient(135deg, var(--primary), var(--secondary))'
+  fontFamily: `'${BRAND_LOGO_SETTINGS.fontFamily}', system-ui, sans-serif`,
+  fontWeight: BRAND_LOGO_SETTINGS.fontWeight,
+  background: `linear-gradient(135deg, ${BRAND_LOGO_SETTINGS.backgroundColor}, ${BRAND_LOGO_SETTINGS.gradientColor})`
 })
 
 // Listen for logo settings changes
 const handleLogoSettingsChange = (e: CustomEvent) => {
   const settings = sanitizeFaviconSettings(e.detail)
   if (settings.fontFamily) {
-    logoTextStyles.fontFamily = settings.fontFamily
+    logoTextStyles.fontFamily = `'${settings.fontFamily}', system-ui, sans-serif`
+  }
+  if (settings.fontWeight) {
+    logoTextStyles.fontWeight = settings.fontWeight
   }
   if (settings.backgroundType === 'gradient' && settings.backgroundColor && settings.gradientColor) {
     logoTextStyles.background = `linear-gradient(135deg, ${settings.backgroundColor}, ${settings.gradientColor})`
@@ -125,22 +132,40 @@ const handleLogoSettingsChange = (e: CustomEvent) => {
 }
 
 onMounted(() => {
+  let headerResizeObserver: ResizeObserver | undefined
+
+  const syncHeaderHeight = () => {
+    if (!headerRef.value) return
+
+    const height = Math.ceil(headerRef.value.getBoundingClientRect().height)
+    document.documentElement.style.setProperty('--header-height', `${height}px`)
+  }
+
   const updateLogoSize = () => {
     if (window.innerWidth >= 768) {
-      logoSize.value = 36 // md and up
+      logoSize.value = 38 // md and up
     } else {
-      logoSize.value = 32 // default
+      logoSize.value = 34 // default
     }
   }
 
   updateLogoSize()
+  nextTick(syncHeaderHeight)
   window.addEventListener('resize', updateLogoSize)
+  window.addEventListener('resize', syncHeaderHeight)
+
+  if ('ResizeObserver' in window) {
+    headerResizeObserver = new ResizeObserver(syncHeaderHeight)
+    if (headerRef.value) {
+      headerResizeObserver.observe(headerRef.value)
+    }
+  }
 
   // Load initial settings from localStorage
   try {
     const saved = localStorage.getItem('favicon-text-settings')
     if (saved) {
-      const settings = sanitizeFaviconSettings(JSON.parse(saved))
+      const settings = migrateLegacyLogoSettings(sanitizeFaviconSettings(JSON.parse(saved)))
       handleLogoSettingsChange({ detail: settings } as CustomEvent)
     }
   } catch (error) {
@@ -152,7 +177,9 @@ onMounted(() => {
 
   onUnmounted(() => {
     window.removeEventListener('resize', updateLogoSize)
+    window.removeEventListener('resize', syncHeaderHeight)
     window.removeEventListener('logo-settings-changed', handleLogoSettingsChange as EventListener)
+    headerResizeObserver?.disconnect()
   })
 })
 </script>
@@ -188,7 +215,7 @@ onMounted(() => {
   &__logo {
     display: flex;
     align-items: center;
-    gap: spacing(sm);
+    gap: 10px;
     font-size: font-size(xl);
     font-weight: font-weight(bold);
     color: var(--text-primary);
@@ -205,11 +232,24 @@ onMounted(() => {
   }
   
   &__logo-icon {
-    width: 32px;
-    height: 32px;
+    position: relative;
+    z-index: 0;
+    width: 34px;
+    height: 34px;
     @include flex-center;
     @include transition();
-    // Remove overflow: hidden to allow dynamic border-radius
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      z-index: -1;
+      background: linear-gradient(135deg, rgba(34, 199, 201, 0.52), rgba(104, 117, 245, 0.5));
+      border-radius: 38%;
+      filter: blur(7px);
+      opacity: 0.36;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
   }
 
   
@@ -218,6 +258,10 @@ onMounted(() => {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    font-weight: font-weight(extrabold);
+    line-height: 1;
+    letter-spacing: -0.045em;
+    filter: drop-shadow(0 5px 14px rgba(30, 145, 183, 0.14));
     
     @supports not (-webkit-background-clip: text) {
       color: var(--primary);
@@ -395,8 +439,8 @@ onMounted(() => {
     }
     
     &__logo-icon {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
     }
     
     &__menu {
@@ -431,7 +475,7 @@ onMounted(() => {
 }
 
 
-.light-mode .header {
+:global(.light-mode) .header {
   background: rgba(255, 255, 255, 0.8);
   
   &:hover {
@@ -443,11 +487,11 @@ onMounted(() => {
   }
 }
 
-.dark-mode .header {
-  background: rgba(31, 41, 55, 0.8);
+:global(.dark-mode) .header {
+  background: rgba(7, 20, 38, 0.82);
   
   &:hover {
-    background: rgba(31, 41, 55, 0.95);
+    background: rgba(7, 20, 38, 0.96);
   }
   
   .header__link:hover {

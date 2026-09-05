@@ -254,7 +254,6 @@ img {
 :focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
-  border-radius: border-radius(sm);
 }
 
 ::selection {
@@ -286,7 +285,13 @@ input:-webkit-autofill:active {
 
 /* CSS Variables */
 :root {
-  --header-height: 70px;
+  --header-height: 58px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --header-height: 79px;
+  }
 }
 
 /* Prevent layout shifts and scroll jumping during transitions */
@@ -368,7 +373,9 @@ body.page-transitioning {
 .page-wrapper {
   width: 100%;
   position: relative;
+  box-sizing: border-box;
   transform: translateZ(0); /* Force hardware acceleration */
   min-height: calc(100vh - var(--header-height));
+  padding-top: var(--header-height);
 }
 </style>

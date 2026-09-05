@@ -1,80 +1,84 @@
 @use 'mixins' as *;
 @use 'variables' as *;
 
+@mixin theme-vars($theme) {
+  --primary: #{color(primary, $theme)};
+  --primary-dark: #{color(primary-dark, $theme)};
+  --primary-light: #{color(primary-light, $theme)};
+  --secondary: #{color(secondary, $theme)};
+  --secondary-dark: #{color(secondary-dark, $theme)};
+  --secondary-light: #{color(secondary-light, $theme)};
+
+  --bg-primary: #{color(bg-primary, $theme)};
+  --bg-secondary: #{color(bg-secondary, $theme)};
+  --bg-tertiary: #{color(bg-tertiary, $theme)};
+
+  --text-primary: #{color(text-primary, $theme)};
+  --text-secondary: #{color(text-secondary, $theme)};
+  --text-tertiary: #{color(text-tertiary, $theme)};
+
+  --border: #{color(border, $theme)};
+  --border-light: #{color(border-light, $theme)};
+
+  --success: #{color(success, $theme)};
+  --error: #{color(error, $theme)};
+  --warning: #{color(warning, $theme)};
+  --info: #{color(info, $theme)};
+  --accent: #{color(accent, $theme)};
+
+  --hero-surface: #{color(hero-surface, $theme)};
+  --hero-border: #{color(hero-border, $theme)};
+  --hero-dots: #{color(hero-dots, $theme)};
+  --hero-gradient: #{color(hero-gradient, $theme)};
+  --hero-glow: #{color(hero-glow, $theme)};
+  --hero-title-gradient: #{color(hero-title-gradient, $theme)};
+  --hero-heading: #{color(hero-heading, $theme)};
+  --hero-subheading: #{color(hero-subheading, $theme)};
+  --hero-copy: #{color(hero-copy, $theme)};
+  --hero-chip-text: #{color(hero-chip-text, $theme)};
+  --hero-chip-bg: #{color(hero-chip-bg, $theme)};
+  --hero-chip-border: #{color(hero-chip-border, $theme)};
+
+  --browser-frame-bg: #{color(browser-frame-bg, $theme)};
+  --browser-frame-border: #{color(browser-frame-border, $theme)};
+  --browser-frame-shadow: #{color(browser-frame-shadow, $theme)};
+  --browser-surface: #{color(browser-surface, $theme)};
+  --browser-border: #{color(browser-border, $theme)};
+  --browser-toolbar: #{color(browser-toolbar, $theme)};
+  --browser-toolbar-border: #{color(browser-toolbar-border, $theme)};
+  --browser-tab: #{color(browser-tab, $theme)};
+  --browser-tab-border: #{color(browser-tab-border, $theme)};
+  --browser-tab-shadow: #{color(browser-tab-shadow, $theme)};
+  --browser-chrome-icon: #{color(browser-chrome-icon, $theme)};
+  --browser-content: #{color(browser-content, $theme)};
+  --browser-card-bg: #{color(browser-card-bg, $theme)};
+  --browser-card-border: #{color(browser-card-border, $theme)};
+  --browser-card-text: #{color(browser-card-text, $theme)};
+  --browser-muted: #{color(browser-muted, $theme)};
+  --browser-preview-bg: #{color(browser-preview-bg, $theme)};
+  --browser-preview-border: #{color(browser-preview-border, $theme)};
+  --browser-line: #{color(browser-line, $theme)};
+  --browser-ready-text: #{color(browser-ready-text, $theme)};
+  --browser-ready-bg: #{color(browser-ready-bg, $theme)};
+  --browser-ready-border: #{color(browser-ready-border, $theme)};
+}
+
+:root {
+  @include theme-vars(light);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    @include theme-vars(dark);
+  }
+}
+
 .light-mode {
-    --primary: #{color(primary, light)};
-    --primary-dark: #{color(primary-dark, light)};
-    --primary-light: #{color(primary-light, light)};
-    --secondary: #{color(secondary, light)};
-    --secondary-dark: #{color(secondary-dark, light)};
-    --secondary-light: #{color(secondary-light, light)};
-    
-    --bg-primary: #{color(bg-primary, light)};
-    --bg-secondary: #{color(bg-secondary, light)};
-    --bg-tertiary: #{color(bg-tertiary, light)};
-    
-    --text-primary: #{color(text-primary, light)};
-    --text-secondary: #{color(text-secondary, light)};
-    --text-tertiary: #{color(text-tertiary, light)};
-    
-    --border: #{color(border, light)};
-    --border-light: #{color(border-light, light)};
-    
-    --success: #{color(success, light)};
-    --error: #{color(error, light)};
-    --warning: #{color(warning, light)};
-    --info: #{color(info, light)};
-  }
-  
-  .dark-mode {
-    --primary: #{color(primary, dark)};
-    --primary-dark: #{color(primary-dark, dark)};
-    --primary-light: #{color(primary-light, dark)};
-    --secondary: #{color(secondary, dark)};
-    --secondary-dark: #{color(secondary-dark, dark)};
-    --secondary-light: #{color(secondary-light, dark)};
-    
-    --bg-primary: #{color(bg-primary, dark)};
-    --bg-secondary: #{color(bg-secondary, dark)};
-    --bg-tertiary: #{color(bg-tertiary, dark)};
-    
-    --text-primary: #{color(text-primary, dark)};
-    --text-secondary: #{color(text-secondary, dark)};
-    --text-tertiary: #{color(text-tertiary, dark)};
-    
-    --border: #{color(border, dark)};
-    --border-light: #{color(border-light, dark)};
-    
-    --success: #{color(success, dark)};
-    --error: #{color(error, dark)};
-    --warning: #{color(warning, dark)};
-    --info: #{color(info, dark)};
-  }
-  
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --primary: #{color(primary, dark)};
-      --primary-dark: #{color(primary-dark, dark)};
-      --primary-light: #{color(primary-light, dark)};
-      --secondary: #{color(secondary, dark)};
-      --secondary-dark: #{color(secondary-dark, dark)};
-      --secondary-light: #{color(secondary-light, dark)};
-      
-      --bg-primary: #{color(bg-primary, dark)};
-      --bg-secondary: #{color(bg-secondary, dark)};
-      --bg-tertiary: #{color(bg-tertiary, dark)};
-      
-      --text-primary: #{color(text-primary, dark)};
-      --text-secondary: #{color(text-secondary, dark)};
-      --text-tertiary: #{color(text-tertiary, dark)};
-      
-      --border: #{color(border, dark)};
-      --border-light: #{color(border-light, dark)};
-      
-      --success: #{color(success, dark)};
-      --error: #{color(error, dark)};
-      --warning: #{color(warning, dark)};
-      --info: #{color(info, dark)};
-    }
-  }
-  
+  color-scheme: light;
+  @include theme-vars(light);
+}
+
+.dark-mode {
+  color-scheme: dark;
+  @include theme-vars(dark);
+}

@@ -1,6 +1,6 @@
 
 
-// Конвертує файл у base64
+// Convert a file to base64
 export const fileToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -10,7 +10,7 @@ export const fileToBase64 = (file: File): Promise<string> => {
   })
 }
 
-// Валідує зображення (перевіряє тип і розмір)
+// Validate an image by type and size
 export const validateImageFile = (file: File, options: { maxSizeMB?: number; allowedTypes?: string[] } = {}): { isValid: boolean; error?: string } => {
   const { maxSizeMB = 5, allowedTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'] } = options
 
@@ -25,7 +25,7 @@ export const validateImageFile = (file: File, options: { maxSizeMB?: number; all
   return { isValid: true }
 }
 
-// Форматує розмір файлу в зручний формат (KB, MB)
+// Format a file size as KB or MB
 export const formatFileSize = (bytes: number): string => {
   if (bytes === 0) return '0 KB'
   const units = ['B', 'KB', 'MB', 'GB']
@@ -33,7 +33,7 @@ export const formatFileSize = (bytes: number): string => {
   return `${(bytes / Math.pow(1024, i)).toFixed(1)} ${units[i]}`
 }
 
-// Отримує розміри зображення
+// Read image dimensions
 export const getImageDimensions = (file: File): Promise<{ width: number; height: number }> => {
   return new Promise((resolve, reject) => {
     const img = new Image()
@@ -43,7 +43,7 @@ export const getImageDimensions = (file: File): Promise<{ width: number; height:
   })
 }
 
-// Створює прев'ю зображення
+// Create an image preview
 export const createImagePreview = async (file: File, options: { maxWidth?: number; maxHeight?: number } = {}): Promise<string> => {
   const { maxWidth = 300, maxHeight = 300 } = options
   const img = new Image()

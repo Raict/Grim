@@ -4,27 +4,46 @@
 
 .container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 100%;
     margin: 0 auto;
-    padding: 0 spacing(xs);
+    padding: 0 spacing(md);
 
     @include respond-to(sm) {
-      padding: 0 spacing(sm);
-    }
-
-    @include respond-to(md) {
+      max-width: container-width(sm);
       padding: 0 spacing(md);
     }
 
+    @include respond-to(md) {
+      max-width: container-width(md);
+      padding: 0 spacing(lg);
+    }
+
     @include respond-to(lg) {
+      max-width: container-width(lg);
       padding: 0 spacing(lg);
     }
 
     @include respond-to(xl) {
+      max-width: container-width(xl);
       padding: 0 spacing(xl);
     }
+
+    @include respond-to(2xl) {
+      max-width: container-width(2xl);
+      padding: 0 spacing(2xl);
+    }
+
+    @include respond-to(3xl) {
+      max-width: container-width(3xl);
+      padding: 0 spacing(3xl);
+    }
+
+    @include respond-to(4xl) {
+      max-width: container-width(4xl);
+      padding: 0 spacing(4xl);
+    }
   }
-  
+
   .grid {
     display: grid;
     gap: spacing(lg);
@@ -45,7 +64,7 @@
       &--lg-cols-4 { grid-template-columns: repeat(4, 1fr); }
     }
   }
-  
+
   .flex {
     display: flex;
     
@@ -159,6 +178,14 @@
       padding: spacing(2xl) 0;
     }
 
+    @include respond-to(2xl) {
+      padding: spacing(4xl) 0;
+    }
+
+    @include respond-to(3xl) {
+      padding: spacing(5xl) 0;
+    }
+
     &--hero {
       padding: spacing(2xl) 0;
       text-align: center;
@@ -175,6 +202,14 @@
       @include respond-to(lg) {
         padding: spacing(5xl) 0;
       }
+
+      @include respond-to(2xl) {
+        padding: spacing(6xl) 0;
+      }
+
+      @include respond-to(3xl) {
+        padding: spacing(7xl) 0;
+      }
     }
     
     &__title {
@@ -185,6 +220,14 @@
       background-clip: text;
       @include transition();
       cursor: default;
+
+      @include respond-to(2xl) {
+        font-size: font-size(6xl);
+      }
+
+      @include respond-to(3xl) {
+        font-size: font-size(7xl);
+      }
 
       &:hover {
         transform: translateY(-2px);
@@ -198,6 +241,10 @@
       margin-bottom: spacing(md);
       @include transition();
       cursor: default;
+
+      @include respond-to(2xl) {
+        font-size: font-size(3xl);
+      }
 
       &:hover {
         transform: translateY(-1px);
@@ -215,10 +262,15 @@
       @include transition();
       cursor: default;
 
+      @include respond-to(2xl) {
+        max-width: 900px;
+        font-size: font-size(xl);
+        line-height: 1.75;
+      }
+
       &:hover {
         transform: translateY(-1px);
         color: var(--text-secondary);
       }
     }
   }
-  

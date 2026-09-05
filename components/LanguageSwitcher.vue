@@ -9,9 +9,6 @@
         aria-controls="locale-menu"
         :aria-label="currentLocaleAriaLabel"
       >
-        <span class="language-switcher__flag">
-          {{ getFlagEmoji(currentLocale.code) }}
-        </span>
         <span class="language-switcher__name">
           {{ currentLocale.name }}
         </span>
@@ -39,9 +36,6 @@
             role="menuitem"
             :aria-label="$t('a11y.switchLanguage', { language: availableLocale.name })"
           >
-            <span class="language-switcher__option-flag">
-              {{ getFlagEmoji(availableLocale.code) }}
-            </span>
             <span class="language-switcher__option-name">
               {{ availableLocale.name }}
             </span>
@@ -65,14 +59,6 @@
   const availableLocales = computed(() => {
     return locales.value.filter(l => l.code !== locale.value)
   })
-
-  const getFlagEmoji = (code: string): string => {
-    const flags: Record<string, string> = {
-      'uk': '🇺🇦',
-      'en': '🇺🇸'
-    }
-    return flags[code] || '🌐'
-  }
 
   const toggleDropdown = () => {
     isOpen.value = !isOpen.value
@@ -112,12 +98,13 @@
   .language-switcher {
     position: relative;
     display: inline-block;
+    min-width: 150px;
 
     &__trigger {
-      display: flex;
+      display: grid;
+      grid-template-columns: 20px minmax(0, 1fr) 20px;
       align-items: center;
-      justify-content: space-between;
-      gap: spacing(xs);
+      gap: spacing(sm);
       padding: spacing(sm) spacing(md);
       background: transparent;
       border: 1px solid var(--border);
@@ -128,6 +115,7 @@
       cursor: pointer;
       width: 100%;
       height: 40px;
+      box-sizing: border-box;
       @include transition();
       
       &:hover {
@@ -152,18 +140,14 @@
       }
     }
     
-    &__flag {
-      font-size: font-size(base);
-      line-height: 1;
-    }
-
     &__name {
-      flex: 1;
-      text-align: left;
+      grid-column: 2;
+      text-align: center;
       white-space: nowrap;
     }
     
     &__chevron {
+      grid-column: 3;
       width: 16px;
       height: 16px;
       @include transition();
@@ -175,10 +159,12 @@
     
     &__dropdown {
       position: absolute;
-      top: calc(100% + spacing(xs));
+      top: calc(100% + spacing(sm));
       left: 0;
-      right: 0;
-      min-width: 150px;
+      width: 100%;
+      min-width: 100%;
+      padding: spacing(xs);
+      box-sizing: border-box;
       background: var(--bg-primary);
       border: 1px solid var(--border);
       border-radius: border-radius(lg);
@@ -198,17 +184,23 @@
     &__option {
       display: flex;
       align-items: center;
-      gap: spacing(xs);
+      justify-content: center;
+      gap: spacing(sm);
       width: 100%;
-      padding: spacing(sm) spacing(md);
+      min-height: 40px;
+      padding: spacing(sm) spacing(sm);
+      box-sizing: border-box;
       background: transparent;
       border: none;
+      border-radius: border-radius(md);
       color: var(--text-primary);
       font-size: font-size(sm);
       font-weight: font-weight(medium);
+      line-height: 1.25;
+      text-decoration: none;
       cursor: pointer;
       @include transition();
-      
+
       &:hover {
         background: var(--bg-secondary);
         color: var(--primary);
@@ -229,27 +221,13 @@
         }
       }
       
-      &:first-child {
-        border-radius: border-radius(lg) border-radius(lg) 0 0;
-      }
-      
-      &:last-child {
-        border-radius: 0 0 border-radius(lg) border-radius(lg);
-      }
-      
-      &:only-child {
-        border-radius: border-radius(lg);
-      }
     }
     
-    &__option-flag {
-      font-size: font-size(base);
-      line-height: 1;
-    }
-
     &__option-name {
-      flex: 1;
-      text-align: left;
+      display: block;
+      width: 100%;
+      text-align: center;
+      white-space: nowrap;
     }
 
     &__check {
@@ -258,8 +236,15 @@
       color: var(--primary);
     }
   }
+
+  :deep(.language-switcher__option) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
   
-  // Анімації для dropdown
+  // Dropdown animations
   .dropdown-enter-active,
   .dropdown-leave-active {
     @include transition(opacity, transform);
@@ -277,7 +262,7 @@
     transform: translateY(-10px) scaleY(0.95);
   }
   
-  // Стилі для різних станів теми
+  // Theme-specific states
   .light-mode .language-switcher {
     &__trigger:hover,
     &__option:hover {
@@ -292,7 +277,7 @@
     }
   }
   
-  // Responsive стилі
+  // Responsive styles
   @include respond-to(sm) {
     .language-switcher {
       &__trigger {

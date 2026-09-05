@@ -31,7 +31,7 @@ watch(() => props.message, (newMessage) => {
   }
 })
 
-// Глобальна функція для сповіщень
+// Global announcement function
 if (import.meta.client) {
   ;(window as Window & { announceToScreenReader?: typeof announce }).announceToScreenReader = announce
 }
