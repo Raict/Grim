@@ -14,7 +14,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: "FaviconGen - Безкоштовний генератор фавіконок | Згенерувати фавіконку онлайн",
+      title: "FaviconGen",
       meta: [
         { charset: "utf-8" },
         {
@@ -31,12 +31,12 @@ export default defineNuxtConfig({
     }
   },
   compatibilityDate: "2025-06-15",
-  devtools: { enabled: true },
+  devtools: { enabled: false },
 
   modules: [
     '@nuxtjs/robots',
     '@nuxtjs/sitemap',
-    "@nuxt/ui",
+    '@nuxt/icon',
     ['@nuxtjs/i18n', {
   bundle: {
     optimizeTranslationDirective: true,
@@ -44,25 +44,21 @@ export default defineNuxtConfig({
     runtimeOnly: false
       },
   locales: [
-    { code: 'uk', name: 'Українська', file: 'uk.json' },
-    { code: 'en', name: 'English',    file: 'en.json' }
+    { code: 'uk', name: 'Українська', language: 'uk', file: 'uk.json' },
+    { code: 'en', name: 'English', language: 'en', file: 'en.json' }
   ],
   lazy: true,
   langDir: '../locales',
   defaultLocale: 'uk',
   strategy: 'prefix_except_default',
-  seo: true,                 
   baseUrl: 'https://favicon-gen.com',
   compilation: {
     strictMessage: false,
     escapeHtml: false
   },
-  detectBrowserLanguage: {
-    useCookie: true,
-    cookieKey: 'i18n_redirected',
-    redirectOn: 'root',
-    alwaysRedirect: false
-  }
+  // Stable, crawlable locale URLs are preferable to automatic redirects based on
+  // browser language. Users can switch languages through regular locale links.
+  detectBrowserLanguage: false
 }],
     ["@nuxtjs/color-mode", {
       preference: "system",
@@ -77,16 +73,18 @@ export default defineNuxtConfig({
   ],
 sitemap: {
   autoI18n: true,
-  exclude: ['/api/**', '/_nuxt/**', '/vercel/**', '/ru', '/ru/**']
+  zeroRuntime: true,
+  exclude: ['/api/**', '/_nuxt/**', '/vercel/**']
 },
 
   css: ["~/assets/scss/main.scss"],
 
-  // Security headers and performance optimization
+  // Vercel owns global security headers. Nitro keeps route-specific SEO/cache rules.
   nitro: {
     compressPublicAssets: true,
     prerender: {
-      routes: ['/sitemap_index.xml', '/robots.txt']
+      routes: ['/sitemap_index.xml', '/robots.txt'],
+      failOnError: true
     },
     esbuild: {
       options: {
@@ -96,40 +94,24 @@ sitemap: {
     experimental: {
       wasm: false
     },
-    externals: {
-      inline: ['@nuxt/ui']
-    },
     rollupConfig: {
       external: ['@nuxt/kit', 'node:url', 'node:path', 'node:fs']
     },
     routeRules: {
-      '/**': {
-        headers: {
-          'X-Content-Type-Options': 'nosniff',
-          'X-Frame-Options': 'DENY',
-          'X-XSS-Protection': '1; mode=block',
-          'Referrer-Policy': 'strict-origin-when-cross-origin',
-          'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
-          'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
-          'Cross-Origin-Embedder-Policy': 'credentialless',
-          'Cross-Origin-Opener-Policy': 'same-origin',
-          'Cross-Origin-Resource-Policy': 'same-origin',
-          'X-DNS-Prefetch-Control': 'off',
-          'Content-Security-Policy': "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self'; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests"
-        }
-      },
       '/': { prerender: true, headers: { 'cache-control': 's-maxage=86400' } },
       '/favicons': { prerender: true },
       '/favicons-text': { prerender: true },
       '/faq': { prerender: true },
       '/terms': { prerender: true },
       '/privacy': { prerender: true },
+      '/about': { prerender: true },
       '/en': { prerender: true },
       '/en/favicons': { prerender: true },
       '/en/favicons-text': { prerender: true },
       '/en/faq': { prerender: true },
       '/en/terms': { prerender: true },
       '/en/privacy': { prerender: true },
+      '/en/about': { prerender: true },
       '/api/**': {
         headers: {
           'X-Robots-Tag': 'noindex, nofollow'
@@ -159,10 +141,6 @@ sitemap: {
   typescript: {
     strict: true,
   },
-  build: {
-    transpile: ["@nuxt/ui"],
-  },
-
   experimental: {
     payloadExtraction: false,
     emitRouteChunkError: 'automatic'
@@ -203,18 +181,28 @@ sitemap: {
       },
     },
     optimizeDeps: {
-      exclude: ['@nuxt/kit', '@nuxt/ui']
-    },
-    ssr: {
-      noExternal: ['@nuxt/ui']
+      exclude: ['@nuxt/kit']
     }
   },
 
   robots: {
-  allow: ['/'],
+    allow: ['/']
+  },
 
-  disallow: [
-    '/.nuxt/', '/admin/', '/tmp/', '/temp/', '/vercel/'
-  ]
+  icon: {
+    provider: 'none',
+    clientBundle: {
+      icons: [
+        'lucide:sun',
+        'lucide:moon',
+        'lucide:heart',
+        'lucide:star',
+        'lucide:coffee',
+        'lucide:home',
+        'lucide:rocket',
+        'lucide:camera'
+      ],
+      scan: true
+    }
   }
 })

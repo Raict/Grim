@@ -66,7 +66,11 @@
         name: 'description',
         content: t('pages.terms.seoDescription')
       },
-      { name: 'robots', content: 'index, follow' }
+      { name: 'robots', content: 'index, follow' },
+      { property: 'og:title', content: t('pages.terms.seoTitle') },
+      { property: 'og:description', content: t('pages.terms.seoDescription') },
+      { name: 'twitter:title', content: t('pages.terms.seoTitle') },
+      { name: 'twitter:description', content: t('pages.terms.seoDescription') }
     ],
     script: [
       {

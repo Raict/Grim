@@ -1,17 +1,20 @@
 <template>
+  <ColorScheme tag="span">
     <button
       class="theme-switcher"
       @click="toggleTheme"
       :title="title"
       :aria-label="title"
-      :aria-pressed="isDark"
+      :aria-checked="isDark"
       role="switch"
     >
       <Icon
         :name="iconName"
         class="theme-switcher__icon"
+        aria-hidden="true"
       />
     </button>
+  </ColorScheme>
   </template>
   
   <script setup lang="ts">

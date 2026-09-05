@@ -20,30 +20,25 @@ const route = useRoute()
 const siteUrl = 'https://favicon-gen.com'
 const canonicalPath = computed(() => route.path.replace(/\/+$/, '') || '/')
 const canonicalUrl = computed(() => `${siteUrl}${canonicalPath.value === '/' ? '/' : canonicalPath.value}`)
-const unprefixedPath = computed(() => canonicalPath.value.replace(/^\/en(?=\/|$)/, '') || '/')
-const ukrainianUrl = computed(() => `${siteUrl}${unprefixedPath.value === '/' ? '/' : unprefixedPath.value}`)
-const englishUrl = computed(() => `${siteUrl}/en${unprefixedPath.value === '/' ? '' : unprefixedPath.value}`)
-
-const url = computed(() => {
-  return canonicalUrl.value
-})
-
-
-const ogLocale = computed(() => {
-  switch (locale.value) {
-    case 'uk':
-      return 'uk_UA'
-    default:
-      return 'en_US'
-  }
-})
-
-const ogImage = computed(() => `${siteUrl}/og-image-new.png`)
+const i18nHead = useLocaleHead({ seo: true })
+const ogImage = computed(() => locale.value === 'uk'
+  ? {
+      url: `${siteUrl}/og-image-uk-v2.jpg`,
+      width: '1200',
+      height: '630'
+    }
+  : {
+      url: `${siteUrl}/og-image-en-v2.jpg`,
+      width: '1200',
+      height: '630'
+    }
+)
 
 useHead(() => ({
   title: t('seo.fullTitle'),
   titleTemplate: '%s | FaviconGen',
   meta: [
+    ...(i18nHead.value.meta || []),
     { name: 'description', content: t('seo.description') },
     { name: 'author', content: t('seo.author') },
     { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
@@ -52,20 +47,18 @@ useHead(() => ({
     { property: 'og:title', content: t('seo.fullTitle') },
     { property: 'og:description', content: t('seo.socialDescription') },
     { property: 'og:type', content: 'website' },
-    { property: 'og:url', content: url.value },
-    { property: 'og:image', content: ogImage.value },
-    { property: 'og:image:secure_url', content: ogImage.value },
-    { property: 'og:image:width', content: '1200' },
-    { property: 'og:image:height', content: '630' },
+    { property: 'og:url', content: canonicalUrl.value },
+    { property: 'og:image', content: ogImage.value.url },
+    { property: 'og:image:secure_url', content: ogImage.value.url },
+    { property: 'og:image:width', content: ogImage.value.width },
+    { property: 'og:image:height', content: ogImage.value.height },
     { property: 'og:image:alt', content: t('seo.ogImageAlt') },
-    { property: 'og:image:type', content: 'image/png' },
+    { property: 'og:image:type', content: 'image/jpeg' },
     { property: 'og:site_name', content: t('seo.siteName') },
-    { property: 'og:locale', content: ogLocale.value },
-    { property: 'og:locale:alternate', content: locale.value === 'uk' ? 'en_US' : 'uk_UA' },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: t('seo.fullTitle') },
     { name: 'twitter:description', content: t('seo.socialDescription') },
-    { name: 'twitter:image', content: ogImage.value },
+    { name: 'twitter:image', content: ogImage.value.url },
     { name: 'twitter:image:alt', content: t('seo.ogImageAlt') },
     { name: 'twitter:domain', content: 'favicon-gen.com' },
     { name: 'application-name', content: t('seo.siteName') },
@@ -79,49 +72,22 @@ useHead(() => ({
     { name: 'format-detection', content: 'telephone=no' }
   ],
   link: [
+    ...(i18nHead.value.link || []).map(link => ({
+      ...link,
+      href: link.href === siteUrl ? `${siteUrl}/` : link.href
+    })),
     // Favicons
     { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
     { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
     { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/android-chrome-192x192.png' },
     { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
-    { rel: 'manifest', href: '/site.webmanifest' },
-    { rel: 'canonical', href: canonicalUrl.value },
-    { rel: 'alternate', hreflang: 'uk', href: ukrainianUrl.value },
-    { rel: 'alternate', hreflang: 'en', href: englishUrl.value },
-    { rel: 'alternate', hreflang: 'x-default', href: ukrainianUrl.value }
+    { rel: 'manifest', href: '/site.webmanifest' }
   ],
-  htmlAttrs: {
-    lang: locale.value
-  },
+  htmlAttrs: i18nHead.value.htmlAttrs,
   bodyAttrs: {
     class: 'antialiased'
-  },
-  script: [
-    {
-      type: 'application/ld+json',
-      innerHTML: () => JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'WebSite',
-        name: t('seo.siteName'),
-        url: url.value,
-        inLanguage: locale.value === 'uk' ? 'uk-UA' : 'en-US',
-        description: t('seo.description')
-      })
-    },
-    {
-      type: 'application/ld+json',
-      innerHTML: () => JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'Organization',
-        name: t('seo.siteName'),
-        url: 'https://favicon-gen.com',
-        logo: 'https://favicon-gen.com/android-chrome-512x512.png',
-        image: ogImage.value,
-        description: t('seo.description')
-      })
-    }
-  ]
+  }
 }))
 </script>
 
@@ -239,7 +205,7 @@ body {
   top: -40px;
   left: 6px;
   background: var(--primary);
-  color: white;
+  color: #052e2b;
   padding: spacing(sm) spacing(md);
   border-radius: border-radius(md);
   text-decoration: none;

@@ -112,7 +112,7 @@ const drawLogo = async () => {
   ctx.clearRect(0, 0, size, size)
 
   // Debug log to ensure this function is being called
-  if (process.dev) {
+  if (import.meta.dev) {
     console.log('DynamicLogo: Drawing logo with settings:', logoSettings)
   }
 
@@ -178,7 +178,7 @@ const drawLogo = async () => {
   ctx.restore()
 
   // Debug: Check if canvas has content
-  if (process.dev) {
+  if (import.meta.dev) {
     const imageData = ctx.getImageData(0, 0, size, size)
     const hasContent = Array.from(imageData.data).some((byte, index) => index % 4 === 3 && byte > 0) // Check alpha channel
     console.log('DynamicLogo: Canvas has content:', hasContent)

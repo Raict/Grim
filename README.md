@@ -12,7 +12,7 @@ Create professional favicons from images and text instantly. Fast, secure, and e
 - **PWA Ready**: Includes manifest.json and apple-touch-icon
 - **Secure**: Client-side processing with comprehensive security measures
 - **Fast**: Optimized for speed and performance
-- **Multilingual**: Supports Ukrainian, English, and Russian
+- **Multilingual**: Supports Ukrainian and English
 
 ## 🛠️ Tech Stack
 

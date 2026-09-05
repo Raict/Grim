@@ -212,7 +212,7 @@ useHead({
       ],
     });
 
-const nuxtToast = useToast()
+const nuxtToast = useAppToast()
 const toast = {
   success: (title: string) => nuxtToast.add({ title, color: 'success' }),
   error: (title: string) => nuxtToast.add({ title, color: 'error' })

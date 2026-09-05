@@ -60,7 +60,9 @@
         {
           property: 'og:type',
           content: 'website'
-        }
+        },
+        { name: 'twitter:title', content: t('converter.fullTitle') },
+        { name: 'twitter:description', content: t('converter.description') }
       ],
       script: [
         {
@@ -68,12 +70,14 @@
           innerHTML: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'WebApplication',
+            '@id': `${pageUrl.value}#application`,
             name: t('converter.pageHeading'),
             description: t('converter.description'),
             url: pageUrl.value,
             applicationCategory: 'DesignApplication',
             operatingSystem: 'Web Browser',
             inLanguage: locale.value === 'uk' ? 'uk-UA' : 'en-US',
+            isPartOf: { '@id': 'https://favicon-gen.com/#website' },
             offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
             featureList: [
               t('converter.guide.sections.convert.title'),

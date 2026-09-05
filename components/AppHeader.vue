@@ -22,23 +22,20 @@
 
         
 
-        <div class="header__menu" role="menubar" :aria-label="$t('a11y.siteNavigation')">
+        <div class="header__menu">
           <NuxtLink
                 :to=" localePath('/')"
                 class="header__link"
                 :class="{ 'header__link--active': isHomePage }"
-                role="menuitem"
-                :aria-label="$t('a11y.goHome')"
               >
                 <Icon name="lucide:home" aria-hidden="true" />
                 <span>{{ $t('nav.home') }}</span>
               </NuxtLink>
           <NuxtLink
             :to=" localePath('/favicons')"
+            prefetch-on="interaction"
             class="header__link"
             :class="{ 'header__link--active': $route.path === '/favicons' || $route.path === '/uk/favicons' || $route.path === '/en/favicons' }"
-            role="menuitem"
-            :aria-label="$t('a11y.openConverter')"
           >
             <!-- <Icon name="lucide:image"  class="home"/> -->
             <span>{{ $t('nav.converter') }}</span>
@@ -46,10 +43,9 @@
 
           <NuxtLink
             :to="localePath('/favicons-text')"
+            prefetch-on="interaction"
             class="header__link"
             :class="{ 'header__link--active': $route.path === '/favicons-text' || $route.path === '/uk/favicons-text' || $route.path === '/en/favicons-text' }"
-            role="menuitem"
-            :aria-label="$t('a11y.openTextGenerator')"
           >
             <!-- <Icon name="lucide:type" /> -->
             <span>{{ $t('nav.textGenerator') }}</span>
@@ -59,8 +55,6 @@
             :to="localePath('/faq')"
             class="header__link"
             :class="{ 'header__link--active': $route.path.includes('/faq') }"
-            role="menuitem"
-            :aria-label="$t('a11y.openFaq')"
           >
             <Icon name="lucide:help-circle" aria-hidden="true" />
             <span>{{ $t('nav.faq') }}</span>

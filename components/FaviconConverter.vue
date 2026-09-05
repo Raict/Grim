@@ -1,5 +1,5 @@
 <template>
-    <section id="favicon-converter" class="section" role="main" aria-labelledby="converter-title">
+    <section id="favicon-converter" class="section" aria-labelledby="converter-title">
       <div class="container">
         <div class="text-center converter-header">
           <h2 id="converter-title" class="converter-title">
@@ -69,7 +69,7 @@
   import JSZip from "jszip"
 import { createIcoFile } from "~/utils/icoGenerator" 
 
-  const toast = useToast()
+  const toast = useAppToast()
   const i18n = useI18n({ useScope: 'global' })
   
   const title = i18n.t('converter.title')

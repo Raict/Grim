@@ -193,24 +193,11 @@
       {
         property: 'og:description',
         content: t('pages.faq.description')
-      }
+      },
+      { name: 'twitter:title', content: t('pages.faq.title') },
+      { name: 'twitter:description', content: t('pages.faq.description') }
     ],
     script: [
-      {
-        type: 'application/ld+json',
-        innerHTML: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'FAQPage',
-          mainEntity: faqItems.map(item => ({
-            '@type': 'Question',
-            name: t(`pages.faq.items.${item.key}.question`),
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: t(`pages.faq.items.${item.key}.answer`).replace(/\*\*(.*?)\*\*/g, '$1').replace(/`(.*?)`/g, '$1')
-            }
-          }))
-        })
-      },
       {
         type: 'application/ld+json',
         innerHTML: JSON.stringify({

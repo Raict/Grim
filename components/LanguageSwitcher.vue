@@ -5,7 +5,8 @@
         class="language-switcher__trigger"
         @click="toggleDropdown"
         :aria-expanded="isOpen"
-        :aria-haspopup="true"
+        aria-haspopup="menu"
+        aria-controls="locale-menu"
         :aria-label="currentLocaleAriaLabel"
       >
         <span class="language-switcher__flag">
@@ -23,32 +24,28 @@
   
       <Transition name="dropdown">
         <div 
-          v-if="isOpen" 
+          id="locale-menu"
+          v-show="isOpen"
           class="language-switcher__dropdown"
           role="menu"
           :aria-label="$t('a11y.chooseLanguage')"
         >
-          <button
-            v-for="locale in availableLocales"
-            :key="locale.code"
+          <SwitchLocalePathLink
+            v-for="availableLocale in availableLocales"
+            :key="availableLocale.code"
+            :locale="availableLocale.code"
             class="language-switcher__option"
-            :class="{ 'language-switcher__option--active': locale.code === currentLocale.code }"
-            @click="switchLanguage(locale.code)"
+            @click="isOpen = false"
             role="menuitem"
-            :aria-label="$t('a11y.switchLanguage', { language: locale.name })"
+            :aria-label="$t('a11y.switchLanguage', { language: availableLocale.name })"
           >
             <span class="language-switcher__option-flag">
-              {{ getFlagEmoji(locale.code) }}
+              {{ getFlagEmoji(availableLocale.code) }}
             </span>
             <span class="language-switcher__option-name">
-              {{ locale.name }}
+              {{ availableLocale.name }}
             </span>
-            <Icon
-              v-if="locale.code === currentLocale.code"
-              name="lucide:check"
-              class="language-switcher__check"
-            />
-          </button>
+          </SwitchLocalePathLink>
         </div>
       </Transition>
     </div>
@@ -58,7 +55,6 @@
   import { useI18n } from 'vue-i18n';
   
   const { locale, locales, t } = useI18n({ useScope: 'global' })
-  const switchLocalePath = useSwitchLocalePath()
   const isOpen = ref(false)
   const dropdownRef = ref<HTMLElement | null>(null)
   
@@ -80,16 +76,6 @@
 
   const toggleDropdown = () => {
     isOpen.value = !isOpen.value
-  }
-  
-  const switchLanguage = async (code: string) => {
-    try {
-      await navigateTo(switchLocalePath(code as "uk" | "en"))
-      isOpen.value = false
-    } catch (error) {
-      console.error('Error switching language:', error)
-      isOpen.value = false
-    }
   }
   
   const closeDropdown = (event: Event) => {

@@ -34,6 +34,15 @@
               <p class="legal-section__content">
                 {{ $t(`pages.privacy.sections.${key}.content`) }}
               </p>
+              <a
+                v-if="key === 'contact'"
+                href="https://github.com/Raict/Grim/issues"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="legal-section__link"
+              >
+                {{ $t('pages.privacy.contactLink') }}
+              </a>
             </div>
           </div>
         </div>
@@ -66,7 +75,11 @@
         name: 'description',
         content: t('pages.privacy.seoDescription')
       },
-      { name: 'robots', content: 'index, follow' }
+      { name: 'robots', content: 'index, follow' },
+      { property: 'og:title', content: t('pages.privacy.seoTitle') },
+      { property: 'og:description', content: t('pages.privacy.seoDescription') },
+      { name: 'twitter:title', content: t('pages.privacy.seoTitle') },
+      { name: 'twitter:description', content: t('pages.privacy.seoDescription') }
     ],
     script: [
       {
@@ -111,6 +124,13 @@
       line-height: 1.7;
       font-size: font-size(base);
       margin: 0;
+    }
+
+    &__link {
+      display: inline-block;
+      margin-top: spacing(md);
+      color: var(--primary-dark);
+      font-weight: font-weight(semibold);
     }
   }
   

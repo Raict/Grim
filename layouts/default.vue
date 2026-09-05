@@ -1,7 +1,6 @@
 <template>
     <div class="app-layout layout-container" role="document">
-      <!-- <a href="#main-content" class="skip-link" aria-label="Перейти до основного вмісту сторінки">{{ $t('nav.skipToMain', 'Перейти до основного вмісту') }}</a> -->
-      <!-- <a href="#features-section" class="skip-link" aria-label="Перейти до розділу функцій">Перейти до функцій</a> -->
+      <a href="#main-content" class="skip-link">{{ $t('a11y.skipToMain') }}</a>
 
       <AppHeader />
 
@@ -10,12 +9,7 @@
       </main>
 
       <AppFooter />
-
-      <aside :aria-label="$t('a11y.additionalFeatures')" class="additional-features">
-        <CookieConsent />
-        <!-- Google AdSense  -->
-        <!-- <GoogleAdsense /> -->
-      </aside>
+      <AppToaster />
 
       <!-- Повідомлення для скрінрідерів -->
       <LiveAnnouncer />
@@ -146,7 +140,7 @@
     top: -40px;
     left: 6px;
     background: var(--primary);
-    color: white;
+    color: #052e2b;
     padding: spacing(sm) spacing(md);
     border-radius: border-radius(sm);
     text-decoration: none;

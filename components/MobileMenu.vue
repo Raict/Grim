@@ -4,16 +4,18 @@
       class="mobile-menu__trigger"
       @click="isOpen = true"
       :aria-label="$t('nav.openMenu')"
+      :aria-expanded="isOpen"
+      aria-controls="mobile-navigation"
     >
       <Icon name="lucide:menu" />
     </button>
 
     <div 
-      class="mobile-menu__overlay" 
-      :class="{ 'mobile-menu__overlay--show': isOpen }" 
+      v-if="isOpen"
+      class="mobile-menu__overlay mobile-menu__overlay--show"
       @click="isOpen = false"
     >
-      <div class="mobile-menu__content" @click.stop>
+      <div id="mobile-navigation" class="mobile-menu__content" role="dialog" aria-modal="true" :aria-label="$t('a11y.mobileNavigation')" @click.stop>
         <div class="mobile-menu__header">
           <div class="mobile-menu__logo">
             <div class="mobile-menu__logo-icon">
@@ -46,6 +48,7 @@
               
               <NuxtLink 
               :to="localePath('/favicons')" 
+                prefetch-on="interaction"
                 class="mobile-menu__nav-link"
                 :class="{ 'mobile-menu__nav-link--active': $route.path === '/favicons' }"
                 @click="isOpen = false"
@@ -56,6 +59,7 @@
               
               <NuxtLink 
                 :to="localePath('/favicons-text')" 
+                prefetch-on="interaction"
                 class="mobile-menu__nav-link"
                 :class="{ 'mobile-menu__nav-link--active': $route.path === '/favicons-text' }"
                 @click="isOpen = false"

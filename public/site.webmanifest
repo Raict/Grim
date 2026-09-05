@@ -1,6 +1,10 @@
 {
   "name": "FaviconGen — Free Favicon Generator",
   "short_name": "FaviconGen",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "description": "Create favicon.ico, PNG, Apple Touch and PWA icons privately in your browser.",
   "icons": [
     {
       "src": "/android-chrome-512x512.png",
@@ -15,5 +19,7 @@
   ],
   "theme_color": "#6ee7b7",
   "background_color": "#ffffff",
-  "display": "standalone"
+  "display": "standalone",
+  "orientation": "any",
+  "categories": ["utilities", "developer tools", "design"]
 }

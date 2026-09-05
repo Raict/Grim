@@ -40,6 +40,7 @@
                 <li>
                   <NuxtLink
                     :to="localePath('/favicons')"
+                    prefetch-on="interaction"
                     class="footer__link"
                     :class="{ 'footer__link--active': $route.path.includes('/favicons') && !$route.path.includes('/favicons-text') }"
                   >
@@ -50,6 +51,7 @@
                 <li>
                   <NuxtLink
                     :to="localePath('/favicons-text')"
+                    prefetch-on="interaction"
                     class="footer__link"
                     :class="{ 'footer__link--active': $route.path.includes('/favicons-text') }"
                   >
@@ -67,6 +69,16 @@
                 {{ $t('nav.about') }}
               </h4>
               <ul class="footer__links">
+                <li>
+                  <NuxtLink
+                    :to="localePath('/about')"
+                    class="footer__link"
+                    :class="{ 'footer__link--active': $route.path.includes('/about') }"
+                  >
+                    <Icon name="lucide:info" class="footer__link-icon" />
+                    {{ $t('footer.links.about') }}
+                  </NuxtLink>
+                </li>
                 <li>
                   <NuxtLink
                     :to="localePath('/faq')"
@@ -339,6 +351,14 @@ const scrollToTop = () => {
       font-weight: font-weight(medium);
       background: rgba(16, 185, 129, 0.1);
       border: 1px solid rgba(16, 185, 129, 0.2);
+
+      .light-mode & {
+        color: #047857;
+      }
+
+      .dark-mode & {
+        color: var(--primary-light);
+      }
     }
 
     &-icon {
@@ -394,7 +414,7 @@ const scrollToTop = () => {
   }
 
   &__made-with {
-    color: var(--text-tertiary);
+    color: var(--text-secondary);
     font-size: font-size(xs);
     margin: 0;
   }

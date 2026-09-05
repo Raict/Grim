@@ -412,7 +412,7 @@ interface FontObject {
   const generatedImages = ref<any[]>([])
   const showSuccess = ref(false)
   const progress = ref(0)
-  const toast = useToast()
+  const toast = useAppToast()
   const previewCanvas = ref<HTMLCanvasElement | null>(null)
   const FaviconPreviewRefs = reactive<Record<number, HTMLCanvasElement | null>>({})
   const fontFamily = ref(textSettings.fontFamily)
@@ -607,7 +607,7 @@ watch(
   }
 
   // Create debounced version of updateFavicon
-  let faviconUpdateTimeout: NodeJS.Timeout | null = null
+  let faviconUpdateTimeout: ReturnType<typeof setTimeout> | null = null
 
   const updateFavicon = (canvas: HTMLCanvasElement | null) => {
     if (!canvas) {
@@ -873,7 +873,7 @@ watch(
   
   
 useHead(() => ({
-    title: t('pages.textGenerator.title'),
+    title: t('pages.textGenerator.seoTitle'),
     meta: [
       {
         name: 'description',
@@ -881,7 +881,7 @@ useHead(() => ({
       },
       {
         property: 'og:title',
-        content: t('pages.textGenerator.title')
+        content: t('pages.textGenerator.seoTitle')
       },
       {
         property: 'og:description',
@@ -890,7 +890,9 @@ useHead(() => ({
       {
         property: 'og:type',
         content: 'website'
-      }
+      },
+      { name: 'twitter:title', content: t('pages.textGenerator.seoTitle') },
+      { name: 'twitter:description', content: t('pages.textGenerator.description') }
     ],
     script: [
       {
@@ -898,12 +900,14 @@ useHead(() => ({
         innerHTML: JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'WebApplication',
+          '@id': `${pageUrl.value}#application`,
           name: t('pages.textGenerator.title'),
           description: t('pages.textGenerator.description'),
           url: pageUrl.value,
           applicationCategory: 'DesignApplication',
           operatingSystem: 'Web Browser',
           inLanguage: locale.value === 'uk' ? 'uk-UA' : 'en-US',
+          isPartOf: { '@id': 'https://favicon-gen.com/#website' },
           offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }
         })
       },

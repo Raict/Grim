@@ -1,5 +1,5 @@
 <template>
-  <div role="main" itemscope itemtype="https://schema.org/WebPage">
+  <div itemscope itemtype="https://schema.org/WebPage">
     <!-- Hero Section -->
     <section class="hero-section fixed-header-section" aria-labelledby="main-heading" role="banner">
       <div class="hero-background" aria-hidden="true">
@@ -37,10 +37,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="browser-content" :aria-label="$t('a11y.demoWebsiteContent')">
+                <div class="browser-content">
                   <div class="demo-website">
                     <div class="demo-header" aria-hidden="true"></div>
-                    <div class="demo-content" aria-hidden="true">
+                    <div class="demo-content">
                       <div class="demo-line"></div>
                       <div class="demo-line"></div>
                       <div class="demo-bottom-section">
@@ -49,7 +49,7 @@
                           <div class="demo-line short"></div>
                         </div>
                         <div class="demo-cta">
-                          <NuxtLink :to="localePath('/favicons')" class="demo-generate-btn" :aria-label="$t('a11y.openConverter')">
+                          <NuxtLink :to="localePath('/favicons')" prefetch-on="interaction" class="demo-generate-btn">
                             <Icon name="lucide:sparkles" />
                             <span>{{ $t('pages.home.demo.generateBtn') }}</span>
                           </NuxtLink>
@@ -75,9 +75,9 @@
           </p>
         </header>
 
-        <div class="features-grid" role="list">
-          <article class="feature-card feature-card--primary" role="listitem">
-            <NuxtLink :to="localePath('/favicons')" class="feature-link" @mouseenter="playHoverSound" aria-describedby="converter-desc" :aria-label="$t('a11y.openConverter')">
+        <div class="features-grid">
+          <article class="feature-card feature-card--primary">
+            <NuxtLink :to="localePath('/favicons')" prefetch-on="interaction" class="feature-link" @mouseenter="playHoverSound">
             <div class="feature-card__icon" aria-hidden="true">
               <Icon name="lucide:image" :size="46" aria-hidden="true"/>
             </div>
@@ -86,16 +86,16 @@
               <p id="converter-desc" class="feature-card__description">
                 {{ $t('pages.home.features.converter.description') }}
               </p>
-              <ul class="feature-card__features" role="list">
-                <li class="feature-item" role="listitem">
+              <ul class="feature-card__features">
+                <li class="feature-item">
                   <Icon name="lucide:check" aria-hidden="true" />
                   <span>{{ $t('pages.home.features.converter.features.formats') }}</span>
                 </li>
-                <li class="feature-item" role="listitem">
+                <li class="feature-item">
                   <Icon name="lucide:check" aria-hidden="true" />
                   <span>{{ $t('pages.home.features.converter.features.zip') }}</span>
                 </li>
-                <li class="feature-item" role="listitem">
+                <li class="feature-item">
                   <Icon name="lucide:check" aria-hidden="true" />
                   <span>{{ $t('pages.home.features.converter.features.guide') }}</span>
                 </li>
@@ -108,8 +108,8 @@
           </article>
 
           <!-- Генератор з тексту -->
-          <article class="feature-card feature-card--secondary" role="listitem">
-            <NuxtLink :to="localePath('/favicons-text')" class="feature-link" @mouseenter="playHoverSound" aria-describedby="text-desc" :aria-label="$t('a11y.openTextGenerator')">
+          <article class="feature-card feature-card--secondary">
+            <NuxtLink :to="localePath('/favicons-text')" prefetch-on="interaction" class="feature-link" @mouseenter="playHoverSound">
             <div class="feature-card__icon" aria-hidden="true">
               <Icon name="lucide:type" :size="46" aria-hidden="true"/>
             </div>
@@ -118,16 +118,16 @@
               <p id="text-desc" class="feature-card__description">
                 {{ $t('pages.home.features.text.description') }}
               </p>
-              <ul class="feature-card__features" role="list">
-                <li class="feature-item" role="listitem">
+              <ul class="feature-card__features">
+                <li class="feature-item">
                   <Icon name="lucide:check" aria-hidden="true" />
                   <span>{{ $t('pages.home.features.text.features.fonts') }}</span>
                 </li>
-                <li class="feature-item" role="listitem">
+                <li class="feature-item">
                   <Icon name="lucide:check" aria-hidden="true" />
                   <span>{{ $t('pages.home.features.text.features.colors') }}</span>
                 </li>
-                <li class="feature-item" role="listitem">
+                <li class="feature-item">
                   <Icon name="lucide:check" aria-hidden="true" />
                   <span>{{ $t('pages.home.features.text.features.effects') }}</span>
                 </li>
@@ -185,10 +185,10 @@
     </section> -->
 
     <!-- Benefits Section -->
-    <!-- <section class="benefits-section">
+    <section class="benefits-section" aria-labelledby="benefits-heading">
       <div class="container">
         <div class="section-header">
-          <h2 class="section-title">{{ $t('pages.home.benefits.title') }}</h2>
+          <h2 id="benefits-heading" class="section-title">{{ $t('pages.home.benefits.title') }}</h2>
         </div>
 
         <div class="benefits-grid">
@@ -233,23 +233,28 @@
           </div>
         </div>
       </div>
-    </section> -->
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n({ useScope: 'global' });
+const { t, locale } = useI18n({ useScope: 'global' });
 const localePath = useLocalePath()
 const route = useRoute()
 const pageUrl = computed(() => `https://favicon-gen.com${route.path === '/' ? '/' : route.path}`)
+const homeOgImage = computed(() => `https://favicon-gen.com/og-image-${locale.value === 'uk' ? 'uk' : 'en'}-v2.jpg`)
 
-useHead({
+useHead(() => ({
   title: t('pages.home.fullTitle'),
   meta: [
     {
       name: 'description',
       content: t('pages.home.description'),
     },
+    { property: 'og:title', content: t('pages.home.fullTitle') },
+    { property: 'og:description', content: t('pages.home.description') },
+    { name: 'twitter:title', content: t('pages.home.fullTitle') },
+    { name: 'twitter:description', content: t('pages.home.description') },
   ],
   script: [
     {
@@ -257,11 +262,15 @@ useHead({
       innerHTML: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'WebPage',
+        '@id': `${pageUrl.value}#webpage`,
         name: t('pages.home.fullTitle'),
         description: t('pages.home.description'),
         url: pageUrl.value,
+        primaryImageOfPage: homeOgImage.value,
+        inLanguage: locale.value === 'uk' ? 'uk-UA' : 'en-US',
+        isPartOf: { '@id': 'https://favicon-gen.com/#website' },
         mainEntity: {
-          '@type': 'SoftwareApplication',
+          '@type': 'WebApplication',
           name: 'FaviconGen',
           applicationCategory: 'DesignApplication',
           operatingSystem: 'Web Browser',
@@ -281,9 +290,36 @@ useHead({
           }]
         }
       })
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        '@id': 'https://favicon-gen.com/#website',
+        name: 'FaviconGen',
+        url: 'https://favicon-gen.com/',
+        description: t('seo.description'),
+        inLanguage: ['uk-UA', 'en-US'],
+        publisher: { '@id': 'https://favicon-gen.com/#organization' }
+      })
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        '@id': 'https://favicon-gen.com/#organization',
+        name: 'FaviconGen',
+        url: 'https://favicon-gen.com/',
+        logo: 'https://favicon-gen.com/android-chrome-512x512.png',
+        image: homeOgImage.value,
+        description: t('seo.description'),
+        sameAs: ['https://github.com/Raict/Grim']
+      })
     }
   ]
-});
+}));
 
 const faviconVariants = [
   { icon: 'lucide:heart', color: '#ef4444' },
@@ -304,7 +340,7 @@ const playHoverSound = () => {
 }
 
 onMounted(() => {
-  if (process.client) {
+  if (import.meta.client) {
     faviconInterval = window.setInterval(() => {
       currentFaviconIndex.value = (currentFaviconIndex.value + 1) % faviconVariants.length
     }, 3000)
@@ -312,7 +348,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  if (faviconInterval && process.client) {
+  if (faviconInterval && import.meta.client) {
     window.clearInterval(faviconInterval)
     faviconInterval = undefined
   }

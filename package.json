@@ -11,31 +11,25 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@nuxt/ui": "^3.3.4",
+    "@nuxt/icon": "^1.15.0",
     "@nuxtjs/color-mode": "^3.5.2",
-    "@nuxtjs/i18n": "^9.5.5",
-    "file-saver": "^2.0.5",
+    "@nuxtjs/i18n": "^9.5.6",
     "jszip": "^3.10.1",
-    "lucide-vue-next": "^0.515.0",
-    "nuxt": "^3.17.5",
-    "pica": "^9.0.1",
-    "sass": "^1.89.2",
-    "vue": "^3.5.16",
+    "nuxt": "^3.21.11",
+    "sass": "^1.104.0",
+    "vue": "^3.5.42",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.49",
-    "@nuxt/typescript-build": "^3.0.2",
-    "@nuxtjs/robots": "^6.1.2",
-    "@nuxtjs/sitemap": "^8.2.2",
-    "@types/file-saver": "^2.0.7",
-    "@types/pica": "^9.0.5",
+    "@iconify-json/lucide": "^1.2.129",
+    "@nuxt/kit": "^3.21.11",
+    "@nuxtjs/robots": "^6.2.0",
+    "@nuxtjs/sitemap": "^8.5.0",
     "canvas": "^3.2.3",
-    "cloudinary": "^2.10.0",
-    "gh-pages": "^6.3.0",
-    "nuxt-site-config": "^4.1.1",
-    "typescript": "^5.8.3",
-    "vue-tsc": "^3.3.7"
+    "cloudinary": "^2.11.0",
+    "nuxt-site-config": "^4.2.3",
+    "typescript": "^5.9.3",
+    "vue-tsc": "^3.3.11"
   },
   "overrides": {
     "vite": "^6.4.3"
