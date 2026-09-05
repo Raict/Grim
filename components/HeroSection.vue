@@ -44,8 +44,11 @@
 
                 <div class="preview-icons">
                   <div v-for="size in [64, 48, 34, 24]" :key="size" class="preview-icon">
-                    <span class="preview-icon__tile" :style="{ width: `${size}px`, height: `${size}px` }">
-                      <Icon name="lucide:zap" />
+                    <span
+                      class="preview-icon__tile"
+                      :style="{ width: `${size}px`, height: `${size}px` }"
+                    >
+                      <Icon name="lucide:zap" :size="Math.max(12, Math.round(size * 0.5))" />
                     </span>
                     <span class="preview-icon__size">{{ size }}px</span>
                   </div>
@@ -597,7 +600,9 @@ const scrollToConverter = () => {
     border-radius: 24%;
     box-shadow: 0 9px 20px rgba(32, 199, 197, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 
-    svg { width: 54%; height: 54%; fill: white; }
+    svg {
+      fill: white;
+    }
   }
 
   &__size { color: var(--browser-muted); font-size: 10px; }

@@ -16,6 +16,8 @@
 import { useI18n } from 'vue-i18n'
 const { t, locale } = useI18n({ useScope: 'global' })
 const route = useRoute()
+const browserFaviconHref = useState<string | null>('browser-favicon-href', () => null)
+const browserFaviconType = computed(() => browserFaviconHref.value ? 'image/png' : 'image/x-icon')
 
 const siteUrl = 'https://favicon-gen.com'
 const canonicalPath = computed(() => route.path.replace(/\/+$/, '') || '/')
@@ -77,10 +79,10 @@ useHead(() => ({
       href: link.href === siteUrl ? `${siteUrl}/` : link.href
     })),
     // Favicons
-    { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-    { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
-    { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
-    { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/android-chrome-192x192.png' },
+    { key: 'favicon-ico', rel: 'icon', type: browserFaviconType.value, href: browserFaviconHref.value || '/favicon.ico' },
+    { key: 'favicon-16', rel: 'icon', type: 'image/png', sizes: '16x16', href: browserFaviconHref.value || '/favicon-16x16.png' },
+    { key: 'favicon-32', rel: 'icon', type: 'image/png', sizes: '32x32', href: browserFaviconHref.value || '/favicon-32x32.png' },
+    { key: 'favicon-192', rel: 'icon', type: 'image/png', sizes: '192x192', href: browserFaviconHref.value || '/android-chrome-192x192.png' },
     { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
     { rel: 'manifest', href: '/site.webmanifest' }
   ],

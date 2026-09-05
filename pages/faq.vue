@@ -267,10 +267,10 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    min-height: 60vh;
     display: flex;
     align-items: center;
-    padding: spacing(4xl) 0 spacing(3xl);
+    min-height: calc((var(--vh, 1vh) * 100) - var(--header-height));
+    padding: spacing(2xl) 0;
     color: var(--hero-heading);
     background: var(--hero-surface);
     border-bottom: 1px solid var(--hero-border);
@@ -287,17 +287,15 @@
     }
 
     @include respond-to(md) {
-      padding: spacing(6xl) 0 spacing(4xl);
+      padding: spacing(3xl) 0;
     }
 
     @include respond-to(2xl) {
-      min-height: 680px;
-      padding: spacing(6xl) 0 spacing(5xl);
+      padding: spacing(3xl) 0;
     }
 
     @include respond-to(3xl) {
-      min-height: 780px;
-      padding: spacing(7xl) 0 spacing(6xl);
+      padding: spacing(4xl) 0;
     }
   }
 

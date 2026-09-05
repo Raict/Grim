@@ -2,6 +2,11 @@
   <div>
     <!-- Hero Section -->
     <section class="section section--hero section--text-generator fixed-header-section">
+      <div class="hero-background" aria-hidden="true">
+        <div class="hero-gradient"></div>
+        <div class="hero-glow"></div>
+      </div>
+
       <div class="container">
         <div class="hero-content fixed-header-content">
           <h1 class="section__title">
@@ -610,33 +615,6 @@ watch(
     }
   }
 
-  // Create debounced version of updateFavicon
-  let faviconUpdateTimeout: ReturnType<typeof setTimeout> | null = null
-
-  const updateFavicon = (canvas: HTMLCanvasElement | null) => {
-    if (!canvas) {
-      return
-    }
-
-    // Clear existing timeout
-    if (faviconUpdateTimeout) {
-      clearTimeout(faviconUpdateTimeout)
-    }
-
-    // Debounce the favicon update
-    faviconUpdateTimeout = setTimeout(() => {
-      const dataUrl = canvas.toDataURL('image/png')
-      let Favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement | null
-      if (!Favicon) {
-        Favicon = document.createElement('link') as HTMLLinkElement
-        Favicon.rel = 'icon'
-        document.head.appendChild(Favicon)
-      }
-      Favicon.setAttribute('type', 'image/png')
-      Favicon.setAttribute('href', dataUrl)
-    }, 100) // Wait 100ms before updating
-  }
-  
   // Helper function to create text-based image (like resizeImage but for text)
   async function createTextImage(size: number): Promise<Blob> {
     const canvas = document.createElement('canvas')
@@ -820,7 +798,6 @@ watch(
         const canvas = FaviconPreviewRefs[size]
         if (canvas && !fontIsLoading.value) drawTextOnCanvas(canvas, size)
       })
-      updateFavicon(FaviconPreviewRefs[32] || null)
     },
     { deep: true }
   )
@@ -870,7 +847,6 @@ watch(
         const canvas = FaviconPreviewRefs[size]
         if (canvas && !fontIsLoading.value) drawTextOnCanvas(canvas, size)
       })
-      updateFavicon(FaviconPreviewRefs[32] || null) // Initial favicon setup only
       updatePreview()
     })
   })
@@ -932,24 +908,81 @@ useHead(() => ({
   
   <style lang="scss" scoped>
   .section--text-generator {
-    background: var(--bg-primary);
-    padding: 2rem 0 spacing(xl);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: spacing(3xl) 0 spacing(2xl);
+    color: var(--hero-heading);
+    background: var(--hero-surface);
+    border-bottom: 1px solid var(--hero-border);
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image: radial-gradient(circle, var(--hero-dots) 3px, transparent 3.8px);
+      background-size: 76px 76px;
+      mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.38) 100%);
+      pointer-events: none;
+    }
 
     @include respond-to(2xl) {
-      padding: spacing(5xl) 0 spacing(3xl);
+      padding: spacing(4xl) 0 spacing(3xl);
     }
 
     @include respond-to(3xl) {
-      padding: spacing(6xl) 0 spacing(4xl);
+      padding: spacing(5xl) 0 spacing(4xl);
+    }
+
+    .container,
+    .hero-content {
+      position: relative;
+      z-index: 2;
     }
   
     .section__title {
-      margin-bottom: 0.5rem;
+      margin-bottom: spacing(md);
+      background: var(--hero-title-gradient);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: font-weight(extrabold);
+      line-height: 1.08;
     }
   
     .section__subtitle {
       margin-bottom: 0;
+      color: var(--hero-subheading);
+      font-size: font-size(lg);
+      font-weight: font-weight(medium);
     }
+  }
+
+  .hero-background {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .hero-gradient {
+    position: absolute;
+    inset: 0;
+    background: var(--hero-gradient);
+    background-size: 160% 160%;
+    animation: gradientShift 15s ease infinite;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 900px;
+    height: 460px;
+    background: var(--hero-glow);
+    filter: blur(36px);
+    transform: translate(-50%, -50%);
+    animation: glowPulse 6s ease-in-out infinite;
   }
 
   .text-seo-guide {
@@ -1616,5 +1649,15 @@ useHead(() => ({
         height: 20px;
       }
     }
+  }
+
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.62; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.04); }
   }
   </style>

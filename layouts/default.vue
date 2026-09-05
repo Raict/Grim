@@ -17,7 +17,19 @@
   </template>
   
   <script setup lang="ts">
+  import { renderBrowserFaviconFromTextSettings } from '~/utils/browserFavicon'
+
   const colorMode = useColorMode()
+  const route = useRoute()
+  const browserFaviconHref = useState<string | null>('browser-favicon-href', () => null)
+
+  const syncBrowserFavicon = () => {
+    renderBrowserFaviconFromTextSettings().then(href => {
+      browserFaviconHref.value = href
+    }).catch(error => {
+      console.warn('Failed to sync browser favicon:', error)
+    })
+  }
 
   const syncBodyThemeClass = (mode: string) => {
     if (!import.meta.client) return
@@ -28,6 +40,20 @@
 
   onMounted(() => {
     syncBodyThemeClass(colorMode.value)
+    syncBrowserFavicon()
+    window.addEventListener('logo-settings-changed', syncBrowserFavicon)
+    window.addEventListener('storage', syncBrowserFavicon)
+  })
+
+  watch(() => route.fullPath, () => {
+    if (!import.meta.client) return
+    nextTick(syncBrowserFavicon)
+  })
+
+  onUnmounted(() => {
+    if (!import.meta.client) return
+    window.removeEventListener('logo-settings-changed', syncBrowserFavicon)
+    window.removeEventListener('storage', syncBrowserFavicon)
   })
 
   watch(() => colorMode.value, (newMode) => {

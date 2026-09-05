@@ -38,20 +38,20 @@
     <section class="section project-section" aria-labelledby="maintainer-title">
       <div class="container">
         <div class="project-section__content">
-        <div class="project-section__copy">
-          <h2 id="maintainer-title" class="section-heading">{{ $t('pages.about.maintainerTitle') }}</h2>
-          <p>{{ $t('pages.about.maintainer') }}</p>
-        </div>
-        <div class="project-actions">
-          <a href="https://github.com/Raict/Grim" target="_blank" rel="noopener noreferrer" class="project-link">
-            <Icon name="lucide:github" aria-hidden="true" />
-            {{ $t('pages.about.github') }}
-          </a>
-          <a href="https://ko-fi.com/serhieie" target="_blank" rel="noopener noreferrer" class="project-link project-link--secondary">
-            <Icon name="lucide:coffee" aria-hidden="true" />
-            {{ $t('pages.about.support') }}
-          </a>
-        </div>
+          <div class="project-section__copy">
+            <h2 id="maintainer-title" class="section-heading">{{ $t('pages.about.maintainerTitle') }}</h2>
+            <p>{{ $t('pages.about.maintainer') }}</p>
+          </div>
+          <div class="project-actions">
+            <a href="https://github.com/Raict/Grim" target="_blank" rel="noopener noreferrer" class="project-link">
+              <Icon name="lucide:github" aria-hidden="true" />
+              {{ $t('pages.about.github') }}
+            </a>
+            <a href="https://ko-fi.com/serhieie" target="_blank" rel="noopener noreferrer" class="project-link project-link--secondary">
+              <Icon name="lucide:coffee" aria-hidden="true" />
+              {{ $t('pages.about.support') }}
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -113,17 +113,20 @@ useHead(() => ({
 
 .section--hero {
   overflow: hidden;
-  padding: spacing(3xl) 0 spacing(2xl);
+  display: flex;
+  align-items: center;
+  min-height: calc((var(--vh, 1vh) * 100) - var(--header-height));
+  padding: spacing(2xl) 0;
   background:
     radial-gradient(circle at 74% 28%, rgba(104, 117, 245, 0.16), transparent 34%),
     radial-gradient(circle at 24% 64%, rgba(34, 199, 201, 0.1), transparent 32%);
 
   @include respond-to(md) {
-    padding: spacing(4xl) 0 spacing(3xl);
+    padding: spacing(3xl) 0;
   }
 
   @include respond-to(3xl) {
-    padding: spacing(5xl) 0 spacing(4xl);
+    padding: spacing(4xl) 0;
   }
 }
 
@@ -133,19 +136,16 @@ useHead(() => ({
   gap: spacing(2xl);
   max-width: 1180px;
   margin: 0 auto;
-  text-align: left;
+  text-align: center;
 
   @include respond-to(md) {
     grid-template-columns: minmax(0, 1.35fr) minmax(240px, 0.65fr);
+    text-align: left;
   }
 }
 
 .hero-copy {
   max-width: 760px;
-
-  @include respond-to(sm-down) {
-    text-align: center;
-  }
 }
 
 .hero-eyebrow {

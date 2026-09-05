@@ -49,7 +49,7 @@
                         class="demo-favicon-tile"
                         :style="[{ width: `${size}px`, height: `${size}px` }, faviconStyle]"
                       >
-                        <Icon :name="currentFavicon.icon" />
+                        <Icon :name="currentFavicon.icon" :size="Math.max(12, Math.round(size * 0.52))" />
                       </span>
                     </div>
                     <div class="demo-content">
@@ -932,8 +932,6 @@ onUnmounted(() => {
       inset 0 1px 0 rgba(255, 255, 255, 0.3);
 
     svg {
-      width: 56%;
-      height: 56%;
       stroke-width: 2.4;
       color: inherit;
       stroke: currentColor;
