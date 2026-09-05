@@ -15,6 +15,9 @@
           <p class="section__subtitle">
             {{ $t('pages.textGenerator.subtitle') }}
           </p>
+          <p class="text-logo-note">
+            {{ $t('pages.textGenerator.logoExportNote') }}
+          </p>
         </div>
       </div>
     </section>
@@ -88,6 +91,17 @@
                     </option>
                   </select>
                 </div>
+                <div class="form-group form-group--font">
+                  <label class="form-label" for="brand-text-input">{{ $t('pages.textGenerator.settings.text.logoText') }}</label>
+                  <input
+                    id="brand-text-input"
+                    v-model="textSettings.brandText"
+                    type="text"
+                    class="form-input form-input--text"
+                    maxlength="32"
+                    placeholder="FaviconGen"
+                  />
+                </div>
               </div>
               <div class="form-group">
                 <label class="form-label" for="font-weight-select">{{ $t('pages.textGenerator.settings.text.weight') }}</label>
@@ -111,6 +125,65 @@
                     aria-describedby="font-size-value"
                   />
                   <span id="font-size-value" class="range-value" aria-live="polite">{{ textSettings.fontSize }}px</span>
+                </div>
+              </div>
+
+              <div class="position-controls">
+                <div class="form-group">
+                  <label class="form-label" for="text-position-x">{{ $t('pages.textGenerator.settings.text.positionX') }}</label>
+                  <div class="range-group">
+                    <input
+                      id="text-position-x"
+                      v-model.number="textSettings.textOffsetX"
+                      type="range"
+                      min="-40"
+                      max="40"
+                      class="form-range"
+                    />
+                    <span class="range-value" aria-live="polite">{{ textSettings.textOffsetX }}%</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="text-position-y">{{ $t('pages.textGenerator.settings.text.positionY') }}</label>
+                  <div class="range-group">
+                    <input
+                      id="text-position-y"
+                      v-model.number="textSettings.textOffsetY"
+                      type="range"
+                      min="-40"
+                      max="40"
+                      class="form-range"
+                    />
+                    <span class="range-value" aria-live="polite">{{ textSettings.textOffsetY }}%</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="text-position-diagonal-down">{{ $t('pages.textGenerator.settings.text.positionDiagonalDown') }}</label>
+                  <div class="range-group">
+                    <input
+                      id="text-position-diagonal-down"
+                      v-model.number="textSettings.textDiagonalDownOffset"
+                      type="range"
+                      min="-40"
+                      max="40"
+                      class="form-range"
+                    />
+                    <span class="range-value" aria-live="polite">{{ textSettings.textDiagonalDownOffset }}%</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="text-position-diagonal-up">{{ $t('pages.textGenerator.settings.text.positionDiagonalUp') }}</label>
+                  <div class="range-group">
+                    <input
+                      id="text-position-diagonal-up"
+                      v-model.number="textSettings.textDiagonalUpOffset"
+                      type="range"
+                      min="-40"
+                      max="40"
+                      class="form-range"
+                    />
+                    <span class="range-value" aria-live="polite">{{ textSettings.textDiagonalUpOffset }}%</span>
+                  </div>
                 </div>
               </div>
 
@@ -291,6 +364,153 @@
                 </div>
               </div>
 
+              <div class="logo-save-panel">
+                <div class="logo-options-row">
+                  <label
+                    class="logo-checkbox-option"
+                    :class="{ 'logo-checkbox-option--selected': textSettings.useBrandTextColor }"
+                  >
+                    <input v-model="textSettings.useBrandTextColor" type="checkbox" />
+                    <span class="logo-checkbox-option__box">
+                      <Icon v-if="textSettings.useBrandTextColor" name="lucide:check" />
+                    </span>
+                    <span class="logo-checkbox-option__label">{{ $t('pages.textGenerator.settings.colors.setLogoTitleColor') }}</span>
+                  </label>
+
+                  <label
+                    class="logo-checkbox-option"
+                    :class="{ 'logo-checkbox-option--selected': textSettings.saveLogoSvg }"
+                  >
+                    <input v-model="textSettings.saveLogoSvg" type="checkbox" />
+                    <span class="logo-checkbox-option__box">
+                      <Icon v-if="textSettings.saveLogoSvg" name="lucide:check" />
+                    </span>
+                    <span class="logo-checkbox-option__label">{{ $t('pages.textGenerator.settings.colors.saveLogoSvg') }}</span>
+                  </label>
+                </div>
+
+                <div class="save-logo-hint" aria-hidden="true">
+                  <svg viewBox="0 0 32 32" focusable="false">
+                    <path d="M20.3,8.1V6c0-0.8,0.9-1.3,1.5-0.8l6.8,6c0.5,0.4,0.5,1.2,0,1.6l-6.8,6c-0.6,0.5-1.5,0-1.5-0.8v-2h-0.9C12.4,16,5.9,20.3,3,27C3,16.8,10.7,8.6,20.3,8.1z"/>
+                  </svg>
+                  <span>{{ $t('pages.textGenerator.settings.colors.saveLogoHint') }}</span>
+                </div>
+              </div>
+
+              <div v-if="textSettings.useBrandTextColor" class="logo-title-controls">
+                <div class="form-group logo-title-style">
+                  <label class="form-label">{{ $t('pages.textGenerator.settings.colors.logoTitleStyle') }}</label>
+                  <div class="radio-group">
+                    <label class="radio-option">
+                      <input v-model="textSettings.brandTextColorType" type="radio" value="solid" />
+                      <span class="radio-custom"></span>
+                      <span>{{ $t('pages.textGenerator.settings.colors.solid') }}</span>
+                    </label>
+                    <label class="radio-option">
+                      <input v-model="textSettings.brandTextColorType" type="radio" value="gradient" />
+                      <span class="radio-custom"></span>
+                      <span>{{ $t('pages.textGenerator.settings.colors.gradient') }}</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="logo-title-palettes">
+                  <div class="color-block logo-title-color">
+                    <div class="palette-bg">
+                      <label class="palette-label">{{ $t('pages.textGenerator.settings.colors.logoTitleColor') }}</label>
+                      <div class="color-palette-pro">
+                        <template v-for="(row, i) in colorPaletteColumns" :key="'brand-row-' + i">
+                          <div class="color-row">
+                            <button
+                              v-for="color in row"
+                              :key="'brand-' + color"
+                              class="color-swatch"
+                              :style="{ backgroundColor: color }"
+                              @click="textSettings.brandTextColor = color"
+                              :class="{ 'color-swatch--active': textSettings.brandTextColor === color }"
+                              :title="color"
+                            ></button>
+                          </div>
+                        </template>
+                        <div class="color-row grayscale-column">
+                          <button
+                            v-for="color in grayscalePalette"
+                            :key="'brand-gray-' + color"
+                            class="color-swatch"
+                            :style="{ backgroundColor: color }"
+                            @click="textSettings.brandTextColor = color"
+                            :class="{ 'color-swatch--active': textSettings.brandTextColor === color }"
+                            :title="color"
+                          ></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="color-input-row">
+                      <input
+                        v-model="textSettings.brandTextColor"
+                        type="color"
+                        class="color-picker"
+                        :style="{ background: textSettings.brandTextColor }"
+                      />
+                      <input
+                        v-model="textSettings.brandTextColor"
+                        type="text"
+                        class="color-input"
+                        maxlength="7"
+                        placeholder="#22D3EE"
+                      />
+                    </div>
+                  </div>
+
+                  <div v-if="textSettings.brandTextColorType === 'gradient'" class="color-block logo-title-color">
+                    <div class="palette-bg">
+                      <label class="palette-label">{{ $t('pages.textGenerator.settings.colors.logoTitleGradientColor') }}</label>
+                      <div class="color-palette-pro">
+                        <template v-for="(row, i) in colorPaletteColumns" :key="'brand-gradient-row-' + i">
+                          <div class="color-row">
+                            <button
+                              v-for="color in row"
+                              :key="'brand-gradient-' + color"
+                              class="color-swatch"
+                              :style="{ backgroundColor: color }"
+                              @click="textSettings.brandTextGradientColor = color"
+                              :class="{ 'color-swatch--active': textSettings.brandTextGradientColor === color }"
+                              :title="color"
+                            ></button>
+                          </div>
+                        </template>
+                        <div class="color-row grayscale-column">
+                          <button
+                            v-for="color in grayscalePalette"
+                            :key="'brand-gradient-gray-' + color"
+                            class="color-swatch"
+                            :style="{ backgroundColor: color }"
+                            @click="textSettings.brandTextGradientColor = color"
+                            :class="{ 'color-swatch--active': textSettings.brandTextGradientColor === color }"
+                            :title="color"
+                          ></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="color-input-row">
+                      <input
+                        v-model="textSettings.brandTextGradientColor"
+                        type="color"
+                        class="color-picker"
+                        :style="{ background: textSettings.brandTextGradientColor }"
+                      />
+                      <input
+                        v-model="textSettings.brandTextGradientColor"
+                        type="text"
+                        class="color-input"
+                        maxlength="7"
+                        placeholder="#4F46E5"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div v-if="textSettings.backgroundType === 'transparent'" class="form-group">
                 <label class="form-label">{{ $t('pages.textGenerator.settings.text.opacity') }}</label>
                 <div class="range-group">
@@ -404,6 +624,12 @@ interface FontObject {
     }
   })
 
+  watch(() => textSettings.brandText, (newText) => {
+    if (newText && newText.length > 32) {
+      textSettings.brandText = newText.slice(0, 32)
+    }
+  })
+
   // Helper function to get supported font weights
   function getSupportedFontWeights(fontFamily: string): number[] {
     return FONT_WEIGHTS[fontFamily] || [400, 700]
@@ -446,6 +672,60 @@ interface FontObject {
     label: `${w}  ${FONT_WEIGHT_LABELS[w] || 'Unknown'}`
   }))
 )
+
+const escapeSvgText = (value: string) => value
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+
+const getLogoTitle = () => (textSettings.brandText || BRAND_LOGO_SETTINGS.brandText).trim() || BRAND_LOGO_SETTINGS.brandText
+
+const getLogoTextFill = () => (
+  textSettings.useBrandTextColor && textSettings.brandTextColorType === 'solid'
+    ? textSettings.brandTextColor
+    : 'url(#logoTextGradient)'
+)
+
+const createLogoSvg = () => {
+  const logoText = getLogoTitle()
+  const iconSize = 96
+  const gap = 22
+  const estimatedTextWidth = Math.max(180, logoText.length * 28)
+  const width = iconSize + gap + estimatedTextWidth
+  const height = 144
+  const iconX = 8
+  const iconY = 24
+  const radius = (Math.max(0, Math.min(textSettings.borderRadiusPercent, 100)) / 100) * (iconSize / 2)
+  const safeFontFamily = escapeSvgText(textSettings.fontFamily)
+  const safeBrandFontFamily = escapeSvgText(textSettings.brandTextFontFamily)
+  const safeIconText = escapeSvgText(textSettings.text)
+  const safeLogoText = escapeSvgText(logoText)
+  const iconFill = textSettings.backgroundType === 'gradient' ? 'url(#iconGradient)' : textSettings.backgroundColor
+  const iconOpacity = textSettings.backgroundType === 'transparent' ? textSettings.backgroundAlpha / 100 : 1
+  const logoGradientStart = textSettings.useBrandTextColor ? textSettings.brandTextColor : textSettings.backgroundColor
+  const logoGradientEnd = textSettings.useBrandTextColor ? textSettings.brandTextGradientColor : textSettings.gradientColor
+  const diagonalDownOffset = textSettings.textDiagonalDownOffset || 0
+  const diagonalUpOffset = textSettings.textDiagonalUpOffset || 0
+  const iconTextX = iconX + iconSize / 2 + iconSize * (((textSettings.textOffsetX || 0) + diagonalDownOffset + diagonalUpOffset) / 100)
+  const iconTextY = iconY + iconSize / 2 + iconSize * (((textSettings.textOffsetY || 0) + diagonalDownOffset - diagonalUpOffset) / 100)
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="${safeLogoText} logo">
+  <defs>
+    <linearGradient id="iconGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="${textSettings.backgroundColor}" />
+      <stop offset="100%" stop-color="${textSettings.gradientColor}" />
+    </linearGradient>
+    <linearGradient id="logoTextGradient" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="${logoGradientStart}" />
+      <stop offset="100%" stop-color="${logoGradientEnd}" />
+    </linearGradient>
+  </defs>
+  <rect x="${iconX}" y="${iconY}" width="${iconSize}" height="${iconSize}" rx="${radius}" fill="${iconFill}" opacity="${iconOpacity}" />
+  <text x="${iconTextX}" y="${iconTextY}" text-anchor="middle" dominant-baseline="central" font-family="${safeFontFamily}, system-ui, sans-serif" font-size="60" font-weight="${textSettings.fontWeight}" fill="${textSettings.textColor}">${safeIconText}</text>
+  <text x="${iconX + iconSize + gap}" y="${height / 2 + 2}" dominant-baseline="central" font-family="${safeBrandFontFamily}, system-ui, sans-serif" font-size="46" font-weight="${textSettings.fontWeight}" fill="${getLogoTextFill()}">${safeLogoText}</text>
+</svg>`
+}
 
   const  setFaviconPreviewRef = (size: number, el: HTMLCanvasElement | null) => {
     FaviconPreviewRefs[size] = el
@@ -512,8 +792,12 @@ interface FontObject {
     const actualHeight = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
     const centerY = size / 2 + actualHeight / 2 - textMetrics.actualBoundingBoxDescent;
 
-    // Draw text in center
-    ctx.fillText(textSettings.text, size / 2, centerY);
+    const diagonalDownOffset = textSettings.textDiagonalDownOffset || 0;
+    const diagonalUpOffset = textSettings.textDiagonalUpOffset || 0;
+    const offsetX = size * (((textSettings.textOffsetX || 0) + diagonalDownOffset + diagonalUpOffset) / 100);
+    const offsetY = size * (((textSettings.textOffsetY || 0) + diagonalDownOffset - diagonalUpOffset) / 100);
+
+    ctx.fillText(textSettings.text, size / 2 + offsetX, centerY + offsetY);
 
     ctx.restore();
   };
@@ -696,6 +980,10 @@ watch(
       const icoBlob = await createIcoFile(icoCanvases)
       zip.file("favicon.ico", icoBlob)
 
+      if (textSettings.saveLogoSvg) {
+        zip.file("logo.svg", createLogoSvg())
+      }
+
       const manifest = {
         name: "My Website",
         short_name: "Website",
@@ -828,7 +1116,13 @@ watch(
       const savedSettings = localStorage.getItem('favicon-text-settings')
       if (savedSettings) {
         try {
-          const parsed = migrateLegacyLogoSettings(sanitizeFaviconSettings(JSON.parse(savedSettings)))
+          const rawSettings = JSON.parse(savedSettings)
+          const parsed = migrateLegacyLogoSettings(sanitizeFaviconSettings(rawSettings))
+          if (rawSettings?.exportOptionsVersion !== BRAND_LOGO_SETTINGS.exportOptionsVersion) {
+            parsed.saveLogoSvg = BRAND_LOGO_SETTINGS.saveLogoSvg
+            parsed.brandTextColorType = BRAND_LOGO_SETTINGS.brandTextColorType
+            parsed.exportOptionsVersion = BRAND_LOGO_SETTINGS.exportOptionsVersion
+          }
           Object.assign(textSettings, parsed)
         } catch (error) {
           console.warn('Failed to parse saved text settings:', error)
@@ -907,6 +1201,8 @@ useHead(() => ({
   </script>
   
   <style lang="scss" scoped>
+  @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
   .section--text-generator {
     position: relative;
     isolation: isolate;
@@ -956,6 +1252,27 @@ useHead(() => ({
       color: var(--hero-subheading);
       font-size: font-size(lg);
       font-weight: font-weight(medium);
+    }
+
+    .text-logo-note {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: spacing(lg) auto 0;
+      padding: spacing(sm) spacing(lg);
+      border: 1px solid rgba(34, 211, 238, 0.32);
+      border-radius: border-radius(full);
+      background: rgba(34, 211, 238, 0.1);
+      color: var(--primary-light);
+      font-size: font-size(sm);
+      font-weight: font-weight(semibold);
+      line-height: 1.35;
+      box-shadow: 0 12px 34px rgba(34, 211, 238, 0.1);
+
+      .light-mode & {
+        color: #0f8f9c;
+        background: rgba(34, 211, 238, 0.14);
+      }
     }
   }
 
@@ -1085,12 +1402,12 @@ useHead(() => ({
     }
 
     @include respond-to(md) {
-      grid-template-columns: minmax(0, 1fr) repeat(2, minmax(0, 1.2fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       margin-bottom: spacing(lg);
     }
 
     @include respond-to(lg) {
-      grid-template-columns: minmax(0, 1fr) repeat(2, minmax(0, 1.5fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
   
@@ -1416,6 +1733,189 @@ useHead(() => ({
         min-width: 84px;
         font-size: font-size(base);
         padding: spacing(sm);
+      }
+    }
+  }
+
+  .position-controls {
+    display: grid;
+    gap: spacing(md);
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include respond-to(lg) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .logo-save-panel {
+    display: grid;
+    gap: spacing(md);
+    margin: spacing(lg) 0 spacing(md);
+
+    @include respond-to(lg) {
+      grid-template-columns: minmax(260px, 0.9fr) minmax(280px, 1.1fr);
+      align-items: center;
+    }
+  }
+
+  .logo-options-row {
+    display: grid;
+    gap: spacing(sm);
+  }
+
+  .logo-title-controls {
+    margin-bottom: spacing(md);
+  }
+
+  .logo-title-style {
+    margin-bottom: spacing(md);
+  }
+
+  .logo-title-palettes {
+    display: grid;
+    gap: spacing(md);
+
+    @include respond-to(lg) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+    }
+  }
+
+  .logo-title-color {
+    margin-bottom: 0;
+  }
+
+  .logo-checkbox-option {
+    display: inline-flex;
+    align-items: center;
+    gap: spacing(sm);
+    min-height: 44px;
+    padding: spacing(sm) spacing(md);
+    border: 2px solid var(--border);
+    border-radius: border-radius(lg);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: font-size(sm);
+    font-weight: font-weight(medium);
+    cursor: pointer;
+    @include transition();
+
+    &:hover {
+      background: var(--bg-secondary);
+      border-color: var(--primary-light);
+      transform: translateY(-1px);
+    }
+
+    &--selected {
+      border-color: var(--primary);
+      background: rgba(16, 185, 129, 0.05);
+
+      .dark-mode & {
+        background: rgba(20, 184, 166, 0.1);
+      }
+    }
+
+    input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    &__box {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-radius: border-radius(sm);
+      @include flex-center;
+      flex-shrink: 0;
+      color: #ffffff;
+      @include transition();
+
+      .logo-checkbox-option:hover & {
+        border-color: var(--primary);
+      }
+
+      .logo-checkbox-option--selected & {
+        border-color: var(--primary);
+        background: var(--primary);
+      }
+
+      svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+
+    &__label {
+      line-height: 1.25;
+    }
+  }
+
+  .save-logo-hint {
+    position: relative;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+    width: min(100%, 340px);
+    min-height: auto;
+    padding: spacing(md) spacing(lg);
+    color: var(--primary-light);
+    font-family: 'Permanent Marker', 'Comic Sans MS', cursive;
+    font-size: clamp(1.15rem, 2vw, 1.8rem);
+    font-weight: 400;
+    line-height: 1.02;
+    transform: rotate(-3deg);
+    text-align: center;
+    text-shadow:
+      0 0 14px rgba(34, 211, 238, 0.52),
+      0 4px 0 rgba(3, 15, 30, 0.5);
+
+    @include respond-to(lg) {
+      justify-self: start;
+      width: min(100%, 360px);
+      min-height: 112px;
+      padding: spacing(md) spacing(lg) spacing(md) spacing(xl);
+      transform: rotate(-3.5deg) translate(18px, -4px);
+      text-align: left;
+    }
+
+    .light-mode & {
+      color: #0f8f9c;
+      text-shadow:
+        0 0 14px rgba(34, 211, 238, 0.32),
+        0 3px 0 rgba(255, 255, 255, 0.95);
+    }
+
+    svg {
+      display: none;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 16px rgba(34, 211, 238, 0.7));
+
+      @include respond-to(lg) {
+        position: absolute;
+        display: block;
+        left: -54px;
+        top: 50%;
+        width: clamp(54px, 4.6vw, 76px);
+        height: clamp(54px, 4.6vw, 76px);
+        transform: translateY(-50%) rotate(180deg);
+      }
+    }
+
+    span {
+      display: block;
+      max-width: 300px;
+
+      @include respond-to(lg) {
+        transform: rotate(2deg);
       }
     }
   }

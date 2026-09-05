@@ -22,9 +22,20 @@ const FILE_SIGNATURES = {
 export interface SafeFaviconSettings {
   text?: string
   fontFamily?: string
+  brandText?: string
   brandTextFontFamily?: string
+  brandTextColor?: string
+  brandTextGradientColor?: string
+  brandTextColorType?: 'solid' | 'gradient'
+  useBrandTextColor?: boolean
+  saveLogoSvg?: boolean
+  exportOptionsVersion?: number
   fontSize?: number
   fontWeight?: number
+  textOffsetX?: number
+  textOffsetY?: number
+  textDiagonalDownOffset?: number
+  textDiagonalUpOffset?: number
   textColor?: string
   backgroundColor?: string
   backgroundType?: 'solid' | 'gradient' | 'transparent'
@@ -35,6 +46,14 @@ export interface SafeFaviconSettings {
 
 const isHexColor = (value: unknown): value is string =>
   typeof value === 'string' && /^#[0-9a-f]{6}$/i.test(value)
+
+const sanitizeBrandTextInput = (input: string): string => input
+  .replace(/[<>]/g, '')
+  .replace(/javascript:/gi, '')
+  .replace(/data:/gi, '')
+  .replace(/vbscript:/gi, '')
+  .trim()
+  .slice(0, 32)
 
 const toFiniteNumber = (value: unknown): number | undefined => {
   if (typeof value === 'number' && Number.isFinite(value)) return value
@@ -52,14 +71,29 @@ export function sanitizeFaviconSettings(value: unknown): SafeFaviconSettings {
   const safe: SafeFaviconSettings = Object.create(null)
   const fontSize = toFiniteNumber(input.fontSize)
   const fontWeight = toFiniteNumber(input.fontWeight)
+  const textOffsetX = toFiniteNumber(input.textOffsetX)
+  const textOffsetY = toFiniteNumber(input.textOffsetY)
+  const textDiagonalDownOffset = toFiniteNumber(input.textDiagonalDownOffset)
+  const textDiagonalUpOffset = toFiniteNumber(input.textDiagonalUpOffset)
   const borderRadiusPercent = toFiniteNumber(input.borderRadiusPercent)
   const backgroundAlpha = toFiniteNumber(input.backgroundAlpha)
 
   if (typeof input.text === 'string') safe.text = sanitizeTextInput(input.text).slice(0, 3)
   if (typeof input.fontFamily === 'string' && /^[\w .-]{1,64}$/.test(input.fontFamily)) safe.fontFamily = input.fontFamily
+  if (typeof input.brandText === 'string') safe.brandText = sanitizeBrandTextInput(input.brandText)
   if (typeof input.brandTextFontFamily === 'string' && /^[\w .-]{1,64}$/.test(input.brandTextFontFamily)) safe.brandTextFontFamily = input.brandTextFontFamily
+  if (isHexColor(input.brandTextColor)) safe.brandTextColor = input.brandTextColor
+  if (isHexColor(input.brandTextGradientColor)) safe.brandTextGradientColor = input.brandTextGradientColor
+  if (input.brandTextColorType === 'solid' || input.brandTextColorType === 'gradient') safe.brandTextColorType = input.brandTextColorType
+  if (typeof input.useBrandTextColor === 'boolean') safe.useBrandTextColor = input.useBrandTextColor
+  if (typeof input.saveLogoSvg === 'boolean') safe.saveLogoSvg = input.saveLogoSvg
+  if (input.exportOptionsVersion === 2 || input.exportOptionsVersion === 3) safe.exportOptionsVersion = input.exportOptionsVersion
   if (fontSize !== undefined) safe.fontSize = Math.min(48, Math.max(8, fontSize))
   if (fontWeight !== undefined && Number.isInteger(fontWeight) && fontWeight >= 100 && fontWeight <= 900) safe.fontWeight = fontWeight
+  if (textOffsetX !== undefined) safe.textOffsetX = Math.min(40, Math.max(-40, textOffsetX))
+  if (textOffsetY !== undefined) safe.textOffsetY = Math.min(40, Math.max(-40, textOffsetY))
+  if (textDiagonalDownOffset !== undefined) safe.textDiagonalDownOffset = Math.min(40, Math.max(-40, textDiagonalDownOffset))
+  if (textDiagonalUpOffset !== undefined) safe.textDiagonalUpOffset = Math.min(40, Math.max(-40, textDiagonalUpOffset))
   if (isHexColor(input.textColor)) safe.textColor = input.textColor
   if (isHexColor(input.backgroundColor)) safe.backgroundColor = input.backgroundColor
   if (isHexColor(input.gradientColor)) safe.gradientColor = input.gradientColor

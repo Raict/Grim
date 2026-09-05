@@ -8,10 +8,22 @@
           <div class="footer__brand">
             <div class="footer__logo">
               <div class="footer__logo-icon">
-                <Icon name="lucide:image" />
+                <DynamicLogo :size="32" canvas-class="footer__dynamic-logo" />
                 <div class="footer__logo-glow"></div>
               </div>
-              <span class="footer__logo-text">FaviconGen</span>
+              <span
+                class="footer__logo-text"
+                :style="{
+                  fontFamily: logoTextStyles.fontFamily,
+                  fontWeight: logoTextStyles.fontWeight,
+                  background: logoTextStyles.background,
+                  '-webkit-background-clip': 'text',
+                  '-webkit-text-fill-color': 'transparent',
+                  'background-clip': 'text'
+                }"
+              >
+                {{ displayLogoText }}
+              </span>
             </div>
             <p class="footer__description">
               {{ $t('footer.description') }}
@@ -144,8 +156,94 @@
 </template>
 
 <script setup lang="ts">
+import { sanitizeFaviconSettings } from '~/utils/securityUtils'
+import { BRAND_LOGO_SETTINGS, migrateLegacyLogoSettings } from '~/utils/logoSettings'
+import { fontOptions } from '~/utils/options'
+
 const localePath = useLocalePath()
+const route = useRoute()
 const currentYear = new Date().getFullYear()
+const customLogoText = ref(BRAND_LOGO_SETTINGS.brandText)
+const isTextGeneratorPage = computed(() => route.path.includes('/favicons-text'))
+const displayLogoText = computed(() => isTextGeneratorPage.value ? customLogoText.value : BRAND_LOGO_SETTINGS.brandText)
+
+const logoTextStyles = reactive({
+  fontFamily: `'${BRAND_LOGO_SETTINGS.brandTextFontFamily}', system-ui, sans-serif`,
+  fontWeight: BRAND_LOGO_SETTINGS.fontWeight,
+  background: `linear-gradient(135deg, ${BRAND_LOGO_SETTINGS.backgroundColor}, ${BRAND_LOGO_SETTINGS.gradientColor})`
+})
+
+const getBrandTextBackground = (settings: ReturnType<typeof sanitizeFaviconSettings>) => {
+  if (settings.useBrandTextColor && settings.brandTextColor) {
+    return settings.brandTextColorType === 'gradient' && settings.brandTextGradientColor
+      ? `linear-gradient(135deg, ${settings.brandTextColor}, ${settings.brandTextGradientColor})`
+      : settings.brandTextColor
+  }
+
+  if (settings.backgroundType === 'gradient' && settings.backgroundColor && settings.gradientColor) {
+    return `linear-gradient(135deg, ${settings.backgroundColor}, ${settings.gradientColor})`
+  }
+
+  return settings.backgroundColor || logoTextStyles.background
+}
+
+const loadBrandTextFont = (fontFamily: string) => {
+  const fontObj = fontOptions.find(font => font.value === fontFamily)
+  if (!fontObj?.url || document.querySelector(`link[data-font="${fontObj.value}"]`)) return
+
+  const link = document.createElement('link')
+  link.rel = 'stylesheet'
+  link.href = fontObj.url
+  link.setAttribute('data-font', fontObj.value)
+  document.head.appendChild(link)
+}
+
+const handleLogoSettingsChange = (event: CustomEvent | StorageEvent) => {
+  try {
+    let detail: unknown
+    if ('detail' in event) {
+      detail = event.detail
+    } else if (event.key === 'favicon-text-settings' && event.newValue) {
+      detail = JSON.parse(event.newValue)
+    } else {
+      return
+    }
+
+    const settings = migrateLegacyLogoSettings(sanitizeFaviconSettings(detail))
+    const brandTextFontFamily = settings.brandTextFontFamily || BRAND_LOGO_SETTINGS.brandTextFontFamily
+    customLogoText.value = settings.brandText || BRAND_LOGO_SETTINGS.brandText
+    loadBrandTextFont(brandTextFontFamily)
+    logoTextStyles.fontFamily = `'${brandTextFontFamily}', system-ui, sans-serif`
+
+    if (settings.fontWeight) {
+      logoTextStyles.fontWeight = settings.fontWeight
+    }
+    logoTextStyles.background = getBrandTextBackground(settings)
+  } catch (error) {
+    console.warn('Failed to apply footer logo settings:', error)
+  }
+}
+
+onMounted(() => {
+  loadBrandTextFont(BRAND_LOGO_SETTINGS.brandTextFontFamily)
+
+  try {
+    const saved = localStorage.getItem('favicon-text-settings')
+    if (saved) {
+      handleLogoSettingsChange({ detail: JSON.parse(saved) } as CustomEvent)
+    }
+  } catch (error) {
+    console.warn('Failed to load footer logo settings:', error)
+  }
+
+  window.addEventListener('logo-settings-changed', handleLogoSettingsChange as EventListener)
+  window.addEventListener('storage', handleLogoSettingsChange as EventListener)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('logo-settings-changed', handleLogoSettingsChange as EventListener)
+  window.removeEventListener('storage', handleLogoSettingsChange as EventListener)
+})
 
 const scrollToTop = () => {
   window.scrollTo({
@@ -215,22 +313,16 @@ const scrollToTop = () => {
     position: relative;
     width: 32px;
     height: 32px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    border-radius: border-radius(md);
     @include flex-center;
-    color: white;
-    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
     @include transition();
 
     &:hover {
       transform: translateY(-1px) scale(1.05);
-      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
     }
+  }
 
-    svg {
-      width: 16px;
-      height: 16px;
-    }
+  &__dynamic-logo {
+    display: block;
   }
 
   &__logo-glow {
@@ -253,6 +345,9 @@ const scrollToTop = () => {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     background-size: 200% 200%;
+    display: inline-block;
+    line-height: 1.18;
+    padding-bottom: 0.08em;
     animation: gradientText 4s ease-in-out infinite;
 
     @supports not (-webkit-background-clip: text) {

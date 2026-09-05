@@ -161,7 +161,12 @@ const drawLogo = async () => {
   const centerY = size / 2 + actualHeight / 2 - textMetrics.actualBoundingBoxDescent
 
   // Draw text in center
-  ctx.fillText(logoSettings.text, size / 2, centerY)
+  const diagonalDownOffset = logoSettings.textDiagonalDownOffset || 0
+  const diagonalUpOffset = logoSettings.textDiagonalUpOffset || 0
+  const offsetX = size * (((logoSettings.textOffsetX || 0) + diagonalDownOffset + diagonalUpOffset) / 100)
+  const offsetY = size * (((logoSettings.textOffsetY || 0) + diagonalDownOffset - diagonalUpOffset) / 100)
+
+  ctx.fillText(logoSettings.text, size / 2 + offsetX, centerY + offsetY)
 
   ctx.restore()
 }

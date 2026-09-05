@@ -10,6 +10,7 @@
 
       <AppFooter />
       <AppToaster />
+      <CookieConsent />
 
       <!-- Screen reader announcements -->
       <LiveAnnouncer />

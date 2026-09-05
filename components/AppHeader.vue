@@ -17,7 +17,7 @@
               'background-clip': 'text'
             }"
           >
-            FaviconGen
+            {{ displayLogoText }}
           </span>
         </NuxtLink>
 
@@ -105,9 +105,12 @@ const headerRef = ref<HTMLElement | null>(null)
 const isHomePage = computed(() => {
   return route.name === 'index' || route.name === 'index___en' || route.path === '/' || route.path === '/en'
 })
+const isTextGeneratorPage = computed(() => route.path.includes('/favicons-text'))
 
 // Reactive logo size based on screen size
 const logoSize = ref(34)
+const customLogoText = ref(BRAND_LOGO_SETTINGS.brandText)
+const displayLogoText = computed(() => isTextGeneratorPage.value ? customLogoText.value : BRAND_LOGO_SETTINGS.brandText)
 
 // Dynamic logo text styles
 const logoTextStyles = reactive({
@@ -115,6 +118,20 @@ const logoTextStyles = reactive({
   fontWeight: BRAND_LOGO_SETTINGS.fontWeight,
   background: `linear-gradient(135deg, ${BRAND_LOGO_SETTINGS.backgroundColor}, ${BRAND_LOGO_SETTINGS.gradientColor})`
 })
+
+const getBrandTextBackground = (settings: ReturnType<typeof sanitizeFaviconSettings>) => {
+  if (settings.useBrandTextColor && settings.brandTextColor) {
+    return settings.brandTextColorType === 'gradient' && settings.brandTextGradientColor
+      ? `linear-gradient(135deg, ${settings.brandTextColor}, ${settings.brandTextGradientColor})`
+      : settings.brandTextColor
+  }
+
+  if (settings.backgroundType === 'gradient' && settings.backgroundColor && settings.gradientColor) {
+    return `linear-gradient(135deg, ${settings.backgroundColor}, ${settings.gradientColor})`
+  }
+
+  return settings.backgroundColor || logoTextStyles.background
+}
 
 const loadBrandTextFont = (fontFamily: string) => {
   const fontObj = fontOptions.find(font => font.value === fontFamily)
@@ -132,6 +149,8 @@ const handleLogoSettingsChange = (e: CustomEvent) => {
   const settings = sanitizeFaviconSettings(e.detail)
   const brandTextFontFamily = settings.brandTextFontFamily || BRAND_LOGO_SETTINGS.brandTextFontFamily
 
+  customLogoText.value = settings.brandText || BRAND_LOGO_SETTINGS.brandText
+
   if (brandTextFontFamily) {
     loadBrandTextFont(brandTextFontFamily)
     logoTextStyles.fontFamily = `'${brandTextFontFamily}', system-ui, sans-serif`
@@ -139,11 +158,7 @@ const handleLogoSettingsChange = (e: CustomEvent) => {
   if (settings.fontWeight) {
     logoTextStyles.fontWeight = settings.fontWeight
   }
-  if (settings.backgroundType === 'gradient' && settings.backgroundColor && settings.gradientColor) {
-    logoTextStyles.background = `linear-gradient(135deg, ${settings.backgroundColor}, ${settings.gradientColor})`
-  } else if (settings.backgroundColor) {
-    logoTextStyles.background = settings.backgroundColor
-  }
+  logoTextStyles.background = getBrandTextBackground(settings)
 }
 
 onMounted(() => {
@@ -275,8 +290,10 @@ onMounted(() => {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     font-weight: font-weight(extrabold);
-    line-height: 1;
+    display: inline-block;
+    line-height: 1.18;
     letter-spacing: 0;
+    padding-bottom: 0.08em;
     filter: drop-shadow(0 5px 14px rgba(30, 145, 183, 0.12));
     
     @supports not (-webkit-background-clip: text) {

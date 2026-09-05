@@ -100,7 +100,11 @@ export const renderBrowserFaviconFromTextSettings = async (): Promise<string | n
   const textMetrics = ctx.measureText(settings.text)
   const actualHeight = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent
   const centerY = size / 2 + actualHeight / 2 - textMetrics.actualBoundingBoxDescent
-  ctx.fillText(settings.text, size / 2, centerY)
+  const diagonalDownOffset = settings.textDiagonalDownOffset || 0
+  const diagonalUpOffset = settings.textDiagonalUpOffset || 0
+  const offsetX = size * (((settings.textOffsetX || 0) + diagonalDownOffset + diagonalUpOffset) / 100)
+  const offsetY = size * (((settings.textOffsetY || 0) + diagonalDownOffset - diagonalUpOffset) / 100)
+  ctx.fillText(settings.text, size / 2 + offsetX, centerY + offsetY)
   ctx.restore()
 
   return canvas.toDataURL('image/png')

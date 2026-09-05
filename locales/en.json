@@ -21,6 +21,13 @@
     "light": "Light",
     "dark": "Dark"
   },
+  "cookieConsent": {
+    "title": "Privacy-friendly preferences",
+    "description": "We do not use advertising cookies. We only remember essentials like language, theme, and generator settings on this device.",
+    "privacy": "Read Privacy",
+    "accept": "Got it",
+    "decline": "Decline"
+  },
   "hero": {
     "badge": "⚡ Fast & Easy Favicon Generator",
     "title": "",
@@ -67,7 +74,7 @@
         },
         "text": {
           "title": "Create Favicon from Letters Online",
-          "description": "Enter text, symbols or letters and create unique favicons with custom fonts and colors",
+          "description": "Enter text, symbols or letters and create unique favicons plus an optional logo SVG with custom fonts and colors",
           "features": {
             "fonts": "Custom fonts",
             "colors": "Color settings",
@@ -112,6 +119,7 @@
       "title": "Free Text to Favicon Generator",
       "seoTitle": "Text to Favicon Generator — Create Icons from Letters",
       "subtitle": "Create unique favicons from text or symbols",
+      "logoExportNote": "You can also style a matching logo title and save the full logo as SVG.",
       "description": "Create a favicon from letters or symbols online. Customize the font, colors, and background, then download every required size for free.",
       "settings": {
         "text": {
@@ -122,20 +130,31 @@
           "font": "Font",
           "faviconFont": "Favicon font",
           "logoTextFont": "Text font",
+          "logoText": "Logo text",
           "size": "Font size",
+          "positionX": "Position X",
+          "positionY": "Position Y",
+          "positionDiagonalDown": "Diagonal ↘",
+          "positionDiagonalUp": "Diagonal ↗",
           "border": "Border radius",
           "weight": "Font weight",
           "opacity": "Opacity"
         },
         "colors": {
           "title": "Colors and Style",
-          "textColor": "Text color",
+          "textColor": "Favicon icon color",
           "backgroundColor": "Background color",
           "backgroundType": "Background style",
           "solid": "Solid",
           "gradient": "Gradient",
           "transparent": "Transparent",
           "gradientColor": "Second gradient color",
+          "setLogoTitleColor": "Set logo title color",
+          "logoTitleStyle": "Logo title style",
+          "logoTitleColor": "Logo title color",
+          "logoTitleGradientColor": "Second logo title color",
+          "saveLogoSvg": "Save logo SVG",
+          "saveLogoHint": "Want the full logo too? Mark this checkbox",
           "quickColors": "Quick colors"
         },
         "preview": {
@@ -147,7 +166,7 @@
       "downloadComplete": "✓ Downloaded Successfully",
       "guide": {
         "title": "When to Use a Text Favicon",
-        "content": "A text favicon works well for a new brand without a finished logo, a personal website, documentation, or a prototype. Use one to three letters, contrasting colors, and a simple font so the symbol remains readable at 16×16. The generator creates ICO, PNG, Apple Touch Icon, and PWA files.",
+        "content": "A text favicon works well for a new brand without a finished logo, a personal website, documentation, or a prototype. Use one to three letters, contrasting colors, and a simple font so the symbol remains readable at 16×16. You can also design a matching logo title and save it as SVG together with the favicon package.",
         "imageLink": "Convert an existing logo to a favicon",
         "faqLink": "Learn more about favicon sizes"
       }
