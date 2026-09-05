@@ -17,7 +17,7 @@
     <section class="text-seo-guide" aria-labelledby="text-favicon-guide-title">
       <div class="container">
         <h2 id="text-favicon-guide-title">{{ $t('pages.textGenerator.guide.title') }}</h2>
-        <p>{{ $t('pages.textGenerator.guide.content') }}</p>
+        <p>{{ $t('pages.textGenerator.guide.content') }}</p> 
         <div class="text-seo-guide__links">
           <NuxtLink :to="localePath('/favicons')">{{ $t('pages.textGenerator.guide.imageLink') }}</NuxtLink>
           <NuxtLink :to="localePath('/faq')">{{ $t('pages.textGenerator.guide.faqLink') }}</NuxtLink>

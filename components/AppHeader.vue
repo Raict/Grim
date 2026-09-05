@@ -465,7 +465,7 @@ onMounted(() => {
     
     &__link {
       font-size: font-size(base);
-      
+      padding: spacing(sm) spacing(sm);
       svg {
         width: 18px;
         height: 18px;

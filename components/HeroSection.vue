@@ -8,35 +8,7 @@
 
     <div class="container">
       <div class="hero-content fixed-header-content">
-        <div class="hero-copy">
-          <div class="hero-kicker" aria-hidden="true">
-            <Icon name="lucide:sparkles" />
-            <span>PNG · JPG · WEBP → favicon.ico</span>
-          </div>
-
-          <h1 id="converter-hero-title" class="hero-title">
-            <span class="hero-title__main">{{ $t('converter.pageHeading') }}</span>
-          </h1>
-
-          <p class="hero-subtitle">{{ $t('converter.subtitle') }}</p>
-          <p class="hero-description">{{ $t('converter.intro') }}</p>
-
-          <div class="hero-actions">
-            <button class="btn btn--hero btn--lg" type="button" @click="scrollToConverter">
-              <Icon name="lucide:upload" class="btn-icon" aria-hidden="true" />
-              <span>{{ $t('hero.uploadButton') }}</span>
-              <Icon name="lucide:arrow-down" class="btn-arrow" aria-hidden="true" />
-            </button>
-          </div>
-
-          <div class="hero-formats" aria-hidden="true">
-            <span>favicon.ico</span>
-            <span>Apple Touch Icon</span>
-            <span>PWA</span>
-          </div>
-        </div>
-
-        <div class="hero-visual" aria-hidden="true">
+                <div class="hero-visual" aria-hidden="true">
           <div class="converter-preview">
             <div class="preview-browser">
               <div class="preview-browser__toolbar">
@@ -88,6 +60,38 @@
             </div>
           </div>
         </div>
+
+
+
+        <div class="hero-copy">
+          <div class="hero-kicker" aria-hidden="true">
+            <Icon name="lucide:sparkles" />
+            <span>PNG · JPG · WEBP → favicon.ico</span>
+          </div>
+
+          <h1 id="converter-hero-title" class="hero-title">
+            <span class="hero-title__main">{{ $t('converter.pageHeading') }}</span>
+          </h1>
+
+          <p class="hero-subtitle">{{ $t('converter.subtitle') }}</p>
+          <p class="hero-description">{{ $t('converter.intro') }}</p>
+
+          <div class="hero-actions">
+            <button class="btn btn--hero btn--lg" type="button" @click="scrollToConverter">
+              <Icon name="lucide:upload" class="btn-icon" aria-hidden="true" />
+              <span>{{ $t('hero.uploadButton') }}</span>
+              <Icon name="lucide:arrow-down" class="btn-arrow" aria-hidden="true" />
+            </button>
+          </div>
+
+          <div class="hero-formats" aria-hidden="true">
+            <span>favicon.ico</span>
+            <span>Apple Touch Icon</span>
+            <span>PWA</span>
+          </div>
+        </div>
+
+
       </div>
     </div>
   </section>
@@ -199,12 +203,11 @@ const scrollToConverter = () => {
 
   @include respond-to(2xl) {
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: spacing(3xl);
     max-width: 1500px;
   }
 
   @include respond-to(3xl) {
-    gap: spacing(4xl);
+    gap: spacing(3xl);
     max-width: 1580px;
   }
 }
@@ -221,6 +224,9 @@ const scrollToConverter = () => {
 
   @include respond-to(2xl) {
     max-width: 700px;
+  }
+    @include respond-to(3xl) {
+    max-width: 746px;
   }
 }
 
@@ -261,7 +267,7 @@ const scrollToConverter = () => {
     -webkit-text-fill-color: transparent;
 
     @include respond-to(sm) {
-      font-size: font-size(5xl);
+      font-size: font-size(4xl);
     }
 
     @include respond-to(xl) {
@@ -269,7 +275,7 @@ const scrollToConverter = () => {
     }
 
     @include respond-to(2xl) {
-      font-size: font-size(6xl);
+      font-size: font-size(5xl);
     }
 
     @include respond-to(3xl) {

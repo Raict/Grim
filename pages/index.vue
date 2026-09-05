@@ -206,7 +206,7 @@
         <div class="benefits-grid">
           <div class="benefit-item">
             <div class="benefit-icon">
-              <Icon name="lucide:zap" />
+              <Icon name="lucide:zap" :size="40"/>
             </div>
             <h3 class="benefit-title">{{ $t('pages.home.benefits.fast.title') }}</h3>
             <p class="benefit-description">
@@ -216,7 +216,7 @@
 
           <div class="benefit-item">
             <div class="benefit-icon">
-              <Icon name="lucide:shield-check" />
+              <Icon name="lucide:shield-check" :size="40"/>
             </div>
             <h3 class="benefit-title">{{ $t('pages.home.benefits.secure.title') }}</h3>
             <p class="benefit-description">
@@ -226,7 +226,7 @@
 
           <div class="benefit-item">
             <div class="benefit-icon">
-              <Icon name="lucide:heart" />
+              <Icon name="lucide:heart" :size="40"/>
             </div>
             <h3 class="benefit-title">{{ $t('pages.home.benefits.free.title') }}</h3>
             <p class="benefit-description">
@@ -236,7 +236,7 @@
 
           <div class="benefit-item">
             <div class="benefit-icon">
-              <Icon name="lucide:smartphone" />
+              <Icon name="lucide:smartphone" :size="40"/>
             </div>
             <h3 class="benefit-title">{{ $t('pages.home.benefits.responsive.title') }}</h3>
             <p class="benefit-description">
@@ -473,18 +473,16 @@ onUnmounted(() => {
   }
 
   @include respond-to(xl) {
-    gap: spacing(3xl);
+    gap: spacing(2xl);
   }
 
   @include respond-to(2xl) {
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: spacing(3xl);
     max-width: 100%;
   }
 
   @include respond-to(3xl) {
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: spacing(4xl);
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
     max-width: 1580px;
   }
 }
@@ -533,7 +531,6 @@ onUnmounted(() => {
     }
 
     @include respond-to(3xl) {
-      font-size: font-size(7xl);
     }
   }
 
@@ -1054,8 +1051,8 @@ onUnmounted(() => {
   @include respond-to(lg) {
     padding: spacing(sm) spacing(md);
     font-size: font-size(sm);
-    min-width: 158px;
-    min-height: 48px;
+    min-width: 182px;
+    min-height: 52px;
 
     svg {
       width: 16px;
