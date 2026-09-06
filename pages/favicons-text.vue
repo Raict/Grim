@@ -223,6 +223,10 @@
                   <div class="Favicon-size-label" aria-hidden="true">{{ size }}x{{ size }}</div>
                 </div>
               </div>
+
+              <div class="logo-svg-preview" aria-label="logo.svg preview">
+                <div class="logo-svg-preview__surface" v-html="logoSvgPreview"></div>
+              </div>
             </div>
 
             <!-- Right: Colors and style -->
@@ -389,7 +393,11 @@
                   </label>
                 </div>
 
-                <div class="save-logo-hint" aria-hidden="true">
+                <div
+                  class="save-logo-hint"
+                  :class="{ 'save-logo-hint--hidden': textSettings.saveLogoSvg }"
+                  aria-hidden="true"
+                >
                   <svg viewBox="0 0 32 32" focusable="false">
                     <path d="M20.3,8.1V6c0-0.8,0.9-1.3,1.5-0.8l6.8,6c0.5,0.4,0.5,1.2,0,1.6l-6.8,6c-0.6,0.5-1.5,0-1.5-0.8v-2h-0.9C12.4,16,5.9,20.3,3,27C3,16.8,10.7,8.6,20.3,8.1z"/>
                   </svg>
@@ -462,7 +470,10 @@
                     </div>
                   </div>
 
-                  <div v-if="textSettings.brandTextColorType === 'gradient'" class="color-block logo-title-color">
+                  <div
+                    v-if="textSettings.useBrandTextColor && textSettings.brandTextColorType === 'gradient'"
+                    class="color-block logo-title-color"
+                  >
                     <div class="palette-bg">
                       <label class="palette-label">{{ $t('pages.textGenerator.settings.colors.logoTitleGradientColor') }}</label>
                       <div class="color-palette-pro">
@@ -525,7 +536,10 @@
                 </div>
               </div>
 
-              <div v-if="textSettings.backgroundType === 'gradient'" class="form-group">
+              <div
+                v-if="textSettings.backgroundType === 'gradient' && textSettings.useBrandTextColor"
+                class="form-group"
+              >
                 <label class="form-label">{{ $t('pages.textGenerator.settings.colors.gradientColor') }}</label>
                 <div class="color-input-group">
                   <input
@@ -679,12 +693,30 @@ const escapeSvgText = (value: string) => value
   .replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;')
 
+const escapeSvgCssString = (value: string) => value
+  .replace(/\\/g, '\\\\')
+  .replace(/'/g, "\\'")
+
+const getSvgFontImport = (fontFamily: string) => (
+  fontOptions.find(font => font.value === fontFamily)?.url || ''
+)
+
+const getLogoTitleFontWeight = () => {
+  const supportedWeights = getSupportedFontWeights(textSettings.brandTextFontFamily)
+
+  if (supportedWeights.includes(400)) return 400
+  if (supportedWeights.includes(500)) return 500
+  return supportedWeights[0] || 400
+}
+
 const getLogoTitle = () => (textSettings.brandText || BRAND_LOGO_SETTINGS.brandText).trim() || BRAND_LOGO_SETTINGS.brandText
 
 const getLogoTextFill = () => (
-  textSettings.useBrandTextColor && textSettings.brandTextColorType === 'solid'
-    ? textSettings.brandTextColor
-    : 'url(#logoTextGradient)'
+  textSettings.useBrandTextColor
+    ? textSettings.brandTextColorType === 'gradient'
+      ? 'url(#logoTextGradient)'
+      : textSettings.brandTextColor
+    : textSettings.textColor
 )
 
 const createLogoSvg = () => {
@@ -699,19 +731,39 @@ const createLogoSvg = () => {
   const radius = (Math.max(0, Math.min(textSettings.borderRadiusPercent, 100)) / 100) * (iconSize / 2)
   const safeFontFamily = escapeSvgText(textSettings.fontFamily)
   const safeBrandFontFamily = escapeSvgText(textSettings.brandTextFontFamily)
+  const safeCssFontFamily = escapeSvgCssString(textSettings.fontFamily)
+  const safeCssBrandFontFamily = escapeSvgCssString(textSettings.brandTextFontFamily)
   const safeIconText = escapeSvgText(textSettings.text)
   const safeLogoText = escapeSvgText(logoText)
   const iconFill = textSettings.backgroundType === 'gradient' ? 'url(#iconGradient)' : textSettings.backgroundColor
   const iconOpacity = textSettings.backgroundType === 'transparent' ? textSettings.backgroundAlpha / 100 : 1
-  const logoGradientStart = textSettings.useBrandTextColor ? textSettings.brandTextColor : textSettings.backgroundColor
-  const logoGradientEnd = textSettings.useBrandTextColor ? textSettings.brandTextGradientColor : textSettings.gradientColor
+  const logoGradientStart = textSettings.brandTextColor
+  const logoGradientEnd = textSettings.brandTextGradientColor
   const diagonalDownOffset = textSettings.textDiagonalDownOffset || 0
   const diagonalUpOffset = textSettings.textDiagonalUpOffset || 0
   const iconTextX = iconX + iconSize / 2 + iconSize * (((textSettings.textOffsetX || 0) + diagonalDownOffset + diagonalUpOffset) / 100)
   const iconTextY = iconY + iconSize / 2 + iconSize * (((textSettings.textOffsetY || 0) + diagonalDownOffset - diagonalUpOffset) / 100)
+  const logoTitleFontWeight = getLogoTitleFontWeight()
+  const fontImports = Array.from(new Set([
+    getSvgFontImport(textSettings.fontFamily),
+    getSvgFontImport(textSettings.brandTextFontFamily)
+  ].filter(Boolean)))
+    .map(url => `@import url('${url.replace(/'/g, '%27')}');`)
+    .join('\n    ')
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="${safeLogoText} logo">
   <defs>
+    <style><![CDATA[
+    ${fontImports}
+    .favicon-letter {
+      font-family: '${safeCssFontFamily}', system-ui, sans-serif;
+      font-weight: ${textSettings.fontWeight};
+    }
+    .logo-title {
+      font-family: '${safeCssBrandFontFamily}', system-ui, sans-serif;
+      font-weight: ${logoTitleFontWeight};
+    }
+    ]]></style>
     <linearGradient id="iconGradient" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="${textSettings.backgroundColor}" />
       <stop offset="100%" stop-color="${textSettings.gradientColor}" />
@@ -722,10 +774,12 @@ const createLogoSvg = () => {
     </linearGradient>
   </defs>
   <rect x="${iconX}" y="${iconY}" width="${iconSize}" height="${iconSize}" rx="${radius}" fill="${iconFill}" opacity="${iconOpacity}" />
-  <text x="${iconTextX}" y="${iconTextY}" text-anchor="middle" dominant-baseline="central" font-family="${safeFontFamily}, system-ui, sans-serif" font-size="60" font-weight="${textSettings.fontWeight}" fill="${textSettings.textColor}">${safeIconText}</text>
-  <text x="${iconX + iconSize + gap}" y="${height / 2 + 2}" dominant-baseline="central" font-family="${safeBrandFontFamily}, system-ui, sans-serif" font-size="46" font-weight="${textSettings.fontWeight}" fill="${getLogoTextFill()}">${safeLogoText}</text>
+  <text class="favicon-letter" x="${iconTextX}" y="${iconTextY}" text-anchor="middle" dominant-baseline="central" font-family="${safeFontFamily}, system-ui, sans-serif" font-size="60" font-weight="${textSettings.fontWeight}" fill="${textSettings.textColor}">${safeIconText}</text>
+  <text class="logo-title" x="${iconX + iconSize + gap}" y="${height / 2 + 2}" dominant-baseline="central" font-family="${safeBrandFontFamily}, system-ui, sans-serif" font-size="46" font-weight="${logoTitleFontWeight}" fill="${getLogoTextFill()}">${safeLogoText}</text>
 </svg>`
 }
+
+const logoSvgPreview = computed(() => createLogoSvg())
 
   const  setFaviconPreviewRef = (size: number, el: HTMLCanvasElement | null) => {
     FaviconPreviewRefs[size] = el
@@ -1610,7 +1664,7 @@ useHead(() => ({
     justify-content: center;
     align-items: flex-end;
     gap: 8px;
-    margin-bottom: 32px;
+    margin-bottom: spacing(lg);
     flex-wrap: wrap;
     padding: 0 spacing(xs);
 
@@ -1636,6 +1690,42 @@ useHead(() => ({
   .Favicon-preview-canvas {
     background: transparent;
     overflow: hidden;
+  }
+
+  .logo-svg-preview {
+    width: 100%;
+    margin: spacing(xl) auto spacing(xl);
+    padding: spacing(md) spacing(sm);
+    border: 1px solid color-mix(in srgb, var(--border) 76%, transparent);
+    border-radius: border-radius(lg);
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--bg-secondary) 72%, transparent), color-mix(in srgb, var(--bg-primary) 84%, transparent));
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--white) 5%, transparent),
+      0 14px 34px color-mix(in srgb, var(--black) 12%, transparent);
+
+    @include respond-to(sm) {
+      padding: spacing(lg);
+    }
+  }
+
+  .logo-svg-preview__surface {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 154px;
+    overflow: hidden;
+
+    @include respond-to(sm) {
+      min-height: 184px;
+    }
+  }
+
+  .logo-svg-preview__surface :deep(svg) {
+    display: block;
+    width: min(100%, 700px);
+    max-height: 224px;
+    height: auto;
   }
   
   .palettes-row {
@@ -1868,8 +1958,17 @@ useHead(() => ({
     font-size: clamp(1.15rem, 2vw, 1.8rem);
     font-weight: 400;
     line-height: 1.02;
+    opacity: 1;
+    visibility: visible;
     transform: rotate(-3deg);
     text-align: center;
+    pointer-events: none;
+    transition:
+      opacity 1.15s ease,
+      visibility 0s linear 0s,
+      filter 1.15s ease,
+      transform 1.15s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: neonHintFlicker 3.8s ease-in-out 0.3s both;
     text-shadow:
       0 0 14px rgba(34, 211, 238, 0.52),
       0 4px 0 rgba(3, 15, 30, 0.5);
@@ -1917,6 +2016,48 @@ useHead(() => ({
       @include respond-to(lg) {
         transform: rotate(2deg);
       }
+    }
+
+    &--hidden {
+      opacity: 0;
+      visibility: hidden;
+      filter: blur(2px) saturate(0.6);
+      transform: rotate(-3deg) translateY(10px) scale(0.96);
+      animation: none;
+      transition:
+        opacity 1.15s ease,
+        visibility 0s linear 1.15s,
+        filter 1.15s ease,
+        transform 1.15s cubic-bezier(0.22, 1, 0.36, 1);
+
+      @include respond-to(lg) {
+        transform: rotate(-3.5deg) translate(18px, 8px) scale(0.96);
+      }
+    }
+  }
+
+  @keyframes neonHintFlicker {
+    0% {
+      opacity: 0;
+      filter: brightness(0.7) saturate(0.7);
+    }
+    8% {
+      opacity: 0.25;
+    }
+    12% {
+      opacity: 0.08;
+    }
+    18% {
+      opacity: 0.85;
+      filter: brightness(1.25) saturate(1.25);
+    }
+    24% {
+      opacity: 0.45;
+    }
+    32%,
+    100% {
+      opacity: 1;
+      filter: brightness(1) saturate(1);
     }
   }
   

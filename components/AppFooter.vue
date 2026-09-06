@@ -170,7 +170,7 @@ const displayLogoText = computed(() => isTextGeneratorPage.value ? customLogoTex
 const logoTextStyles = reactive({
   fontFamily: `'${BRAND_LOGO_SETTINGS.brandTextFontFamily}', system-ui, sans-serif`,
   fontWeight: BRAND_LOGO_SETTINGS.fontWeight,
-  background: `linear-gradient(135deg, ${BRAND_LOGO_SETTINGS.backgroundColor}, ${BRAND_LOGO_SETTINGS.gradientColor})`
+  background: BRAND_LOGO_SETTINGS.textColor
 })
 
 const getBrandTextBackground = (settings: ReturnType<typeof sanitizeFaviconSettings>) => {
@@ -180,11 +180,7 @@ const getBrandTextBackground = (settings: ReturnType<typeof sanitizeFaviconSetti
       : settings.brandTextColor
   }
 
-  if (settings.backgroundType === 'gradient' && settings.backgroundColor && settings.gradientColor) {
-    return `linear-gradient(135deg, ${settings.backgroundColor}, ${settings.gradientColor})`
-  }
-
-  return settings.backgroundColor || logoTextStyles.background
+  return settings.textColor || BRAND_LOGO_SETTINGS.textColor
 }
 
 const loadBrandTextFont = (fontFamily: string) => {
